@@ -1,0 +1,13 @@
+{
+  "name": "raspicam-ffmpeg-streaming",
+  "version": "0.0.1",
+  "main": "index.js",
+  "type": "module",
+  "author": "Matthias Kallenbach",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "express": "^5.1.0",
+    "fs-extra": "^11.3.2"
+  }
+}

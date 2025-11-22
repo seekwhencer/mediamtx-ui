@@ -1,0 +1,7 @@
+.idea
+node_modules
+data/**/*
+.env
+
+
+!data/default.json

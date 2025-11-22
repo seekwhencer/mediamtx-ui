@@ -1,0 +1,47 @@
+networks:
+  camnet:
+    driver: bridge
+
+services:
+
+  camstream:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: ${PROJECT_NAME}
+    container_name: ${PROJECT_NAME}
+    working_dir: /app
+    restart: always
+    command: 'tail -f /dev/null'
+    #command: './stream.sh'
+    user: root
+    networks:
+      - camnet
+    ports:
+        - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - .:/app
+      - /usr/bin/ffmpeg:/usr/local/bin/ffmpeg:ro
+      - /usr/bin/ffprobe:/usr/local/bin/ffprobe:ro
+      - /usr/lib/:/usr/lib/:ro
+      - /etc/alternatives:/etc/alternatives/:ro
+    environment:
+      - DEBUG=true
+      - VERBOSE=2
+      - ENVIRONMENT=default
+      - NODE_ENV=development
+    devices:
+      - '/dev/video0:/dev/video0'
+      - '/dev/video1:/dev/video1'
+      - '/dev/video2:/dev/video2'
+      - '/dev/video3:/dev/video3'
+      - '/dev/video4:/dev/video4'
+      - '/dev/video5:/dev/video5'
+      #      - '/dev/video6:/dev/video6'
+      #      - '/dev/video7:/dev/video7'
+      #      - '/dev/video8:/dev/video8'
+      #      - '/dev/video9:/dev/video9'
+      - '/dev/video10:/dev/video10'
+      - '/dev/video11:/dev/video11'
+    privileged: true
