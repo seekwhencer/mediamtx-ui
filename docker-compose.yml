@@ -10,10 +10,10 @@ services:
       dockerfile: Dockerfile
     image: ${PROJECT_NAME}
     container_name: ${PROJECT_NAME}
-    working_dir: /app
+    working_dir: /app/server
     restart: always
-    command: 'tail -f /dev/null'
-    #command: './stream.sh'
+    #command: 'tail -f /dev/null'
+    command: 'node index.js'
     user: root
     networks:
       - camnet

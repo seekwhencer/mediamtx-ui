@@ -1,0 +1,19 @@
+networks:
+  camnet:
+    driver: bridge
+
+services:
+
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: mediamtx
+    restart: unless-stopped
+    ports:
+      - "8888:8888"      # HLS
+      - "8554:8554"      # RTSP
+      - "8889:8889"      # WebRTC API
+      - "8189:8189/udp"  # WebRTC ICE/UDP
+    volumes:
+      - ./mediamtx.yml:/mediamtx.yml:ro
+    networks:
+      - camnet

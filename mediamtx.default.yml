@@ -1,0 +1,23 @@
+# RTSP aktiv lassen
+rtsp: yes
+
+# WebRTC aktivieren
+webrtc: yes
+webrtcAdditionalHosts: [CHANGE_TO_RASPBERRYPI4_HOSTNAME]
+webrtcLocalTCPAddress: :8189
+
+hls: yes
+
+paths:
+  cam1:
+    source: rtsp://USERNAME:PASSWORD@CAMERA_IP:88/PATH
+    sourceOnDemand: yes
+
+  cam2:
+    source: publisher
+
+  cam3:
+    source: publisher
+
+  cam4:
+    source: publisher

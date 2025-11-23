@@ -46,6 +46,14 @@ docker compose build --no-cache
 ```
 
 ## 🡆 Run
+- mediamtx server
+```bash
+# mediamtx server
+cd ~/caspicam
+docker compose -f docker-compose-mediamtx.yml up -d
+```
+
+- the ffmpeg streaming
 ```bash
 # with shell
 docker compose up
@@ -53,10 +61,18 @@ docker compose up
 # or detached
 docker compose up -d
 ```
-- oh wait, only the conrainer is up... just enter
-```bash
-docker exec rapsicam /bin/sh -c "node ./index.js"
-```
+
+## 🡆 Hints
+- the Raspberry Pi 4 can handle 3 webcams in 2MP with 3Mbit bitrate each (or more?)
+- for more than 3 webcams you need to lower the resolution or framerate
+- the webcams needs a external powered usb-hub
+- make sure the webcams are using hardware encoding (mjpeg or h264)
+- access the web interface on port 3000 of your raspberry pi
+- access the rtsp streams with your favorite player (vlc, ffplay, etc) or use the web interface
+- example rtsp url: `rtsp://YOUR_MEDIAMTX_IP:8554/cam1`
+- example WebRTC url: `http://YOUR_MEDIAMTX_IP:8554/cam1`
+- example HLS url: `http://YOUR_MEDIAMTX_IP:8554/cam1/index.m3u8`
+
 
 
 Now the Webserver is up on Port: `3000` 🡆 **[http://raspicam:3000](http://raspicam:3000)**
