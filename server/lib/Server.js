@@ -33,7 +33,7 @@ export default class Server extends Events {
             }
         });
 
-        this.engine.use('/mediamtx/v1', this.mediamtxProxy.getRouter());
+        this.engine.use('/mediamtx', this.mediamtxProxy.getRouter());
     }
 
     async run() {
