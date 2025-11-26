@@ -13,17 +13,17 @@ export default class Setting extends EventEmitter {
         this.data.on('delete', (prop, value) => this.emit('delete', prop, value));
 
         this.on('create', (prop, value) => {
-            this.debug ? console.log('>>> CREATED +', this.constructor.name.padEnd(20, '.'), prop.padEnd(30, '.'), (this.getType(value)).padEnd(10, '.'), value) : null;
+            this.debug ? console.log(this.label, 'CREATED +', prop.padEnd(30, '.'), (this.getType(value)).padEnd(10, '.'), value) : null;
             this.settings.emit('create', prop, value);
         });
 
         this.on('update', (prop, value) => {
-            this.debug ? console.log('>>> UPDATED >', this.constructor.name.padEnd(20, '.'), prop.padEnd(30, '.'), (this.getType(value)).padEnd(10, '.'), value) : null;
+            this.debug ? console.log(this.label, 'UPDATED >', this.constructor.name.padEnd(20, '.'), prop.padEnd(30, '.'), (this.getType(value)).padEnd(10, '.'), value) : null;
             this.settings.emit('update', prop, value);
         });
 
         this.on('delete', (prop) => {
-            this.debug ? console.log('>>> DELETED !', this.constructor.name.padEnd(20, '.'), prop.padEnd(30, '.')) : null;
+            this.debug ? console.log(this.label, 'DELETED !', this.constructor.name.padEnd(20, '.'), prop.padEnd(30, '.')) : null;
             this.settings.emit('delete', prop);
         });
     }
