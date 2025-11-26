@@ -140,9 +140,9 @@ export default class Settings extends EventEmitter {
         });
 
         if (res.ok) {
-            console.log(this.label, 'SET GLOBAL CONFIG OK');
+            console.log(this.label, 'SAVE GLOBAL CONFIG OK');
         } else {
-            console.log(this.label, 'SET CONFIG ERROR', res.error);
+            console.log(this.label, 'SAVE CONFIG ERROR', res.error);
         }
     }
 
@@ -154,9 +154,9 @@ export default class Settings extends EventEmitter {
         });
 
         if (res.ok) {
-            console.log(this.label, 'SET PATH DEFAULTS CONFIG OK');
+            console.log(this.label, 'SAVE PATH DEFAULTS CONFIG OK');
         } else {
-            console.log(this.label, 'SET PATH DEFAULTS CONFIG ERROR', res.error);
+            console.log(this.label, 'SAVE PATH DEFAULTS CONFIG ERROR', res.error);
         }
     }
 
@@ -170,9 +170,9 @@ export default class Settings extends EventEmitter {
         });
 
         if (res.ok) {
-            console.log(this.label, `SET PATH (${pathName}) CONFIG OK`);
+            console.log(this.label, `SAVE PATH (${pathName}) CONFIG OK`);
         } else {
-            console.log(this.label, `SET PATH (${pathName}) CONFIG ERROR`, res.error);
+            console.log(this.label, `SAVE PATH (${pathName}) CONFIG ERROR`, res.error);
         }
     }
 
