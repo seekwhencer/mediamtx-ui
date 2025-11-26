@@ -46,6 +46,11 @@ export default class Settings extends EventEmitter {
         //
         this.on('loaded', () => this.create());
 
+        //
+        this.on('loaded-general', () => console.log(this.label, 'LOADED GENERAL'));
+        this.on('loaded-users', () => console.log(this.label, 'LOADED USERS', this.config.users.length, this.config.users));
+        this.on('loaded-paths-list', () => console.log(this.label, 'LOADED PATHS LIST', this.config.paths.length, this.config.paths));
+
         // load config from mediamtx server
         this.load();
     }
@@ -61,13 +66,15 @@ export default class Settings extends EventEmitter {
         const res = await fetch(this.generalSettingsUrl);
         const text = await res.text();
         const data = await JSON.parse(text);
-        Object.keys(data).forEach(key => this.config.general[key] = data[key]);
-        this.emit('loaded-general');
 
         // users
-        this.config.general.authInternalUsers.forEach((user, i) => this.config.users[i] = user);
-        delete this.config.general.authInternalUsers;
+        data.authInternalUsers.forEach((user, i) => this.config.users[i] = user);
+        delete data.authInternalUsers;
         this.emit('loaded-users');
+
+        // general
+        Object.keys(data).forEach(key => this.config.general[key] = data[key]);
+        this.emit('loaded-general');
     }
 
     async loadPathDefaults() {
