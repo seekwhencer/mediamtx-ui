@@ -25,14 +25,21 @@ export default class DataProxy extends EventEmitter {
                 if (prop === 'emit') {
                     return (event, ...args) => this.emit(event, ...args);
                 }
-                if(prop === 'target'){
+                if (prop === 'target') {
                     return this.target;
+                }
+                if (prop === 'enum') {
+                    return () => {
+                        return {};
+                    };
                 }
 
                 return target[prop];
             },
 
             set: (target, prop, value) => {
+                value = this.transformDatatype(target[prop], value);
+
                 if (target[prop] === value)
                     return true;
 
@@ -40,7 +47,8 @@ export default class DataProxy extends EventEmitter {
                 const action = existing ? 'update' : 'create';
 
                 target[prop] = value;
-                this.lift ? this.parent[prop] = value : null; // okay party people, it's prop agnostic (and destroying)
+
+                this.lift ? this.parent[prop] = target[prop] : null; // okay party people, it's prop agnostic (and destroying)
 
                 this.parent.emit && this.lift ? this.parent.emit(action, prop, value) : null;
                 this.parent.emit && this.lift ? this.parent.emit(prop, value, action) : null;
@@ -63,5 +71,32 @@ export default class DataProxy extends EventEmitter {
                 return true;
             },
         });
+    }
+
+    transformDatatype(field, value) {
+        const type = typeof field;
+
+        //console.log('####', field, type, typeof value);
+
+        if (type === 'string')
+            return value;
+
+        if (type === 'number')
+            return parseInt(value);
+
+        if (type === 'boolean')
+            return value === 'true';
+
+        if (type === 'function')
+            return value;
+
+        if (Array.isArray(field))
+            return field;
+
+        return value;
+    }
+
+    getType(value) {
+        return Array.isArray(value) ? 'array' : typeof value;
     }
 }

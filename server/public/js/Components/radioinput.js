@@ -1,6 +1,6 @@
 import Component from "./component.js";
 
-export default class TextInput extends Component {
+export default class RadioInput extends Component {
     constructor(settings, prop, options = {}) {
         super(settings, prop, options);
 
@@ -8,12 +8,9 @@ export default class TextInput extends Component {
         this.defaults = {
             'id': '',
             'className': '',
-            'type': 'text',
+            'type': 'radio',
             'disabled': '',
-            'dataset': {},
-            'value' : this.settings[this.prop],
-            'placeholder': 'type something ...',
-            oninput: (e) => this.settings[this.prop] = e.target.value,
+            'dataset': {}
         };
 
         this.init();

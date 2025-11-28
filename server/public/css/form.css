@@ -1,0 +1,129 @@
+label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+button {
+    background: var(--color-primary);
+    border: none;
+    font-family: var(--font-family), serif;
+    border-radius: 3px;
+    cursor: pointer;
+    color: white;
+    padding: 9px 10px;
+    font-size: 12px;
+    font-weight: 500;
+
+    &[disabled] {
+        opacity: 0.5;
+    }
+}
+
+select {
+    appearance: base-select;
+    /*-webkit-appearance: none; /* Remove style Chrome */
+    /*-moz-appearance: none; /* Remove style FireFox */
+    color: var(--text-color);
+    border: 1px solid var(--light-border-color);
+    background-color: var(--light-med-bg);
+    padding: 8px;
+    border-radius: 3px;
+    text-align: left;
+    position: relative;
+    width: calc(100% - 30px);
+
+    &::picker(select) {
+        border: none;
+    }
+}
+
+select {
+    option {
+        appearance: base-select;
+        /*-webkit-appearance: none; /* Remove style Chrome */
+        /*-moz-appearance: none; /* Remove style FireFox */
+        margin: 0;
+        padding: 0;
+        border-bottom: var(--light-border-color);
+        border-radius: initial;
+        background-color: var(--light-med-bg);
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--color-primary);
+        }
+    }
+}
+
+
+
+input[type=text] {
+    display: inline-block;
+    margin: 0;
+    padding: 8px;
+    font-family: var(--font-family);
+    color: var(--text-color);
+    border: 1px solid var(--light-border-color);
+    background-color: var(--light-med-bg);
+    border-radius: 3px;
+    width: calc(100% - 50px);
+}
+
+select[value] {
+    border-color: var(--color-primary);
+}
+
+select[value=""]{
+    border-color: var(--light-border-color);
+}
+
+input[type=checkbox] {
+    appearance: none;
+    cursor: pointer;
+    position: relative;
+    transform: translateY(-13px);
+    margin: 0;
+
+    &:before {
+        visibility: visible;
+        position: absolute;
+        top: 2px;
+        left: 2px;
+        border-radius: 10px;
+        content: "";
+        display: block;
+        width: 40px;
+        height: 20px;
+        overflow: hidden;
+        background-color: var(--light-med-bg);
+        border: 1px solid var(--light-border-color);
+    }
+
+    &:after {
+        visibility: visible;
+        position: absolute;
+        top: 5px;
+        left: 5px;
+        border-radius: 10px;
+        content: "";
+        display: block;
+        width: 15px;
+        height: 15px;
+        overflow: hidden;
+        background-color: var(--page-bg);
+        transition: left 0.1s ease-in-out;
+    }
+
+    &:checked:after {
+        left: 25px;
+        transition: left 0.1s ease-in-out;
+        background-color: var(--page-bg);
+    }
+
+    &:checked:before {
+        background-color: var(--color-primary);
+        border-color: var(--page-bg);
+    }
+}

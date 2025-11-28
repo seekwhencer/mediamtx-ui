@@ -1,44 +1,61 @@
-import EventEmitter from "./event_emitter.js";
+import EventEmitter from './event_emitter.js';
 
 import Button from './Components/button.js';
 import TextInput from "./Components/textinput.js";
+import CheckboxInput from './Components/checkboxinput.js';
+import SelectInput from './Components/selectinput.js';
+import FormItem from "./Components/formitem.js";
 
 export default class Overview extends EventEmitter {
     constructor(page) {
         super();
         this.page = page;
-        //this.element = this.page.element.querySelector('#overview');
     }
 
     render() {
+        if (this.element)
+            this.destroy();
+
+        // the box
         this.element = document.createElement("div");
         this.element.className = "tab overview";
         this.page.element.append(this.element);
 
+        // the container
+        this.container = document.createElement("div");
+        this.container.className = "container";
+        this.element.append(this.container);
+
         // a button
+        /*
         this.button = new Button({
-            innerHTML: this.settings.logLevel,
-            className: 'overview-button',
+            innerHTML: this.settings.source,
+            className: 'button overview-button',
             onclick: () => console.log('>>>> clicked overview button')
         });
-        this.settings.on('logLevel', (value, action) => this.button.element.innerHTML = value);
-        this.element.append(this.button.element);
+        this.settings.on('source', (value, action) => this.button.element.innerHTML = value);
+        this.container.append(this.button.element);
+        */
 
-        // a text input
-        this.input = new TextInput({
-            name:'overview-input',
-            className: 'overview-input',
-            type: 'text',
-            placeholder: 'Type something...',
-            value: this.settings.logLevel,
-            oninput: (e) => this.settings.logLevel = e.target.value
+        // text inputs
+        this.items = {};
+        this.settings.keys().forEach(prop => {
+            const item = new FormItem(this.settings, prop);
+            this.element.append(item.element);
+            this.items[prop] = item;
         });
-        this.settings.on('logLevel', (value, action) => this.input.element.value = value);
-        this.element.append(this.input.element);
+
+    }
+
+    destroy() {
+        this.element.remove();
+        this.container.remove();
+        this.button.remove();
+        this.input.remove();
     }
 
     get settings() {
-        return this.page.settings.general;
+        return this.page.settings.path;
     }
 
     set settings(value) {

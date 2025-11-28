@@ -1,7 +1,28 @@
+@import './variables.css';
+@import './form.css';
+
 body {
-    background-color: #333;
-    color: #ddd;
-    font-family: system-ui;
+    font-family: var(--font-family);
+    margin: 0;
+    padding: 0;
+    background-color: var(--page-bg);
+    color: var(--text-color);
+}
+
+pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+ul {
+    margin: 0;
+    padding: 0;
+
+    li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
 }
 
 video {
@@ -30,5 +51,47 @@ video {
     &:nth-of-type(4) {
         bottom: 0;
         right: 0;
+    }
+}
+
+.tab {
+    &.overview {
+        margin: 100px;
+
+        .item {
+            width: 20%;
+            display: inline-block;
+            position: relative;
+            height: 60px;
+            overflow: hidden;
+            border-bottom: 1px dashed var(--light-border-color);
+
+            button.clear {
+                position: absolute;
+                right: 52px;
+                top: 27px;
+                padding: 0 2px;
+                background-color: var(--light-med-bg);
+                color: var(--text-light-color);
+            }
+
+            &:hover {
+                button.clear {
+                    background-color: var(--color-primary);
+                    color: white;
+                }
+            }
+
+            &.switch {
+                label {
+                    position: absolute;
+                    left: 50px;
+                    top: 22px;
+                }
+                input[type=checkbox] {
+                    transform: translateY(0px);
+                }
+            }
+        }
     }
 }
