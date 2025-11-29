@@ -28,13 +28,14 @@ export default class FormItem extends Component {
         label.innerHTML = splitCamelCase(this.prop).toUpperCase();
         this.element.append(label);
 
-
         if (this.dataType === 'string' || this.dataType === 'number') {
             if (this.values) {
                 const select = new SelectInput(this.settings, this.prop, {
                     name: `input-${this.name}`
                 });
-                this.settings.on(this.prop, (value, action) => select.element.value = value);
+                this.settings.on(this.prop, (value, action) => {
+                    select.element.value = value;
+                });
                 this.element.append(select.element);
 
                 // the clear button
@@ -57,8 +58,12 @@ export default class FormItem extends Component {
             const checkbox = new CheckboxInput(this.settings, this.prop, {
                 name: `input-${this.name}`
             });
-            checkbox.element.value === 'true' ? checkbox.element.checked = true : checkbox.element.checked = false;
-            this.settings.on(this.prop, (value, action) => checkbox.element.value = value);
+            const check = () => checkbox.element.value === 'true' ? checkbox.element.checked = true : checkbox.element.checked = false;
+            check();
+            this.settings.on(this.prop, (value, action) => {
+                checkbox.element.value = value;
+                check();
+            });
             this.element.append(checkbox.element);
             this.element.classList.add('switch');
         }

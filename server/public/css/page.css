@@ -54,43 +54,71 @@ video {
     }
 }
 
+.tab-navigation {
+    position: absolute;
+    top: 20px;
+    left: 100px;
+
+    button {
+        margin-right: 10px;
+        background-color: var(--light-med-bg);
+        font-size: 16px;
+        padding: 10px 30px;
+        text-transform: uppercase;
+        font-weight: 700;
+        text-align: center;
+
+        &:hover {
+            background-color: var(--color-secondary);
+        }
+
+        &.active {
+            background-color: var(--color-primary);
+        }
+
+        svg {
+            display: block;
+            margin: auto;
+        }
+    }
+}
+
 .tab {
-    &.overview {
-        margin: 100px;
+    margin: 120px 100px 100px 100px;
 
-        .item {
-            width: 20%;
-            display: inline-block;
-            position: relative;
-            height: 60px;
-            overflow: hidden;
-            border-bottom: 1px dashed var(--light-border-color);
+    .item {
+        width: 20%;
+        display: inline-block;
+        position: relative;
+        height: 60px;
+        overflow: hidden;
+        border-bottom: 1px dashed var(--light-border-color);
 
+        button.clear {
+            position: absolute;
+            right: 52px;
+            top: 27px;
+            padding: 0 2px;
+            background-color: var(--light-med-bg);
+            color: var(--text-light-color);
+        }
+
+        &:hover {
             button.clear {
+                background-color: var(--color-primary);
+                color: white;
+            }
+        }
+
+        &.switch {
+            label {
                 position: absolute;
-                right: 52px;
-                top: 27px;
-                padding: 0 2px;
-                background-color: var(--light-med-bg);
-                color: var(--text-light-color);
+                left: 50px;
+                top: 22px;
             }
 
-            &:hover {
-                button.clear {
-                    background-color: var(--color-primary);
-                    color: white;
-                }
-            }
-
-            &.switch {
-                label {
-                    position: absolute;
-                    left: 50px;
-                    top: 22px;
-                }
-                input[type=checkbox] {
-                    transform: translateY(0px);
-                }
+            input[type=checkbox] {
+                transform: translateY(0px);
             }
         }
     }

@@ -1,12 +1,7 @@
-import EventEmitter from './event_emitter.js';
+import EventEmitter from '../event_emitter.js';
+import FormItem from "../Components/formitem.js";
 
-import Button from './Components/button.js';
-import TextInput from "./Components/textinput.js";
-import CheckboxInput from './Components/checkboxinput.js';
-import SelectInput from './Components/selectinput.js';
-import FormItem from "./Components/formitem.js";
-
-export default class Overview extends EventEmitter {
+export default class OverviewTab extends EventEmitter {
     constructor(page) {
         super();
         this.page = page;
@@ -22,10 +17,10 @@ export default class Overview extends EventEmitter {
         this.page.element.append(this.element);
 
         // the container
-        this.container = document.createElement("div");
+        /*this.container = document.createElement("div");
         this.container.className = "container";
         this.element.append(this.container);
-
+*/
         // a button
         /*
         this.button = new Button({
@@ -37,7 +32,7 @@ export default class Overview extends EventEmitter {
         this.container.append(this.button.element);
         */
 
-        // text inputs
+        // inputs
         this.items = {};
         this.settings.keys().forEach(prop => {
             const item = new FormItem(this.settings, prop);
@@ -48,10 +43,10 @@ export default class Overview extends EventEmitter {
     }
 
     destroy() {
-        this.element.remove();
-        this.container.remove();
-        this.button.remove();
-        this.input.remove();
+        this.element ? this.element.remove() : null;
+        //this.container.remove();
+        //this.button.remove();
+        //this.input.remove();
     }
 
     get settings() {

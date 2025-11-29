@@ -1,19 +1,25 @@
 import EventEmitter from "./event_emitter.js";
 
+import Icons from './icons.js'
 import Settings from "./settings.js";
-import Overview from "./overview.js";
-import Streams from "./streams.js";
-import Sources from "./sources.js";
+import TabNavigation from "./tab_navigation.js";
+import OverviewTab from "./Tabs/overview.js";
+import PathDefaultsTab from "./Tabs/path.js";
+import ServerTab from "./Tabs/server.js";
 
 
 export default class Page extends EventEmitter {
     constructor() {
         super();
-        this.element = document.querySelector('#page');
+        this.tabNavigation = new TabNavigation(this);
 
-        this.overview = new Overview(this);
-        this.sources = new Sources(this);
-        //this.streams = new Streams(this);
+        this.tabs = {
+            overview: new OverviewTab(this),
+            server: new ServerTab(this),
+            path: new PathDefaultsTab(this)
+            //sources : new Sources(this),
+            //streams : new Streams(this)
+        };
 
         // settings
         this.settings = new Settings(this);
@@ -22,8 +28,7 @@ export default class Page extends EventEmitter {
             await this.settings.setGlobalConfig();
             await this.settings.setPathDefaultsConfig();
             await this.settings.setPathConfig('cam1');
-
-            this.render();
+            await this.render();
         });
 
         // testing: change a config value and save it instantly (send it to the server
@@ -31,10 +36,29 @@ export default class Page extends EventEmitter {
         setTimeout(() => this.settings.general.logLevel = 'info', 4000);
         setTimeout(() => console.log(Object.keys(this.settings.users)), 6000);
 
+        // render tab on tab select
+        this.on('tab', tab => this.showTab(tab));
+
     }
 
-    render() {
-        //this.streams.render();
-        this.overview.render();
+    async render() {
+        this.icons = new Icons();
+        await this.icons.load();
+
+        this.element = document.createElement("div");
+        this.element.className = 'page';
+        document.querySelector('body').append(this.element);
+
+        this.tabNavigation.render();
+        //this.tabs.overview.render();
+    }
+
+    showTab(tab) {
+        this.destroyTabs();
+        this.tabs[tab.slug] ? this.tabs[tab.slug].render() : null
+    }
+
+    destroyTabs() {
+        Object.keys(this.tabs).forEach(tab => this.tabs[tab].destroy());
     }
 }

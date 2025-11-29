@@ -42,15 +42,19 @@ export default class Settings extends EventEmitter {
             user: new DataProxy({}, this, false),
             users: new DataProxy([], this, false),
         };
+        this.created = false;
 
         //
         this.on('loaded', () => this.create());
         this.on('created', () => this.created = true);
 
         //
-        this.on('loaded-general', () => console.log(this.label, 'LOADED GENERAL'));
-        this.on('loaded-users', () => console.log(this.label, 'LOADED USERS', this.config.users.length, this.config.users));
+        this.on('loaded-general', () => this.created ? this.mergeDiffProps(this.general, this.config.general) : null);
+        this.on('loaded-path-defaults', () => this.created ? this.mergeDiffProps(this.path, this.config.path) : null);
+
+        //@TODO
         this.on('loaded-paths-list', () => console.log(this.label, 'LOADED PATHS LIST', this.config.paths.length, this.config.paths));
+        this.on('loaded-users', () => console.log(this.label, 'LOADED USERS', this.config.users.length, this.config.users));
 
         // load config from mediamtx server
         this.load();
@@ -142,7 +146,8 @@ export default class Settings extends EventEmitter {
         if (res.ok) {
             console.log(this.label, 'SAVE GLOBAL CONFIG OK');
         } else {
-            console.log(this.label, 'SAVE CONFIG ERROR', res.error);
+            console.log(this.label, 'SAVE GLOBAL CONFIG ERROR', res.error);
+            await this.loadGeneral();
         }
     }
 
@@ -157,6 +162,16 @@ export default class Settings extends EventEmitter {
             console.log(this.label, 'SAVE PATH DEFAULTS CONFIG OK');
         } else {
             console.log(this.label, 'SAVE PATH DEFAULTS CONFIG ERROR', res.error);
+            await this.loadPathDefaults();
+        }
+    }
+
+    mergeDiffProps = (to, from) => {
+        const a = to.target;
+        const b = from.target
+        const diffProps = changedOnly(a, b);
+        for (let prop in diffProps) {
+            to[prop] = diffProps[prop];
         }
     }
 
@@ -197,4 +212,14 @@ export default class Settings extends EventEmitter {
     set globalConfig(value) {
         // do nothing
     }
+}
+
+const changedOnly = (a, b) => {
+    const out = {};
+    for (const k of Object.keys(a)) {
+        if (k in b && !Object.is(a[k], b[k])) {
+            out[k] = b[k];
+        }
+    }
+    return out;
 }

@@ -22,7 +22,8 @@ button {
 }
 
 select {
-    appearance: base-select;
+    -moz-appearance: toolbox;
+    /*appearance: base-select;
     /*-webkit-appearance: none; /* Remove style Chrome */
     /*-moz-appearance: none; /* Remove style FireFox */
     color: var(--text-color);
@@ -33,15 +34,14 @@ select {
     text-align: left;
     position: relative;
     width: calc(100% - 30px);
+    margin-left: 2px;
 
-    &::picker(select) {
-        border: none;
+    &:open {
+        outline: 2px solid var(--color-primary);
     }
-}
 
-select {
     option {
-        appearance: base-select;
+        /*appearance:base;
         /*-webkit-appearance: none; /* Remove style Chrome */
         /*-moz-appearance: none; /* Remove style FireFox */
         margin: 0;
@@ -51,17 +51,23 @@ select {
         background-color: var(--light-med-bg);
         cursor: pointer;
 
-        &:hover {
+        &:checked {
             background-color: var(--color-primary);
         }
+
     }
 }
 
+::picker(select):popover-open {
+    appearance: base-select;
+    background-color: green;
+    outline: 2px solid var(--color-primary);
+}
 
 
 input[type=text] {
     display: inline-block;
-    margin: 0;
+    margin: 0 0 0 2px;
     padding: 8px;
     font-family: var(--font-family);
     color: var(--text-color);
@@ -69,13 +75,17 @@ input[type=text] {
     background-color: var(--light-med-bg);
     border-radius: 3px;
     width: calc(100% - 50px);
+
+    &:focus-visible {
+        outline: 2px solid var(--color-primary);
+    }
 }
 
 select[value] {
     border-color: var(--color-primary);
 }
 
-select[value=""]{
+select[value=""] {
     border-color: var(--light-border-color);
 }
 
@@ -95,7 +105,7 @@ input[type=checkbox] {
         content: "";
         display: block;
         width: 40px;
-        height: 20px;
+        height:19px;
         overflow: hidden;
         background-color: var(--light-med-bg);
         border: 1px solid var(--light-border-color);
