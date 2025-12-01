@@ -2,11 +2,11 @@ import EventEmitter from '../event_emitter.js';
 import DataProxy from "../data_proxy.js";
 
 export default class Component {
-    constructor(settings, prop, options = {}, tab) {
+    constructor(settings, prop, options = {}, parent) {
         this.options = options;
         this.settings = settings;
-        this.tab = tab;
-        this.events = this.tab.events;
+        this.parent = parent;
+        this.events = this.parent.events;
         this.prop = prop;
 
         this.dataType = getType(this.value);

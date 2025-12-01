@@ -191,13 +191,18 @@ const ServerGroups = [
                 name: 'Security',
                 slug: 'security',
                 fields: [
-
-                    'authHTTPExclude',
                     'authJWTJWKS',
                     'authJWTJWKSFingerprint',
                     'authJWTClaimKey',
-                    'authJWTExclude',
                     'authJWTInHTTPQuery'
+                ]
+            }, {
+                name: 'Excludes',
+                slug: 'excludes',
+                fields: [
+
+                    'authHTTPExclude',
+                    'authJWTExclude'
                 ]
             }
         ]

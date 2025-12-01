@@ -1,7 +1,7 @@
 import Component from "./component.js";
 import Button from "./button.js";
 
-export default class MultiTextInput extends Component {
+export default class MultiTextAuth extends Component {
     constructor(settings, prop, options = {}, parent) {
         super(settings, prop, options, parent);
 
