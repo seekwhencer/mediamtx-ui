@@ -8,7 +8,7 @@ export default class PathsSettings extends Setting {
         this.source = this.config.paths;
 
         //
-        this.source.keys().forEach(key => this.data[key] = this.source[key]);
+        //this.source.keys().forEach(key => this.data[key] = this.source[key]);
         return this.data;
     }
 

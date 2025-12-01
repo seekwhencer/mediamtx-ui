@@ -75,7 +75,7 @@ const ServerGroups = [
                     'rtpAddress',
                     'rtcpAddress',
                 ]
-            },{
+            }, {
                 name: 'Multicast',
                 slug: 'multicast',
                 fields: [
@@ -203,6 +203,28 @@ const ServerGroups = [
 
                     'authHTTPExclude',
                     'authJWTExclude'
+                ]
+            }
+        ]
+    },
+    {
+        name: 'PPROF',
+        slug: 'pprof',
+        tabs: [
+            {
+                name: 'Enabled',
+                slug: 'enabled',
+                fields: ['pprof', 'pprofAddress']
+            }, {
+                name: 'Security',
+                slug: 'security',
+                fields: [
+
+                    'pprofEncryption',
+                    'pprofServerKey',
+                    'pprofServerCert',
+                    'pprofAllowOrigins',
+                    'pprofTrustedProxies'
                 ]
             }
         ]

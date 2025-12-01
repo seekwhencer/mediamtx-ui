@@ -24,11 +24,11 @@ export default class Settings {
         this.events = this.page.events;
 
         this.baseUrl = '/mediamtx/config';
-        this.generalSettingsUrl = `${this.baseUrl}/global/get`;
+        this.globalSettingsUrl = `${this.baseUrl}/global/get`;
         this.pathDefaultsUrl = `${this.baseUrl}/pathdefaults/get`;
         this.pathsListUrl = `${this.baseUrl}/paths/list`;
 
-        this.saveGeneralSettingsUrl = `${this.baseUrl}/global/patch`;
+        this.saveglobalSettingsUrl = `${this.baseUrl}/global/patch`;
         this.savePathDefaultsUrl = `${this.baseUrl}/pathdefaults/patch`;
 
         this.pathBaseUrl = `${this.baseUrl}/paths`;
@@ -39,8 +39,10 @@ export default class Settings {
 
         this.created = false;
 
-        //this.on('loaded-general', () => this.created ? this.mergeDiffProps(this.general, this.config.general) : null);
-        //this.on('loaded-path-defaults', () => this.created ? this.mergeDiffProps(this.path, this.config.path) : null);
+        this.listeners = [
+            this.on('loaded-global', () => this.created ? this.mergeGlobalDiffProps() : null),
+            //this.on('loaded-path-defaults', () => this.created ? this.mergeDiffProps(this.path, this.config.path) : null)
+        ];
 
         //@TODO
         //this.on('loaded-paths-list', () => console.log(this.label, 'LOADED PATHS LIST', this.config.paths.length, this.config.paths));
@@ -48,35 +50,50 @@ export default class Settings {
     }
 
     async load() {
-        this.config = {
+        /*this.config = {
             general: new DataProxy({}, this, false),
             path: new DataProxy({}, this, false),
             paths: new DataProxy({}, this, false),
             user: new DataProxy({}, this, false),
             users: new DataProxy([], this, false),
+        };*/
+
+        this.config = {
+            global: {},
+            path: {},
+            paths: {},
+            user: {},
+            users: {},
         };
 
-        await this.loadGeneral();
-        await this.loadPathDefaults();
-        await this.loadPathsList();
-        await this.create();
+        await this.loadGlobal();
+        //await this.loadPathDefaults();
+        //await this.loadPathsList();
 
+        if (!this.created) {
+            await this.create();
+        } else {
+            await this.update();
+        }
         console.log('LOADED CONFIG: ', this.config);
     }
 
-    async loadGeneral() {
-        const res = await fetch(this.generalSettingsUrl);
+    async loadGlobal() {
+        const res = await fetch(this.globalSettingsUrl);
         const text = await res.text();
         const data = await JSON.parse(text);
 
         // users
-        data.authInternalUsers.forEach((user, i) => this.config.users[i] = user);
-        delete data.authInternalUsers;
-        this.emit('loaded-users');
-
-        // general
-        Object.keys(data).forEach(key => this.config.general[key] = data[key]);
-        this.emit('loaded-general');
+        if (data.authInternalUsers) {
+            data.authInternalUsers.forEach((user, i) => this.config.users[i] = user);
+            delete data.authInternalUsers;
+            this.emit('loaded-users');
+        } else {
+            console.log(this.label, 'ERROR:', text);
+        }
+        // global
+        Object.keys(data).forEach(key => this.config.global[key] = data[key]);
+        this.emit('loaded-global');
     }
 
     async loadPathDefaults() {
@@ -114,6 +131,10 @@ export default class Settings {
         this.created = true;
     }
 
+    async update() {
+        console.log(this.label, 'UPDATE AFTER LOADING CONFIG');
+    }
+
     // complete
     getConfig() {
         return {
@@ -134,7 +155,7 @@ export default class Settings {
     }
 
     async setGlobalConfig() {
-        const res = await fetch(this.saveGeneralSettingsUrl, {
+        const res = await fetch(this.saveglobalSettingsUrl, {
             method: 'PATCH',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(this.globalConfig)
@@ -144,7 +165,7 @@ export default class Settings {
             console.log(this.label, 'SAVE GLOBAL CONFIG OK');
         } else {
             console.log(this.label, 'SAVE GLOBAL CONFIG ERROR', res.error);
-            await this.loadGeneral();
+            await this.loadGlobal();
         }
     }
 
@@ -163,13 +184,17 @@ export default class Settings {
         }
     }
 
-    mergeDiffProps = (to, from) => {
-        const a = to.target;
-        const b = from.target
-        const diffProps = changedOnly(a, b);
-        for (let prop in diffProps) {
-            to[prop] = diffProps[prop];
-        }
+    mergeGlobalDiffProps() {
+        console.log(this.label, 'MERGE GLOBAL DIFF PROPS');
+        ['general', 'auth', 'api', 'pprof', 'playback', 'rtsp', 'rtmp', 'hls', 'webrtc', 'srt'].forEach(c => {
+            const to = this[c];
+            for (const k of to.keys()) {
+                if (JSON.stringify(this.config.global[k]) !== JSON.stringify(to[k])) {
+                    to[k] = this.config.global[k];
+                    console.log(this.label, '>>>', c, k, to[k]);
+                }
+            }
+        });
     }
 
     on(event, callback) {
@@ -182,6 +207,10 @@ export default class Settings {
 
     destroy() {
         this.created = false;
+        //...
+        this.listeners.forEach(eject => eject());
+
+
     }
 
     action(action, prop, value) {
@@ -230,14 +259,4 @@ export default class Settings {
     set globalConfig(value) {
         // do nothing
     }
-}
-
-const changedOnly = (a, b) => {
-    const out = {};
-    for (const k of Object.keys(a)) {
-        if (k in b && !Object.is(a[k], b[k])) {
-            out[k] = b[k];
-        }
-    }
-    return out;
 }

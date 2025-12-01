@@ -6,7 +6,7 @@ export default class GeneralSettings extends Setting {
 
         this.debug = true;
         this.config = this.settings.config;
-        this.source = this.config.general;
+        this.source = this.config.global;
         this.fields = [
             'logLevel',
             'logDestinations',

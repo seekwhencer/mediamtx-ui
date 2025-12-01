@@ -21,9 +21,8 @@ export default class ServerTab extends Tab {
         this.navigation = new GroupNavigation(this);
         this.navigation.render();
 
-        this.propListenerCreate = this.settings.on('create', (prop, value) => this.updateItem(prop, value));
-        this.propListenerUpdate = this.settings.on('update', (prop, value) => this.updateItem(prop, value));
-
+        // @TODO das legt die listener auf settings.general
+        // das quatsch, wenn das tab gewechselt wird
         this.renderGroup();
     }
 
@@ -49,13 +48,20 @@ export default class ServerTab extends Tab {
                 }
                 this.groupsElement.append(group);
             });
+
+            this.listeners ? this.listeners.forEach(eject => eject()) : null;
+            this.listeners = [
+                this.settings.on('create', (prop, value) => this.updateItem(prop, value)),
+                this.settings.on('update', (prop, value) => this.updateItem(prop, value))
+            ];
         }
     }
 
     updateItem(prop, value) {
-        if(!this.items[prop])
+        if (!this.items[prop])
             return;
 
+        console.log(this.label, '> UPDATE ITEM', prop, value);
         this.items[prop].setValue(value);
     }
 

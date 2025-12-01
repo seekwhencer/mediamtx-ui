@@ -1,5 +1,6 @@
 export default class Tab {
     constructor(page) {
+        this.label = this.constructor.name.toUpperCase();
         this.page = page;
         this.events = this.page.events;
     }
@@ -15,8 +16,7 @@ export default class Tab {
     destroy() {
         this.items ? Object.keys(this.items).forEach(k => this.items[k].destroy()) : null;
         this.element ? this.element.remove() : null;
-        this.propListenerCreate ? this.propListenerCreate() : null;
-        this.propListenerUpdate ? this.propListenerUpdate() : null;
+        this.listeners ? this.listeners.forEach(eject => eject()) : null;
     }
 
     get group() {

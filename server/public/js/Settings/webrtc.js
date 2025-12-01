@@ -6,7 +6,7 @@ export default class WebRTCSettings extends Setting {
         super(settings);
 
         this.config = this.settings.config;
-        this.source = this.config.general;
+        this.source = this.config.global;
         this.fields = [
             'webrtc',
             'webrtcAddress',

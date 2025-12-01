@@ -8,10 +8,10 @@ export default class UsersSettings extends Setting {
         this.source = this.config.users;
 
         //
-        if (Array.isArray(this.source.target)) {
-            this.source.target.forEach(target => this.data.push(target));
+        if (Array.isArray(this.source)) {
+            this.source.forEach(target => this.data.push(target));
         } else {
-            this.source.keys().forEach(key => this.data[key] = this.source[key]);
+            Object.keys(this.source).forEach(key => this.data[key] = this.source[key]);
         }
 
         return this.data;

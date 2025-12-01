@@ -5,7 +5,7 @@ export default class RTSPSettings extends Setting {
         super(settings);
 
         this.config = this.settings.config;
-        this.source = this.config.general;
+        this.source = this.config.global;
         this.fields = [
             'rtsp',
             'rtspTransports',
