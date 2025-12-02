@@ -41,7 +41,7 @@ export default class Settings {
 
         this.listeners = [
             this.on('loaded-global', () => this.created ? this.mergeGlobalDiffProps() : null),
-            //this.on('loaded-path-defaults', () => this.created ? this.mergeDiffProps(this.path, this.config.path) : null)
+            this.on('loaded-path-defaults', () => this.created ? this.mergePathDiffProps() : null)
         ];
 
         //@TODO
@@ -50,14 +50,6 @@ export default class Settings {
     }
 
     async load() {
-        /*this.config = {
-            general: new DataProxy({}, this, false),
-            path: new DataProxy({}, this, false),
-            paths: new DataProxy({}, this, false),
-            user: new DataProxy({}, this, false),
-            users: new DataProxy([], this, false),
-        };*/
-
         this.config = {
             global: {},
             path: {},
@@ -67,7 +59,7 @@ export default class Settings {
         };
 
         await this.loadGlobal();
-        //await this.loadPathDefaults();
+        await this.loadPathDefaults();
         //await this.loadPathsList();
 
         if (!this.created) {
@@ -197,6 +189,17 @@ export default class Settings {
         });
     }
 
+    mergePathDiffProps() {
+        console.log(this.label, 'MERGE PATH DEFAULTS DIFF PROPS');
+        const to = this.path;
+        for (const k of to.keys()) {
+            if (JSON.stringify(this.config.path[k]) !== JSON.stringify(to[k])) {
+                to[k] = this.config.path[k];
+                this.debug ? console.log(this.label, '>>>', k, to[k]) : null;
+            }
+        }
+    }
+
     on(event, callback) {
         return this.events.on(event, callback);
     }
@@ -209,8 +212,6 @@ export default class Settings {
         this.created = false;
         //...
         this.listeners.forEach(eject => eject());
-
-
     }
 
     action(action, prop, value) {

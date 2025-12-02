@@ -1,7 +1,7 @@
 import FormItem from "../Components/formitem.js";
+import Tab from "./tab.js";
 import ServerGroups from './server_groups.js';
 import GroupNavigation from "./group_navigation.js";
-import Tab from "./tab.js";
 
 export default class ServerTab extends Tab {
     constructor(page) {
