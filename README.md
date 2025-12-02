@@ -98,6 +98,21 @@ docker compose up -d
 - example WebRTC url: `http://YOUR_MEDIAMTX_IP:8554/cam1`
 - example HLS url: `http://YOUR_MEDIAMTX_IP:8554/cam1/index.m3u8`
 
-
-
 Now the Webserver is up on Port: `3000` 🡆 **[http://raspicam:3000](http://raspicam:3000)**
+
+## 🡆 DONE
+- api proxy
+- state structure
+- state flow
+- server structure
+- routes
+- settings as proxy object, emitting events
+- events + ejecters
+- fail safe inputs by resetting the fields to their previous working values
+
+## 🡆 TODO
+- path defaults
+- user management
+- paths
+- source management
+- 
