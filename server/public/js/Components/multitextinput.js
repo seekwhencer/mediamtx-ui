@@ -70,7 +70,7 @@ export default class MultiTextInput extends Component {
     concatValue() {
         const value = [...this.inputs.querySelectorAll('input[type=text]')].filter(i => i.value !== "").map(i => i.value);
         this.element.value = JSON.stringify(value);
-        this.settings[this.prop] = value;
+        this.value = value;
 
         this.rows = this.inputs.querySelectorAll('.row');
         [...this.rows].forEach(row => {

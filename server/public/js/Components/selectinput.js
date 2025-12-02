@@ -11,7 +11,7 @@ export default class SelectInput extends Component {
             'disabled': '',
             'dataset': {},
             'value' : this.settings[this.prop],
-            oninput: (e) => this.settings[prop] = e.target.value,
+            oninput: (e) => this.value = e.target.value,
         };
 
         this.init();

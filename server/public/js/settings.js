@@ -191,7 +191,7 @@ export default class Settings {
             for (const k of to.keys()) {
                 if (JSON.stringify(this.config.global[k]) !== JSON.stringify(to[k])) {
                     to[k] = this.config.global[k];
-                    console.log(this.label, '>>>', c, k, to[k]);
+                    this.debug ? console.log(this.label, '>>>', c, k, to[k]) : null;
                 }
             }
         });
@@ -217,7 +217,7 @@ export default class Settings {
         if (!this.debug)
             return;
 
-        //console.log(this.label, 'ACTION', action, prop, value);
+        this.debug ? console.log(this.label, 'ACTION', action, prop, value) : null;
 
 
     }

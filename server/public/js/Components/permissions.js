@@ -97,7 +97,7 @@ export default class PermissionsInput extends Component {
         this.inputs.append(add);
 
         this.element.value = JSON.stringify(values);
-        this.value = values;
+        this.value = values; // debounced
     }
 
     setValue(value) {
@@ -106,8 +106,8 @@ export default class PermissionsInput extends Component {
     }
 
     check() {
-        this.renderTextInputs();
         this.parent.element.querySelector('.multi-row').remove();
+        this.renderTextInputs();
         this.parent.element.append(this.inputs);
     }
 

@@ -13,7 +13,7 @@ export default class TextInput extends Component {
             'dataset': {},
             'value': this.settings[this.prop],
             'placeholder': 'type something ...',
-            oninput: (e) => this.settings[this.prop] = e.target.value,
+            oninput: (e) => this.value = e.target.value,
         };
 
         this.init();

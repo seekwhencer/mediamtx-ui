@@ -4,6 +4,7 @@ export default class MultiCheckboxInput extends Component {
     constructor(settings, prop, options = {}, tab) {
         super(settings, prop, options, tab);
 
+        this.debounceTime = 50;
         this.elementTag = 'input';
         this.defaults = {
             type: 'hidden',

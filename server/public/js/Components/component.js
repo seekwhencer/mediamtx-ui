@@ -9,6 +9,7 @@ export default class Component {
         this.events = this.parent.events;
         this.prop = prop;
 
+        this.debounceTime = 500; //ms
         this.dataType = getType(this.value);
         this.values = this.settings._.parent.options[this.prop] || false; //@TODO;
         this.name = `${prop.toLowerCase()}`;
@@ -47,7 +48,7 @@ export default class Component {
 
     set value(value) {
         clearTimeout(this.timer);
-        this.timer = setTimeout(() => this.settings[this.prop] = value, 1000);
+        this.timer = setTimeout(() => this.settings[this.prop] = value, this.debounceTime);
     }
 }
 

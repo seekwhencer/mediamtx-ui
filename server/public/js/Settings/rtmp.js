@@ -5,6 +5,7 @@ export default class RTMPSettings extends Setting {
     constructor(settings) {
         super(settings);
 
+        this.debug = true;
         this.config = this.settings.config;
         this.source = this.config.global;
         this.fields = [

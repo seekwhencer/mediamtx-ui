@@ -78,16 +78,11 @@ export default class FormItem extends Component {
         }
 
         if (this.dataType === 'array' && !this.values) {
-            // the only special thing
+            // the permissions
             if (this.prop === 'authHTTPExclude') {
-
-                console.log('YEAH');
-
                 this.item = new PermissionsInput(this.settings, this.prop, {
                     name: `input-${this.name}`
                 }, this);
-
-                console.log('JOOOOOOOOOO');
 
                 this.element.append(this.item.element);
                 this.element.append(this.item.inputs);

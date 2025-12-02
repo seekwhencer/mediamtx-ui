@@ -11,7 +11,7 @@ export default class CheckboxInput extends Component {
             'type': 'checkbox',
             'disabled': '',
             'value': this.settings[this.prop],
-            oninput: (e) => this.settings[this.prop] = e.target.value
+            oninput: (e) => this.value = e.target.value
         };
 
         this.init();
