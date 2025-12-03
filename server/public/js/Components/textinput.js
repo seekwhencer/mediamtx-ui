@@ -6,13 +6,13 @@ export default class TextInput extends Component {
 
         this.elementTag = 'input';
         this.defaults = {
-            'id': '',
-            'className': '',
-            'type': 'text',
-            'disabled': '',
-            'dataset': {},
-            'value': this.settings[this.prop],
-            'placeholder': 'type something ...',
+            id: '',
+            className: '',
+            type: 'text',
+            disabled: '',
+            dataset: {},
+            value: this.settings[this.prop],
+            placeholder: 'type something ...',
             oninput: (e) => this.value = e.target.value,
         };
 
@@ -23,6 +23,11 @@ export default class TextInput extends Component {
     setValue(value) {
         super.setValue(value);
         this.check();
+    }
+
+    render(){
+        super.render();
+        this.target.append(this.element);
     }
 
     check() {

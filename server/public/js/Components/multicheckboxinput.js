@@ -9,6 +9,7 @@ export default class MultiCheckboxInput extends Component {
         this.defaults = {
             type: 'hidden',
             value: this.value,
+            name: `input-${this.name}`,
             onchange: () => console.log('>CHECKING')
         };
 
@@ -19,6 +20,10 @@ export default class MultiCheckboxInput extends Component {
     render() {
         super.render();
         this.renderCheckboxes();
+
+        this.target.append(this.element);
+        this.target.append(this.checkboxes);
+        this.target.classList.add('switches');
     }
 
     renderCheckboxes() {

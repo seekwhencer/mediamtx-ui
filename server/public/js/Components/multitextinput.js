@@ -8,6 +8,7 @@ export default class MultiTextInput extends Component {
         this.elementTag = 'input';
         this.defaults = {
             type: 'hidden',
+            name: `input-${this.name}`,
             value: this.value
         };
 
@@ -37,6 +38,10 @@ export default class MultiTextInput extends Component {
         const row = this.renderRow('');
         this.inputs.append(row);
         this.rows.push(row);
+
+        this.target.append(this.element);
+        this.target.append(this.inputs);
+        this.target.classList.add('rows');
     }
 
     renderRow(value) {

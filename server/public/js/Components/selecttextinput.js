@@ -1,18 +1,17 @@
 import Component from "./component.js";
 
-export default class TextInput extends Component {
+export default class SelectTextInput extends Component {
     constructor(settings, prop, options = {}, tab) {
         super(settings, prop, options, tab);
 
-        this.elementTag = 'input';
+        this.elementTag = 'select';
         this.defaults = {
             id: '',
             className: '',
-            type: 'number',
             disabled: '',
             dataset: {},
             name: `input-${this.name}`,
-            'value': this.settings[this.prop],
+            value : this.settings[this.prop],
             oninput: (e) => this.value = e.target.value,
         };
 
@@ -20,12 +19,20 @@ export default class TextInput extends Component {
         this.render();
     }
 
-    render(){
+    render() {
         super.render();
+
+        // add options
+        Array.isArray(this.values) ? this.values.forEach(option => {
+            const o = document.createElement("option");
+            o.innerHTML = o.value = option;
+            this.element.append(o);
+        }) : null;
+
         this.target.append(this.element);
     }
 
-    setValue(value) {
+    setValue(value){
         super.setValue(value);
         this.check();
     }

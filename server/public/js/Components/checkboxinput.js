@@ -6,11 +6,12 @@ export default class CheckboxInput extends Component {
 
         this.elementTag = 'input';
         this.defaults = {
-            'id': '',
-            'className': '',
-            'type': 'checkbox',
-            'disabled': '',
-            'value': this.settings[this.prop],
+            id: '',
+            className: '',
+            type: 'checkbox',
+            disable: '',
+            name: `input-${this.name}`,
+            value: this.settings[this.prop],
             oninput: (e) => this.value = e.target.value
         };
 
@@ -27,6 +28,9 @@ export default class CheckboxInput extends Component {
             this.element.value === 'false' ? this.element.value = 'true' : this.element.value = 'false';
             oninput(e);
         }
+
+        this.target.append(this.element);
+        this.target.classList.add('switch');
     }
 
     setValue(value) {

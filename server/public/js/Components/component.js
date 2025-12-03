@@ -1,4 +1,3 @@
-import EventEmitter from '../event_emitter.js';
 import DataProxy from "../data_proxy.js";
 
 export default class Component {
@@ -7,14 +6,19 @@ export default class Component {
         this.settings = settings;
         this.parent = parent;
         this.events = this.parent.events;
+
         this.prop = prop;
+        this.name = `${prop.toLowerCase()}`;
 
         this.debounceTime = 500; //ms
         this.dataType = getType(this.value);
-        this.values = this.settings._.parent.options[this.prop] || false; //@TODO;
+
+        this.dataProxy = this.settings._.parent;
+        this.values = this.dataProxy.options[this.prop] || false; //@TODO - comes from the data proxy object
+        this.inputType = this.dataProxy.inputType ? this.dataProxy.inputType[this.prop] : false; //@TODO . data proxy object
         this.dataTypeValues = getType(this.values);
-        this.name = `${prop.toLowerCase()}`;
         this.element = false;
+        this.target = this.parent.element || false;
     }
 
     init() {

@@ -1,4 +1,5 @@
 import Component from "./component.js";
+import {Button} from "./index.js";
 
 export default class SelectInput extends Component {
     constructor(settings, prop, options = {}, tab) {
@@ -6,11 +7,12 @@ export default class SelectInput extends Component {
 
         this.elementTag = 'select';
         this.defaults = {
-            'id': '',
-            'className': '',
-            'disabled': '',
-            'dataset': {},
-            'value' : this.settings[this.prop],
+            id: '',
+            className: '',
+            disabled: '',
+            dataset: {},
+            name: `input-${this.name}`,
+            'value': this.settings[this.prop],
             oninput: (e) => this.value = e.target.value,
         };
 
@@ -27,9 +29,20 @@ export default class SelectInput extends Component {
             o.innerHTML = o.value = option;
             this.element.append(o);
         }) : null;
+
+        this.target.append(this.element);
+
+        // the clear button
+        this.clearButton = new Button(this.settings, this.prop, {
+            innerHTML: '🞬',
+            className: 'button clear',
+            onclick: () => this.value = ''
+        }, this.parent);
+
+        this.target.append(this.clearButton.element);
     }
 
-    setValue(value){
+    setValue(value) {
         super.setValue(value);
         this.check();
     }

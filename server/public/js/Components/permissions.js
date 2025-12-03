@@ -8,6 +8,7 @@ export default class PermissionsInput extends Component {
         this.elementTag = 'input';
         this.defaults = {
             type: 'hidden',
+            name: `input-${this.name}`,
             value: JSON.stringify(this.value)
         };
         this.init();
@@ -17,6 +18,11 @@ export default class PermissionsInput extends Component {
     render() {
         super.render();
         this.renderTextInputs();
+
+
+        this.target.append(this.element);
+        this.target.append(this.inputs);
+        this.target.classList.add('rows');
     }
 
     renderTextInputs() {

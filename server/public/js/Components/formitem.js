@@ -1,12 +1,5 @@
 import Component from "./component.js";
-import Button from './button.js';
-import TextInput from "./textinput.js";
-import CheckboxInput from './checkboxinput.js';
-import SelectInput from './selectinput.js';
-import MultiCheckboxInput from './multicheckboxinput.js';
-import MultiTextInput from './multitextinput.js';
-import PermissionsInput from "./permissions.js";
-import NumberInput from './numberinput.js';
+import * as Inputs from './index.js';
 
 export default class FormItem extends Component {
     constructor(settings, prop, options = {}, tab) {
@@ -30,86 +23,63 @@ export default class FormItem extends Component {
         label.innerHTML = splitCamelCase(this.prop).toUpperCase();
         this.element.append(label);
 
-        // input field
-        if (this.dataType === 'string' || this.dataType === 'number') {
-            if (this.values) {
+        // the input type equals their input class name
+        if (this.inputType) {
+            this.item = new Inputs[this.inputType](this.settings, this.prop, {}, this);
 
-                if (this.dataTypeValues === 'array') {
-                    // select input
-                    this.item = new SelectInput(this.settings, this.prop, {
-                        name: `input-${this.name}`
-                    }, this);
-                    this.element.append(this.item.element);
+       // type agnostic
+        } else {
+            if (this.dataType === 'string' || this.dataType === 'number') {
 
-                    // the clear button
-                    const clearButton = new Button(this.settings, this.prop, {
-                        innerHTML: '🞬',
-                        className: 'button clear',
-                        onclick: () => this.value = ''
-                    }, this);
-                    this.element.append(clearButton.element);
-                }
+                // if possible values (.options) specified in the settings data proxy object (/Settings/*.js)
+                if (this.values) {
 
-                if (this.dataTypeValues === 'object') {
-                    if (Object.keys(this.values).includes('min')) { // min, max fields
-                        this.item = new NumberInput(this.settings, this.prop, {
-                            name: `input-${this.name}`,
-                            min: this.values.min,
-                            max: this.values.max,
-                            step: this.values.step
-                        }, this);
-                        this.element.append(this.item.element);
+                    // if the data type of the possible value(s) is an array, then it is a choosable list
+                    if (this.dataTypeValues === 'array') {
+
+                        // select input
+                        this.item = new Inputs.SelectInput(this.settings, this.prop, {}, this);
                     }
+
+                    // if the data type of the possible value(s) is an object, then it contains some input parameters
+                    if (this.dataTypeValues === 'object') {
+                        if (Object.keys(this.values).includes('min')) { // min, max fields
+                            this.item = new Inputs.NumberInput(this.settings, this.prop, {
+                                min: this.values.min,
+                                max: this.values.max,
+                                step: this.values.step
+                            }, this);
+                            this.element.append(this.item.element);
+                        }
+                    }
+                } else {
+                    // when no default values given
+                    // text input
+                    this.item = new Inputs.TextInput(this.settings, this.prop, {}, this);
                 }
-
-            } else {
-                // text input
-                this.item = new TextInput(this.settings, this.prop, {
-                    name: `input-${this.name}`
-                }, this);
-                this.element.append(this.item.element);
             }
-        }
 
-        // single check switch
-        if (this.dataType === 'boolean') {
-            this.item = new CheckboxInput(this.settings, this.prop, {
-                name: `input-${this.name}`
-            }, this);
+            // single check switch
+            if (this.dataType === 'boolean') {
+                this.item = new Inputs.CheckboxInput(this.settings, this.prop, {}, this);
+            }
 
-            this.element.append(this.item.element);
-            this.element.classList.add('switch');
-        }
+            // multi check switches (multiselect with checkboxes)
+            // if the data type is an array AND preset values exists
+            if (this.dataType === 'array' && this.values) {
+                this.item = new Inputs.MultiCheckboxInput(this.settings, this.prop, {}, this);
+            }
 
-        // multi check switches
-        if (this.dataType === 'array' && this.values) {
-            this.item = new MultiCheckboxInput(this.settings, this.prop, {
-                name: `input-${this.name}`
-            }, this);
+            // if the data type is an array AND no values given
+            if (this.dataType === 'array' && !this.values) {
+                if (this.prop === 'authHTTPExclude') {
+                    // the permissions
+                    this.item = new Inputs.PermissionsInput(this.settings, this.prop, {}, this);
 
-            this.element.append(this.item.element);
-            this.element.append(this.item.checkboxes);
-            this.element.classList.add('switches');
-        }
-
-        if (this.dataType === 'array' && !this.values) {
-            // the permissions
-            if (this.prop === 'authHTTPExclude') {
-                this.item = new PermissionsInput(this.settings, this.prop, {
-                    name: `input-${this.name}`
-                }, this);
-
-                this.element.append(this.item.element);
-                this.element.append(this.item.inputs);
-                this.element.classList.add('rows');
-            } else {
-                this.item = new MultiTextInput(this.settings, this.prop, {
-                    name: `input-${this.name}`
-                }, this);
-
-                this.element.append(this.item.element);
-                this.element.append(this.item.inputs);
-                this.element.classList.add('rows');
+                } else {
+                    // multi row text input
+                    this.item = new Inputs.MultiTextInput(this.settings, this.prop, {}, this);
+                }
             }
         }
     }

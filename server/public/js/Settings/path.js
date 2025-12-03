@@ -127,6 +127,10 @@ export default class PathSettings extends Setting {
             rpiCameraSoftwareH264Level: ['4.0', '4.1', '4.2']
         };
 
+        this.inputType = {
+            source: 'SelectTextInput'
+        };
+
         // set the data
         this.setFields();
 

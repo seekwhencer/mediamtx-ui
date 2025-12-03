@@ -71,7 +71,7 @@ const PathGroups = [
         slug: 'raspicam',
         tabs: [
             {
-                name: '1',
+                name: 'Rasperry Pi Camera',
                 slug: '1',
                 fields: [
                     'rpiCameraCamID',
@@ -84,15 +84,15 @@ const PathGroups = [
                     'rpiCameraContrast',
                     'rpiCameraSaturation',
                     'rpiCameraSharpness',
+
+                ]
+            },{
+                name: '&nbsp;',
+                slug: '2',
+                fields: [
                     'rpiCameraExposure',
                     'rpiCameraAWB',
                     //'rpiCameraAWBGains',
-                ]
-            },{
-                name: '2',
-                slug: '2',
-                fields: [
-
                     'rpiCameraDenoise',
                     'rpiCameraShutter',
                     'rpiCameraMetering',
@@ -101,20 +101,40 @@ const PathGroups = [
                     'rpiCameraROI',
                     'rpiCameraHDR',
                     'rpiCameraTuningFile',
+                ]
+            },{
+                name: '&nbsp;',
+                slug: '3',
+                fields: [
                     'rpiCameraMode',
                     'rpiCameraFPS',
                     'rpiCameraAfMode',
                     'rpiCameraAfRange',
                     'rpiCameraAfSpeed',
                     'rpiCameraLensPosition',
-                    'rpiCameraLensPosition'
-                ]
-            },{
-                name: '3',
-                slug: '3',
-                fields: [
+                    'rpiCameraLensPosition',
                     'rpiCameraAfWindow',
                     'rpiCameraFlickerPeriod',
+                    'rpiCameraCodec',
+                ]
+            },{
+                name: '&nbsp;',
+                slug: '4',
+                fields: [
+                    'rpiCameraIDRPeriod',
+                    'rpiCameraBitrate',
+                    'rpiCameraHardwareH264Profile',
+                    'rpiCameraHardwareH264Level',
+                    'rpiCameraSoftwareH264Profile',
+                    'rpiCameraSoftwareH264Level',
+                    'rpiCameraMJPEGQuality',
+                    'rpiCameraAfWindow',
+                    'rpiCameraFlickerPeriod',
+                ]
+            },{
+                name: '&nbsp;',
+                slug: '5',
+                fields: [
                     'rpiCameraTextOverlayEnable',
                     'rpiCameraTextOverlay',
                     'rpiCameraCodec',
