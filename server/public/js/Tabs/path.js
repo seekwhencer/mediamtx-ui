@@ -3,7 +3,6 @@ import Tab from "./tab.js";
 import PathGroups from "./path_groups.js";
 import GroupNavigation from "./group_navigation.js";
 
-
 export default class PathDefaultsTab extends Tab {
     constructor(page) {
         super(page);
@@ -27,7 +26,7 @@ export default class PathDefaultsTab extends Tab {
     }
 
     renderGroup() {
-       this.items = {};
+        this.items = {};
 
         this.groupsElement ? this.groupsElement.remove() : null;
         this.groupsElement = document.createElement("div");
@@ -55,8 +54,8 @@ export default class PathDefaultsTab extends Tab {
                 this.settings.on('update', (prop, value) => this.updateItem(prop, value))
             ];
         }
-
     }
+
     updateItem(prop, value) {
         if (!this.items[prop])
             return;

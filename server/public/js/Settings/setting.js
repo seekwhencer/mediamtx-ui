@@ -12,9 +12,11 @@ export default class Setting {
     }
 
     action(action, prop, value) {
-        action === 'create' ? console.log(this.label, 'CREATED +', prop.padEnd(30, '.'), (this.getType(value)).padEnd(10, '.'), value) : null;
-        action === 'update' ? console.log(this.label, 'UPDATED >', this.constructor.name.padEnd(20, '.'), prop.padEnd(30, '.'), (this.getType(value)).padEnd(10, '.'), value) : null;
-        action === 'delete' ? console.log(this.label, 'DELETED !', this.constructor.name.padEnd(20, '.'), prop.padEnd(30, '.')) : null;
+        if (this.debug) {
+            action === 'create' ? console.log(this.label, 'CREATED +', prop.padEnd(30, '.'), (this.getType(value)).padEnd(10, '.'), value) : null;
+            action === 'update' ? console.log(this.label, 'UPDATED >', this.constructor.name.padEnd(20, '.'), prop.padEnd(30, '.'), (this.getType(value)).padEnd(10, '.'), value) : null;
+            action === 'delete' ? console.log(this.label, 'DELETED !', this.constructor.name.padEnd(20, '.'), prop.padEnd(30, '.')) : null;
+        }
 
         this.emit(action, prop, value);
     }

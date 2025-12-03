@@ -201,6 +201,7 @@ video {
                     select {
                         flex: 1;
                     }
+
                     input {
                         flex: 3;
                     }
@@ -240,7 +241,4 @@ video {
             }
         }
     }
-
 }
-
-.

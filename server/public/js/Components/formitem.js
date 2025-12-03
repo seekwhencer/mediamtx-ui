@@ -6,6 +6,7 @@ import SelectInput from './selectinput.js';
 import MultiCheckboxInput from './multicheckboxinput.js';
 import MultiTextInput from './multitextinput.js';
 import PermissionsInput from "./permissions.js";
+import NumberInput from './numberinput.js';
 
 export default class FormItem extends Component {
     constructor(settings, prop, options = {}, tab) {
@@ -33,21 +34,35 @@ export default class FormItem extends Component {
         if (this.dataType === 'string' || this.dataType === 'number') {
             if (this.values) {
 
-                // select input
-                this.item = new SelectInput(this.settings, this.prop, {
-                    name: `input-${this.name}`
-                }, this);
-                this.element.append(this.item.element);
+                if (this.dataTypeValues === 'array') {
+                    // select input
+                    this.item = new SelectInput(this.settings, this.prop, {
+                        name: `input-${this.name}`
+                    }, this);
+                    this.element.append(this.item.element);
 
-                // the clear button
-                const clearButton = new Button(this.settings, this.prop, {
-                    innerHTML: '🞬',
-                    className: 'button clear',
-                    onclick: () => this.value = ''
-                }, this);
-                this.element.append(clearButton.element);
+                    // the clear button
+                    const clearButton = new Button(this.settings, this.prop, {
+                        innerHTML: '🞬',
+                        className: 'button clear',
+                        onclick: () => this.value = ''
+                    }, this);
+                    this.element.append(clearButton.element);
+                }
+
+                if (this.dataTypeValues === 'object') {
+                    if (Object.keys(this.values).includes('min')) { // min, max fields
+                        this.item = new NumberInput(this.settings, this.prop, {
+                            name: `input-${this.name}`,
+                            min: this.values.min,
+                            max: this.values.max,
+                            step: this.values.step
+                        }, this);
+                        this.element.append(this.item.element);
+                    }
+                }
+
             } else {
-
                 // text input
                 this.item = new TextInput(this.settings, this.prop, {
                     name: `input-${this.name}`

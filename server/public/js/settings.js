@@ -1,5 +1,3 @@
-import EventEmitter from "./event_emitter.js";
-import DataProxy from "./data_proxy.js";
 import {
     GeneralSettings,
     AuthSettings,
@@ -18,7 +16,7 @@ import {
 
 export default class Settings {
     constructor(page) {
-        this.debug = true;
+        this.debug = false;
         this.label = this.constructor.name.toUpperCase();
         this.page = page;
         this.events = this.page.events;
@@ -41,7 +39,9 @@ export default class Settings {
 
         this.listeners = [
             this.on('loaded-global', () => this.created ? this.mergeGlobalDiffProps() : null),
-            this.on('loaded-path-defaults', () => this.created ? this.mergePathDiffProps() : null)
+            this.on('loaded-path-defaults', () => this.created ? this.mergePathDiffProps() : null),
+            this.on('loaded-paths-list', () => this.created ? this.mergePathsList() : null),
+            this.on('loaded-users', () => this.created ? this.mergeUsersList() : null)
         ];
 
         //@TODO
@@ -60,7 +60,7 @@ export default class Settings {
 
         await this.loadGlobal();
         await this.loadPathDefaults();
-        //await this.loadPathsList();
+        await this.loadPathsList();
 
         if (!this.created) {
             await this.create();
@@ -200,6 +200,28 @@ export default class Settings {
         }
     }
 
+    mergePathsList() {
+        console.log(this.label, 'MERGE PATHS LIST DIFF PROPS');
+        const to = this.paths;
+        for (const k of to.keys()) {
+            if (JSON.stringify(this.config.paths[k]) !== JSON.stringify(to[k])) {
+                to[k] = this.config.paths[k];
+                this.debug ? console.log(this.label, '>>>', k, to[k]) : null;
+            }
+        }
+    }
+
+    mergeUsersList() {
+        console.log(this.label, 'MERGE USERS LIST DIFF PROPS');
+        const to = this.users;
+        for (const k of to.keys()) {
+            if (JSON.stringify(this.config.users[k]) !== JSON.stringify(to[k])) {
+                to[k] = this.config.users[k];
+                this.debug ? console.log(this.label, '>>>', k, to[k]) : null;
+            }
+        }
+    }
+
     on(event, callback) {
         return this.events.on(event, callback);
     }
@@ -219,8 +241,6 @@ export default class Settings {
             return;
 
         this.debug ? console.log(this.label, 'ACTION', action, prop, value) : null;
-
-
     }
 
     async setPathConfig(pathName) {

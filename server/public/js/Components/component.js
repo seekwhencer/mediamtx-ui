@@ -12,6 +12,7 @@ export default class Component {
         this.debounceTime = 500; //ms
         this.dataType = getType(this.value);
         this.values = this.settings._.parent.options[this.prop] || false; //@TODO;
+        this.dataTypeValues = getType(this.values);
         this.name = `${prop.toLowerCase()}`;
         this.element = false;
     }

@@ -14,6 +14,7 @@ export default class Icons extends EventEmitter {
             {name: 'play'},
             {name: 'circle'},
             {name: 'chart-no-axes-combined'},
+            {name: 'user'},
         ];
     }
 

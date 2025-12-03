@@ -4,7 +4,7 @@ export default class ApiSettings extends Setting {
     constructor(settings) {
         super(settings);
 
-        this.debug = true;
+        this.debug = false;
         this.config = this.settings.config;
         this.source = this.config.global;
         this.fields = [

@@ -65,7 +65,8 @@ select {
 }
 
 
-input[type=text] {
+input[type=text],
+input[type=number] {
     display: inline-block;
     margin: 0 0 0 2px;
     padding: 8px;
@@ -105,7 +106,7 @@ input[type=checkbox] {
         content: "";
         display: block;
         width: 40px;
-        height:19px;
+        height: 19px;
         overflow: hidden;
         background-color: var(--light-med-bg);
         border: 1px solid var(--light-border-color);
