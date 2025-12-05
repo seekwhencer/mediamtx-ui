@@ -5,7 +5,7 @@ export default class DataProxy {
 
         this.parent = parent;
         this.events = this.parent.events || new EventEmitter();
-        this.target = target;
+        this.target = target || {};
         this.lift = lift;
 
         this.data = new Proxy(this.target, {

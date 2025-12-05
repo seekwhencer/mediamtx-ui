@@ -2,12 +2,12 @@ import DataProxy from "../../data_proxy.js";
 import Button from "../button.js";
 
 export default class UserRow {
-    constructor(user, index, tab) {
-
-        this.tab = tab;
-        this.user = user;
+    constructor(index, tab) {
         this.index = index;
+        this.tab = tab;
+        this.page = this.tab.page;
         this.events = this.tab.events;
+        this.user = this.settings[this.index];
         this.data = new DataProxy(this.user, this);
         this.debounceTime = 500; //ms
 
@@ -31,18 +31,29 @@ export default class UserRow {
             return element;
         }
 
+        // index number
         const indexElement = document.createElement("div");
         indexElement.className = 'index';
         indexElement.innerHTML = `#${this.index + 1}`;
-        this.element.appendChild(indexElement);
+        this.element.append(indexElement);
 
+        // delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.className = 'delete';
+        deleteButton.innerHTML = `${this.page.icons.svg['user-minus']} Delete user`;
+        deleteButton.onclick = () => this.delete();
+        this.element.append(deleteButton);
+
+        // username
         const f1 = field('USERNAME', 'username');
         this.element.append(f1);
 
         this.userName = document.createElement('input');
         this.userName.value = this.user.user;
         this.userName.type = 'text';
-        this.userName.oninput = e => this.data.user = e.target.value;
+        this.userName.onblur = e => this.data.user = e.target.value;
+        this.userName.onkeyup = e => e.key === 'Enter' ? this.data.user = e.target.value : null;
+
         f1.append(this.userName);
 
         const f2 = field('PASSWORD', 'password');
@@ -52,7 +63,8 @@ export default class UserRow {
         this.userPass.value = this.user.pass;
         this.userPass.type = 'text';
         this.userPass.placeholder = 'plain or as secure key';
-        this.userPass.oninput = e => this.data.pass = e.target.value;
+        this.userPass.onblur = e => this.data.pass = e.target.value;
+        this.userPass.onkeyup = e => e.key === 'Enter' ? this.data.pass = e.target.value : null;
         f2.append(this.userPass);
 
         const f3 = field('PERMISSIONS', 'permissions');
@@ -67,16 +79,17 @@ export default class UserRow {
         this.userIPS = this.renderIPS();
         f4.append(this.userIPS);
 
-        this.concatPermissions();
-        this.concatIPS();
+        this.updatePermissions();
+        this.updateIPS();
 
+        return this.element
     }
 
     renderPermissions() {
         const element = document.createElement("div");
         element.className = 'permissions';
 
-        this.user.permissions.forEach(p => {
+        this.data.permissions.forEach(p => {
             const row = this.renderPermissionRow(p)
             element.append(row);
         });
@@ -103,7 +116,8 @@ export default class UserRow {
         const input = document.createElement('input');
         input.type = 'text';
         input.value = value.path || '';
-        input.oninput = e => this.concatPermissions();
+        input.onblur = e => this.concatPermissions();
+        input.onkeyup = e => e.key === 'Enter' ? this.concatPermissions() : null;
         input.placeholder = 'path ...';
         row.append(input);
 
@@ -126,7 +140,8 @@ export default class UserRow {
         const input = document.createElement('input');
         input.type = 'text';
         input.value = ip || '';
-        input.oninput = e => this.concatIPS();
+        input.onblur = e => this.concatIPS();
+        input.onkeyup = e => e.key === 'Enter' ? this.concatIPS() : null;
         input.placeholder = 'add new ...';
         return input;
     }
@@ -137,18 +152,17 @@ export default class UserRow {
     }
 
     action(action, field, value) {
-        //console.log('>>>>>>', action, this.index, field, value);
-        this.settings[this.index] = this.data.target;
-
-        //clearTimeout(this.timer);
-        //this.timer = setTimeout(() => this.tab.page.settings.setGlobalConfig(), this.debounceTime);
+        this.settings[this.index] = this.data._.target;
+        clearTimeout(this.timer);
         this.timer = setTimeout(() => this.settingsProxy.action(action, this.index, this.value), this.debounceTime);
     }
 
     concatPermissions() {
+        if (this.userName.value === '')
+            return;
+
         const values = [];
         const rows = [...this.userPermissions.querySelectorAll('.row')];
-
         rows.forEach(row => {
             const action = row.querySelector('select').value;
             const path = row.querySelector('input[type=text]').value;
@@ -157,42 +171,59 @@ export default class UserRow {
                 path: path,
             }) : null;
         });
+        this.data.permissions = values;
+        //this.updatePermissions();
+    }
 
+    updatePermissions() {
+        const rows = [...this.userPermissions.querySelectorAll('.row')];
         // drop all empty rows
         rows.forEach(row => {
             const select = row.querySelector('select');
-            const input = row.querySelector('input[type=text]');
-            console.log(select.value);
             if (select.value === '')
                 row.remove();
         });
         // add new empty row
         const add = this.renderPermissionRow({action: '', path: ''});
         this.userPermissions.append(add);
-
-        this.element.value = JSON.stringify(values);
-        console.log('>>> PERMISSIONS:', values);
-
-        this.data.permissions = values;
-
-        //this.value = values; // debounced
     }
 
     concatIPS() {
+        if (this.userName.value === '')
+            return;
+
         const values = [];
         const inputs = [...this.userIPS.querySelectorAll('input')];
-
-        inputs.forEach(input => input.value === '' ? input.remove() : null);
         inputs.forEach(input => values.push(input.value));
-
-        const input = this.renderIPSRow('');
-        this.userIPS.append(input);
-
         this.data.ips = values;
     }
 
-    setUser(user) {
+    updateIPS() {
+        const inputs = [...this.userIPS.querySelectorAll('input')];
+        inputs.forEach(input => input.value === '' ? input.remove() : null);
+        const input = this.renderIPSRow('');
+        this.userIPS.append(input);
+    }
 
+    delete() {
+        this.settings.splice(this.index, 1);
+        this.tab.render();
+    }
+
+    setUser(user) {
+        this.data._.target = user;
+
+        this.render();
+
+        //this.render();
+        //this.userName.value = user.user;
+        //this.userPass.value = user.pass;
+        //this.updatePermissions();
+        //this.updateIPS();
+
+        //console.log('????', user);
+        //this.data.target = user;
+        //this.render();
     }
 
     get value() {

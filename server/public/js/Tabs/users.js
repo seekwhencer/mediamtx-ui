@@ -22,9 +22,19 @@ export default class UsersTab extends Tab {
         this.items = {};
 
         this.settings.forEach((user, i) => {
-            const row = this.renderRow(user, i);
+            const row = this.renderRow(i);
             this.element.append(row);
         });
+
+        // new one
+        //const row = this.renderRow(this.settings.length);
+        //this.element.append(row);
+
+        this.addButton = document.createElement('button');
+        this.addButton.innerHTML = `${this.page.icons.svg['user-plus']} Add user`;
+        this.addButton.className = 'add';
+        this.addButton.onclick = () => this.addUser();
+        this.element.append(this.addButton);
 
         this.listeners ? this.listeners.forEach(eject => eject()) : null;
         this.listeners = [
@@ -33,8 +43,8 @@ export default class UsersTab extends Tab {
         ];
     }
 
-    renderRow(user, index) {
-        this.items[index] = new UserRow(user, index, this);
+    renderRow(index) {
+        this.items[index] = new UserRow(index, this);
         return this.items[index].element;
     }
 
@@ -42,8 +52,17 @@ export default class UsersTab extends Tab {
         if (!this.items[index])
             return;
 
-        console.log(this.label, '> UPDATE ITEM', index, user);
-        this.items[index].setUser(user);
+        this.render(); // sorry
+    }
+
+    addUser() {
+        this.settings[this.settings.length] = {
+            user: 'new',
+            pass: '',
+            permissions : [],
+            ips: []
+        };
+        this.render();
     }
 
     get settings() {

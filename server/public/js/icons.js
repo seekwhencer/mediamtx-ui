@@ -15,6 +15,8 @@ export default class Icons extends EventEmitter {
             {name: 'circle'},
             {name: 'chart-no-axes-combined'},
             {name: 'user'},
+            {name: 'user-minus'},
+            {name: 'user-plus'},
         ];
     }
 
