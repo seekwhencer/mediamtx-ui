@@ -3,20 +3,21 @@ import DataProxy from "../../data_proxy.js";
 import GroupNavigation from "../../Tabs/group_navigation.js";
 
 export default class StreamRow {
-    constructor(index, tab) {
-        this.index = index;
+    constructor(pathName, tab) {
+        this.label = this.constructor.name;
+        this.pathName = pathName;
         this.tab = tab;
         this.page = this.tab.page;
         this.events = this.tab.events;
-        this.stream = this.settings[this.index];
+        this.stream = this.settings[this.pathName];
+        this.stream.name = this.pathName
         this.data = new DataProxy(this.stream, this);
-        this.debounceTime = 500; //ms
         this.groups = this.tab.groups;
 
-
-        this.pathSettings = this.page.settings.path._.parent;
+        this.pathSettings = this.page.settings.path._.parent; // sorry
         this.options = this.pathSettings.options;
         this.fields = this.pathSettings.fields;
+        this.inputType = this.pathSettings.inputType;
 
         this.render();
     }
@@ -39,6 +40,12 @@ export default class StreamRow {
         this.navigation = new GroupNavigation(this);
         this.navigation.render();
 
+        const item = new FormItem(this.data, 'name', {
+            className: 'item name'
+        }, this);
+        this.element.append(item.element);
+        this.items.name = item;
+
         this.groupsElement = this.renderGroup();
         this.element.append(this.groupsElement);
 
@@ -56,7 +63,6 @@ export default class StreamRow {
             this.group.tabs.forEach(tab => {
                 const group = document.createElement("div");
                 group.className = "group";
-                group.innerHTML = `<h2>${tab.name}</h2>`;
                 if (tab.fields) {
                     tab.fields.forEach(f => {
                         const item = new FormItem(this.data, f, {}, this);
@@ -66,65 +72,17 @@ export default class StreamRow {
                 }
                 groupsElement.append(group);
             });
-
-            /*this.listeners ? this.listeners.forEach(eject => eject()) : null;
-            this.listeners = [
-                this.settings.on('create', (prop, value) => this.updateItem(prop, value)),
-                this.settings.on('update', (prop, value) => this.updateItem(prop, value))
-            ];*/
         }
-
         return groupsElement;
     }
 
-    /*render() {
-        this.element = document.createElement("div");
-        this.element.className = 'path';
+    action(action, prop, value) {
+        console.log(this.label, this.pathName, 'ACTION:', action, prop, value);
+        console.log(this.label, this.pathName, this.data);
 
-        // delete button
-        const deleteButton = document.createElement("button");
-        deleteButton.className = 'delete';
-        deleteButton.innerHTML = `${this.page.icons.svg['user-minus']} Delete user`;
-        deleteButton.onclick = () => this.delete();
-        this.element.append(deleteButton);
-
-        const f1 = field('NAME', 'name');
-        this.element.append(f1);
-
-        this.pathName = document.createElement('input');
-        this.pathName.value = this.data.name;
-        this.pathName.type = 'text';
-        this.pathName.onblur = e => this.data.name = e.target.value;
-        this.pathName.onkeyup = e => e.key === 'Enter' ? this.data.name = e.target.value : null;
-        f1.append(this.pathName);
-
-        const groups = this.renderGroups();
-        this.element.append(groups);
-
-        return this.element;
     }
 
-    renderGroups() {
-        const element = document.createElement("div");
-        element.className = 'groups';
-        const group = this.groups.filter(g => g.slug === 'source')[0];
-
-        group.tabs.forEach((tab) => {
-            const element = document.createElement("div");
-            element.className = 'groups';
-
-            tab.fields.forEach((f) => {
-                const f1 = field(splitCamelCase(f).toUpperCase());
-                this.element.append(f1);
-            })
-
-
-        });
-
-        return element;
-    }*/
     destroy() {
-
     }
 
     delete() {
@@ -141,7 +99,7 @@ export default class StreamRow {
     }
 
     get value() {
-        return this.settings[this.index];
+        return this.settings[this.pathName];
     }
 
     set value(value) {

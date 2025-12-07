@@ -7,8 +7,8 @@ export default class FormItem extends Component {
 
         this.elementTag = 'div';
         this.defaults = {
-            'id': '',
-            'className': 'item'
+            id: '',
+            className: 'item'
         };
 
         this.init();

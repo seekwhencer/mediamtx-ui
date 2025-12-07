@@ -8,6 +8,7 @@ export default class PathSettings extends Setting {
         this.config = this.settings.config;
         this.source = this.config.path;
         this.fields = [
+            'name',
             'source',
             'sourceFingerprint',
             'sourceOnDemand',

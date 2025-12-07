@@ -6,10 +6,8 @@ import PathGroups from "./path_groups.js";
 export default class StreamsTab extends Tab {
     constructor(page) {
         super(page);
-
         this.groups = PathGroups;
-
-   }
+    }
 
     render() {
         if (this.element)
@@ -23,8 +21,6 @@ export default class StreamsTab extends Tab {
     }
 
     renderRows() {
-        console.log(this.label, 'PATH', this.settings);
-
         this.items = {};
         this.settings.keys().forEach((path) => {
             const row = this.renderRow(path);
@@ -37,11 +33,11 @@ export default class StreamsTab extends Tab {
         this.addButton.onclick = () => this.add();
         this.element.append(this.addButton);
 
-        this.listeners ? this.listeners.forEach(eject => eject()) : null;
+        /*this.listeners ? this.listeners.forEach(eject => eject()) : null;
         this.listeners = [
             this.settings.on('create', (key, path) => this.updateItem(key, path)),
             this.settings.on('update', (key, path) => this.updateItem(key, path))
-        ];
+        ];*/
     }
 
     renderRow(path) {

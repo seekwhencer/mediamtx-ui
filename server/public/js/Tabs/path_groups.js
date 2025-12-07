@@ -8,7 +8,8 @@ const PathGroups = [
             {
                 name: 'Source',
                 slug: 'source',
-                fields: ['source',
+                fields: [
+                    'source',
                     'sourceRedirect',
                     'sourceFingerprint',
                     'sourceOnDemand',

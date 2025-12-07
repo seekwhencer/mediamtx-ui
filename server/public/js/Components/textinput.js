@@ -13,7 +13,9 @@ export default class TextInput extends Component {
             dataset: {},
             value: this.settings[this.prop],
             placeholder: 'type something ...',
-            oninput: (e) => this.value = e.target.value,
+            //oninput: (e) => this.value = e.target.value,
+            onblur: (e) => this.value = e.target.value,
+            onkeyup: e => e.key === 'Enter' ? this.value = e.target.value : null
         };
 
         this.init();

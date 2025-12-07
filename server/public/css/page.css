@@ -135,6 +135,10 @@ video {
 
             .item {
                 width: 100%;
+
+                input[type=text], select {
+
+                }
             }
         }
     }
@@ -365,17 +369,38 @@ video {
 
 .paths {
     .path {
-        display: flex;
+        display: grid;
+        grid-template-columns: 20% 1fr; /* links fix 20%, rechts flexibel */
+        grid-auto-rows: auto;
+        width: 100%;
+        gap: 8px;
+        align-items: start;
+
         border: 1px solid var(--light-border-color);
         border-radius: 5px;
         margin-bottom: 30px;
         padding: 10px 0;
         position: relative;
 
+        .name {
+            grid-column: 2;
+            grid-row: 1;
+            align-self: start;
+
+            input[type=text] {
+                font-weight: 800;
+                font-size: 25px;
+
+                border: none;
+                border-bottom: 2px solid var(--light-border-color);
+            }
+        }
 
         .group-navigation {
-            flex: 1;
+            grid-column: 1;
+            grid-row: 1 / span 2;
             padding: 80px 30px 0 30px;
+            box-sizing: border-box;
 
             button {
                 width: 100%;
@@ -384,7 +409,9 @@ video {
         }
 
         .groups {
-            flex: 5;
+            grid-column: 2;
+            grid-row: 2;
+            align-self: start;
         }
     }
 
