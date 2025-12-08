@@ -4,13 +4,16 @@ import GroupNavigation from "../../Tabs/group_navigation.js";
 
 export default class StreamRow {
     constructor(pathName, tab) {
-        this.label = this.constructor.name;
+        this.label = this.constructor.name.toUpperCase();
         this.pathName = pathName;
         this.tab = tab;
         this.page = this.tab.page;
         this.events = this.tab.events;
-        this.stream = this.settings[this.pathName];
-        this.stream.name = this.pathName
+        this.stream = this.page.settings.paths[this.pathName]; //this.settings[this.pathName];
+
+        //console.log(this.label, '???', this.stream);
+
+        this.stream.name = this.pathName;
         this.data = new DataProxy(this.stream, this);
         this.groups = this.tab.groups;
 
@@ -77,15 +80,16 @@ export default class StreamRow {
     }
 
     action(action, prop, value) {
-        console.log(this.label, this.pathName, 'ACTION:', action, prop, value);
-        console.log(this.label, this.pathName, this.data);
-
+        //console.log(this.label, this.pathName, 'ACTION:', action, prop, value);
+        //console.log(this.label, this.pathName, this.data);
+        this.tab.action(action, this.pathName, this.data.target);
     }
 
     destroy() {
     }
 
     delete() {
+        this.tab.deleteItem(this.data.name);
     }
 
     get group() {

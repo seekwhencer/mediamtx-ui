@@ -20,8 +20,6 @@ export default class UsersSettings extends Setting {
     action(action, prop, value) {
         super.action(action, prop, value);
 
-        console.log('HOSSSA', action, prop, value);
-
         if (this.settings.created)
             this.settings.setGlobalConfig();
 

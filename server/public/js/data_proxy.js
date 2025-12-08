@@ -3,6 +3,7 @@ import EventEmitter from "./event_emitter.js";
 export default class DataProxy {
     constructor(target, parent, lift = true) {
 
+        this.label = this.constructor.name.toUpperCase();
         this.parent = parent;
         this.events = this.parent.events || new EventEmitter();
         this.target = target || {};
@@ -34,6 +35,8 @@ export default class DataProxy {
 
             set: (target, prop, value) => {
                 value = this.transformDatatype(target[prop], value);
+
+                //console.log((target[prop] === value), prop);
 
                 if (target[prop] === value)
                     return true;

@@ -19,6 +19,8 @@ export default class Setting {
         }
 
         this.emit(action, prop, value);
+
+        this.settings.action(action, prop, value);
     }
 
     setFields() {

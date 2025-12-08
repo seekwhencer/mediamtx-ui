@@ -178,6 +178,10 @@ export default class Settings {
         }
     }
 
+    async setPathsConfig() {
+
+    }
+
     mergeGlobalDiffProps() {
         console.log(this.label, 'MERGE GLOBAL DIFF PROPS');
         ['general', 'auth', 'api', 'pprof', 'playback', 'rtsp', 'rtmp', 'hls', 'webrtc', 'srt'].forEach(c => {
