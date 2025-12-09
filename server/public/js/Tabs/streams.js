@@ -112,7 +112,6 @@ export default class StreamsTab extends Tab {
             console.log(this.label, 'RENAMING PATH:', name, data.name);
             // delete the old one
             await this.delete(name);
-
             // add the with a new name
             await this.add(data);
             this.render();
@@ -140,9 +139,8 @@ export default class StreamsTab extends Tab {
         }
     }
 
-    async updatePath(name) {
+    async updatePath(name, data) {
         const url = `${this.page.settings.replacePathUrl}/${name}`;
-        const data = this.settings[name];
 
         const res = await fetch(url, {
             method: 'POST',

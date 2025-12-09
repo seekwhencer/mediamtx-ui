@@ -59,7 +59,7 @@ export default class SelectTextInput extends Component {
 
         if (value !== 'publisher')
             this.settings['sourceOnDemand'] = 'false';
-        
+
         this.value = value;
         this.check();
 

@@ -387,6 +387,7 @@ video {
             grid-column: 2;
             grid-row: 1;
             align-self: start;
+            height: 70px;
 
             input[type=text] {
                 font-weight: 800;
@@ -394,6 +395,18 @@ video {
 
                 border: none;
                 border-bottom: 2px solid var(--light-border-color);
+            }
+
+            select {
+                font-size: 25px;
+                right: 26px;
+                position: absolute;
+                border: none;
+                border-bottom: 2px solid var(--light-border-color);
+            }
+
+            button {
+                top: 35px;
             }
         }
 

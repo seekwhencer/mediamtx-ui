@@ -103,6 +103,7 @@ export default class PathSettings extends Setting {
         ];
 
         this.options = {
+            name: ['', 'all_others'],
             source: ['', 'publisher', 'redirect', 'rpiCamera'],
             recordFormat: ['fmp4', 'mpegts'],
             rtspTransport: ['automatic', 'tcp', 'udp', 'http'],
@@ -129,7 +130,8 @@ export default class PathSettings extends Setting {
         };
 
         this.inputType = {
-            source: 'SelectTextInput'
+            source: 'SelectTextInput',
+            name: 'SelectTextInput'
         };
 
         // set the data

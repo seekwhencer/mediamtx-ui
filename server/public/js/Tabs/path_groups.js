@@ -35,15 +35,14 @@ const PathGroups = [
             {
                 name: 'Enabled',
                 slug: 'enabled',
-                fields: ['record']
+                fields: ['record', 'recordPath',
+                    'recordFormat',
+                    'recordMaxPartSize']
             }, {
                 name: 'Enabled',
                 slug: 'enabled',
                 fields: [
-                    'recordPath',
-                    'recordFormat',
                     'recordPartDuration',
-                    'recordMaxPartSize',
                     'recordSegmentDuration',
                     'recordDeleteAfter',
                 ]
@@ -87,7 +86,7 @@ const PathGroups = [
                     'rpiCameraSharpness',
 
                 ]
-            },{
+            }, {
                 name: '&nbsp;',
                 slug: '2',
                 fields: [
@@ -103,7 +102,7 @@ const PathGroups = [
                     'rpiCameraHDR',
                     'rpiCameraTuningFile',
                 ]
-            },{
+            }, {
                 name: '&nbsp;',
                 slug: '3',
                 fields: [
@@ -118,7 +117,7 @@ const PathGroups = [
                     'rpiCameraFlickerPeriod',
                     'rpiCameraCodec',
                 ]
-            },{
+            }, {
                 name: '&nbsp;',
                 slug: '4',
                 fields: [
@@ -132,7 +131,7 @@ const PathGroups = [
                     'rpiCameraAfWindow',
                     'rpiCameraFlickerPeriod',
                 ]
-            },{
+            }, {
                 name: '&nbsp;',
                 slug: '5',
                 fields: [
