@@ -148,7 +148,6 @@ video {
         display: inline-block;
         position: relative;
         min-height: 60px;
-        overflow: hidden;
 
         button.clear {
             position: absolute;
@@ -389,12 +388,24 @@ video {
             align-self: start;
             height: 70px;
 
+            &::before {
+                content: "/";
+                position: absolute;
+                font-size: 35px;
+                color: var(--light-border-color);
+                left: 10px;
+                bottom: 7px;
+                width: 20px;
+                height: 50px;
+            }
+
             input[type=text] {
                 font-weight: 800;
                 font-size: 25px;
 
                 border: none;
                 border-bottom: 2px solid var(--light-border-color);
+                padding-left: 20px;
             }
 
             select {
@@ -490,7 +501,7 @@ video {
 
             input[type=text] {
                 display: block;
-                width: calc(80% - 55px);
+                width: calc(80% - 70px);
             }
         }
 
