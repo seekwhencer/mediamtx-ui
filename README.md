@@ -1,4 +1,4 @@
-# 🎥mediamtx-uiw
+# 🎥mediamtx-ui
 Configure your mediamtx server per web ui.
 
 ![Screenshot #1](../master/screenshots/screenshot_01.png?raw=true "Screenshot Global Options")
