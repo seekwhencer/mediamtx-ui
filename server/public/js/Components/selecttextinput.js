@@ -4,6 +4,8 @@ import {Button, TextInput} from "./index.js";
 export default class SelectTextInput extends Component {
     constructor(settings, prop, options = {}, tab) {
         super(settings, prop, options, tab);
+        this.label = this.constructor.name.toUpperCase();
+
 
         this.elementTag = 'select';
         this.defaults = {
@@ -13,7 +15,7 @@ export default class SelectTextInput extends Component {
             dataset: {},
             name: `input-${this.name}`,
             value: this.settings[this.prop],
-            oninput: (e) => this.checkValue(e.target.value),
+            oninput: e => this.checkValue(e.target.value),
         };
 
         this.init();
@@ -40,54 +42,54 @@ export default class SelectTextInput extends Component {
         }, this.parent);
 
 
-        this.setValue(this.value);
-
         // the clear button
         this.clearButton = new Button(this.settings, this.prop, {
             innerHTML: '🞬',
             className: 'button clear',
-            onclick: () => this.checkValue = ''
+            onclick: () => this.checkValue('')
         }, this.parent);
 
         this.target.append(this.clearButton.element);
-        this.check();
+
+        if (this.values.includes(this.value)) {
+            this.setValue(this.value);
+        } else {
+            this.check();
+        }
+
     }
 
     checkValue(value) {
+        if (value === '') {
+            this.sourceInput.element.value = '';
+            this.element.value = '';
+        }
+
         if (value !== 'redirect')
             this.settings['sourceRedirect'] = '';
 
         if (value !== 'publisher')
             this.settings['sourceOnDemand'] = 'false';
 
-        this.value = value;
+        this.value = value
         this.check();
-
     }
-
 
     setValue(value) {
         super.setValue(value);
-        //this.sourceInput.element.value = this.value;
         this.check();
     }
 
     check() {
-        if (this.value !== 'redirect')
-            this.settings['sourceRedirect'] = '';
+        const inputValue = this.sourceInput.element.value;
 
-        if (this.value !== 'publisher')
-            this.settings['sourceOnDemand'] = 'false';
+        if (this.values.includes(inputValue)) {
+            this.sourceInput.element.value = '';
+        }
 
         const item = this.parent.element;
         if (this.element.value === '') {
-            if (this.values.includes(this.sourceInput.element.value)) {
-                this.sourceInput.setValue('');
-            } else {
-
-            }
             item.classList.add('custom');
-            //
         } else {
             item.classList.remove('custom');
         }
