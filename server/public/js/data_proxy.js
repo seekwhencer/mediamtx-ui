@@ -36,12 +36,10 @@ export default class DataProxy {
             set: (target, prop, value) => {
                 value = this.transformDatatype(target[prop], value);
 
-                //console.log((target[prop] === value), prop);
-
                 if (target[prop] === value)
                     return true;
 
-                const existing = !!target[prop];
+                const existing = target[prop] !== undefined;
                 const action = existing ? 'update' : 'create';
 
                 target[prop] = value;

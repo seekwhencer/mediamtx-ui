@@ -9,14 +9,14 @@ export default class StreamRow {
         this.tab = tab;
         this.page = this.tab.page;
         this.events = this.tab.events;
-        this.stream = this.page.settings.paths[this.pathName]; //this.settings[this.pathName];
 
-        //console.log(this.label, '???', this.stream);
-
+        this.stream = {...this.page.settings.paths.target[this.pathName]}; //this.settings[this.pathName];
         this.stream.name = this.pathName;
         this.data = new DataProxy(this.stream, this);
+
         this.groups = this.tab.groups;
 
+        // path defaults settings
         this.pathSettings = this.page.settings.path._.parent; // sorry
         this.options = this.pathSettings.options;
         this.fields = this.pathSettings.fields;
@@ -80,9 +80,9 @@ export default class StreamRow {
     }
 
     action(action, prop, value) {
-        //console.log(this.label, this.pathName, 'ACTION:', action, prop, value);
-        //console.log(this.label, this.pathName, this.data);
-        this.tab.action(action, this.pathName, this.data.target);
+        //console.log(this.label, this.pathName, 'ACTION:', action, prop, this.data.target[prop], this.settings[this.pathName][prop]);
+        this.tab.action(action, this.pathName, this.data.target, prop, value);
+
     }
 
     destroy() {

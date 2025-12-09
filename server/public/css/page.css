@@ -455,3 +455,31 @@ video {
         }
     }
 }
+
+.item {
+    &.select-text {
+        select {
+            width: calc(100% - 32px);
+            float: none;
+        }
+
+        input[type=text] {
+            display: none;
+
+        }
+
+        &.custom {
+            select {
+                width: 20%;
+                margin-right: 5px;
+                float: left;
+            }
+
+            input[type=text] {
+                display: block;
+                width: calc(80% - 55px);
+            }
+        }
+
+    }
+}

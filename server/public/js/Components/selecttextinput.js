@@ -13,7 +13,7 @@ export default class SelectTextInput extends Component {
             dataset: {},
             name: `input-${this.name}`,
             value: this.settings[this.prop],
-            oninput: (e) => this.value = e.target.value,
+            oninput: (e) => this.checkValue(e.target.value),
         };
 
         this.init();
@@ -31,11 +31,13 @@ export default class SelectTextInput extends Component {
         }) : null;
 
         this.target.append(this.element);
-        this.element.style.width = '20%';
-        this.element.style.float = 'left';
+        this.parent.element.classList.add('select-text');
 
         // the text input
-        this.sourceInput = new TextInput(this.settings, this.prop, {}, this.parent);
+        this.sourceInput = new TextInput(this.settings, this.prop, {
+            onblur: e => this.checkValue(e.target.value),
+            onkeyup: e => e.key === 'Enter' ? this.checkValue(e.target.value) : null
+        }, this.parent);
 
 
         this.setValue(this.value);
@@ -44,31 +46,50 @@ export default class SelectTextInput extends Component {
         this.clearButton = new Button(this.settings, this.prop, {
             innerHTML: '🞬',
             className: 'button clear',
-            onclick: () => this.value = ''
+            onclick: () => this.checkValue = ''
         }, this.parent);
 
         this.target.append(this.clearButton.element);
         this.check();
     }
 
+    checkValue(value) {
+        if (value !== 'redirect')
+            this.settings['sourceRedirect'] = '';
+
+        if (value !== 'publisher')
+            this.settings['sourceOnDemand'] = 'false';
+        
+        this.value = value;
+        this.check();
+
+    }
+
 
     setValue(value) {
         super.setValue(value);
-        this.sourceInput.element.value = this.value;
+        //this.sourceInput.element.value = this.value;
         this.check();
     }
 
     check() {
-        if (!this.values.includes(this.value) || this.value === '') {
-            this.element.style.width = '20%';
-            this.element.style.float = 'left';
-            this.element.style.marginRight = '5px';
-            this.sourceInput.element.style.display = 'block';
-            this.sourceInput.element.style.width = 'calc(80% - 57px)';
+        if (this.value !== 'redirect')
+            this.settings['sourceRedirect'] = '';
+
+        if (this.value !== 'publisher')
+            this.settings['sourceOnDemand'] = 'false';
+
+        const item = this.parent.element;
+        if (this.element.value === '') {
+            if (this.values.includes(this.sourceInput.element.value)) {
+                this.sourceInput.setValue('');
+            } else {
+
+            }
+            item.classList.add('custom');
+            //
         } else {
-            this.element.style.width = 'calc(100% - 32px)';
-            this.element.style.float = 'none';
-            this.sourceInput.element.style.display = 'none';
+            item.classList.remove('custom');
         }
     }
 }

@@ -62,9 +62,9 @@ export default class StreamsTab extends Tab {
         this.listeners ? this.listeners.forEach(eject => eject()) : null;
     }
 
-    action(action, name, data) {
+    action(action, name, data, prop, value) {
         if (action === 'update')
-            this.update(name, data);
+            this.update(name, data, prop, value);
     }
 
 
@@ -78,7 +78,7 @@ export default class StreamsTab extends Tab {
     }
 
     async addItem() {
-        await this.add();
+        await this.add(false);
         this.render();
     }
 
@@ -89,7 +89,10 @@ export default class StreamsTab extends Tab {
 
     async add(data) {
         if (!data)
-            data = this.page.settings.path.target;
+            data = {
+                ...this.page.settings.path.target,
+                name: 'new'
+            };
 
         data.source = 'publisher';
 
@@ -102,7 +105,9 @@ export default class StreamsTab extends Tab {
         await this.deletePath(name);
     }
 
-    async update(name, data) {
+    async update(name, data, prop, value) {
+        console.log(this.label, '>>>> PATH:', name, data.name);
+
         if (name !== data.name) { // on renaming
             console.log(this.label, 'RENAMING PATH:', name, data.name);
             // delete the old one
@@ -110,11 +115,12 @@ export default class StreamsTab extends Tab {
 
             // add the with a new name
             await this.add(data);
+            this.render();
         } else {
             console.log(this.label, 'PATH UPDATED:', name);
+            this.settings[name] = data;
             await this.updatePath(name, data);
         }
-        this.render();
     }
 
     async addPath(name) {
@@ -148,6 +154,8 @@ export default class StreamsTab extends Tab {
             console.log(this.label, 'REPLACE PATH CONFIG OK');
         } else {
             console.log(this.label, 'REPLACE PATH CONFIG ERROR', res.error);
+            //this.items[name].groupsElement.replace(this.items[name].renderGroup());
+            //this.render();
         }
     }
 
@@ -165,7 +173,6 @@ export default class StreamsTab extends Tab {
         } else {
             console.log(this.label, 'DELETE PATH CONFIG ERROR', res.error);
         }
-
     }
 
     get tracks() {
