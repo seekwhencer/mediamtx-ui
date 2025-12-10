@@ -69,7 +69,7 @@ export default class StreamsTab extends Tab {
 
 
     updateItem(path) {
-        console.log('!!!!!!!!!!!!', path);
+
 
         if (!this.items[path])
             return;
@@ -106,8 +106,6 @@ export default class StreamsTab extends Tab {
     }
 
     async update(name, data, prop, value) {
-        console.log(this.label, '>>>> PATH:', name, data.name);
-
         if (name !== data.name) { // on renaming
             console.log(this.label, 'RENAMING PATH:', name, data.name);
             // delete the old one

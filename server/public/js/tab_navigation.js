@@ -7,13 +7,13 @@ export default class TabNavigation {
 
         // slug equals page.tabs[SLUG]
         this.tabs = [
-            {name: "Overview", slug: "overview", icon: 'armchair'},
+            //{name: "Overview", slug: "overview", icon: 'armchair'},
             {name: "Server", slug: "server", icon: 'settings'},
-            {name: "Sources", slug: "sources", icon: 'shrink'},
+            //{name: "Sources", slug: "sources", icon: 'shrink'},
             {name: "Streams", slug: "streams", icon: 'expand'},
-            {name: "Playback", slug: "playback", icon: 'play'},
-            {name: "Recording", slug: "recording", icon: 'circle'},
-            {name: "Monitoring", slug: "monitoring", icon: 'chart-no-axes-combined'},
+            //{name: "Playback", slug: "playback", icon: 'play'},
+            //{name: "Recording", slug: "recording", icon: 'circle'},
+            //{name: "Monitoring", slug: "monitoring", icon: 'chart-no-axes-combined'},
             {name: "Path Defaults", slug: "path", icon: 'layers-2'},
             {name: "Users", slug: "users", icon: 'user'}
         ];

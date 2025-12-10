@@ -1,9 +1,10 @@
 # 🎥mediamtx-ui
 Configure your mediamtx server per web ui.
 
-![Screenshot #1](../master/screenshots/screenshot_01.png?raw=true "Screenshot Global Options")
-![Screenshot #10](../master/screenshots/screenshot_10.png?raw=true "Screenshot User List")
-![Screenshot #16](../master/screenshots/screenshot_16.png?raw=true "Screenshot Paths")
+![Screenshot Global Options](../master/screenshots/screenshot_01.png?raw=true "Screenshot Global Options")
+![Screenshot Paths](../master/screenshots/screenshot_10.png?raw=true "Screenshot Paths")
+![Screenshot Path Defaults](../master/screenshots/screenshot_12.png?raw=true "Screenshot Path Defaults")
+![Screenshot Users](../master/screenshots/screenshot_17.png?raw=true "Screenshot Users")
 
 ## 🡆 Prerequisites
 install Docker
@@ -67,6 +68,7 @@ docker compose up -d
 ![Screenshot #14](../master/screenshots/screenshot_14.png?raw=true "Screenshot #14")
 ![Screenshot #15](../master/screenshots/screenshot_15.png?raw=true "Screenshot #15")
 ![Screenshot #16](../master/screenshots/screenshot_16.png?raw=true "Screenshot #16")
+![Screenshot #17](../master/screenshots/screenshot_16.png?raw=true "Screenshot #17")
 
 ## 🡆 Hints
 - set up you raspberry pi 4 or 5 (expand filesystem, locale)

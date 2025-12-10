@@ -65,6 +65,7 @@ export default class SelectTextInput extends Component {
             this.element.value = '';
         }
 
+        //@TODO remove it!!!!
         if (value !== 'redirect')
             this.settings['sourceRedirect'] = '';
 
@@ -83,9 +84,8 @@ export default class SelectTextInput extends Component {
     check() {
         const inputValue = this.sourceInput.element.value;
 
-        if (this.values.includes(inputValue)) {
+        if (this.values.includes(inputValue))
             this.sourceInput.element.value = '';
-        }
 
         const item = this.parent.element;
         if (this.element.value === '') {
