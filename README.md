@@ -1,5 +1,9 @@
 # 🎥mediamtx-ui
-Configure your mediamtx server per web ui.
+Configure your [mediamtx server](https://mediamtx.org/) with this web ui.  
+- It is running in a dockerized setup.
+- The UI has it's own webserver, running in a separate container.  
+- Tested on a Raspberry pi 4.
+- At the moment: don't use it reachable from the web. Use it only in a lan scenario.
 
 ![Screenshot Global Options](https://raw.githubusercontent.com/seekwhencer/mediamtx-ui/refs/heads/master/screenshots/screenshot_01.png?raw=true "Screenshot Global Options")
 ![Screenshot Paths](https://raw.githubusercontent.com/seekwhencer/mediamtx-ui/refs/heads/master/screenshots/screenshot_10.png?raw=true "Screenshot Paths")
@@ -120,8 +124,6 @@ Now the Webserver is up on Port: `3000` 🡆 **[http://raspicam:3000](http://ras
 - fail safe inputs by resetting the fields to their previous working values
 
 ## 🡆 TODO
-- path defaults
-- user management
-- paths
 - source management
-- 
+- stream view tab
+- responsive
