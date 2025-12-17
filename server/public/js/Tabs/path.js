@@ -9,9 +9,11 @@ export default class PathDefaultsTab extends Tab {
         this.groups = PathGroups;
     }
 
-    render() {
+    async render() {
         if (this.element)
             this.destroy();
+
+        await this.page.settings.loadPathDefaults();
 
         // the box
         this.element = document.createElement("div");

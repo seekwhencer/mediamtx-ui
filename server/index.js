@@ -4,7 +4,7 @@ import Events from './lib/EventEmitter.js';
 import Server from "./lib/Server.js";
 import Streams from "./lib/Streams.js";
 
-export default class CameraServer extends Events {
+export default class Main extends Events {
     constructor() {
         super();
 
@@ -38,5 +38,5 @@ export default class CameraServer extends Events {
 
 }
 
-const CameraApp = new CameraServer();
+const CameraApp = new Main();
 CameraApp.run();

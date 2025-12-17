@@ -1,15 +1,30 @@
-import EventEmitter from "./event_emitter.js";
+import Tab from "./tab.js";
 
-export default class Sources extends EventEmitter {
+export default class SourcesTab extends Tab {
     constructor(page) {
-        super();
-        this.page = page;
-        //this.element = this.page.element.querySelector('[data-component="grid"]');
-
-
+        super(page);
     }
 
     render() {
 
+        if (this.element)
+            this.destroy();
+
+        // the box
+        this.element = document.createElement("div");
+        this.element.className = "tab sources";
+        this.page.element.append(this.element);
+    }
+
+    destroy() {
+        super.destroy();
+    }
+
+    get settings() {
+        return this.page.settings;
+    }
+
+    set settings(value) {
+        // do nothing
     }
 }

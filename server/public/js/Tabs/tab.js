@@ -14,7 +14,6 @@ export default class Tab {
     }
 
     destroy() {
-        this.items ? Object.keys(this.items).forEach(k => this.items[k].destroy()) : null;
         this.element ? this.element.remove() : null;
         this.listeners ? this.listeners.forEach(eject => eject()) : null;
     }

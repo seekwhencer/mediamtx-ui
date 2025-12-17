@@ -6,9 +6,11 @@ export default class UsersTab extends Tab {
         super(page);
     }
 
-    render() {
+    async render() {
         if (this.element)
             this.destroy();
+
+        await this.page.settings.loadGlobal();
 
         // the box
         this.element = document.createElement("div");

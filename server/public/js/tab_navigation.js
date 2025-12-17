@@ -7,7 +7,8 @@ export default class TabNavigation {
 
         // slug equals page.tabs[SLUG]
         this.tabs = [
-            //{name: "Overview", slug: "overview", icon: 'armchair'},
+            {name: "Overview", slug: "overview", icon: 'armchair'},
+
             {name: "Server", slug: "server", icon: 'settings'},
             //{name: "Sources", slug: "sources", icon: 'shrink'},
             {name: "Streams", slug: "streams", icon: 'expand'},
@@ -37,7 +38,7 @@ export default class TabNavigation {
 
         // open the first tab
         if (!this.selected)
-            this.selected = this.tabs[1].slug;
+            this.selected = this.tabs[0].slug;
 
     }
 

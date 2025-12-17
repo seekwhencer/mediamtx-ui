@@ -6,7 +6,6 @@ import Events from './EventEmitter.js';
 import DataProxy from './DataProxy.js';
 import Video from './Video.js';
 
-
 export default class Streams extends Events {
     constructor(app) {
         super();
@@ -19,8 +18,7 @@ export default class Streams extends Events {
 
         this.data = new DataProxy({}, this);
 
-        this.on('loaded', () => {
-        });
+        this.on('loaded', () => {});
     }
 
     async run() {

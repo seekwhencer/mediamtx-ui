@@ -33,6 +33,7 @@ const ServerGroups = [
                 slug: 'enabled',
                 fields: [
                     'hls',
+                    'hlsAddress'
                 ]
             }, {
                 name: 'Settings',

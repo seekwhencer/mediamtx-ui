@@ -2,14 +2,10 @@ import EventEmitter from "./event_emitter.js";
 
 import Icons from './icons.js'
 import Settings from "./settings.js";
-import TabNavigation from "./tab_navigation.js";
-
-import OverviewTab from "./Tabs/overview.js";
-import PathDefaultsTab from "./Tabs/path.js";
-import ServerTab from "./Tabs/server.js";
-import UsersTab from "./Tabs/users.js";
-import StreamsTab from "./Tabs/streams.js";
 import Help from "./help.js";
+
+import TabNavigation from "./tab_navigation.js";
+import * as Tabs from "./Tabs/index.js";
 
 export default class Page {
     constructor() {
@@ -19,12 +15,12 @@ export default class Page {
         this.tabNavigation = new TabNavigation(this);
 
         this.tabs = {
-            overview: new OverviewTab(this),
-            server: new ServerTab(this),
-            path: new PathDefaultsTab(this),
-            users: new UsersTab(this),
-            streams : new StreamsTab(this)
-            //sources : new Sources(this),
+            overview: new Tabs.OverviewTab(this),
+            sources : new Tabs.SourcesTab(this),
+            server: new Tabs.ServerTab(this),
+            path: new Tabs.PathDefaultsTab(this),
+            users: new Tabs.UsersTab(this),
+            streams : new Tabs.StreamsTab(this)
         };
     }
 

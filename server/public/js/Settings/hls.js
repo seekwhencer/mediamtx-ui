@@ -9,6 +9,7 @@ export default class HLSSettings extends Setting {
         this.source = this.config.global;
         this.fields = [
             'hls',
+            'hlsAddress',
             'hlsEncryption',
             'hlsServerKey',
             'hlsServerCert',

@@ -9,9 +9,11 @@ export default class ServerTab extends Tab {
         this.groups = ServerGroups;
     }
 
-    render() {
+    async render() {
         if (this.element)
             this.destroy();
+
+        await this.page.settings.loadGlobal();
 
         // the box
         this.element = document.createElement("div");
@@ -63,6 +65,11 @@ export default class ServerTab extends Tab {
 
         console.log(this.label, '> UPDATE ITEM', prop, value);
         this.items[prop].setValue(value);
+    }
+
+    destroy() {
+        this.items ? Object.keys(this.items).forEach(k => this.items[k].destroy()) : null;
+        super.destroy();
     }
 
     get settings() {

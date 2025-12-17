@@ -9,9 +9,11 @@ export default class StreamsTab extends Tab {
         this.groups = PathGroups;
     }
 
-    render() {
+    async render() {
         if (this.element)
             this.destroy();
+
+        await this.page.settings.loadPathsList();
 
         this.element = document.createElement("div");
         this.element.className = "tab paths";
