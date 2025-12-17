@@ -1,0 +1,65 @@
+.tab.overview {
+
+    .streams {
+        display: grid;
+        grid-auto-columns: 1fr;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        grid-auto-flow: row;
+
+        .stream-item {
+            display: block;
+            padding: 30px;
+            border: 1px solid var(--light-border-color);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            position: relative;
+            min-height: 120px;
+
+            .stream-name {
+                font-size: 25px;
+            }
+
+            .stream-type {
+                font-size: 10px;
+            }
+
+            .stream-viewers {
+                position: absolute;
+                right: 20px;
+                top: 30px;
+                padding: 0 0 17px 0;
+                border-radius: 5px;
+                font-size: 10px;
+                overflow: hidden;
+                text-transform: uppercase;
+
+
+                .stream-viewers-number {
+                    display: inline;
+                    padding: 30px;
+                    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
+                    font-size: 25px;
+                    vertical-align: middle;
+                }
+            }
+
+            .stream-label {
+                display: inline-block;
+                position: absolute;
+                bottom: 5px;
+                width: 100%;
+                text-align: center;
+                left: 0;
+            }
+
+
+            video {
+                margin-top: 10px;
+                position: relative;
+                width: 100%;
+                height: initial;
+            }
+        }
+    }
+}

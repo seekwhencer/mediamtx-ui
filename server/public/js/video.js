@@ -1,12 +1,9 @@
-import EventEmitter from "./event_emitter.js";
+export default class Video {
+    constructor(stream) {
+        this.label = this.constructor.name.toUpperCase();
 
-export default class Video extends EventEmitter {
-    constructor(streams, track) {
-        super();
-        this.streams = streams;
-        this.track = track;
-
-        this.name = this.track.name;
+        this.stream = stream;
+        this.name = this.stream.data.confName;
         this.url = `http://raspicam:8888/${this.name}/index.m3u8`;
     }
 
@@ -19,7 +16,6 @@ export default class Video extends EventEmitter {
         this.element.id = this.name;
 
         this.loaded = false;
-        this.streams.element.append(this.element);
         this.element.onclick = e => this.play();
 
         this.restartInterval = setInterval(() => {
@@ -34,6 +30,7 @@ export default class Video extends EventEmitter {
 
         }, 1000);
 
+        return this.element;
     }
 
     play() {
