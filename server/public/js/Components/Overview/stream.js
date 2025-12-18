@@ -32,7 +32,7 @@ export default class StreamItem {
         //--- type
         this.typeEl = document.createElement("div");
         this.typeEl.className = 'stream-type';
-        this.typeEl.textContent = `${splitCamelCase(this.data.source.type).toUpperCase()} - ${this.data.tracks.join(', ')}`;
+        this.typeEl.textContent = this.data.source && this.data.tracks ? `${splitCamelCase(this.data.source.type).toUpperCase()} - ${this.data.tracks.join(', ')}` : '';
         el.append(this.typeEl);
 
         //--- viewers
@@ -51,6 +51,7 @@ export default class StreamItem {
 
         this.video = new Video(this);
         el.append(this.video.render());
+        this.video.play();
 
 
         return this.element = el;
@@ -75,16 +76,11 @@ export default class StreamItem {
                 this.data.source && this.data.tracks.length > 0 ? this.typeEl.textContent = `${splitCamelCase(this.data.source.type).toUpperCase()} - ${this.data.tracks.join(', ')}` : null;
             }
         }
-
-        //this.viewersEl.textContent = value.length;
-        //console.log(this.label, this.data.confName, action, prop, value);
-
-
-        //console.log(this.label, this.data.confName, action, prop, value);
     }
 
     destroy() {
-
+        this.video.destroy();
+        this.element.remove();
     }
 
     get viewers() {

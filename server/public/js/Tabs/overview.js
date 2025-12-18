@@ -11,29 +11,23 @@ export default class OverviewTab extends Tab {
     }
 
     async render() {
-        if (this.element)
-            this.destroy();
-
-        await this.load();
 
         // the box
         this.element = document.createElement("div");
         this.element.className = "tab overview";
         this.page.element.append(this.element);
 
-        this.renderPathsList();
+        this.pathsEl = document.createElement("div");
+        this.pathsEl.classList.add('streams');
+        this.element.append(this.pathsEl);
+
+        await this.load();
+
     }
 
-    renderPathsList() {
-        const pathsEl = document.createElement("div");
-        pathsEl.classList.add('streams');
-
-        this.items.keys().forEach(i => {
-            const element = this.items[i].render();
-            pathsEl.append(element);
-        });
-
-        this.element.append(pathsEl);
+    renderPathItem(name) {
+        const element = this.items[name].render();
+        this.pathsEl.append(element);
     }
 
     async load() {
@@ -82,11 +76,17 @@ export default class OverviewTab extends Tab {
 
     action(action, prop, value) {
         console.log(this.label, action, prop, value);
+
+        if (action === 'create')
+            this.renderPathItem(prop);
+
+
     }
 
     destroy() {
         super.destroy();
         clearInterval(this.cylce);
+        this.items.keys().forEach(i => delete this.items[i]);
     }
 
     get settings() {

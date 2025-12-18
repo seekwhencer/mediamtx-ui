@@ -58,6 +58,7 @@
                 position: relative;
                 width: 100%;
                 height: initial;
+                background-color: var(--light-bg);
             }
         }
     }
