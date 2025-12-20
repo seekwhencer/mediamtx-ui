@@ -12,6 +12,16 @@
     --light-border-color: #ddd;
     --light-bg: #f0f0f0;
     --light-med-bg: #eee;
+
+    --shift-005: rgba(0, 0, 0, 0.05);
+    --shift-01: rgba(0, 0, 0, 0.1);
+    --shift-02: rgba(0, 0, 0, 0.2);
+
+    --space-s: 5px;
+    --space-m: 10px;
+    --space-l: 15px;
+    --space-xl: 20px;
+    --space-xxl: 30px;
 }
 
 :root[data-theme="dark"] {
@@ -21,4 +31,8 @@
     --light-border-color: #555;
     --light-bg: #444;
     --light-med-bg: #222;
+
+    --shift-005: rgba(255, 255, 255, 0.05);
+    --shift-01: rgba(255, 255, 255, 0.1);
+    --shift-02: rgba(255, 255, 255, 0.2);
 }

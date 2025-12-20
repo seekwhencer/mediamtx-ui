@@ -4,13 +4,13 @@
         grid-template-columns: 20% 1fr; /* links fix 20%, rechts flexibel */
         grid-auto-rows: auto;
         width: 100%;
-        gap: 8px;
+        gap: var(--space-xxl);
         align-items: start;
 
         border: 1px solid var(--light-border-color);
         border-radius: 5px;
         margin-bottom: 30px;
-        padding: 10px 0;
+        padding: var(--space-xl);
         position: relative;
 
         .name {
@@ -42,7 +42,7 @@
 
             select {
                 font-size: 25px;
-                right: 26px;
+                right: -5px;
                 position: absolute;
                 border: none;
                 border-bottom: 2px solid var(--light-border-color);

@@ -1,9 +1,13 @@
+html {
+    background-color: var(--page-bg);
+    background: linear-gradient(to bottom, var(--light-med-bg) 0%, var(--page-bg) 100%);
+    min-height: 100%;
+}
 
 body {
     font-family: var(--font-family);
     margin: 0;
     padding: 0;
-    background-color: var(--page-bg);
     color: var(--text-color);
 }
 

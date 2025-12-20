@@ -64,11 +64,11 @@ select {
     color: var(--text-color);
     border: 1px solid var(--light-border-color);
     background-color: var(--light-med-bg);
-    padding: 9px;
+    padding: 8px;
     border-radius: 3px;
     text-align: left;
     position: relative;
-    width: calc(100% - 30px);
+    width: calc(100% - 5px);
     margin-left: 2px;
 
     &:open {
@@ -110,7 +110,7 @@ input[type=number] {
     border: 1px solid var(--light-border-color);
     background-color: var(--light-med-bg);
     border-radius: 3px;
-    width: calc(100% - 50px);
+    width: calc(100% - 20px);
 
     &:focus-visible {
         outline: 2px solid var(--color-primary);

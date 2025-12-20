@@ -4,12 +4,13 @@
         display: grid;
         grid-auto-columns: 1fr;
         grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
+        gap: var(--space-xxl);
         grid-auto-flow: row;
 
         .stream-item {
             display: block;
-            padding: 30px;
+            padding: var(--space-xl);
+            background-color: var(--shift-005);
             border: 1px solid var(--light-border-color);
             border-radius: 10px;
             position: relative;
@@ -26,7 +27,7 @@
             .stream-viewers {
                 position: absolute;
                 right: 20px;
-                top: 30px;
+                top: var(--space-xl);
                 padding: 0 0 17px 0;
                 border-radius: 5px;
                 font-size: 10px;
