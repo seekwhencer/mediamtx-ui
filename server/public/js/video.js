@@ -2,9 +2,7 @@ export default class Video {
     constructor(stream) {
         this.label = this.constructor.name.toUpperCase();
         this.stream = stream;
-        this.name = stream.data.confName;
-        this.url = `http://raspicam:8888/${this.name}/index.m3u8`;
-
+        this.name = this.stream.data.confName;
         this.hls = null;
     }
 
@@ -86,5 +84,15 @@ export default class Video {
         }
 
         this.element.remove();
+    }
+
+    get url() {
+        const url = new URL(window.location.href);
+        //@todo check if the hlsAddress starts with :8888 for example
+        return `${url.protocol}//${url.hostname}${this.stream.tab.settings.hls.hlsAddress}/${this.name}/index.m3u8`;
+    }
+
+    set url(val){
+        ///
     }
 }

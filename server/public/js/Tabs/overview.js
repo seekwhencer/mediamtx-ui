@@ -85,7 +85,10 @@ export default class OverviewTab extends Tab {
     destroy() {
         super.destroy();
         clearInterval(this.cylce);
-        this.items.keys().forEach(i => delete this.items[i]);
+        this.items.keys().forEach(i => {
+            this.items[i].destroy();
+            delete this.items[i]
+        });
     }
 
     get settings() {
