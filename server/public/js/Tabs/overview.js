@@ -8,6 +8,7 @@ export default class OverviewTab extends Tab {
         this.baseUrl = '/mediamtx';
         this.pathsListUrl = `${this.baseUrl}/paths/list`;
         this.items = new DataProxy({}, this, false);
+        this.pollingDelay = 500; //ms
     }
 
     async render() {
@@ -57,6 +58,7 @@ export default class OverviewTab extends Tab {
             delete this.items[i];
         });
 
+        // create or update (patch)
         if (items.length > 0) {
             items.forEach(i => {
                 if (!this.items[i.confName]) {
@@ -70,7 +72,7 @@ export default class OverviewTab extends Tab {
 
     poll() {
         clearInterval(this.cylce);
-        this.cylce = setInterval(() => this.loadPathsList(), 500);
+        this.cylce = setInterval(() => this.loadPathsList(), this.pollingDelay);
     }
 
     action(action, prop, value) {

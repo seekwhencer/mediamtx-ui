@@ -11,6 +11,7 @@ services:
     ports:
       - "${HLS_PORT}:${HLS_PORT}"                   # HLS
       - "${RTSP_PORT}:${RTSP_PORT}"                 # RTSP
+      - "${RTMP_PORT}:${RTMP_PORT}"                 # RTMP
       - "${WEBRTC_PORT}:${WEBRTC_PORT}"             # WebRTC API
       - "${WEBRTC_UDP_PORT}:${WEBRTC_UDP_PORT}/udp" # WebRTC ICE/UDP
 #      - "${API_PORT}:${API_PORT}"                   # API
