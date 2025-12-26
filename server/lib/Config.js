@@ -1,9 +1,13 @@
 import {parse, stringify} from 'yaml';
+import {ensureFile, outputFile, move} from 'fs-extra';
 
 export default class Config {
     constructor(app) {
         this.app = app;
         this.apiUrlBase = `http://mediamtxui:3000/mediamtx`;
+        this.configFilename = 'mediamtx.yml';
+        this.configPath = `../config`;
+        this.configBackupPath = `../config/backup`;
     }
 
     async getYaml() {
@@ -25,7 +29,15 @@ export default class Config {
      * @returns {Promise<void>}
      */
     async rotateYaml() {
+        const configFilePath = `${this.configPath}/${this.configFilename}`;
 
+        const exists = await ensureFile(configFilePath);
+        if (exists)
+            return;
+
+        const timestamp = new Date().toISOString().replace("T", "_").replace(/:/g, "-").slice(0, 19);
+        const backupFilePath = `${this.configBackupPath}/${timestamp}.yml`;
+        await move(configFilePath, backupFilePath);
     }
 
     /**
@@ -33,7 +45,11 @@ export default class Config {
      * @returns {Promise<void>}
      */
     async writeYaml() {
+        const configFilePath = `${this.configPath}/${this.configFilename}`;
+        const yml = await this.getYaml();
 
+        await this.rotateYaml();
+        await outputFile(configFilePath, yml);
     }
 
     /**
