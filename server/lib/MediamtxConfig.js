@@ -1,9 +1,11 @@
 import {parse, stringify} from 'yaml';
 import {ensureFile, outputFile, move} from 'fs-extra';
 
-export default class Config {
-    constructor(app) {
-        this.app = app;
+export default class MediamtxConfig {
+    constructor(mediamtx) {
+        this.mediamtx = mediamtx;
+        this.app = this.mediamtx.app;
+        
         this.apiUrlBase = `http://mediamtxui:3000/mediamtx`;
         this.configFilename = 'mediamtx.yml';
         this.configPath = `../config`;

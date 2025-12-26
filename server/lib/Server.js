@@ -3,7 +3,6 @@ import session from "express-session";
 import csrf from "csurf";
 
 import Events from './EventEmitter.js';
-import MediamtxProxy from "./MediamtxProxy.js";
 import Routes from "./Routes/index.js";
 import AuthRoutes from "./Routes/Auth.js";
 
@@ -12,8 +11,10 @@ export default class Server extends Events {
         super();
 
         this.app = app;
+        this.mediamtx = this.app.mediamtx;
         this.publicDir = this.app.publicDir;
         this.dataDir = this.app.dataDir;
+
         this.port = process.env.SERVER_PORT || 3000;
 
         this.engine = express();
@@ -42,24 +43,10 @@ export default class Server extends Events {
         this.authRoutes = new AuthRoutes(this);
         this.engine.use('/auth', this.authRoutes.router);
 
-        // the mediamtx api proxy
-        this.mediamtxProxy = new MediamtxProxy(this, {
-            targetBaseUrl: "http://mediamtx:9997/v3",
-            apiUser: false,
-            apiPassword: false,
+        // Mediamtx API Proxy
+        this.engine.use('/mediamtx', this.mediamtx.proxy.router);
 
-            // optional: eigene Auth (JWT, API-Key, whatever)
-            beforeProxy: (req, res) => {
-                /*if (req.headers["x-api-key"] !== "meinkey") {
-                    res.status(401).json({ error: "Unauthorized" });
-                    return false;
-                }*/
-                return true;
-            }
-        });
-        this.engine.use('/mediamtx', this.mediamtxProxy.router);
-
-        //
+        // API routes
         this.routes = new Routes(this);
         this.engine.use('/api', this.routes.router);
     }

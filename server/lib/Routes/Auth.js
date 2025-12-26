@@ -1,6 +1,5 @@
 import express from "express";
 
-
 export default class AuthRoutes {
     constructor(server) {
         this.server = server;
@@ -47,7 +46,7 @@ export default class AuthRoutes {
         //
         this.router.get("/status", (req, res) => {
             res.json({
-                session: req.session,
+                session: process.env.NODE_ENV !== "production" ? req.session : null,
                 headers: req.headers
             });
         });

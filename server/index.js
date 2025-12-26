@@ -1,7 +1,7 @@
 import path from "path";
 
 import Events from './lib/EventEmitter.js';
-import Config from './lib/Config.js';
+import Mediamtx from './lib/Mediamtx.js';
 import Server from "./lib/Server.js";
 import Streams from "./lib/Streams.js";
 
@@ -18,7 +18,7 @@ export default class Main extends Events {
             process.exit(0);
         });
 
-        this.config = new Config(this);
+        this.mediamtx = new Mediamtx(this);
         this.streams = new Streams(this);
         this.server = new Server(this);
 
