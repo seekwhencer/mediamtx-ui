@@ -37,7 +37,7 @@ export default class Video extends Events {
         //this.on('stat', () => console.log('VIDEO STATS', this.name, `FRAME ${this.stats.frame}`, `TIME ${this.stats.time}`, `SPEED ${this.stats.speed}`));
 
         this.on('disconnected', async () => {
-            console.log('DISCONNECTED');
+            this.debug ? console.log('DISCONNECTED') : null;
             await new Promise(resolve => setTimeout(resolve, this.reconnect_delay));
             await this.run();
         });
@@ -49,7 +49,7 @@ export default class Video extends Events {
     async run() {
         // endless check
         while (await this.probe() === false) {
-            console.log('VIDEO RTSP URL NOT EXISTS:', this.rtsp_url);
+            this.debug ? console.log('VIDEO RTSP URL NOT EXISTS:', this.rtsp_url) : null;
             await new Promise(resolve => setTimeout(resolve, this.retry_probe_delay));
         }
 
@@ -70,7 +70,7 @@ export default class Video extends Events {
             `${this.rtsp_url}`
         ];
 
-        console.log('VIDEO SPAWN FFMPEG', this.name, options.join(' '));
+        this.debug ? console.log('VIDEO SPAWN FFMPEG', this.name, options.join(' ')) : null;
 
         this.process = spawn(this.bin, options, {detached: false});
 
@@ -106,7 +106,7 @@ export default class Video extends Events {
             });
 
             proc.on('close', () => {
-                console.log('####', stderr);
+                this.debug ? console.log('####', stderr) : null;
                 const checks = {
                     '404': "404 Not Found",
                     '400': "400 Bad Request",
@@ -119,7 +119,7 @@ export default class Video extends Events {
                 for (const [code, msg] of Object.entries(checks)) {
                     stderr.includes(msg) ? status = code : null;
                 }
-                console.log('VIDEO ERROR STATUS:', status, checks[status], this.rtsp_url);
+                this.debug ? console.log('VIDEO ERROR STATUS:', status, checks[status], this.rtsp_url) : null;
 
                 if (status === '404') {
                     resolve(true);

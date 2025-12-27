@@ -4,6 +4,7 @@ export default class AuthRoutes {
     constructor(server) {
         this.server = server;
         this.app = this.server.app;
+        this.auth = this.app.auth;
 
         this.router = express.Router();
         this.csrfProtection = this.server.csrfProtection;
@@ -15,32 +16,19 @@ export default class AuthRoutes {
 
         // login
         this.router.post("/login", this.csrfProtection, async (req, res) => {
-            const {email, password} = req.body;
 
-            const user = {};
-            if (!user) return res.sendStatus(401);
+            if (!await this.auth.login(req, res))
+                return res.sendStatus(401);
 
-            const ok = true; //await bcrypt.compare(password, user.passwordHash);
-            if (!ok) return res.sendStatus(401);
-
-            req.session.userId = user.id;
-            res.sendStatus(204);
+            res.json({
+                login: true,
+                session: req.session
+            });
         });
 
         // logout
         this.router.post("/logout", this.csrfProtection, (req, res) => {
-            req.session.destroy(err => {
-                if (err) return res.sendStatus(500);
-
-                res.clearCookie("sid", {
-                    httpOnly: true,
-                    sameSite: "lax",
-                    secure: process.env.NODE_ENV === "production",
-                    path: "/"
-                });
-
-                res.sendStatus(204);
-            });
+            this.auth.logout(req, res);
         });
 
         //

@@ -26,12 +26,12 @@ export default class Mediamtx {
 
     }
 
-    getYaml() {
-        return this.config.getYaml();
+    async getYaml() {
+        return await this.config.getYaml();
     }
 
-    writeYaml() {
-        return this.config.writeYaml();
+    async writeYaml() {
+        return await this.config.writeYaml();
     }
 
 }

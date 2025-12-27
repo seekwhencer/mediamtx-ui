@@ -49,6 +49,25 @@ export default class Server extends Events {
         // API routes
         this.routes = new Routes(this);
         this.engine.use('/api', this.routes.router);
+
+        // csrf error handling
+        this.engine.use((err, req, res, next) => {
+            if (err.code === 'EBADCSRFTOKEN') {
+
+                console.warn("CSRF Token invalid:", {
+                    token: req.headers['csrf-token'] || null,
+                    //sessionId: req.sessionID || null,
+                    //url: req.originalUrl
+                });
+
+                return res.status(403).json({
+                    error: "Invalid CSRF token",
+                    message: "reload page or refresh token."
+                });
+            }
+
+            next(err);
+        });
     }
 
     async run() {

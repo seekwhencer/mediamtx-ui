@@ -4,6 +4,7 @@ import Events from './lib/EventEmitter.js';
 import Mediamtx from './lib/Mediamtx.js';
 import Server from "./lib/Server.js";
 import Streams from "./lib/Streams.js";
+import Auth from "./lib/Auth.js";
 
 export default class Main extends Events {
     constructor() {
@@ -18,6 +19,7 @@ export default class Main extends Events {
             process.exit(0);
         });
 
+        this.auth = new Auth(this);
         this.mediamtx = new Mediamtx(this);
         this.streams = new Streams(this);
         this.server = new Server(this);
