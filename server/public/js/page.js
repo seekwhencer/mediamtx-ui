@@ -57,8 +57,6 @@ export default class Page {
     }
 
     async render() {
-
-
         this.element = document.createElement("div");
         this.element.className = 'page';
         document.querySelector('body').append(this.element);

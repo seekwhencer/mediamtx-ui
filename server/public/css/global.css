@@ -32,6 +32,12 @@ ul {
     }
 }
 
+a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 700;
+}
+
 video {
     position: absolute;
     width: 50vw;

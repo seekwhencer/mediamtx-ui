@@ -14,11 +14,11 @@ Configure your [mediamtx server](https://mediamtx.org/) with this dependency fre
 - add, edit, delete **paths** (streams) with all of their properties at runtime
 - persist changes by writing a new yaml
 - view the streams in the browser (chrome, firefox - yes, firefox)
+- authentication for the frontend
 - dockerized setup for a local scenario
 
 ## 🡆 Features (future)
 - orchestrate mediamtx by node.js (to reload the config or load other configurations)
-- authentication for the frontend
 - config switcher (chose between different configurations)
 - source management
 - add, edit, delete (manage) local usb devices with ffmpeg
@@ -60,7 +60,7 @@ docker compose build --no-cache
 ### Mediamtx
 - duplicate mediamtx configuration
 ```bash
-cp mediamtx.default.yml mediamtx.yml
+cp config/mediamtx.default.yml config/mediamtx.yml
 ```
 - edit `mediamtx.yml` if needed (default ports are fine)
 ### Environment
@@ -69,6 +69,25 @@ cp mediamtx.default.yml mediamtx.yml
 cp .env.default .env
 ```
 - edit `.env` if needed (default ports are fine)
+
+### Authentication
+Create an argon2 hashed password.  
+To do this, run the container once:
+```bash
+docker compose run -it mediamtxui node generate_auth.js
+```
+- copy / paste the resulting hash into the `config/auth.json` file, like:
+```bash
+cp config/auth.default.json config/auth.json
+```
+```json
+{
+  "username": "$argon2id$v=19$m=65536,t=3,p=4$TWxdvA/ofnjj6NzisE8P5Q$jzkY3Y01Trie9sJMuGwdGxRJSi9+YjN2UxJlafztT18",
+  "password": "$argon2id$v=19$m=65536,t=3,p=4$TWxdvA/ofnjj6NzisE8P5Q$jzkY3Y01Trie9sJMuGwdGxRJSi9+YjN2UxJlafztT18"
+}
+
+```
+
 
 ## 🡆 Run
 - mediamtx server
@@ -86,6 +105,7 @@ docker compose up
 docker compose up -d
 ```
 
+![Screenshot Login](../master/screenshots/screenshot_login.png?raw=true "Screenshot Login")
 ![Screenshot #2](../master/screenshots/screenshot_02.png?raw=true "Screenshot #2")
 ![Screenshot #3](../master/screenshots/screenshot_03.png?raw=true "Screenshot #3")
 ![Screenshot #4](../master/screenshots/screenshot_04.png?raw=true "Screenshot #4")

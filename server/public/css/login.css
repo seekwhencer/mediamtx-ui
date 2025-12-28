@@ -52,6 +52,20 @@
         font-weight: 500;
     }
 
+    .logo {
+        width: 100px;
+        position: absolute;
+        top: -50px;
+        right: 10px;
+        opacity: 0.7;
+
+        svg {
+            path {
+                fill: white !important;
+            }
+        }
+    }
+
     h2 {
         margin: 0 0 20px 0;
     }
