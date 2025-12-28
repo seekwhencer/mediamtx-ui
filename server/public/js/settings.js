@@ -27,6 +27,9 @@ export default class Settings {
         this.page = page;
         this.events = this.page.events;
 
+        this.auth = this.page.auth;
+        this.csrfToken = this.auth.csrfToken;
+
         this.baseUrl = '/mediamtx/config';
         this.globalSettingsUrl = `${this.baseUrl}/global/get`;
         this.pathDefaultsUrl = `${this.baseUrl}/pathdefaults/get`;
@@ -75,7 +78,13 @@ export default class Settings {
     }
 
     async loadGlobal() {
-        const res = await fetch(this.globalSettingsUrl);
+        const res = await fetch(this.globalSettingsUrl, {
+            headers: {
+                'CSRF-Token': this.csrfToken,
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        });
         const text = await res.text();
         const data = await JSON.parse(text);
 
@@ -93,7 +102,13 @@ export default class Settings {
     }
 
     async loadPathDefaults() {
-        const res = await fetch(this.pathDefaultsUrl);
+        const res = await fetch(this.pathDefaultsUrl, {
+            headers: {
+                'CSRF-Token': this.csrfToken,
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        });
         const text = await res.text();
         const data = await JSON.parse(text);
         Object.keys(data).forEach(key => this.config.path[key] = data[key]);
@@ -101,7 +116,13 @@ export default class Settings {
     }
 
     async loadPathsList() {
-        const res = await fetch(this.pathsListUrl);
+        const res = await fetch(this.pathsListUrl, {
+            headers: {
+                'CSRF-Token': this.csrfToken,
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        });
         const text = await res.text();
         const data = await JSON.parse(text);
         data.items.forEach((item, i) => this.config.paths[item.name] = item);
@@ -132,7 +153,13 @@ export default class Settings {
     }
 
     async save() {
-        const res = await fetch(this.saveYAMLUrl);
+        const res = await fetch(this.saveYAMLUrl, {
+            headers: {
+                'CSRF-Token': this.csrfToken,
+                'Content-Type': 'application/json'
+            },
+            credentials: "include"
+        });
         const text = await res.text();
         const response = await JSON.parse(text);
         console.log(this.label, 'SAVE YAML RESPONSE', response);
@@ -160,8 +187,12 @@ export default class Settings {
     async setGlobalConfig() {
         const res = await fetch(this.saveglobalSettingsUrl, {
             method: 'PATCH',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(this.globalConfig)
+            headers: {
+                'CSRF-Token': this.csrfToken,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.globalConfig),
+            credentials: "include"
         });
 
         if (res.ok) {
@@ -175,8 +206,12 @@ export default class Settings {
     async setPathDefaultsConfig() {
         const res = await fetch(this.savePathDefaultsUrl, {
             method: 'PATCH',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(this.path)
+            headers: {
+                'CSRF-Token': this.csrfToken,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(this.path),
+            credentials: "include"
         });
 
         if (res.ok) {
@@ -263,8 +298,12 @@ export default class Settings {
         const url = `${this.updatePathUrl}/${pathName}`;
         const res = await fetch(url, {
             method: 'PATCH',
-            headers: {"Content-Type": "application/json"},
-            body: JSON.stringify(pathConfig)
+            headers: {
+                'CSRF-Token': this.csrfToken,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(pathConfig),
+            credentials: "include"
         });
 
         if (res.ok) {

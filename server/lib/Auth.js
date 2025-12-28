@@ -32,17 +32,21 @@ export default class Auth {
         if (!username || !password)
             return false;
 
-        if (username !== this.auth.username)
+        if (!await argon2.verify(this.auth.username, username))
             return false;
 
         if (!await argon2.verify(this.auth.password, password))
             return false;
 
+        req.session.isAuthenticated = true;
         return true;
     }
 
 
-    logout(req, res) {
+    async logout(req, res) {
+        if (!req.session.isAuthenticated)
+            return;
+
         req.session.destroy(err => {
             if (err) return res.sendStatus(500);
 

@@ -21,21 +21,20 @@ export default class AuthRoutes {
                 return res.sendStatus(401);
 
             res.json({
-                login: true,
-                session: req.session
+                ok: true
             });
         });
 
         // logout
-        this.router.post("/logout", this.csrfProtection, (req, res) => {
-            this.auth.logout(req, res);
+        this.router.post("/logout", this.csrfProtection, async (req, res) => {
+            await this.auth.logout(req, res);
+            res.json({ok: true});
         });
 
         //
-        this.router.get("/status", (req, res) => {
+        this.router.get("/status",  this.csrfProtection, (req, res) => {
             res.json({
-                session: process.env.NODE_ENV !== "production" ? req.session : null,
-                headers: req.headers
+                isAuthenticated: req.session?.isAuthenticated || false
             });
         });
     }

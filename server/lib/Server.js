@@ -19,6 +19,7 @@ export default class Server extends Events {
 
         this.engine = express();
         this.engine.use(express.json());
+
         this.engine.use(express.static(this.publicDir));
 
         this.csrfProtection = csrf();
@@ -43,6 +44,15 @@ export default class Server extends Events {
         this.authRoutes = new AuthRoutes(this);
         this.engine.use('/auth', this.authRoutes.router);
 
+        // require authentication for all other routes
+        this.engine.use((req, res, next) => {
+            if (!req.session?.isAuthenticated) {
+                return res.sendStatus(401);
+            }
+            next();
+        });
+
+
         // Mediamtx API Proxy
         this.engine.use('/mediamtx', this.mediamtx.proxy.router);
 
@@ -53,19 +63,11 @@ export default class Server extends Events {
         // csrf error handling
         this.engine.use((err, req, res, next) => {
             if (err.code === 'EBADCSRFTOKEN') {
-
-                console.warn("CSRF Token invalid:", {
-                    token: req.headers['csrf-token'] || null,
-                    //sessionId: req.sessionID || null,
-                    //url: req.originalUrl
-                });
-
                 return res.status(403).json({
                     error: "Invalid CSRF token",
                     message: "reload page or refresh token."
                 });
             }
-
             next(err);
         });
     }

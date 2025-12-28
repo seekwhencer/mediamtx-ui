@@ -13,6 +13,8 @@
     --light-bg: #f0f0f0;
     --light-med-bg: #eee;
 
+    --shift-001: rgba(0, 0, 0, 0.01);
+    --shift-002: rgba(0, 0, 0, 0.02);
     --shift-005: rgba(0, 0, 0, 0.05);
     --shift-01: rgba(0, 0, 0, 0.1);
     --shift-02: rgba(0, 0, 0, 0.2);
@@ -32,6 +34,8 @@
     --light-bg: #444;
     --light-med-bg: #222;
 
+    --shift-001: rgba(255, 255, 255, 0.01);
+    --shift-002: rgba(255, 255, 255, 0.02);
     --shift-005: rgba(255, 255, 255, 0.05);
     --shift-01: rgba(255, 255, 255, 0.1);
     --shift-02: rgba(255, 255, 255, 0.2);

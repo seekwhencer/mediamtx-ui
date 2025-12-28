@@ -22,6 +22,10 @@ button {
         opacity: 0.5;
     }
 
+    &:active {
+        background-color: var(--color-secondary);
+    }
+
     &.help {
         background: transparent;
         padding: 0;
@@ -44,6 +48,7 @@ button {
 
         &:hover {
             opacity: 1;
+
             svg {
                 path {
                     &:nth-child(1) {
@@ -101,7 +106,8 @@ select {
 
 
 input[type=text],
-input[type=number] {
+input[type=number],
+input[type=password] {
     display: inline-block;
     margin: 0 0 0 2px;
     padding: 8px;
