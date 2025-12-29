@@ -1,4 +1,5 @@
 import EventEmitter from "./event_emitter.js";
+import FetchManager from "./fetch_manager.js";
 
 import Icons from './icons.js'
 import Settings from "./settings.js";
@@ -13,13 +14,35 @@ import LoginComponent from "./Components/Page/login.js";
 
 export default class Page {
     constructor() {
+        this.label = this.constructor.name.toUpperCase();
         this.events = window._EVENTS = new EventEmitter();
-        this.icons = new Icons();
+        this.fm = new FetchManager({
+            onUnauthorized() {
+                window.location.href = "/"; // redirect to home on 401
+            },
+        });
+
+        this.icons = new Icons(this);
         this.help = new Help(this);
         this.auth = new Auth(this);
+    }
 
-        this.loginComponent = new LoginComponent(this);
-        this.tabNavigation = new TabNavigation(this);
+    async create() {
+        this.destroy();
+
+        await this.icons.load();
+        await this.auth.getCsrfToken();
+        await this.auth.getStatus();
+
+        // if not logged in, show login page
+        if (!this.auth.isAuthenticated) {
+            console.log(this.label, 'IS NOT AUTHENTICATED');
+            !this.loginComponent ? this.loginComponent = new LoginComponent(this) : null;
+            await this.loginComponent.render();
+            return;
+        }
+
+        !this.tabNavigation ? this.tabNavigation = new TabNavigation(this) : null;
 
         this.tabs = {
             overview: new Tabs.OverviewTab(this),
@@ -29,22 +52,6 @@ export default class Page {
             users: new Tabs.UsersTab(this),
             streams : new Tabs.StreamsTab(this)
         };
-    }
-
-    async create() {
-        this.destroy();
-        await this.icons.load();
-        await this.auth.getCsrfToken();
-        await this.auth.getStatus();
-
-        //await this.auth.login();
-        //await this.auth.logout();
-
-        // if not logged in, show login page
-        if (!this.auth.isAuthenticated) {
-            await this.loginComponent.render();
-            return;
-        }
 
         // if logged in, load settings and render page
         this.settings = new Settings(this);
@@ -82,11 +89,18 @@ export default class Page {
 
     }
 
+    async eject() {
+        this.auth.isAuthenticated = false;
+        await this.create();
+    }
+
     destroy(){
         if (this.settings) {
             this.settings.destroy();
             delete this.settings;
         }
+        this.tabNavigation ? this.tabNavigation.destroy() : null;
+        this.element ? this.element.remove() : null;
     }
 
     on(event, callback) {

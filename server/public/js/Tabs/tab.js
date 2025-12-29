@@ -2,6 +2,7 @@ export default class Tab {
     constructor(page) {
         this.label = this.constructor.name.toUpperCase();
         this.page = page;
+        this.fm = this.page.fm;
         this.events = this.page.events;
     }
 

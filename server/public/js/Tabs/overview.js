@@ -21,6 +21,7 @@ export default class OverviewTab extends Tab {
         this.pathsEl.classList.add('streams');
         this.element.append(this.pathsEl);
 
+        this.openRequests = 0;
         await this.load();
 
     }
@@ -36,10 +37,10 @@ export default class OverviewTab extends Tab {
     }
 
     async loadPathsList() {
-        const res = await fetch(this.pathsListUrl);
+        const res = await this.fm.fetch(this.pathsListUrl);
 
         if (!res)
-            return;
+            return false;
 
         const text = await res.text();
         const data = await JSON.parse(text);
@@ -48,6 +49,7 @@ export default class OverviewTab extends Tab {
             return;
 
         this.syncData(data.items);
+        return true;
     }
 
     syncData(items) {
@@ -91,6 +93,7 @@ export default class OverviewTab extends Tab {
             this.items[i].destroy();
             delete this.items[i]
         });
+        this.element ? this.element.remove() : null;
     }
 
     get settings() {

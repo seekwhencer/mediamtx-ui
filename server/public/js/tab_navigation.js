@@ -37,8 +37,11 @@ export default class TabNavigation {
         });
 
         // open the first tab
-        if (!this.selected)
+        if (!this.selected) {
             this.selected = this.tabs[0].slug;
+        } else {
+            this.selected = this.selected;
+        }
 
     }
 
@@ -48,6 +51,10 @@ export default class TabNavigation {
 
     emit(event, ...args) {
         return this.events.emit(event, ...args);
+    }
+
+    destroy(){
+        this.element.remove();
     }
 
     get selected() {

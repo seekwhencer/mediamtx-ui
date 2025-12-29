@@ -1,8 +1,10 @@
 import EventEmitter from "./event_emitter.js";
 
 export default class Icons extends EventEmitter {
-    constructor() {
+    constructor(page) {
         super();
+        this.page = page;
+        this.fm = this.page.fm;
 
         this.basePath = '/images/icons/';
         this.table = [
@@ -36,7 +38,7 @@ export default class Icons extends EventEmitter {
             const url = `${this.basePath}${item.name}.svg`;
 
             try {
-                const res = await fetch(url);
+                const res = await this.fm.fetch(url);
                 if (!res.ok) throw new Error(res.status);
 
                 const text = await res.text();

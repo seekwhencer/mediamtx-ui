@@ -2,6 +2,7 @@ export default class Auth {
     constructor(page) {
         this.label = this.constructor.name.toUpperCase();
         this.page = page;
+        this.fm = this.page.fm;
         this.csrfUrl = '/auth/csrf';
         this.loginUrl = '/auth/login';
         this.logoutUrl = '/auth/logout';
@@ -9,7 +10,7 @@ export default class Auth {
     }
 
     async getCsrfToken() {
-        const res = await fetch(this.csrfUrl);
+        const res = await this.fm.fetch(this.csrfUrl);
         const text = await res.text();
         const data = await JSON.parse(text);
         this.csrfToken = data.csrfToken;
@@ -21,7 +22,7 @@ export default class Auth {
             return;
 
         try {
-            const res = await fetch(this.loginUrl, {
+            const res = await this.fm.fetch(this.loginUrl, {
                 method: 'POST',
                 headers: {
                     'CSRF-Token': this.csrfToken,
@@ -43,7 +44,7 @@ export default class Auth {
     }
 
     async logout() {
-        const res = await fetch(this.logoutUrl, {
+        const res = await this.fm.fetch(this.logoutUrl, {
             method: 'POST',
             headers: {
                 'CSRF-Token': this.csrfToken
@@ -59,7 +60,7 @@ export default class Auth {
 
     async getStatus() {
         try {
-            const res = await fetch(this.statusUrl, {
+            const res = await this.fm.fetch(this.statusUrl, {
                 method: 'GET',
                 headers: {
                     'CSRF-Token': this.csrfToken
@@ -75,9 +76,7 @@ export default class Auth {
         } catch (e) {
             //
         }
-
     }
-
 
     get csrfToken() {
         return this._csrfToken || false;

@@ -7,6 +7,8 @@ export default class LoginComponent {
     }
 
     render() {
+        this.destroy();
+
         this.element = document.createElement('div');
         this.element.className = 'login';
 
@@ -87,6 +89,6 @@ export default class LoginComponent {
     }
 
     destroy() {
-        this.element.remove();
+        this.element ? this.element.remove() : null;
     };
 }

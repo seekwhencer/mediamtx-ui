@@ -13,7 +13,9 @@ export default class ServerTab extends Tab {
         if (this.element)
             this.destroy();
 
-        await this.page.settings.loadGlobal();
+        const ok = await this.page.settings.loadGlobal();
+        if (!ok)
+            return;
 
         // the box
         this.element = document.createElement("div");

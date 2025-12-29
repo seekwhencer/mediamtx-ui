@@ -25,6 +25,7 @@ export default class Settings {
         this.debug = false;
         this.label = this.constructor.name.toUpperCase();
         this.page = page;
+        this.fm = this.page.fm;
         this.events = this.page.events;
 
         this.auth = this.page.auth;
@@ -78,13 +79,14 @@ export default class Settings {
     }
 
     async loadGlobal() {
-        const res = await fetch(this.globalSettingsUrl, {
+        const res = await this.fm.fetch(this.globalSettingsUrl, {
             headers: {
                 'CSRF-Token': this.csrfToken,
                 'Content-Type': 'application/json'
             },
             credentials: "include"
         });
+
         const text = await res.text();
         const data = await JSON.parse(text);
 
@@ -99,34 +101,42 @@ export default class Settings {
         // global
         Object.keys(data).forEach(key => this.config.global[key] = data[key]);
         this.emit('loaded-global');
+
+        return true;
     }
 
     async loadPathDefaults() {
-        const res = await fetch(this.pathDefaultsUrl, {
+        const res = await this.fm.fetch(this.pathDefaultsUrl, {
             headers: {
                 'CSRF-Token': this.csrfToken,
                 'Content-Type': 'application/json'
             },
             credentials: "include"
         });
+
         const text = await res.text();
         const data = await JSON.parse(text);
         Object.keys(data).forEach(key => this.config.path[key] = data[key]);
         this.emit('loaded-path-defaults');
+
+        return true;
     }
 
     async loadPathsList() {
-        const res = await fetch(this.pathsListUrl, {
+        const res = await this.fm.fetch(this.pathsListUrl, {
             headers: {
                 'CSRF-Token': this.csrfToken,
                 'Content-Type': 'application/json'
             },
             credentials: "include"
         });
+
         const text = await res.text();
         const data = await JSON.parse(text);
         data.items.forEach((item, i) => this.config.paths[item.name] = item);
         this.emit('loaded-paths-list');
+
+        return true;
     }
 
     async create() {
@@ -153,16 +163,19 @@ export default class Settings {
     }
 
     async save() {
-        const res = await fetch(this.saveYAMLUrl, {
+        const res = await this.fm.fetch(this.saveYAMLUrl, {
             headers: {
                 'CSRF-Token': this.csrfToken,
                 'Content-Type': 'application/json'
             },
             credentials: "include"
         });
+
         const text = await res.text();
         const response = await JSON.parse(text);
         console.log(this.label, 'SAVE YAML RESPONSE', response);
+
+        return true;
     }
 
     // complete
@@ -185,7 +198,7 @@ export default class Settings {
     }
 
     async setGlobalConfig() {
-        const res = await fetch(this.saveglobalSettingsUrl, {
+        const res = await this.fm.fetch(this.saveglobalSettingsUrl, {
             method: 'PATCH',
             headers: {
                 'CSRF-Token': this.csrfToken,
@@ -197,6 +210,7 @@ export default class Settings {
 
         if (res.ok) {
             console.log(this.label, 'SAVE GLOBAL CONFIG OK');
+            return true;
         } else {
             console.log(this.label, 'SAVE GLOBAL CONFIG ERROR', res.error);
             await this.loadGlobal();
@@ -204,7 +218,7 @@ export default class Settings {
     }
 
     async setPathDefaultsConfig() {
-        const res = await fetch(this.savePathDefaultsUrl, {
+        const res = await this.fm.fetch(this.savePathDefaultsUrl, {
             method: 'PATCH',
             headers: {
                 'CSRF-Token': this.csrfToken,
@@ -216,6 +230,7 @@ export default class Settings {
 
         if (res.ok) {
             console.log(this.label, 'SAVE PATH DEFAULTS CONFIG OK');
+            return true;
         } else {
             console.log(this.label, 'SAVE PATH DEFAULTS CONFIG ERROR', res.error);
             await this.loadPathDefaults();
@@ -296,7 +311,7 @@ export default class Settings {
     async setPathConfig(pathName) {
         const pathConfig = this.paths[pathName];
         const url = `${this.updatePathUrl}/${pathName}`;
-        const res = await fetch(url, {
+        const res = await this.fm.fetch(url, {
             method: 'PATCH',
             headers: {
                 'CSRF-Token': this.csrfToken,
@@ -308,6 +323,7 @@ export default class Settings {
 
         if (res.ok) {
             console.log(this.label, `SAVE PATH (${pathName}) CONFIG OK`);
+            return true;
         } else {
             console.log(this.label, `SAVE PATH (${pathName}) CONFIG ERROR`, res.error);
         }

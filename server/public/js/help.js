@@ -1,6 +1,7 @@
 export default class Help {
     constructor(parent) {
         this.page = parent;
+        this.fm = this.page.fm;
         this.icons = this.page.icons;
         this.url = 'help/en.json';
 
@@ -13,7 +14,7 @@ export default class Help {
     }
 
     async load() {
-        const res = await fetch(this.url);
+        const res = await this.fm.fetch(this.url);
         const text = await res.text();
         this.data = await JSON.parse(text);
     }
