@@ -7,6 +7,7 @@ server/public/js/Settings/**/*
 /script
 /config/backup/**/*
 /config/auth.json
+server/build/**/*
 
 !data/default.json
 !.gitkeep

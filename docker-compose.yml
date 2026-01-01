@@ -18,7 +18,8 @@ services:
     networks:
       - camnet
     ports:
-        - "${SERVER_PORT}:${SERVER_PORT}"
+      - "${SERVER_PORT}:${SERVER_PORT}"
+      - "35729:35729"
     volumes:
       - /app/node_modules
       - .:/app
