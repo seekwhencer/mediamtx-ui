@@ -22,7 +22,7 @@ export default class Auth {
             return;
 
         try {
-            const res = await this.fm.fetch(this.loginUrl, {
+            const res = await fetch(this.loginUrl, { // use fetch here, not fm.fetch to avoid 401 handling
                 method: 'POST',
                 headers: {
                     'CSRF-Token': this.csrfToken,

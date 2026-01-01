@@ -42,10 +42,10 @@ export default class LoginComponent {
         this.messageElement.className = 'message';
         inputBlock.appendChild(this.messageElement);
 
-        const loginButton = document.createElement('button');
-        loginButton.textContent = 'Login';
-        loginButton.addEventListener('click', async () => this.login());
-        inputBlock.appendChild(loginButton);
+        this.loginButton = document.createElement('button');
+        this.loginButton.textContent = 'Login';
+        this.loginButton.addEventListener('click', async () => this.login());
+        inputBlock.appendChild(this.loginButton);
 
         // append input block to login block
         loginBlock.appendChild(inputBlock);
@@ -76,6 +76,7 @@ export default class LoginComponent {
     }
 
     async login() {
+        this.loginButton.disabled = true;
         const username = this.usernameInput.value;
         const password = this.passwordInput.value;
         await this.auth.login(username, password);
@@ -85,6 +86,7 @@ export default class LoginComponent {
             this.page.create();
         } else {
             this.messageElement.innerHTML = 'Login failed.<br /> Please check your credentials.';
+            this.loginButton.disabled = false;
         }
     }
 

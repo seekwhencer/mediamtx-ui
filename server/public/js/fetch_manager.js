@@ -1,14 +1,14 @@
 export default class FetchManager {
     constructor({
-                    idleTimeout = 10_000,
-                    checkInterval = 1_000,
+                    idleTimeout = 10000,
+                    checkInterval = 1000,
                     onUnauthorized = null,
                 } = {}) {
         this.idleTimeout = idleTimeout;
         this.onUnauthorized = onUnauthorized;
 
         this.requests = new Set();
-        this._unauthorizedFired = false; // 🔒 Debounce-Flag
+        this._unauthorizedFired = false;
 
         this._timer = setInterval(() => this._abortIdle(), checkInterval);
     }
@@ -38,7 +38,7 @@ export default class FetchManager {
         if (response.status === 401) {
             this.requests.delete(entry);
 
-            // 🔥 Debounced 401
+            // debounced 401
             if (!this._unauthorizedFired) {
                 this._unauthorizedFired = true;
 
