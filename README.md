@@ -172,6 +172,24 @@ sudo apt-get install git curl ffmpeg -y
 
 Now the Webserver is up on Port: `3000` 🡆 **[http://raspicam:3000](http://raspicam:3000)**
 
+## 🡆 Development
+### Watch CSS with hot reloading
+Every time a css file is changed, the watch_css.js will inject the new css into the running application.
+```bash
+docker exec -it mediamtxui sh -c "node watch_css.js"
+```
+
+### Build frontend assets
+Create a frontend bundle in `server/build`
+```bash
+docker exec -it mediamtxui sh -c "node build_frontend.js"
+```
+
+### Build server
+Create a server bundle in `server/build/server.js`
+```bash
+docker exec -it mediamtxui sh -c "node build_server.js"
+```
 ## 🡆 DONE
 - api proxy
 - state structure
