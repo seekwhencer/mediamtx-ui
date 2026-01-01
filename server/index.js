@@ -1,7 +1,7 @@
 import path from "path";
 
 import Events from './lib/EventEmitter.js';
-import Mediamtx from './lib/Mediamtx.js';
+import MediaMTX from './lib/MediaMTX.js';
 import Server from "./lib/Server.js";
 import Streams from "./lib/Streams.js";
 import Auth from "./lib/Auth.js";
@@ -20,7 +20,7 @@ export default class Main extends Events {
         });
 
         this.auth = new Auth(this);
-        this.mediamtx = new Mediamtx(this);
+        this.mediamtx = new MediaMTX(this);
         this.streams = new Streams(this);
         this.server = new Server(this);
 
