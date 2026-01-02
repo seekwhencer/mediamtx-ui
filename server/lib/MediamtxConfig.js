@@ -1,12 +1,12 @@
 import {parse, stringify} from 'yaml';
 import {ensureFile, outputFile, move} from 'fs-extra';
 
-export default class MediamtxConfig {
+export class MediamtxConfig {
     constructor(mediamtx) {
         this.mediamtx = mediamtx;
         this.app = this.mediamtx.app;
-        
-        this.apiUrlBase = `http://mediamtxui:3000/mediamtx`;
+
+        this.apiUrlBase = this.mediamtx.apiUrlBase;
         this.configFilename = 'mediamtx.yml';
         this.configPath = `../config`;
         this.configBackupPath = `../config/backup`;
@@ -21,7 +21,7 @@ export default class MediamtxConfig {
         paths.items.forEach(p => pathObj[p.name] = p);
 
         const config = {...globalConfig, pathDefaults, paths: pathObj};
-        let yml = stringify(config,{
+        let yml = stringify(config, {
             doubleQuotedAsJSON: true,
             trueStr: 'true',
             falseStr: 'false',
@@ -72,7 +72,6 @@ export default class MediamtxConfig {
             const url = `${this.apiUrlBase}/config/global/get`;
             const res = await fetch(url);
             return await res.json();
-            //return JSON.parse(text.trim());
         } catch (err) {
             console.error('Fetch failed:', err);
             throw err;

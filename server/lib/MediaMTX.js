@@ -1,16 +1,18 @@
-import MediamtxConfig from './MediamtxConfig.js';
+import {MediamtxConfig} from './MediamtxConfig.js';
 import MediamtxProxy from './MediamtxProxy.js';
 
 export default class MediaMTX {
     constructor(app) {
         this.app = app;
+        // Proxy Mediamtx API
+        this.apiUrlBase = `http://mediamtx:9997/v3`;
 
         // Mediamtx configuration management
         this.config = new MediamtxConfig(this);
 
-        // Proxy Mediamtx API
+
         this.proxy = new MediamtxProxy(this, {
-            targetBaseUrl: "http://mediamtx:9997/v3",
+            targetBaseUrl: this.apiUrlBase,
             apiUser: false,
             apiPassword: false,
 
