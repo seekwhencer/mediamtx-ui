@@ -123,10 +123,10 @@ export default class StreamsTab extends Tab {
             await this.delete(name);
             // add the with a new name
             await this.add(data);
-            this.render();
+            //this.render();
         } else {
             console.log(this.label, 'PATH UPDATED:', name);
-            this.settings[name] = data;
+            //this.settings[name] = data;
             await this.updatePath(name, data);
         }
     }
@@ -161,8 +161,6 @@ export default class StreamsTab extends Tab {
             console.log(this.label, 'REPLACE PATH CONFIG OK');
         } else {
             console.log(this.label, 'REPLACE PATH CONFIG ERROR', res.error);
-            //this.items[name].groupsElement.replace(this.items[name].renderGroup());
-            //this.render();
         }
     }
 
