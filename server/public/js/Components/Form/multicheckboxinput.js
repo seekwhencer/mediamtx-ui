@@ -1,4 +1,4 @@
-import Component from "../component.js";
+import Component from "./component.js";
 
 export default class MultiCheckboxInput extends Component {
     constructor(settings, prop, options = {}, tab) {

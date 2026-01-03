@@ -1,4 +1,4 @@
-import DataProxy from "../data_proxy.js";
+import DataProxy from "../../data_proxy.js";
 
 export default class Component {
     constructor(settings, prop, options = {}, parent) {

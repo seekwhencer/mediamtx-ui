@@ -1,4 +1,4 @@
-import Component from "./component.js";
+import Component from "./Form/component.js";
 import * as Inputs from './Form/index.js';
 
 export default class FormItem extends Component {
