@@ -100,10 +100,11 @@ export default class StreamRow {
     }
 
     destroy() {
+        this.element.remove();
     }
 
     delete() {
-        this.tab.deleteItem(this.data.name);
+        this.tab.delete(this.data.name);
     }
 
     get group() {

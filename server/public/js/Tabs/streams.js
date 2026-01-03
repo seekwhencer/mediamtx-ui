@@ -1,10 +1,11 @@
 import Tab from "./tab.js";
-import Video from "../video.js";
 import StreamRow from "../Components/Streams/stream.js";
+import DataProxy from "../data_proxy.js";
 
 export default class StreamsTab extends Tab {
     constructor(page) {
         super(page);
+        this.pollingDelay = 1000;
     }
 
     async render() {
@@ -13,30 +14,34 @@ export default class StreamsTab extends Tab {
 
         await this.page.settings.loadPathsList();
 
+        // events
+        this.listeners = [
+            this.settings.on('create', (name, data) => this.addItem(name)),
+            this.settings.on('update', (name, data) => this.updateItem(name)),
+            this.settings.on('delete', (name) => this.deleteItem(name))
+        ];
+
         this.element = document.createElement("div");
         this.element.className = "tab paths";
         this.page.element.append(this.element);
 
-        this.renderRows();
+        this.listElement = document.createElement("div");
+        this.listElement.className = "paths-list";
+        this.element.append(this.listElement);
 
-        /*this.listeners ? this.listeners.forEach(eject => eject()) : null;
-        this.listeners = [
-            this.settings.on('create', (key, path) => this.updateItem(key, path)),
-            this.settings.on('update', (key, path) => this.updateItem(key, path))
-        ];*/
+        await this.load();
+
+        this.renderRows();
     }
 
     renderRows() {
-        this.items = {};
-        this.settings.keys().forEach((path) => {
-            const row = this.renderRow(path);
-            this.element.append(row);
-        });
+        this.items = {}
+        this.settings.keys().forEach(path => this.addItem(path));
 
         this.addButton = document.createElement('button');
         this.addButton.innerHTML = `${this.page.icons.svg['list-plus']} Add path`;
         this.addButton.className = 'add';
-        this.addButton.onclick = () => this.addItem();
+        this.addButton.onclick = () => this.add(false);
         this.element.append(this.addButton);
     }
 
@@ -45,16 +50,18 @@ export default class StreamsTab extends Tab {
         return this.items[path].element;
     }
 
-    replaceRow(path) {
-
+    async load() {
+        await this.page.settings.loadPathsList();
+        this.poll();
     }
 
-    renderTracks() {
-        this.videos = {};
-        this.tracks.keys().forEach(track => {
-            this.videos[track] = new Video(this, this.tracks[track]);
-            this.videos[track].render();
-        });
+    poll() {
+        clearInterval(this.cylce);
+        this.cylce = setInterval(() => this.page.settings.loadPathsList(), this.pollingDelay);
+    }
+
+    replaceRow(path) {
+
     }
 
     destroy() {
@@ -68,23 +75,30 @@ export default class StreamsTab extends Tab {
     }
 
 
+    addItem(name) {
+        const row = this.renderRow(name);
+        this.listElement.append(row);
+    }
+
     updateItem(path) {
-
-
         if (!this.items[path])
             return;
 
-        this.render(); // sorry
+        const props = this.items[path].items;
+
+        Object.keys(props).forEach(p => {
+            const prop = props[p];
+            prop.setValue(this.settings[path][p]);
+        })
+
+        //this.render(); // sorry
+        console.log('>>> UPDATE', props, path);
+
     }
 
-    async addItem() {
-        await this.add(false);
-        this.render();
-    }
-
-    async deleteItem(name) {
-        await this.delete(name);
-        this.render();
+    deleteItem(name) {
+        this.items[name].destroy();
+        delete this.items[name];
     }
 
     async add(data) {
@@ -95,13 +109,10 @@ export default class StreamsTab extends Tab {
             };
 
         data.source = 'publisher';
-
-        this.settings[data.name] = data;
-        await this.addPath(data.name);
+        await this.addPath(data);
     }
 
     async delete(name) {
-        delete this.settings[name];
         await this.deletePath(name);
     }
 
@@ -120,11 +131,11 @@ export default class StreamsTab extends Tab {
         }
     }
 
-    async addPath(name) {
-        const url = `${this.page.settings.addPathUrl}/${name}`;
-        const data = this.settings[name];
+    async addPath(data) {
+        !data ? data = {} : null;
+        const url = `${this.page.settings.addPathUrl}/${data.name}`;
 
-        const res = await fetch(url, {
+        const res = await this.fm.fetch(url, {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
@@ -140,7 +151,7 @@ export default class StreamsTab extends Tab {
     async updatePath(name, data) {
         const url = `${this.page.settings.replacePathUrl}/${name}`;
 
-        const res = await fetch(url, {
+        const res = await this.fm.fetch(url, {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(data)
@@ -159,7 +170,7 @@ export default class StreamsTab extends Tab {
         const url = `${this.page.settings.deletePathUrl}/${name}`;
         const data = this.settings[name];
 
-        const res = await fetch(url, {
+        const res = await this.fm.fetch(url, {
             method: 'DELETE',
             headers: {"Content-Type": "application/json"}
         });

@@ -6,8 +6,6 @@ export default class Help {
         this.url = 'help/en.json';
 
         this.data = false;
-        this.load();
-
         this.tooltip = false;
 
         document.addEventListener('click', e => this.removeTooltip(e));

@@ -1,3 +1,11 @@
+/**
+ * this is the dev watch task client over websockets to reload css files on change
+ * included in index.html
+ * <script type="module" src="/js/dev.js"></script>
+ *
+ * @type {number}
+ */
+
 const wsPort = 35729;
 const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
 const wsHost = window.location.hostname;

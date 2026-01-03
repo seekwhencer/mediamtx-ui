@@ -1,6 +1,7 @@
 export default class Video {
     constructor(stream) {
         this.label = this.constructor.name.toUpperCase();
+        this.debug = false;
         this.stream = stream;
         this.name = this.stream.data.confName;
         this.hls = null;
@@ -40,15 +41,16 @@ export default class Video {
         });
 
         this.hls.on(Hls.Events.MANIFEST_PARSED, () => {
-            this.element.play().catch(() => {});
+            this.element.play().catch(() => {
+            });
         });
 
         // Retry-Handler bei Netzwerk-Fehlern
         this.hls.on(Hls.Events.ERROR, (event, data) => {
-            console.log(this.label, `${this.name} HLS ERROR:`, data);
+            this.debug ? console.log(this.label, `${this.name} HLS ERROR:`, data) : null;
 
             if (data.fatal && data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-                console.log(this.label, `${this.name} NETWORK_ERROR -> retrying in 1s`);
+                this.debug ? console.log(this.label, `${this.name} NETWORK_ERROR -> retrying in 1s`) : null;
                 setTimeout(() => {
                     this.hls.loadSource(this.url);
                     this.hls.startLoad();
@@ -56,7 +58,7 @@ export default class Video {
             }
 
             if (data.fatal && data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-                console.log(this.label, `${this.name} MEDIA_ERROR -> recover media error`);
+                this.debug ? console.log(this.label, `${this.name} MEDIA_ERROR -> recover media error`) : null;
                 this.hls.recoverMediaError();
             }
         });
@@ -92,7 +94,7 @@ export default class Video {
         return `${url.protocol}//${url.hostname}${this.stream.tab.settings.hls.hlsAddress}/${this.name}/index.m3u8`;
     }
 
-    set url(val){
+    set url(val) {
         ///
     }
 }

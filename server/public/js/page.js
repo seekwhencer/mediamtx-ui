@@ -11,7 +11,6 @@ import * as Tabs from "./Tabs/index.js";
 
 import LoginComponent from "./Components/Page/login.js";
 
-
 export default class Page {
     constructor() {
         this.label = this.constructor.name.toUpperCase();
@@ -30,6 +29,7 @@ export default class Page {
     async create() {
         this.destroy();
 
+        await this.help.load();
         await this.icons.load();
         await this.auth.getCsrfToken();
         await this.auth.getStatus();
@@ -53,7 +53,6 @@ export default class Page {
             streams : new Tabs.StreamsTab(this)
         };
 
-        // if logged in, load settings and render page
         this.settings = new Settings(this);
         await this.settings.load();
         await this.render();

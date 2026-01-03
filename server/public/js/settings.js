@@ -19,10 +19,11 @@ import {
     PathsSettings,
     UsersSettings
 } from "./Settings/index.js"
+import StreamItem from "./Components/Overview/stream.js";
 
 export default class Settings {
     constructor(page) {
-        this.debug = false;
+        this.debug = true;
         this.label = this.constructor.name.toUpperCase();
         this.page = page;
         this.fm = this.page.fm;
@@ -133,7 +134,10 @@ export default class Settings {
 
         const text = await res.text();
         const data = await JSON.parse(text);
-        data.items.forEach((item, i) => this.config.paths[item.name] = item);
+
+        const dataItems = {}
+        data.items.forEach(p => dataItems[p.name] = p);
+        this.config.paths = dataItems; // override the complete config object!
         this.emit('loaded-paths-list');
 
         return true;
@@ -267,13 +271,29 @@ export default class Settings {
 
     mergePathsList() {
         console.log(this.label, 'MERGE PATHS LIST DIFF PROPS');
+        const from = this.config.paths;
         const to = this.paths;
-        for (const k of to.keys()) {
-            if (JSON.stringify(this.config.paths[k]) !== JSON.stringify(to[k])) {
-                to[k] = this.config.paths[k];
-                this.debug ? console.log(this.label, '>>>', k, to[k]) : null;
+
+        const existing = Object.keys(from);
+        const dropped = to.keys().filter(a => !existing.includes(a));
+        dropped.forEach(i => delete this.paths[i]);
+
+        Object.keys(from).forEach(k => {
+            const same = JSON.stringify(from[k]) === JSON.stringify(to[k]);
+            const exists = !!to[k];
+
+            if (exists) {
+
+            } else {
+
             }
-        }
+
+
+            if (!same) {
+                to[k] = from[k];
+                //this.debug ? console.log(this.label, '>>>', k, to[k]) : null;
+            }
+        });
     }
 
     mergeUsersList() {
@@ -302,10 +322,12 @@ export default class Settings {
     }
 
     action(action, prop, value) {
-        if (!this.debug)
-            return;
+        //if (!this.debug)
+        //    return;
 
-        this.debug ? console.log(this.label, 'ACTION', action, prop, value) : null;
+        //this.emit(action, prop, value);
+
+        //this.debug ? console.log(this.label, 'ACTION', action, prop, value) : null;
     }
 
     async setPathConfig(pathName) {

@@ -1,4 +1,6 @@
 .paths {
+    display: block;
+
     .path {
         display: grid;
         grid-template-columns: 20% 1fr; /* links fix 20%, rechts flexibel */
@@ -75,7 +77,7 @@
 
     button {
         &.add {
-            margin: auto;
+            margin: 50px auto;
             display: block;
             padding-left: 45px;
             position: relative;

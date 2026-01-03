@@ -190,6 +190,13 @@ Create a server bundle in `server/build/server.js`
 ```bash
 docker exec -it mediamtxui sh -c "node build_server.js"
 ```
+
+### Save runtime config
+Saves the current runtime config into `config/mediamtx.yml` and rotates the old one to `config/mediamtx_time.yml`
+```bash
+
+```
+
 ## 🡆 DONE
 - api proxy
 - state structure

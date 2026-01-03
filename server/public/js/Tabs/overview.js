@@ -82,8 +82,6 @@ export default class OverviewTab extends Tab {
 
         if (action === 'create')
             this.renderPathItem(prop);
-
-
     }
 
     destroy() {
