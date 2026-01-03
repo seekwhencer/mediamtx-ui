@@ -6,7 +6,7 @@ import Settings from "./settings.js";
 import Help from "./help.js";
 import Auth from "./auth.js";
 
-import TabNavigation from "./tab_navigation.js";
+import TabNavigation from "./Components/Page/tab_navigation.js";
 import * as Tabs from "./Tabs/index.js";
 
 import LoginComponent from "./Components/Page/login.js";

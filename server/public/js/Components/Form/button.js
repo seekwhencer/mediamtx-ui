@@ -1,5 +1,4 @@
-import Component from "./component.js";
-import DataProxy from "../data_proxy.js";
+import Component from "../component.js";
 
 export default class Button extends Component {
     constructor(settings, prop, options = {}, tab) {

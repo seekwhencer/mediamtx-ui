@@ -1,5 +1,5 @@
-import Component from "./component.js";
-import {Button} from "./index.js";
+import Component from "../component.js";
+import Button from "./button.js";
 
 export default class SelectInput extends Component {
     constructor(settings, prop, options = {}, tab) {

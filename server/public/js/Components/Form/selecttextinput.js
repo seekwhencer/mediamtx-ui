@@ -1,4 +1,4 @@
-import Component from "./component.js";
+import Component from "../component.js";
 import {Button, TextInput} from "./index.js";
 
 export default class SelectTextInput extends Component {

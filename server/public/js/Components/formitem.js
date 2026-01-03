@@ -1,5 +1,5 @@
 import Component from "./component.js";
-import * as Inputs from './index.js';
+import * as Inputs from './Form/index.js';
 
 export default class FormItem extends Component {
     constructor(settings, prop, options = {}, tab) {

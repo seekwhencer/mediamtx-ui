@@ -1,4 +1,4 @@
-import EventEmitter from "./event_emitter.js";
+import EventEmitter from "../../event_emitter.js";
 
 export default class TabNavigation {
     constructor(page) {
