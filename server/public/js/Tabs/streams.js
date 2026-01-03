@@ -1,12 +1,10 @@
 import Tab from "./tab.js";
 import Video from "../video.js";
 import StreamRow from "../Components/Streams/stream.js";
-import PathGroups from "./path_groups.js";
 
 export default class StreamsTab extends Tab {
     constructor(page) {
         super(page);
-        this.groups = PathGroups;
     }
 
     async render() {

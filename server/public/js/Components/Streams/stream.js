@@ -1,6 +1,7 @@
 import FormItem from "../formitem.js";
 import DataProxy from "../../data_proxy.js";
-import GroupNavigation from "../../Tabs/group_navigation.js";
+import GroupNavigation from "../Page/group_navigation.js";
+import PathGroups from "../Page/path_groups.js";
 
 export default class StreamRow {
     constructor(pathName, tab) {
@@ -14,7 +15,7 @@ export default class StreamRow {
         this.stream.name = this.pathName;
         this.data = new DataProxy(this.stream, this);
 
-        this.groups = this.tab.groups;
+        this.groups = PathGroups;
 
         // path defaults settings
         this.pathSettings = this.page.settings.path._.parent; // sorry

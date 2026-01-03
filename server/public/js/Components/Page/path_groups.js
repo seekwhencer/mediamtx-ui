@@ -1,5 +1,3 @@
-import ServerGroups from "./server_groups.js";
-
 const PathGroups = [
     {
         name: 'Source',
