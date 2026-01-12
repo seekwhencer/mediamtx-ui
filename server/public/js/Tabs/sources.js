@@ -1,4 +1,4 @@
-import Tab from "./tab.js";
+import Tab from "./Tab.js";
 
 export default class SourcesTab extends Tab {
     constructor(page) {

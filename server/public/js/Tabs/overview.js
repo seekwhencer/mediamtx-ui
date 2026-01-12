@@ -1,4 +1,4 @@
-import Tab from "./tab.js";
+import Tab from "./Tab.js";
 import DataProxy from "../data_proxy.js";
 import StreamItem from "../Components/Overview/stream.js";
 

@@ -1,5 +1,5 @@
 import FormItem from "../Components/FormItem.js";
-import Tab from "./tab.js";
+import Tab from "./Tab.js";
 import ServerGroups from '../Components/Page/server_groups.js';
 import GroupNavigation from "../Components/Page/group_navigation.js";
 

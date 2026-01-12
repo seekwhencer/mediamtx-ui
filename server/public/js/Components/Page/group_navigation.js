@@ -23,8 +23,6 @@ export default class GroupNavigation {
             this.buttons.push(button);
         });
 
-        console.log('===', this.groups[0].storeKey);
-
         // open the first group
         if (!this.selected)
             this.selected = this.groups[0].storeKey;

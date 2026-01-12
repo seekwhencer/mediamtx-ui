@@ -15,8 +15,6 @@ export default class StreamItem {
         this.data = options.data;
 
         this.schema = options.schema ?? {fields: [], options: {}, inputTypes: {}, locked: []};
-        this.onUpdate = options?.onUpdate;
-        this.onDelete = options?.onDelete;
 
         this.items = {};
         this.render();
@@ -116,7 +114,7 @@ export default class StreamItem {
     }
 
     delete() {
-        if (this.onDelete) this.onDelete(this.name);
+        this.tab.deletePath(this.name);
     }
 
     destroy() {

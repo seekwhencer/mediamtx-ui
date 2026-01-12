@@ -95,7 +95,7 @@ export default class Settings {
     }
 
     async onUpdate(result) {
-        //console.log(this.label, 'ON UPDATE', JSON.stringify(result));
+        console.log(this.label, 'ON UPDATE', JSON.stringify(result));
 
         // save global config (including users)
         !['path', 'paths'].includes(result.storeKey) ? await this.service.saveGlobal() : null;

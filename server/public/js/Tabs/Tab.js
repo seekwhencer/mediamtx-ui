@@ -2,8 +2,6 @@ export default class Tab {
     constructor(page) {
         this.label = this.constructor.name.toUpperCase();
         this.page = page;
-
-        console.log('>>> CREATE NEW TAB', this.label, this.settings, this.store, this.service);
     }
 
     on(event, callback) {

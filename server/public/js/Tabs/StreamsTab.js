@@ -1,15 +1,11 @@
-import Tab from './tab.js';
+import Tab from './Tab.js';
 import StreamItem from '../Components/Streams/StreamItem.js';
 import StreamsService from '../Components/Streams/StreamService.js';
-//import StreamsStore from '../Components/Streams/StreamStore.js';
 
 export default class StreamsTab extends Tab {
     constructor(page) {
         super(page);
         this.items = {};
-
-        this.service = new StreamsService(this);
-        //this.store = new StreamsStore(this);
 
         const pathSettings = this.page.settings.tree.path;
         this.pathSchema = {
@@ -25,7 +21,7 @@ export default class StreamsTab extends Tab {
         // Clean up
         this.destroy();
 
-        const ok = await this.service.list();
+        const ok = await this.service.loadPathsList();
         if (!ok)
             return;
 
@@ -48,12 +44,10 @@ export default class StreamsTab extends Tab {
         // Initiale Synchronisierung
         //await this.store.sync();
         this.renderList();
-
         this.renderAddButton();
     }
 
     renderList() {
-        console.log('>>> RENDER PATH LIST', this.store.paths);
         Object.keys(this.store.paths).forEach(pathKey => this.addItem(pathKey, this.store.paths[pathKey]))
     }
 
@@ -61,7 +55,7 @@ export default class StreamsTab extends Tab {
         const btn = document.createElement('button');
         btn.className = 'add';
         btn.innerHTML = `${this.page.icons.svg['list-plus']} Add path`;
-        btn.onclick = () => this.addNewPath();
+        btn.onclick = () => this.addPath();
         this.element.append(btn);
     }
 
@@ -72,9 +66,7 @@ export default class StreamsTab extends Tab {
                 name: name,
                 data: data,
                 schema: this.pathSchema,
-                tab: this,
-                onUpdate: (n, d) => this.updatePath(n, d),
-                onDelete: n => this.deletePath(n)
+                tab: this
             }
         );
 
@@ -86,7 +78,6 @@ export default class StreamsTab extends Tab {
         const item = this.items[name];
         if (item) {
             Object.keys(data).forEach(k => item.data[k] = data[k]);
-            item.renderGroups?.(); // optional, falls Gruppen dynamisch sind
         }
     }
 
@@ -98,20 +89,19 @@ export default class StreamsTab extends Tab {
         }
     }
 
-    async addNewPath() {
-        const data = {...this.page.settings.path, name: 'new'};
-        await this.service.add(data);
-        await this.store.sync();
+    async addPath() {
+        const data = {...this.page.settings.path, name: 'new', source: 'publisher', sourceOnDemand: false};
+        await this.service.addPath(data);
     }
 
     async updatePath(name, data) {
-        await this.service.update(name, data);
-        await this.store.sync();
+        await this.service.updatePath(name, data);
     }
 
     async deletePath(name) {
-        await this.service.delete(name);
-        await this.store.sync();
+        const ok = await this.service.deletePath(name);
+        if (ok)
+            this.removeItem(name);
     }
 
     destroy() {
@@ -127,6 +117,14 @@ export default class StreamsTab extends Tab {
     }
 
     set store(val) {
+        // do nothing
+    }
+
+    get service() {
+        return this.settings.service;
+    }
+
+    set service(val) {
         // do nothing
     }
 }

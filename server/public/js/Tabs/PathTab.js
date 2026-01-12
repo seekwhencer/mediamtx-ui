@@ -1,5 +1,5 @@
 import FormItem from "../Components/FormItem.js";
-import Tab from "./tab.js";
+import Tab from "./Tab.js";
 import PathGroups from "../Components/Page/path_groups.js";
 import GroupNavigation from "../Components/Page/group_navigation.js";
 
@@ -22,10 +22,7 @@ export default class PathDefaultsTab extends Tab {
         this.element.className = "tab path";
         this.page.element.append(this.element);
 
-        this.navigation = new GroupNavigation(this, () => {
-            console.log('DO SOMETHING');
-            this.renderGroup();
-        });
+        this.navigation = new GroupNavigation(this, () => this.renderGroup());
         this.navigation.render();
 
         this.renderGroup();
