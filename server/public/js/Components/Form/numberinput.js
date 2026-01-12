@@ -20,7 +20,7 @@ export default class TextInput extends Component {
         this.render();
     }
 
-    render(){
+    render() {
         super.render();
         this.targetElement.append(this.element);
     }
@@ -40,10 +40,9 @@ export default class TextInput extends Component {
 
     // extend with type convert
     set value(value) {
-        switch(this.dataType){
-            case 'number':
-                value = parseInt(value);
+        value = Number(value);
+        if (!Number.isNaN(value)) { // stop if not a number
+            super.value = value;
         }
-        super.value = value;
     }
 }

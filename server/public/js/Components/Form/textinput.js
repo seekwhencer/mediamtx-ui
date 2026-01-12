@@ -39,10 +39,11 @@ export default class TextInput extends Component {
 
     // extend with type convert
     set value(value) {
-        switch(this.dataType){
-            case 'number':
-                value = parseInt(value);
+        const number = Number(value);
+        if (!Number.isNaN(number)) {
+            super.value = number;
+        } else {
+            super.value = value;
         }
-        super.value = value;
     }
 }
