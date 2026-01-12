@@ -33,4 +33,17 @@ export default class TextInput extends Component {
     check() {
 
     }
+
+    get value() {
+        return super.value;
+    }
+
+    // extend with type convert
+    set value(value) {
+        switch(this.dataType){
+            case 'number':
+                value = parseInt(value);
+        }
+        super.value = value;
+    }
 }
