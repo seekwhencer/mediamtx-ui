@@ -1,11 +1,11 @@
 import Tab from './Tab.js';
 import StreamItem from '../Components/Streams/StreamItem.js';
-import StreamsService from '../Components/Streams/StreamService.js';
 
 export default class StreamsTab extends Tab {
     constructor(page) {
         super(page);
         this.items = {};
+        this.listeners = new Map();
 
         const pathSettings = this.page.settings.tree.path;
         this.pathSchema = {
@@ -18,7 +18,6 @@ export default class StreamsTab extends Tab {
     }
 
     async render() {
-        // Clean up
         this.destroy();
 
         const ok = await this.service.loadPathsList();
@@ -29,20 +28,16 @@ export default class StreamsTab extends Tab {
         this.element.className = 'tab paths';
         this.page.element.append(this.element);
 
-        // Liste der Streams
         this.list = document.createElement('div');
         this.list.className = 'paths-list';
         this.element.append(this.list);
 
-        // Store Events abonnieren
-        /*this.unsubs = [
-            this.store.on('create', (name, data) => this.addItem(name, data)),
-            this.store.on('update', (name, data) => this.updateItem(name, data)),
-            this.store.on('delete', name => this.removeItem(name))
-        ];*/
+        this.listeners = [
+            this.settings.on('create-path', (...args) => this.addItem(...args)),
+            this.settings.on('update-path', (...args) => this.updateItem(...args)),
+            this.settings.on('delete-path', data => this.removeItem(data.prop))
+        ];
 
-        // Initiale Synchronisierung
-        //await this.store.sync();
         this.renderList();
         this.renderAddButton();
     }
@@ -74,10 +69,18 @@ export default class StreamsTab extends Tab {
         this.list.append(item.element);
     }
 
-    updateItem(name, data) {
-        const item = this.items[name];
-        if (item) {
-            Object.keys(data).forEach(k => item.data[k] = data[k]);
+    updateItem(pathKey, pathData, prop, value) {
+        const pathItem = this.items[pathKey];
+        if (pathItem) {
+            const formItem = pathItem.items[prop];
+
+            if(formItem){
+                formItem.setValue(value);
+            } else {
+                console.log('>>> UPDATE ITEM NOT EXISTS SET VALUE', pathKey, prop, value);
+            }
+
+            //Object.keys(pathData).forEach(k => item.data[k] = pathData[k]);
         }
     }
 
@@ -105,12 +108,11 @@ export default class StreamsTab extends Tab {
     }
 
     destroy() {
-        this.unsubs?.forEach(fn => fn());
+        this.listeners?.forEach(fn => fn());
         Object.values(this.items).forEach(item => item.destroy());
         this.items = {};
         this.element?.remove();
     }
-
 
     get store() {
         return this.settings.store;

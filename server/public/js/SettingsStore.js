@@ -2,7 +2,6 @@ export default class SettingsStore {
     constructor(settings) {
         this.settings = settings;
         this.page = this.settings.page;
-        this.listeners = new Map();
 
         this.general = null;
         this.auth = null;
@@ -19,18 +18,6 @@ export default class SettingsStore {
         this.path = null;
         this.paths = {};
         this.users = [];
-    }
-
-    on(event, fn) {
-        (this.listeners.get(event) ?? this.listeners.set(event, []).get(event)).push(fn);
-        return () => this.listeners.set(
-            event,
-            this.listeners.get(event).filter(f => f !== fn)
-        );
-    }
-
-    emit(event, ...args) {
-        this.listeners.get(event)?.forEach(fn => fn(...args));
     }
 
     get globalConfig() {

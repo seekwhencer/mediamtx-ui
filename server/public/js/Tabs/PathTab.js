@@ -42,12 +42,6 @@ export default class PathDefaultsTab extends Tab {
         this.groupsElement.className = "groups";
         this.element.append(this.groupsElement);
 
-        /*this.listeners ? this.listeners.forEach(eject => eject()) : null;
-        this.listeners = [
-            this.settings.on('create', (prop, value) => this.updateItem(prop, value)),
-            this.settings.on('update', (prop, value) => this.updateItem(prop, value))
-        ];*/
-
         if (this.group.columns) {
             this.group.columns.forEach(col => {
                 const groupElement = document.createElement("div");

@@ -65,12 +65,6 @@ export default class ServerTab extends Tab {
                 }
                 this.groupsElement.append(groupElement);
             });
-
-            /*this.listeners ? this.listeners.forEach(eject => eject()) : null;
-            this.listeners = [
-                this.settings.on('create', (prop, value) => this.updateItem(prop, value)),
-                this.settings.on('update', (prop, value) => this.updateItem(prop, value))
-            ];*/
         }
     }
 

@@ -20,8 +20,10 @@ import {
 export default class Settings {
     constructor(page) {
         this.label = this.constructor.name.toUpperCase();
+
         this.page = page;
         this.events = this.page.events;
+        this.listeners = new Map();
 
         this.store = new SettingsStore(this);
         this.service = new SettingsService(this);
@@ -81,58 +83,62 @@ export default class Settings {
 
     async onCreate(result) {
         //console.log(this.label, 'ON CREATE', JSON.stringify(result));
-        !['path', 'paths'].includes(result.storeKey) ? await this.service.saveGlobal() : null;
 
         if (result.storeKey === 'paths') {
-            //console.log(this.label, 'NEW PATH CREATED', result.prop);
-            // do something
+            this.emit('create-path', result.prop, result.value);
         }
 
         if (result.storekey === 'users') {
-            //console.log(this.label, 'NEW USER CREATED', result.value.name);
-            // do something
+            this.emit('create-user', result.prop, result.value);
         }
     }
 
     async onUpdate(result) {
-        console.log(this.label, 'ON UPDATE', JSON.stringify(result));
+        //console.log(this.label, 'ON UPDATE', JSON.stringify(result));
 
-        // save global config (including users)
-        !['path', 'paths'].includes(result.storeKey) ? await this.service.saveGlobal() : null;
-
-        // save path defaults
         if (result.storeKey === 'path') {
-            await this.service.savePathDefaults();
+            this.emit('update-path-defaults', result.index, result.user);
         }
 
         // save path update
         if (result.storeKey === 'paths') {
-            await this.service.updatePath(result.path.name, result.path);
+            this.emit('update-path', result.index, result.path, result.prop, result.value);
         }
 
         // save path update
         if (result.storeKey === 'users') {
-            // do something
+            this.emit('update-path', result.index, result.user);
         }
 
     }
 
     async onDelete(result) {
         //console.log(this.label, 'ON DELETE', JSON.stringify(result));
-        !['path', 'paths'].includes(result.storeKey) ? await this.service.saveGlobal() : null;
 
         if (result.storeKey === 'paths') {
-            //console.log(this.label, 'PATH DELETED', result.prop);
+            this.emit('delete-path', result);
         }
 
         if (result.storeKey === 'users') {
-            //console.log(this.label, 'USER DELETED', result.prop);
+            this.emit('delete-user', result);
         }
     }
 
     async onSkip(result) {
         // dont do that
         //console.log(this.label, 'ON SKIP', JSON.stringify(result));
+    }
+
+    on(event, fn) {
+        (this.listeners.get(event) ?? this.listeners.set(event, []).get(event)).push(fn);
+        return () => this.listeners.set(
+            event,
+            this.listeners.get(event).filter(f => f !== fn)
+        );
+    }
+
+    emit(event, ...args) {
+        this.listeners.get(event)?.forEach(fn => fn(...args));
     }
 
 

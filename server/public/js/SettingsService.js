@@ -208,18 +208,15 @@ export default class SettingsService {
         Object.keys(settingStore).forEach(k => !list[k] ? delete settingStore[k] : null);
 
         // add or update
-        Object.entries(list).forEach(([k, path]) => {
-            if (settingStore[k] === undefined) { // create if not exist
-                settingStore[k] = new PathItemProxy(path, k, {
+        Object.entries(list).forEach(([pathKey, path]) => {
+            if (settingStore[pathKey] === undefined) { // create if not exist
+                settingStore[pathKey] = new PathItemProxy(path, pathKey, {
                     // a field will be only updated. not deleted or created
-                    onUpdate: (result) => {
-                        this.settings.onUpdate({...result, path: path});
-                        //this.settings.tree.paths.onUpdate({prop: k, value: path});
-                    },
-                    onSkip: result => this.settings.onSkip({...result, path: path})
+                    onUpdate: result => this.settings.tree.paths.onUpdate({...result, path: path}),
+                    onSkip: result => this.settings.tree.paths.onSkip({...result, path: path})
                 });
-            } else { // update item props
-                Object.keys(path).forEach(prop => settingStore[k][prop] = path[prop]);
+            } else { // update the store props, triggers onChange()
+                Object.keys(path).forEach(prop => settingStore[pathKey][prop] = path[prop]); // the proxy is skipping not changed values
             }
         });
     }
@@ -353,25 +350,27 @@ export default class SettingsService {
      * @returns {Promise<boolean|*>}
      */
     async updatePath(name, pathData) {
-        const res = await this.fm.fetch(
-            `/mediamtx/config/paths/patch/${name}`,
-            {
-                method: 'PATCH',
-                headers: {
-                    'CSRF-Token': this.csrfToken,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(pathData),
-                credentials: 'include'
-            }
-        );
+        if(name !== pathData.name){
+            return await this.renamePath(name, pathData.name);
+        } else {
+            const res = await this.fm.fetch(
+                `/mediamtx/config/paths/patch/${name}`,
+                {
+                    method: 'PATCH',
+                    headers: {
+                        'CSRF-Token': this.csrfToken,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(pathData),
+                    credentials: 'include'
+                }
+            );
 
-        if (res.ok) {
-            await this.loadPathsList();
-            //this.store.paths[name] = pathData;
+            if (res.ok)
+                await this.loadPathsList();
+
+            return res.ok;
         }
-
-        return res.ok;
     }
 
     async renamePath(nameFrom, nameTo) {
@@ -380,6 +379,7 @@ export default class SettingsService {
 
         await this.deletePath(nameFrom);
         await this.addPath(pathData);
+        return true;
     }
 
     // not really needed, because the key not equals the name
@@ -408,7 +408,6 @@ export default class SettingsService {
     async deletePath(name) {
         if (this.settings.paths[name] === undefined)
             return;
-
 
         const res = await this.fm.fetch(
             `/mediamtx/config/paths/delete/${name}`,
