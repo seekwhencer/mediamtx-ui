@@ -1,12 +1,11 @@
-import Component from "./component.js";
+import Component from "./Component.js";
 
 export default class MultiCheckboxInput extends Component {
-    constructor(settings, prop, options = {}, tab) {
-        super(settings, prop, options, tab);
+    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
+        super(parent, storeKey, store, prop, inputType, values, locked, options);
 
-        this.debounceTime = 50;
         this.elementTag = 'input';
-        this.defaults = {
+        this.elementProps = {
             type: 'hidden',
             value: this.value,
             name: `input-${this.name}`,
@@ -21,9 +20,9 @@ export default class MultiCheckboxInput extends Component {
         super.render();
         this.renderCheckboxes();
 
-        this.target.append(this.element);
-        this.target.append(this.checkboxes);
-        this.target.classList.add('switches');
+        this.targetElement.append(this.element);
+        this.targetElement.append(this.checkboxes);
+        this.targetElement.classList.add('switches');
     }
 
     renderCheckboxes() {
@@ -39,7 +38,7 @@ export default class MultiCheckboxInput extends Component {
             checkbox.type = 'checkbox';
             checkbox.value = value;
             checkbox.name = `input-${this.name}-${value}`;
-            checkbox.oninput = e => this.concatValue();
+            checkbox.oninput = () => this.concatValue();
             box.append(checkbox);
 
             const label = document.createElement("label");
@@ -69,8 +68,6 @@ export default class MultiCheckboxInput extends Component {
 
     concatValue() {
         this.value = [...this.checkboxes.querySelectorAll('input')].filter(b => b.checked).map(b => b.value);
-        this.check();
-        this.settings[this.prop] = this.value;
     }
 }
 

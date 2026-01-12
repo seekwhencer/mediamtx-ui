@@ -1,18 +1,18 @@
-import Component from "./component.js";
+import Component from "./Component.js";
 
 export default class TextInput extends Component {
-    constructor(settings, prop, options = {}, tab) {
-        super(settings, prop, options, tab);
+    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
+        super(parent, storeKey, store, prop, inputType, values, locked, options);
 
         this.elementTag = 'input';
-        this.defaults = {
+        this.elementProps = {
             id: '',
             className: '',
             type: 'number',
             disabled: '',
             dataset: {},
             name: `input-${this.name}`,
-            'value': this.settings[this.prop],
+            'value': this.value,
             oninput: (e) => this.value = e.target.value,
         };
 
@@ -22,7 +22,7 @@ export default class TextInput extends Component {
 
     render(){
         super.render();
-        this.target.append(this.element);
+        this.targetElement.append(this.element);
     }
 
     setValue(value) {

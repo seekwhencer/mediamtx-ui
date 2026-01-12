@@ -2,7 +2,7 @@ import EventEmitter from "./event_emitter.js";
 import FetchManager from "./fetch_manager.js";
 
 import Icons from './icons.js'
-import Settings from "./settings.js";
+import Settings from "./Settings.js";
 import Help from "./help.js";
 import Auth from "./auth.js";
 
@@ -44,22 +44,19 @@ export default class Page {
 
         !this.tabNavigation ? this.tabNavigation = new TabNavigation(this) : null;
 
-        this.tabs = {
-            overview: new Tabs.OverviewTab(this),
-            sources : new Tabs.SourcesTab(this),
-            server: new Tabs.ServerTab(this),
-            path: new Tabs.PathDefaultsTab(this),
-            users: new Tabs.UsersTab(this),
-            streams : new Tabs.StreamsTab(this)
-        };
-
         this.settings = new Settings(this);
         await this.settings.load();
-        await this.render();
 
-        // testing: change a config value and save it instantly (send it to the server
-        //setTimeout(() => this.settings.general.logLevel = 'debug', 2000);
-        //setTimeout(() => this.settings.general.logLevel = 'info', 4000);
+        this.tabs = {
+            overview: Tabs.OverviewTab,
+            streams: Tabs.StreamsTab,
+            sources: Tabs.SourcesTab,
+            server: Tabs.ServerTab,
+            path: Tabs.PathDefaultsTab,
+            users: Tabs.UsersTab
+        };
+
+        await this.render();
     }
 
     async render() {
@@ -70,22 +67,15 @@ export default class Page {
         this.tabNavigation.render();
     }
 
-    showTab(tab) {
-        this.tab = this.tabs[tab.slug];
+    async showTab(tab) {
+        this.destroyTab();
+        const constructor = this.tabs[tab.slug];
+        this.tab = new constructor(this);
 
         if (!this.tab)
             return;
 
-        this.destroyTabs();
-        this.tab.render();
-    }
-
-    destroyTabs() {
-        Object.keys(this.tabs).forEach(tab => this.tabs[tab].destroy());
-    }
-
-    destroyGroup() {
-
+        await this.tab.render();
     }
 
     async eject() {
@@ -93,7 +83,16 @@ export default class Page {
         await this.create();
     }
 
-    destroy(){
+    destroyTab() {
+        if (!this.tab)
+            return;
+
+        this.tab.destroy();
+        delete this.tab;
+    }
+
+    destroy() {
+        console.log('>>> DESTROY PAGE');
         if (this.settings) {
             this.settings.destroy();
             delete this.settings;

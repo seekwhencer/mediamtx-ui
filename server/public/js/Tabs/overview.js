@@ -73,8 +73,8 @@ export default class OverviewTab extends Tab {
     }
 
     poll() {
-        clearInterval(this.cylce);
-        this.cylce = setInterval(() => this.loadPathsList(), this.pollingDelay);
+        clearInterval(this.cycle);
+        this.cycle = setInterval(() => this.loadPathsList(), this.pollingDelay);
     }
 
     action(action, prop, value) {
@@ -86,7 +86,7 @@ export default class OverviewTab extends Tab {
 
     destroy() {
         super.destroy();
-        clearInterval(this.cylce);
+        clearInterval(this.cycle);
         this.items.keys().forEach(i => {
             this.items[i].destroy();
             delete this.items[i]

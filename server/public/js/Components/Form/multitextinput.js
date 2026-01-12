@@ -1,12 +1,12 @@
-import Component from "./component.js";
+import Component from "./Component.js";
 import Button from "./button.js";
 
 export default class MultiTextInput extends Component {
-    constructor(settings, prop, options = {}, parent) {
-        super(settings, prop, options, parent);
+    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
+        super(parent, storeKey, store, prop, inputType, values, locked, options);
 
         this.elementTag = 'input';
-        this.defaults = {
+        this.elementProps = {
             type: 'hidden',
             name: `input-${this.name}`,
             value: this.value
@@ -39,9 +39,9 @@ export default class MultiTextInput extends Component {
         this.inputs.append(row);
         this.rows.push(row);
 
-        this.target.append(this.element);
-        this.target.append(this.inputs);
-        this.target.classList.add('rows');
+        this.targetElement.append(this.element);
+        this.targetElement.append(this.inputs);
+        this.targetElement.classList.add('rows');
     }
 
     renderRow(value) {
@@ -57,11 +57,13 @@ export default class MultiTextInput extends Component {
         row.append(input);
 
         // the clear button
-        const clearButton = new Button(this.settings, this.prop, {
-            innerHTML: '🞬',
-            className: 'button clear',
-            onclick: (e) => this.clearValue(input)
-        }, this.parent);
+        const clearButton = new Button(this.parent,
+            this.storeKey, this.store, this.prop,
+            this.inputType, this.values, this.locked, {
+                innerHTML: '🞬',
+                className: 'button clear',
+                onclick: (e) => this.clearValue(input)
+            });
         row.append(clearButton.element);
 
         return row;

@@ -1,44 +1,39 @@
 const ServerGroups = [
     {
         name: 'General',
-        slug: 'general',
-        tabs: [
+        storeKey: 'general',
+        columns: [
             {
                 name: 'Logging',
-                slug: 'logging',
-                fields: ['logLevel',
+                props: ['logLevel',
                     'logDestinations',
                     'logFile',
                     'sysLogPrefix']
             }, {
                 name: 'I/O',
-                slug: 'io',
-                fields: ['udpMaxPayloadSize', 'udpReadBufferSize',
+                props: ['udpMaxPayloadSize', 'udpReadBufferSize',
                     'readTimeout',
                     'writeTimeout',
                     'writeQueueSize']
             }, {
                 name: 'Hooks',
-                slug: 'hooks',
-                fields: ['runOnConnect', 'runOnConnectRestart', 'runOnDisconnect']
+                props: ['runOnConnect', 'runOnConnectRestart', 'runOnDisconnect']
             }
         ]
     },
     {
         name: 'HLS',
-        slug: 'hls',
-        tabs: [
+        storeKey: 'hls',
+        columns: [
             {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: [
+                props: [
                     'hls',
                     'hlsAddress'
                 ]
             }, {
                 name: 'Settings',
-                slug: 'settings',
-                fields: [
+                props: [
                     'hlsAlwaysRemux',
                     'hlsVariant',
                     'hlsSegmentCount',
@@ -50,8 +45,7 @@ const ServerGroups = [
                 ]
             }, {
                 name: 'Security',
-                slug: 'security',
-                fields: [
+                props: [
                     'hlsEncryption',
                     'hlsServerKey',
                     'hlsServerCert',
@@ -63,12 +57,11 @@ const ServerGroups = [
     },
     {
         name: 'RTSP',
-        slug: 'rtsp',
-        tabs: [
+        storeKey: 'rtsp',
+        columns: [
             {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: [
+                props: [
                     'rtsp',
                     'rtspTransports',
                     'rtspAddress',
@@ -78,8 +71,7 @@ const ServerGroups = [
                 ]
             }, {
                 name: 'Multicast',
-                slug: 'multicast',
-                fields: [
+                props: [
                     'multicastIPRange',
                     'multicastRTPPort',
                     'multicastRTCPPort',
@@ -88,8 +80,7 @@ const ServerGroups = [
                 ]
             }, {
                 name: 'Security',
-                slug: 'security',
-                fields: [
+                props: [
                     'rtspEncryption',
                     'srtpAddress',
                     'srtcpAddress',
@@ -102,43 +93,38 @@ const ServerGroups = [
     },
     {
         name: 'RTMP',
-        slug: 'rtmp',
-        tabs: [
+        storeKey: 'rtmp',
+        columns: [
             {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: ['rtmp', 'rtmpAddress', 'rtmpsAddress']
+                props: ['rtmp', 'rtmpAddress', 'rtmpsAddress']
             }, {
                 name: 'Security',
-                slug: 'security',
-                fields: ['rtmpEncryption', 'rtmpServerKey', 'rtmpServerCert']
+                props: ['rtmpEncryption', 'rtmpServerKey', 'rtmpServerCert']
             }
         ]
     },
     {
         name: 'SRT',
-        slug: 'srt',
-        tabs: [
+        storeKey: 'srt',
+        columns: [
             {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: ['srt', 'srtAddress']
+                props: ['srt', 'srtAddress']
             }
         ]
     },
     {
         name: 'WebRTC',
-        slug: 'webrtc',
-        tabs: [
+        storeKey: 'webrtc',
+        columns: [
             {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: ['webrtc', 'webrtcAddress',
+                props: ['webrtc', 'webrtcAddress',
                     'webrtcLocalUDPAddress', 'webrtcLocalTCPAddress']
             }, {
                 name: 'Settings',
-                slug: 'settings',
-                fields: ['webrtcIPsFromInterfaces',
+                props: ['webrtcIPsFromInterfaces',
                     'webrtcIPsFromInterfacesList',
                     'webrtcAdditionalHosts',
                     'webrtcICEServers2',
@@ -147,8 +133,7 @@ const ServerGroups = [
                     'webrtcSTUNGatherTimeout']
             }, {
                 name: 'Security',
-                slug: 'security',
-                fields: ['webrtcEncryption',
+                props: ['webrtcEncryption',
                     'webrtcServerKey',
                     'webrtcServerCert',
                     'webrtcAllowOrigins',
@@ -158,16 +143,14 @@ const ServerGroups = [
     },
     {
         name: 'API',
-        slug: 'api',
-        tabs: [
+        storeKey: 'api',
+        columns: [
             {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: ['api', 'apiAddress'],
+                props: ['api', 'apiAddress'],
             }, {
                 name: 'Security',
-                slug: 'security',
-                fields: [
+                props: [
                     'apiEncryption',
                     'apiServerKey',
                     'apiServerCert',
@@ -179,19 +162,17 @@ const ServerGroups = [
     },
     {
         name: 'Authentication',
-        slug: 'auth',
-        tabs: [
+        storeKey: 'auth',
+        columns: [
             {
                 name: 'Connection',
-                slug: 'connection',
-                fields: [
+                props: [
                     'authMethod',
                     'authHTTPAddress'
                 ]
             }, {
                 name: 'Security',
-                slug: 'security',
-                fields: [
+                props: [
                     'authJWTJWKS',
                     'authJWTJWKSFingerprint',
                     'authJWTClaimKey',
@@ -199,8 +180,7 @@ const ServerGroups = [
                 ]
             }, {
                 name: 'Excludes',
-                slug: 'excludes',
-                fields: [
+                props: [
 
                     'authHTTPExclude',
                     'authJWTExclude'
@@ -210,16 +190,14 @@ const ServerGroups = [
     },
     {
         name: 'PPROF',
-        slug: 'pprof',
-        tabs: [
+        storeKey: 'pprof',
+        columns: [
             {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: ['pprof', 'pprofAddress']
+                props: ['pprof', 'pprofAddress']
             }, {
                 name: 'Security',
-                slug: 'security',
-                fields: [
+                props: [
 
                     'pprofEncryption',
                     'pprofServerKey',

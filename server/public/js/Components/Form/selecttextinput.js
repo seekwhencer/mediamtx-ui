@@ -1,20 +1,19 @@
-import Component from "./component.js";
+import Component from "./Component.js";
 import {Button, TextInput} from "./index.js";
 
 export default class SelectTextInput extends Component {
-    constructor(settings, prop, options = {}, tab) {
-        super(settings, prop, options, tab);
+    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
+        super(parent, storeKey, store, prop, inputType, values, locked, options);
         this.label = this.constructor.name.toUpperCase();
 
-
         this.elementTag = 'select';
-        this.defaults = {
+        this.elementProps = {
             id: '',
             className: '',
             disabled: '',
             dataset: {},
             name: `input-${this.name}`,
-            value: this.settings[this.prop],
+            value: this.value,
             oninput: e => this.checkValue(e.target.value),
         };
 
@@ -32,24 +31,28 @@ export default class SelectTextInput extends Component {
             this.element.append(o);
         }) : null;
 
-        this.target.append(this.element);
+        this.targetElement.append(this.element);
         this.parent.element.classList.add('select-text');
 
         // the text input
-        this.sourceInput = new TextInput(this.settings, this.prop, {
-            onblur: e => this.checkValue(e.target.value),
-            onkeyup: e => e.key === 'Enter' ? this.checkValue(e.target.value) : null
-        }, this.parent);
+        this.sourceInput = new TextInput(this.parent,
+            this.storeKey, this.store, this.prop,
+            this.inputType, this.values, this.locked, {
+                onblur: e => this.checkValue(e.target.value),
+                onkeyup: e => e.key === 'Enter' ? this.checkValue(e.target.value) : null
+            });
 
 
         // the clear button
-        this.clearButton = new Button(this.settings, this.prop, {
-            innerHTML: '🞬',
-            className: 'button clear',
-            onclick: () => this.checkValue('')
-        }, this.parent);
+        const clearButton = new Button(this.parent,
+            this.storeKey, this.store, this.prop,
+            this.inputType, this.values, this.locked, {
+                innerHTML: '🞬',
+                className: 'button clear',
+                onclick: (e) => this.checkValue()
+            });
 
-        this.target.append(this.clearButton.element);
+        this.targetElement.append(clearButton.element);
 
         if (this.values.includes(this.value)) {
             this.setValue(this.value);
@@ -66,12 +69,12 @@ export default class SelectTextInput extends Component {
         }
 
         //@TODO remove it!!!!
-        if (value !== 'redirect')
+        /*if (value !== 'redirect')
             this.settings['sourceRedirect'] = '';
 
         if (value !== 'publisher')
             this.settings['sourceOnDemand'] = 'false';
-
+*/
         this.value = value
         this.check();
     }
