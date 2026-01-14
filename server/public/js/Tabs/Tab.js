@@ -14,7 +14,7 @@ export default class Tab {
 
     destroy() {
         this.element ? this.element.remove() : null;
-        this.listeners ? this.listeners.forEach(eject => eject()) : null;
+        this.listeners?.forEach(fn => fn());
     }
 
     get events() {

@@ -96,6 +96,10 @@ export default class Settings {
     async onUpdate(result) {
         //console.log(this.label, 'ON UPDATE', JSON.stringify(result));
 
+        if (!['path', 'paths', 'users'].includes(result.storeKey)) {
+            this.emit('update-global', result.prop, result.value);
+        }
+
         if (result.storeKey === 'path') {
             this.emit('update-path-defaults', result.index, result.user);
         }
@@ -105,9 +109,9 @@ export default class Settings {
             this.emit('update-path', result.index, result.path, result.prop, result.value);
         }
 
-        // save path update
+        // save user update
         if (result.storeKey === 'users') {
-            this.emit('update-path', result.index, result.user);
+            this.emit('update-user', result.index, result.user);
         }
 
     }

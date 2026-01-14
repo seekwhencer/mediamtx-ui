@@ -25,6 +25,10 @@ export default class ServerTab extends Tab {
         this.navigation = new GroupNavigation(this, () => this.renderGroup());
         this.navigation.render();
 
+        this.listeners = [
+            this.settings.on('update-global', (...args) => this.updateItem(...args)),
+        ];
+
         this.renderGroup();
     }
 
@@ -77,8 +81,14 @@ export default class ServerTab extends Tab {
     }
 
     destroy() {
-        this.items ? Object.keys(this.items).forEach(k => this.items[k].destroy()) : null;
         super.destroy();
+        //Object.values(this.items).forEach(item => item.destroy());
+        this.items = {};
+
+
+        //this.element?.remove();
+        //this.items ? Object.keys(this.items).forEach(k => this.items[k].destroy()) : null;
+        //super.destroy();
     }
 
     get service() {
