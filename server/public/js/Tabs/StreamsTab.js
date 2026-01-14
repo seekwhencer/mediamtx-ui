@@ -74,13 +74,11 @@ export default class StreamsTab extends Tab {
         if (pathItem) {
             const formItem = pathItem.items[prop];
 
-            if(formItem){
+            if (formItem) {
                 formItem.setValue(value);
             } else {
                 console.log('>>> UPDATE ITEM NOT EXISTS SET VALUE', pathKey, prop, value);
             }
-
-            //Object.keys(pathData).forEach(k => item.data[k] = pathData[k]);
         }
     }
 

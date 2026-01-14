@@ -24,7 +24,7 @@ export default class TextInput extends Component {
         this.check();
     }
 
-    render(){
+    render() {
         super.render();
         this.targetElement.append(this.element);
     }
@@ -40,10 +40,15 @@ export default class TextInput extends Component {
     // extend with type convert
     set value(value) {
         const number = Number(value);
-        if (!Number.isNaN(number)) {
-            super.value = number;
-        } else {
+
+        if (value === '') {
             super.value = value;
+        } else {
+            if (!Number.isNaN(number)) {
+                super.value = number;
+            } else {
+                super.value = value;
+            }
         }
     }
 }

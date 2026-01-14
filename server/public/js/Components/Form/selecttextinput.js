@@ -49,52 +49,43 @@ export default class SelectTextInput extends Component {
             this.inputType, this.values, this.locked, {
                 innerHTML: '🞬',
                 className: 'button clear',
-                onclick: (e) => this.checkValue()
+                onclick: (e) => this.value = ''
             });
 
         this.targetElement.append(clearButton.element);
 
-        if (this.values.includes(this.value)) {
-            this.setValue(this.value);
-        } else {
-            this.check();
-        }
+        this.check();
 
     }
 
     checkValue(value) {
-        if (value === '') {
+        const inputText = this.sourceInput.element.value || '';
+        const selectValue = this.values.includes(value) ? value : '';
+
+        if (selectValue !== '') {
             this.sourceInput.element.value = '';
-            this.element.value = '';
+            this.value = selectValue;
+        } else {
+            this.value = inputText;
         }
-
-        //@TODO remove it!!!!
-        /*if (value !== 'redirect')
-            this.settings['sourceRedirect'] = '';
-
-        if (value !== 'publisher')
-            this.settings['sourceOnDemand'] = 'false';
-*/
-        this.value = value
-        this.check();
     }
 
     setValue(value) {
-        super.setValue(value);
         this.check();
     }
 
     check() {
-        const inputValue = this.sourceInput.element.value;
+        const selectValue = this.values.includes(this.value) ? this.value : '';
+        const isTextInput = !this.values.includes(this.value);
 
-        if (this.values.includes(inputValue))
-            this.sourceInput.element.value = '';
+        this.element.value = selectValue;
+        this.sourceInput.element.value = isTextInput ? this.value : '';
 
-        const item = this.parent.element;
+        const parentElement = this.parent.element;
         if (this.element.value === '') {
-            item.classList.add('custom');
+            parentElement.classList.add('custom');
         } else {
-            item.classList.remove('custom');
+            parentElement.classList.remove('custom');
         }
     }
 }
