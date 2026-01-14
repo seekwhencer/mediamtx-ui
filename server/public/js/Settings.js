@@ -101,7 +101,7 @@ export default class Settings {
         }
 
         if (result.storeKey === 'path') {
-            this.emit('update-path-defaults', result.index, result.user);
+            this.emit('update-path-defaults', result.prop, result.value);
         }
 
         // save path update

@@ -25,6 +25,10 @@ export default class PathDefaultsTab extends Tab {
         this.navigation = new GroupNavigation(this, () => this.renderGroup());
         this.navigation.render();
 
+        this.listeners = [
+            this.settings.on('update-path-defaults', (...args) => this.updateItem(...args)),
+        ];
+
         this.renderGroup();
     }
 
@@ -89,8 +93,9 @@ export default class PathDefaultsTab extends Tab {
     }
 
     destroy() {
-        this.items ? Object.keys(this.items).forEach(k => this.items[k].destroy()) : null;
         super.destroy();
+        Object.values(this.items).forEach(item => item.destroy());
+        this.items = {};
     }
 
     get service() {

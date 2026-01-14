@@ -82,13 +82,8 @@ export default class ServerTab extends Tab {
 
     destroy() {
         super.destroy();
-        //Object.values(this.items).forEach(item => item.destroy());
+        Object.values(this.items).forEach(item => item.destroy());
         this.items = {};
-
-
-        //this.element?.remove();
-        //this.items ? Object.keys(this.items).forEach(k => this.items[k].destroy()) : null;
-        //super.destroy();
     }
 
     get service() {
