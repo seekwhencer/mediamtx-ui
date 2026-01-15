@@ -1,0 +1,266 @@
+import SettingsStore from "./SettingsStore.js";
+import SettingsService from "./SettingsService.js";
+import {
+    UsersSettings,
+    GeneralSettings,
+    AuthSettings,
+    ApiSettings,
+    PPROFSettings,
+    MetricsSettings,
+    PlaybackSettings,
+    RTSPSettings,
+    RTMPSettings,
+    HLSSettings,
+    WebRTCPSettings,
+    SRTSettings,
+    PathSettings,
+    PathsSettings
+} from "./Settings/index.js";
+
+export default class Settings {
+    constructor(page) {
+        this.label = this.constructor.name.toUpperCase();
+
+        this.page = page;
+        this.events = this.page.events;
+        this.listeners = new Map();
+
+        this.store = new SettingsStore(this);
+        this.service = new SettingsService(this);
+
+        this.create();
+    }
+
+    async load() {
+        await this.service.loadAll();
+    }
+
+    create() {
+        this.tree = {};
+        this.tree.general = new GeneralSettings(this);
+        this.tree.users = new UsersSettings(this); // multiple
+
+        this.tree.auth = new AuthSettings(this);
+        this.tree.api = new ApiSettings(this);
+        this.tree.pprof = new PPROFSettings(this);
+        this.tree.metrics = new MetricsSettings(this);
+        this.tree.playback = new PlaybackSettings(this);
+        this.tree.rtsp = new RTSPSettings(this);
+        this.tree.rtmp = new RTMPSettings(this);
+        this.tree.hls = new HLSSettings(this);
+        this.tree.webrtc = new WebRTCPSettings(this);
+        this.tree.srt = new SRTSettings(this);
+
+        this.tree.path = new PathSettings(this);
+        this.tree.paths = new PathsSettings(this); // multiple
+
+        this.created = true;
+    }
+
+    /**
+     * the trigger on create, update and delete
+     * the result contains an object:
+     *
+     * {
+     *   "storeKey":"general",
+     *   "prop":"logFormat",
+     *   "value":"deinemudda"
+     * }
+     *
+     * or
+     *
+     * {
+     *   "storeKey":"paths",
+     *   "index":"cam1",
+     *   "prop":"recordFormat",
+     *   "value":"deinemudda"
+     * }
+     *
+     *
+     *
+     * @param result
+     */
+
+    async onCreate(result) {
+        console.log(this.label, 'ON CREATE', JSON.stringify(result));
+
+        if (result.storeKey === 'paths') {
+            this.emit('create-path', result.prop, result.value);
+        }
+
+        if (result.storekey === 'users') {
+            this.emit('create-user', result.prop, result.value);
+        }
+    }
+
+    async onUpdate(result) {
+        console.log(this.label, 'ON UPDATE', JSON.stringify(result));
+
+        if (!['path', 'paths', 'users'].includes(result.storeKey)) {
+            this.emit('update-global', result.prop, result.value);
+        }
+
+        if (result.storeKey === 'path') {
+            this.emit('update-path-defaults', result.prop, result.value);
+        }
+
+        // save path update
+        if (result.storeKey === 'paths') {
+            this.emit('update-path', result.index, result.path, result.prop, result.value);
+        }
+
+        // save user update
+        if (result.storeKey === 'users') {
+            this.emit('update-user', result.index, result.user, result.prop, result.value);
+        }
+
+    }
+
+    async onDelete(result) {
+        console.log(this.label, 'ON DELETE', JSON.stringify(result));
+
+        if (result.storeKey === 'paths') {
+            this.emit('delete-path', result);
+        }
+
+        if (result.storeKey === 'users') {
+            this.emit('delete-user', result);
+        }
+    }
+
+    async onSkip(result) {
+        // dont do that
+        //console.log(this.label, 'ON SKIP', JSON.stringify(result));
+    }
+
+    on(event, fn) {
+        (this.listeners.get(event) ?? this.listeners.set(event, []).get(event)).push(fn);
+        return () => this.listeners.set(
+            event,
+            this.listeners.get(event).filter(f => f !== fn)
+        );
+    }
+
+    emit(event, ...args) {
+        this.listeners.get(event)?.forEach(fn => fn(...args));
+    }
+
+
+    get users() {
+        return this.store.users;
+    }
+
+    get general() {
+        return this.store.general;
+    }
+
+    get auth() {
+        return this.store.auth;
+    }
+
+    get api() {
+        return this.store.api;
+    }
+
+    get pprof() {
+        return this.store.pprof;
+    }
+
+    get metrics() {
+        return this.store.metrics;
+    }
+
+    get playback() {
+        return this.store.playback;
+    }
+
+    get rtsp() {
+        return this.store.rtsp;
+    }
+
+    get rtmp() {
+        return this.store.rtmp;
+    }
+
+    get hls() {
+        return this.store.hls;
+    }
+
+    get webrtc() {
+        return this.store.webrtc;
+    }
+
+    get srt() {
+        return this.store.srt;
+    }
+
+    get path() {
+        return this.store.path;
+    }
+
+    get paths() {
+        return this.store.paths;
+    }
+
+    /**
+     * SETTER
+     * @param val
+     */
+
+    set users(val) {
+        this.store.users = val;
+    }
+
+    set general(val) {
+        this.store.general = val;
+    }
+
+    set auth(val) {
+        this.store.auth = val;
+    }
+
+    set api(val) {
+        this.store.api = val;
+    }
+
+    set pprof(val) {
+        this.store.pprof = val;
+    }
+
+    set metrics(val) {
+        this.store.metrics = val;
+    }
+
+    set playback(val) {
+        this.store.playback = val;
+    }
+
+    set rtsp(val) {
+        this.store.rtsp = val;
+    }
+
+    set rtmp(val) {
+        this.store.rtmp = val;
+    }
+
+    set hls(val) {
+        this.store.hls = val;
+    }
+
+    set webrtc(val) {
+        this.store.webrtc = val;
+    }
+
+    set srt(val) {
+        this.store.srt = val;
+    }
+
+    set path(val) {
+        this.store.path = val;
+    }
+
+    set paths(val) {
+        this.store.paths = val;
+    }
+
+}

@@ -1,12 +1,12 @@
-import Component from "./component.js";
+import Component from "./Component.js";
 import Button from "./button.js";
 
 export default class PermissionsInput extends Component {
-    constructor(settings, prop, options = {}, parent) {
-        super(settings, prop, options, parent);
+    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
+        super(parent, storeKey, store, prop, inputType, values, locked, options);
 
         this.elementTag = 'input';
-        this.defaults = {
+        this.elementProps = {
             type: 'hidden',
             name: `input-${this.name}`,
             value: JSON.stringify(this.value)
@@ -20,9 +20,9 @@ export default class PermissionsInput extends Component {
         this.renderTextInputs();
 
 
-        this.target.append(this.element);
-        this.target.append(this.inputs);
-        this.target.classList.add('rows');
+        this.targetElement.append(this.element);
+        this.targetElement.append(this.inputs);
+        this.targetElement.classList.add('rows');
     }
 
     renderTextInputs() {
@@ -65,16 +65,19 @@ export default class PermissionsInput extends Component {
         input.type = 'text';
         input.value = value.path || '';
         input.name = `input-${this.name}-path`;
-        input.oninput = e => this.concatValue();
+        input.onblur = e => this.concatValue();
+        input.onkeyup = e => e.key === 'Enter' ? this.concatValue() : null;
         input.placeholder = 'path ...';
         row.append(input);
 
         // the clear button
-        const clearButton = new Button(this.settings, this.prop, {
-            innerHTML: '🞬',
-            className: 'button clear',
-            onclick: (e) => this.clearRow(row)
-        }, this.parent);
+        const clearButton = new Button(this.parent,
+            this.storeKey, this.store, this.prop,
+            this.inputType, this.values, this.locked, {
+                innerHTML: '🞬',
+                className: 'button clear',
+                onclick: (e) => this.clearRow(row)
+            });
         row.append(clearButton.element);
 
         return row;

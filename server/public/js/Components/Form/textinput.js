@@ -1,17 +1,14 @@
-import Component from "./component.js";
+import Component from "./Component.js";
 
 export default class TextInput extends Component {
-    constructor(settings, prop, options = {}, tab) {
-        super(settings, prop, options, tab);
+    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
+        super(parent, storeKey, store, prop, inputType, values, locked, options);
 
         this.elementTag = 'input';
-        this.defaults = {
-            id: '',
-            className: '',
+        this.elementProps = {
             type: 'text',
-            disabled: '',
             dataset: {},
-            value: this.settings[this.prop],
+            value: this.value,
             placeholder: 'type something ...',
             //oninput: (e) => this.value = e.target.value,
             onblur: e => this.value = e.target.value,
@@ -27,12 +24,31 @@ export default class TextInput extends Component {
         this.check();
     }
 
-    render(){
+    render() {
         super.render();
-        this.target.append(this.element);
+        this.targetElement.append(this.element);
     }
 
     check() {
 
+    }
+
+    get value() {
+        return super.value;
+    }
+
+    // extend with type convert
+    set value(value) {
+        const number = Number(value);
+
+        if (value === '') {
+            super.value = value;
+        } else {
+            if (!Number.isNaN(number)) {
+                super.value = number;
+            } else {
+                super.value = value;
+            }
+        }
     }
 }

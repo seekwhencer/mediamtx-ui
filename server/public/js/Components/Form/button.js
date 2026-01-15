@@ -1,11 +1,11 @@
-import Component from "./component.js";
+import Component from "./Component.js";
 
 export default class Button extends Component {
-    constructor(settings, prop, options = {}, tab) {
-        super(settings, prop, options, tab);
+    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
+        super(parent, storeKey, store, prop, inputType, values, locked, options);
 
         this.elementTag = 'button';
-        this.defaults = {
+        this.elementProps = {
             'id': '',
             'className': '',
             'type': 'button',

@@ -1,12 +1,11 @@
 const PathGroups = [
     {
         name: 'Source',
-        slug: 'source',
-        tabs: [
+        storeKey: 'source',
+        columns: [
             {
                 name: 'Source',
-                slug: 'source',
-                fields: [
+                props: [
                     'source',
                     'sourceRedirect',
                     'sourceFingerprint',
@@ -16,8 +15,7 @@ const PathGroups = [
                 ]
             }, {
                 name: 'I/O',
-                slug: 'io',
-                fields: ['maxReaders',
+                props: ['maxReaders',
                     'srtReadPassphrase',
                     'fallback',
                     'useAbsoluteTimestamp',
@@ -28,18 +26,16 @@ const PathGroups = [
         ]
     }, {
         name: 'Recording',
-        slug: 'recording',
-        tabs: [
+        storeKey: 'recording',
+        columns: [
             {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: ['record', 'recordPath',
+                props: ['record', 'recordPath',
                     'recordFormat',
                     'recordMaxPartSize']
             }, {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: [
+                props: [
                     'recordPartDuration',
                     'recordSegmentDuration',
                     'recordDeleteAfter',
@@ -48,12 +44,11 @@ const PathGroups = [
         ]
     }, {
         name: 'RTSP',
-        slug: 'rtsp',
-        tabs: [
+        storeKey: 'rtsp',
+        columns: [
             {
                 name: 'Enabled',
-                slug: 'enabled',
-                fields: [
+                props: [
                     // Default path settings -> RTSP source (when source is a RTSP or a RTSPS URL)
                     'rtspTransport',
                     'rtspAnyPort',
@@ -66,8 +61,8 @@ const PathGroups = [
         ]
     }, {
         name: 'Raspberry Pi Cam',
-        slug: 'raspicam',
-        fields: [
+        storeKey: 'raspicam',
+        props: [
             'rpiCameraCamID',
             'rpiCameraSecondary',
             'rpiCameraWidth',
@@ -121,12 +116,11 @@ const PathGroups = [
         ]
     }, {
         name: 'HOOKS',
-        slug: 'hooks',
-        tabs: [
+        storeKey: 'hooks',
+        columns: [
             {
                 name: 'Settings',
-                slug: 'settings',
-                fields: ['runOnInit',
+                props: ['runOnInit',
                     'runOnInitRestart',
                     'runOnDemand',
                     'runOnDemandRestart',
@@ -139,7 +133,7 @@ const PathGroups = [
                     'runOnRead',
                     'runOnReadRestart',
                     'runOnRecordSegmentCreate',
-                    'runOnRecordSegmentComplete',]
+                    'runOnRecordSegmentComplete']
             }
         ]
     },

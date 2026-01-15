@@ -1,8 +1,8 @@
 import OverviewTab from "./overview.js";
-import ServerTab from "./server.js";
-import StreamsTab from "./streams.js";
-import PathDefaultsTab from "./path.js";
-import UsersTab from "./users.js";
+import ServerTab from "./ServerTab.js";
+import StreamsTab from "./StreamsTab.js";
+import PathDefaultsTab from "./PathTab.js";
+import UsersTab from "./UsersTab.js";
 import SourcesTab from "./sources.js";
 
 export {

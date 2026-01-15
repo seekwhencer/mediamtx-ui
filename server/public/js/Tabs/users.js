@@ -1,4 +1,4 @@
-import Tab from "./tab.js";
+import Tab from "./Tab.js";
 import UserRow from "../Components/Users/user.js";
 
 export default class UsersTab extends Tab {
