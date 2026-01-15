@@ -1,11 +1,16 @@
 .users {
     margin-top: 150px;
 
+    .user-list {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 16px;
+    }
+
     .user {
+        width: 300px;
         background-color: var(--shift-005);
         position: relative;
-        width: 600px;
-
         border: 1px solid var(--light-border-color);
         border-radius: 5px;
         margin: 0 auto 30px auto;
@@ -82,11 +87,12 @@
         }
 
         &.delete {
-            position: absolute;
-            left: -200px;
-            top: 150px;
             background-color: var(--color-primary-conter);
             padding-left: 45px;
+            position: relative;
+            margin: 20px auto 0 auto;
+            display: block;
+
 
             svg {
                 width: 20px;

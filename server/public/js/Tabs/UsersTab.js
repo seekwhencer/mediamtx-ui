@@ -29,7 +29,7 @@ export default class UsersTab extends Tab {
         this.page.element.append(this.element);
 
         this.list = document.createElement('div');
-        this.list.className = 'users-list';
+        this.list.className = 'user-list';
         this.element.append(this.list);
 
         this.listeners = [

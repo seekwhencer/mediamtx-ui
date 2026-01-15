@@ -26,17 +26,10 @@ export default class UserRow {
         this.element.className = 'user';
 
         // index number
-        const indexElement = document.createElement("div");
+        /*const indexElement = document.createElement("div");
         indexElement.className = 'index';
         indexElement.innerHTML = `#${this.index + 1}`;
-        this.element.append(indexElement);
-
-        // delete button
-        const deleteButton = document.createElement("button");
-        deleteButton.className = 'delete';
-        deleteButton.innerHTML = `${this.page.icons.svg['user-minus']} Delete user`;
-        deleteButton.onclick = () => this.delete();
-        this.element.append(deleteButton);
+        this.element.append(indexElement);*/
 
         this.schema.fields.forEach(prop => {
             const values = options[prop] || false;          // available enums for select or multiselect
@@ -48,6 +41,13 @@ export default class UserRow {
             this.items[prop] = new FormItem(this, false, store, prop, inputType, values, locked, {});
             this.element.append(this.items[prop].element);
         });
+
+        // delete button
+        const deleteButton = document.createElement("button");
+        deleteButton.className = 'delete';
+        deleteButton.innerHTML = `${this.page.icons.svg['user-minus']} Delete user`;
+        deleteButton.onclick = () => this.delete();
+        this.element.append(deleteButton);
     }
 
     delete() {
