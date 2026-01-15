@@ -21,10 +21,8 @@ export default class StreamItem {
     }
 
     render() {
-        if (this.element)
-            this.destroy();
+        this.destroy();
 
-        // Container
         this.element = document.createElement("div");
         this.element.className = "path";
 

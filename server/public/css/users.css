@@ -2,9 +2,8 @@
     margin-top: 150px;
 
     .user {
+        background-color: var(--shift-005);
         position: relative;
-        flex-wrap: wrap;
-        gap: 10px;
         width: 600px;
 
         border: 1px solid var(--light-border-color);
@@ -13,6 +12,7 @@
         padding: 20px 30px;
 
         .index {
+            display: block;
             position: absolute;
             left: -200px;
             top: -10px;
@@ -22,56 +22,45 @@
 
         input {
             width: calc(100% - 20px);
-
         }
 
-        .field {
-            flex: 0 0 auto;
-            margin-bottom: 10px;
+        .item {
+            width: 100%;
 
-            &.username {
-                flex: 1;
-
-                input {
-                    font-weight: 800;
+            &.select-text {
+                input[type=text] {
+                    font-weight: 400;
                     font-size: 25px;
-                    line-height: 50px;
-                    background-color: rgba(0, 0, 0, 0.1);
                     border: none;
                     border-bottom: 2px solid var(--light-border-color);
                 }
-            }
 
-            &.password {
-                flex: 1;
-            }
-
-            &.permissions {
-                flex: 1;
-
-                .row {
-                    display: flex;
-                    margin-bottom: 5px;
-
-                    select {
-                        flex: 1;
-                    }
-
-                    input {
-                        flex: 3;
-                    }
+                select {
+                    font-size: 25px;
+                    margin: 0;
+                    position: absolute;
+                    border: none;
+                    border-bottom: 2px solid var(--light-border-color);
+                    width: 100%;
                 }
-            }
 
-            &.ips {
-                input {
-                    margin-bottom: 5px;
+                &.custom {
+                    select {
+                        right: 0;
+                        width: 100px;
+                    }
+
+                    input[type=text] {
+                        width: calc(100% - 125px);
+                    }
                 }
             }
         }
     }
 
     button {
+        overflow: hidden;
+
         &.add {
             margin: auto;
             display: block;
@@ -111,4 +100,5 @@
             }
         }
     }
+
 }

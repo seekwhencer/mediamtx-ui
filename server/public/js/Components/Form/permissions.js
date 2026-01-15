@@ -65,7 +65,8 @@ export default class PermissionsInput extends Component {
         input.type = 'text';
         input.value = value.path || '';
         input.name = `input-${this.name}-path`;
-        input.oninput = e => this.concatValue();
+        input.onblur = e => this.concatValue();
+        input.onkeyup = e => e.key === 'Enter' ? this.concatValue() : null;
         input.placeholder = 'path ...';
         row.append(input);
 

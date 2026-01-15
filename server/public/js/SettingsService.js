@@ -1,6 +1,6 @@
-import SettingProxy from "./Settings/SettingProxy.js";
 import PathItemProxy from "./Settings/PathItemProxy.js";
 import UserItemProxy from "./Settings/UserItemProxy.js";
+import {UsersSettings} from "./Settings/index.js";
 
 export default class SettingsService {
     constructor(settings) {
@@ -13,7 +13,7 @@ export default class SettingsService {
         this.store = this.settings.store;
         this.csrfToken = this.page.auth.csrfToken;
 
-        this.debounceTime = 100;
+        this.debounceTime = 300;
         this.debounce = {
             loadGlobal: 0,
             saveGlobal: 0,
@@ -56,7 +56,7 @@ export default class SettingsService {
         const data = await res.json();
 
         if (data.authInternalUsers) {
-            this.mergeUsers(data.authInternalUsers);
+            await this.mergeUsers(data.authInternalUsers);
             delete data.authInternalUsers;
         }
 
@@ -129,19 +129,19 @@ export default class SettingsService {
      * @param list
      */
     async mergeUsers(list) {
-        if (!this.store.users) return;
-
         // do nothing, if the data was not changed
         if (JSON.stringify(list) === JSON.stringify(this.store.users))
             return;
 
-        // drop all from existing users proxy
-        await this.flushUsers();
+        // drop the whole settings for users und recreate it
+        this.settings.tree.users = new UsersSettings(this.settings);
 
         // add all users
         for (const [index, user] of list.entries()) {
             await this.addUser(user, index);
         }
+
+        this.settings.emit('load-users');
     }
 
     /**
@@ -285,30 +285,34 @@ export default class SettingsService {
             this.deleteUser(0); // <-- repat 0, because the source update instantly
     }
 
-    async addUser(user, index) {
-        if (user === undefined) {
-            const length = [...this.store.users].length;
-            user = {...this.store.users[length - 1]}; // take the last one ;)
-            user.user = 'new';
-            user.pass = 'deinemudda';
+    async addUser(user) {
+        if (user === undefined)
+            return;
 
-            index = length;
-        }
+        let index = [...this.store.users].length;
 
         this.store.users[index] = new UserItemProxy(user, index, {
-            onUpdate: result => this.settings.onUpdate(result),
-            onSkip: result => this.settings.onSkip(result)
+            onUpdate: result => this.settings.tree.users.onUpdate({...result, user: user}),
+            onSkip: result => this.settings.tree.users.onUpdate({...result, user: user})
         });
+
+        //return await this.saveGlobal();
     }
 
-    deleteUser(index) {
+    async updateUser(index, user) {
+        // nothing to do
+        return await this.saveGlobal();
+    }
+
+    async deleteUser(index) {
         if (index === undefined)
             index = 0;
 
         if (!this.store.users[index])
             return;
 
-        delete this.store.users[index];
+        this.store.users.splice(index, 1);
+        return await this.saveGlobal();
     }
 
     /**
@@ -350,7 +354,7 @@ export default class SettingsService {
      * @returns {Promise<boolean|*>}
      */
     async updatePath(name, pathData) {
-        if(name !== pathData.name){
+        if (name !== pathData.name) {
             return await this.renamePath(name, pathData.name);
         } else {
             const res = await this.fm.fetch(

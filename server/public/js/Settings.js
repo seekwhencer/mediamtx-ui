@@ -82,7 +82,7 @@ export default class Settings {
      */
 
     async onCreate(result) {
-        //console.log(this.label, 'ON CREATE', JSON.stringify(result));
+        console.log(this.label, 'ON CREATE', JSON.stringify(result));
 
         if (result.storeKey === 'paths') {
             this.emit('create-path', result.prop, result.value);
@@ -94,7 +94,7 @@ export default class Settings {
     }
 
     async onUpdate(result) {
-        //console.log(this.label, 'ON UPDATE', JSON.stringify(result));
+        console.log(this.label, 'ON UPDATE', JSON.stringify(result));
 
         if (!['path', 'paths', 'users'].includes(result.storeKey)) {
             this.emit('update-global', result.prop, result.value);
@@ -111,13 +111,13 @@ export default class Settings {
 
         // save user update
         if (result.storeKey === 'users') {
-            this.emit('update-user', result.index, result.user);
+            this.emit('update-user', result.index, result.user, result.prop, result.value);
         }
 
     }
 
     async onDelete(result) {
-        //console.log(this.label, 'ON DELETE', JSON.stringify(result));
+        console.log(this.label, 'ON DELETE', JSON.stringify(result));
 
         if (result.storeKey === 'paths') {
             this.emit('delete-path', result);

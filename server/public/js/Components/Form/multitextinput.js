@@ -52,7 +52,8 @@ export default class MultiTextInput extends Component {
         input.type = 'text';
         input.value = value;
         input.name = `input-${this.name}-${value}`;
-        input.oninput = e => this.concatValue();
+        input.onblur = e => this.concatValue();
+        input.onkeyup = e => e.key === 'Enter' ? this.concatValue() : null;
         input.placeholder = 'add new ...'
         row.append(input);
 

@@ -14,7 +14,6 @@ export default class StreamsTab extends Tab {
             inputType: pathSettings.inputType ?? {}
         };
         this.pathDefaults = {...this.page.settings.path};
-
     }
 
     async render() {
