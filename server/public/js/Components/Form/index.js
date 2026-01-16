@@ -7,6 +7,7 @@ import MultiTextInput from './multitextinput.js';
 import PermissionsInput from "./permissions.js";
 import NumberInput from './numberinput.js';
 import SelectTextInput from './selecttextinput.js';
+import TextareaInput from "./textareainput.js";
 
 export {
     Button,
@@ -17,5 +18,6 @@ export {
     MultiTextInput,
     PermissionsInput,
     NumberInput,
-    SelectTextInput
+    SelectTextInput,
+    TextareaInput
 }

@@ -10,10 +10,11 @@ export default class SettingsService {
         this.settings = settings;
         this.page = this.settings.page;
         this.fm = this.page.fm;
+        this.loading = this.page.loading;
         this.store = this.settings.store;
         this.csrfToken = this.page.auth.csrfToken;
 
-        this.debounceTime = 300;
+        this.debounceTime = 100;
         this.debounce = {
             loadGlobal: 0,
             saveGlobal: 0,

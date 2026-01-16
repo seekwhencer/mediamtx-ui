@@ -24,6 +24,15 @@
     --space-l: 15px;
     --space-xl: 20px;
     --space-xxl: 30px;
+
+    --fs-xxs:7px;
+    --fs-xs: 8px;
+    --fs-s: 9px;
+    --fs-m:  10px;
+    --fs: 12px;
+    --fs-l: 14px;
+    --fs-xl: 20px;
+    --fs-xxl: 25px;
 }
 
 :root[data-theme="dark"] {

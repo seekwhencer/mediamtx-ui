@@ -179,3 +179,27 @@ input[type=checkbox] {
         border-color: var(--page-bg);
     }
 }
+
+textarea {
+    box-sizing: border-box;
+    display: inline-block;
+    margin: 0 0 0 2px;
+    padding: 8px;
+    font-family: Consolas, courier;
+    font-size: var(--fs);
+    color: var(--text-color);
+    border: 1px solid var(--light-border-color);
+    background-color: var(--light-med-bg);
+    border-radius: 3px;
+    width: calc(100% - 20px);
+
+    height: 60px;
+    resize: none;
+    overflow: hidden;
+    transition: height 0.25s ease-in-out;
+
+
+    &:focus-visible {
+        outline: 2px solid var(--color-primary);
+    }
+}
