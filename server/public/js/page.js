@@ -10,6 +10,7 @@ import TabNavigation from "./Components/Page/tab_navigation.js";
 import * as Tabs from "./Tabs/index.js";
 
 import LoginComponent from "./Components/Page/login.js";
+import LoadingIndicatorComponent from "./Components/Page/Loadingindicator.js";
 
 export default class Page {
     constructor() {
@@ -24,6 +25,7 @@ export default class Page {
         this.icons = new Icons(this);
         this.help = new Help(this);
         this.auth = new Auth(this);
+        this.loading = new LoadingIndicatorComponent(this);
     }
 
     async create() {

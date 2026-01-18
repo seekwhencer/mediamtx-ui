@@ -1,3 +1,8 @@
+:root {
+    --fs-form: var(--fs-ml);
+    --form-border-bottom: 1px solid var(--light-border-color);
+}
+
 label {
     display: block;
     font-size: 10px;
@@ -15,7 +20,7 @@ button {
     cursor: pointer;
     color: white;
     padding: 9px 10px;
-    font-size: 12px;
+    font-size: var(--fs-form);
     font-weight: 500;
 
     &[disabled] {
@@ -61,13 +66,19 @@ button {
     }
 }
 
+option {
+    font-family: var(--font-family), serif;
+    font-size: var(--fs-form);
+}
+
 select {
     -moz-appearance: toolbox;
     /*appearance: base-select;
     /*-webkit-appearance: none; /* Remove style Chrome */
     /*-moz-appearance: none; /* Remove style FireFox */
     color: var(--text-color);
-    border: 1px solid var(--light-border-color);
+    border: 0;
+    border-bottom: var(--form-border-bottom);
     background-color: var(--light-med-bg);
     padding: 8px;
     border-radius: 3px;
@@ -75,6 +86,7 @@ select {
     position: relative;
     width: calc(100% - 5px);
     margin-left: 2px;
+    font-size: var(--fs-form);
 
     &:open {
         outline: 2px solid var(--color-primary);
@@ -90,6 +102,8 @@ select {
         border-radius: initial;
         background-color: var(--light-med-bg);
         cursor: pointer;
+        font-family: var(--font-family), serif;
+        font-size: var(--fs-form);
 
         &:checked {
             background-color: var(--color-primary);
@@ -112,8 +126,10 @@ input[type=password] {
     margin: 0 0 0 2px;
     padding: 8px;
     font-family: var(--font-family);
+    font-size: var(--fs-form);
     color: var(--text-color);
-    border: 1px solid var(--light-border-color);
+    border: 0;
+    border-bottom: var(--form-border-bottom);
     background-color: var(--light-med-bg);
     border-radius: 3px;
     width: calc(100% - 20px);
@@ -188,15 +204,16 @@ textarea {
     font-family: Consolas, courier;
     font-size: var(--fs);
     color: var(--text-color);
-    border: 1px solid var(--light-border-color);
+    border: 0;
+    border-bottom: var(--form-border-bottom);
     background-color: var(--light-med-bg);
     border-radius: 3px;
-    width: calc(100% - 20px);
+    width: calc(100% - 4px);
 
     height: 60px;
     resize: none;
     overflow: hidden;
-    transition: height 0.25s ease-in-out;
+    transition: all 0.25s ease-in-out;
 
 
     &:focus-visible {

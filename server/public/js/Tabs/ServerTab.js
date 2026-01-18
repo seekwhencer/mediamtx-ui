@@ -10,12 +10,11 @@ export default class ServerTab extends Tab {
     }
 
     async render() {
-        if (this.element)
-            this.destroy();
-
         const ok = await this.service.loadGlobal();
         if (!ok)
             return;
+
+        this.destroy();
 
         // the box
         this.element = document.createElement("div");
@@ -81,6 +80,9 @@ export default class ServerTab extends Tab {
     }
 
     destroy() {
+        if (this.element === undefined)
+            return;
+
         super.destroy();
         Object.values(this.items).forEach(item => item.destroy());
         this.items = {};

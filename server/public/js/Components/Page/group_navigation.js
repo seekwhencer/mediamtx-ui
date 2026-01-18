@@ -51,7 +51,7 @@ export default class GroupNavigation {
     set selected(val) {
         this._selected = val;
 
-        window.history.pushState({}, "", `#${this.page.tabNavigation.tab.storeKey}/${this.selected}`);
+        window.history.pushState({}, "", `#${this.page.tabNavigation.tab.slug}/${this.selected}`);
         this.buttons.forEach(b => b.classList.remove("active"));
         this.buttons.filter(b => b.storeKey === this.selected)[0].classList.add("active");
         this.tab.group = this.group;

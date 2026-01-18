@@ -1,11 +1,78 @@
 .paths {
     display: block;
 
+    button {
+        &.add {
+            margin: 50px auto;
+            padding-left: 45px;
+            position: relative;
+
+            svg {
+                width: 20px;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                padding: 0 8px;
+                background-color: rgba(0, 0, 0, 0.2);
+                border-radius: 3px;
+            }
+        }
+
+        &.delete {
+            position: absolute;
+            left: 30px;
+            bottom: 20px;
+            background-color: var(--color-primary-conter);
+            padding-left: 45px;
+            font-size: var(--fs);
+
+            svg {
+                width: 20px;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                padding: 0 8px;
+                background-color: rgba(0, 0, 0, 0.2);
+                border-radius: 3px;
+            }
+        }
+
+        &.edit {
+            position: absolute;
+            left: 30px;
+            top: 20px;
+            font-size: var(--fs);
+            display: block;
+            height: 34px;
+            padding-left: 45px;
+
+            &.hidden {
+                display: none;
+            }
+
+            svg {
+                width: 20px;
+                height: 100%;
+                position: absolute;
+                left: 0;
+                top: 0;
+                padding: 0 8px;
+                background-color: rgba(0, 0, 0, 0.2);
+                border-radius: 3px;
+            }
+        }
+
+        &.clear {
+
+        }
+    }
+
     .path {
         display: grid;
         grid-template-columns: 20% 1fr; /* links fix 20%, rechts flexibel */
         grid-auto-rows: auto;
-        width: 100%;
         gap: var(--space-xxl);
         align-items: start;
 
@@ -15,7 +82,9 @@
         padding: var(--space-xl);
         position: relative;
 
-        .name {
+
+        .name, .source {
+            position: relative;
             grid-column: 2;
             grid-row: 1;
             align-self: start;
@@ -39,19 +108,61 @@
                 border: none;
                 border-bottom: 2px solid var(--light-border-color);
                 padding-left: 25px;
-                width: calc(80% - 100px);
+                width: calc(80% - 50px);
             }
 
             select {
                 font-size: 25px;
-                right: -5px;
+                right: 0;
                 position: absolute;
                 border: none;
                 border-bottom: 2px solid var(--light-border-color);
+                width: 100%;
             }
 
-            button {
-                bottom: 25px;
+            button.clear {
+                right: 20px;
+                bottom: 23px;
+            }
+        }
+
+        .source {
+            position: relative;
+            margin-top: 70px;
+            margin-bottom: -20px;
+
+            input[type=text] {
+                padding: 8px;
+                font-size: var(--fs-ml);
+            }
+
+            select {
+                font-size: var(--fs-ml);
+            }
+
+            &::before {
+                content: initial;
+            }
+
+
+        }
+
+        .form-item {
+            &.custom {
+                select {
+                    width: 20%;
+                }
+
+                button.clear {
+                    right: calc(20% + 30px);
+                    bottom: 23px;
+                }
+
+                &.source {
+                    input {
+                        width: calc(100% - 215px);
+                    }
+                }
             }
         }
 
@@ -73,43 +184,18 @@
             grid-row: 2;
             align-self: start;
         }
-    }
 
-    button {
-        &.add {
-            margin: 50px auto;
-            display: block;
-            padding-left: 45px;
-            position: relative;
-
-            svg {
-                width: 20px;
-                height: 20px;
-                position: absolute;
-                left: 0;
-                top: 0;
-                padding: 8px;
-                background-color: rgba(0, 0, 0, 0.2);
-                border-radius: 3px;
+        &.shrunk {
+            .groups {
+                display: none;
             }
-        }
 
-        &.delete {
-            position: absolute;
-            left: 30px;
-            bottom: 20px;
-            background-color: var(--color-primary-conter);
-            padding-left: 45px;
+            .group-navigation {
+                display: none;
+            }
 
-            svg {
-                width: 20px;
-                height: 20px;
-                position: absolute;
-                left: 0;
-                top: 0;
-                padding: 8px;
-                background-color: rgba(0, 0, 0, 0.2);
-                border-radius: 3px;
+            button.delete {
+                display: none;
             }
         }
     }

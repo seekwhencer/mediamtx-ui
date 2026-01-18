@@ -1,5 +1,5 @@
 # 🎥mediamtx-ui
-Configure your [mediamtx server](https://mediamtx.org/) with this dependency free (so far) web ui.
+Configure your [mediaMTX server](https://mediamtx.org/) with this dependency free (so far) web ui.
 - It is running in a dockerized setup.
 - The UI has it's own webserver, running in a separate container.  
 - Tested on a Raspberry pi 4.
@@ -18,7 +18,7 @@ Configure your [mediamtx server](https://mediamtx.org/) with this dependency fre
 - dockerized setup for a local scenario
 
 ## 🡆 Features (future)
-- orchestrate mediamtx by node.js (to reload the config or load other configurations)
+- orchestrate mediaMTX server by node.js (to reload the config or load other configurations)
 - config switcher (chose between different configurations)
 - source management
 - add, edit, delete (manage) local usb devices with ffmpeg
@@ -206,6 +206,7 @@ Saves the current runtime config into `config/mediamtx.yml` and rotates the old 
 - settings as proxy object, emitting events
 - events + ejecters
 - fail safe inputs by resetting the fields to their previous working values
+- login
 
 ## 🡆 @TODO
 ### Feature
@@ -220,8 +221,6 @@ Saves the current runtime config into `config/mediamtx.yml` and rotates the old 
 - as metrics bridge to the influxdb
 
 ### Frontend
-- hooks as textarea
-- login
 - responsive
 - locked props
 

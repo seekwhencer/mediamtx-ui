@@ -25,15 +25,14 @@ export default class TextareaInput extends Component {
     render() {
         super.render();
 
-        this.initialHeight = getComputedStyle(this.element).height;
-
         this.element.onfocus = this.element.oninput = () => {
-            this.element.style.height = 'auto';
-            const height = this.element.scrollHeight;
+            this.initialHeight = this.initialHeight === undefined ? parseInt(getComputedStyle(this.element).height.replace('px', '')) : this.initialHeight;
+            this.element.style.height = 'auto'; // <- important
+            const height = this.element.scrollHeight < this.initialHeight ? this.initialHeight : this.element.scrollHeight;
             this.element.style.height = `${height}px`;
         };
 
-        this.element.addEventListener('blur', () => this.element.style.height = this.initialHeight);
+        this.element.addEventListener('blur', () => this.element.style.height = `${this.initialHeight}px`);
         this.targetElement.append(this.element);
     }
 

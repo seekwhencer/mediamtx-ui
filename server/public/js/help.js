@@ -29,7 +29,7 @@ export default class Help {
     renderTooltip(button, prop) {
         this.removeTooltip();
 
-        this.item = button.closest('.item');
+        this.item = button.closest('.form-item');
         const label = button.closest('label');
 
         this.tooltip = document.createElement("div");

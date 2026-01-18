@@ -48,19 +48,6 @@ export default class PermissionsInput extends Component {
         const row = document.createElement('div');
         row.className = 'row';
 
-        const select = document.createElement('select');
-        select.name = `input-${this.name}-action`;
-        select.change = e => this.concatValue();
-
-        ['', 'publish', 'read', 'playback', 'api', 'metrics', 'pprof'].forEach(option => {
-            const o = document.createElement("option");
-            o.innerHTML = o.value = option;
-            select.append(o);
-        });
-        select.oninput = (e) => this.concatValue();
-        select.value = value.action;
-        row.append(select);
-
         const input = document.createElement('input');
         input.type = 'text';
         input.value = value.path || '';
@@ -68,6 +55,24 @@ export default class PermissionsInput extends Component {
         input.onblur = e => this.concatValue();
         input.onkeyup = e => e.key === 'Enter' ? this.concatValue() : null;
         input.placeholder = 'path ...';
+
+        const select = document.createElement('select');
+        select.name = `input-${this.name}-action`;
+
+        ['', 'publish', 'read', 'playback', 'api', 'metrics', 'pprof'].forEach(option => {
+            const o = document.createElement("option");
+            o.innerHTML = o.value = option;
+            select.append(o);
+        });
+
+        select.change = e => this.concatValue();
+        select.oninput = e => {
+            this.concatValue();
+            input.focus();
+        }
+        select.value = value.action;
+
+        row.append(select);
         row.append(input);
 
         // the clear button

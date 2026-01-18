@@ -8,7 +8,7 @@ export default class FormItem extends Component {
 
         this.elementTag = 'div';
         this.elementProps = {
-            className: 'item'
+            className: 'form-item'
         };
 
         this.init();

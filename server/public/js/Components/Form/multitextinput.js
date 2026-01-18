@@ -54,7 +54,7 @@ export default class MultiTextInput extends Component {
         input.name = `input-${this.name}-${value}`;
         input.onblur = e => this.concatValue();
         input.onkeyup = e => e.key === 'Enter' ? this.concatValue() : null;
-        input.placeholder = 'add new ...'
+        input.placeholder = 'add new ...';
         row.append(input);
 
         // the clear button
@@ -86,6 +86,7 @@ export default class MultiTextInput extends Component {
             if (input.value === '')
                 row.remove();
         });
+
         const add = this.renderRow('');
         this.inputs.append(add);
     }

@@ -63,6 +63,7 @@ export default class TabNavigation {
     set selected(val) {
         this._selected = val;
 
+        this.page.fm.abortAll();
         window.history.pushState({}, "", `#${this.selected}`);
         this.buttons.forEach(b => b.classList.remove("active"));
         this.buttons.filter(b => b.slug === this.selected)[0].classList.add("active");

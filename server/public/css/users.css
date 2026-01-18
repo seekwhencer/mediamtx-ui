@@ -5,16 +5,15 @@
         display: grid;
         grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 16px;
+        margin-bottom: 20px;
     }
 
     .user {
-        width: 300px;
         background-color: var(--shift-005);
         position: relative;
         border: 1px solid var(--light-border-color);
         border-radius: 5px;
-        margin: 0 auto 30px auto;
-        padding: 20px 30px;
+        padding: 20px 10px;
 
         .index {
             display: block;
@@ -29,7 +28,7 @@
             width: calc(100% - 20px);
         }
 
-        .item {
+        .form-item {
             width: 100%;
 
             &.select-text {
@@ -38,25 +37,32 @@
                     font-size: 25px;
                     border: none;
                     border-bottom: 2px solid var(--light-border-color);
+                    display: none;
                 }
 
                 select {
                     font-size: 25px;
                     margin: 0;
-                    position: absolute;
+                    position: relative;
                     border: none;
                     border-bottom: 2px solid var(--light-border-color);
                     width: 100%;
+                }
+
+                button.clear{
+                    bottom: 16px;
                 }
 
                 &.custom {
                     select {
                         right: 0;
                         width: 100px;
+                        position: absolute;
                     }
 
                     input[type=text] {
                         width: calc(100% - 125px);
+                        display: block;
                     }
                 }
             }
@@ -65,6 +71,7 @@
 
     button {
         overflow: hidden;
+        display: block;
 
         &.add {
             margin: auto;
@@ -74,11 +81,11 @@
 
             svg {
                 width: 20px;
-                height: 20px;
+                height: 100%;
                 position: absolute;
                 left: 0;
                 top: 0;
-                padding: 8px;
+                padding: 0 8px;
                 background-color: rgba(0, 0, 0, 0.2);
                 border-radius: 3px;
             }
@@ -91,16 +98,14 @@
             padding-left: 45px;
             position: relative;
             margin: 20px auto 0 auto;
-            display: block;
-
 
             svg {
                 width: 20px;
-                height: 20px;
+                height: 100%;
                 position: absolute;
                 left: 0;
                 top: 0;
-                padding: 8px;
+                padding: 0 8px;
                 background-color: rgba(0, 0, 0, 0.2);
                 border-radius: 3px;
             }

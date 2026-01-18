@@ -24,7 +24,14 @@ export default class StreamItem {
         this.destroy();
 
         this.element = document.createElement("div");
-        this.element.className = "path";
+        this.element.className = "path shrunk";
+
+        // Collapse-Button
+        this.editButton = document.createElement("button");
+        this.editButton.className = 'edit';
+        this.editButton.innerHTML = `${this.page.icons.svg['settings']} Edit path`;
+        this.editButton.onclick = () => this.collapse();
+        this.element.append(this.editButton);
 
         // Delete-Button
         const deleteButton = document.createElement("button");
@@ -45,16 +52,31 @@ export default class StreamItem {
         const inputTypes = this.schema.inputType || {};
         const locks = this.schema.locked || [];
 
-        const values = options['name'] || false;          // available enums for select or multiselect
-        const inputType = inputTypes['name'] || false;    // the name of the form input class
-        const locked = locks.includes('name');            // not editable props
+        // name form item
+        let values = options['name'] || false;          // available enums for select or multiselect
+        let inputType = inputTypes['name'] || false;    // the name of the form input class
+        let locked = locks.includes('name');            // not editable props
 
         const nameItem = new FormItem(this, false, store, 'name', inputType, values, locked, {
-            className: 'item name'
+            className: 'form-item name'
         });
 
         this.items.name = nameItem;
         this.element.append(nameItem.element);
+
+        // source form item
+        values = options['source'] || false;          // available enums for select or multiselect
+        inputType = inputTypes['source'] || false;    // the name of the form input class
+        locked = locks.includes('source');            // not editable props
+
+        const sourceItem = new FormItem(this, false, store, 'source', inputType, values, locked, {
+            className: 'form-item source'
+        });
+
+        this.items.name = nameItem;
+        this.items.source = sourceItem;
+        this.element.append(nameItem.element);
+        this.element.append(sourceItem.element);
 
         return this.element;
     }
@@ -80,6 +102,9 @@ export default class StreamItem {
 
                 if (col.props) {
                     col.props.forEach(prop => {
+                        if (prop === 'source')
+                            return;
+
                         const values = options[prop] || false;          // available enums for select or multiselect
                         const inputType = inputTypes[prop] || false;    // the name of the form input class
                         const locked = locks.includes(prop);            // not editable props
@@ -109,6 +134,15 @@ export default class StreamItem {
             });
             this.groupsElement.append(groupElement);
         }
+    }
+
+    collapse() {
+        this.element.classList.remove('shrunk');
+        this.editButton.classList.add('hidden');
+    }
+
+    expand() {
+
     }
 
     delete() {
