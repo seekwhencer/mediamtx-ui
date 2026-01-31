@@ -2,8 +2,8 @@ import Component from "./Component.js";
 import {Button, TextInput} from "./index.js";
 
 export default class SelectTextInput extends Component {
-    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
-        super(parent, storeKey, store, prop, inputType, values, locked, options);
+    constructor(options) {
+        super(options);
         this.label = this.constructor.name.toUpperCase();
 
         this.elementTag = 'select';
@@ -35,22 +35,35 @@ export default class SelectTextInput extends Component {
         this.parent.element.classList.add('select-text');
 
         // the text input
-        this.sourceInput = new TextInput(this.parent,
-            this.storeKey, this.store, this.prop,
-            this.inputType, this.values, this.locked, {
+        this.sourceInput = new TextInput({
+            parent: this.parent,
+            storeKey: this.storeKey,
+            store: this.store,
+            prop: this.prop,
+            inputType: this.inputType,
+            values: this.values,
+            locked: this.locked,
+            elementOptions: {
                 onblur: e => this.checkValue(e.target.value),
                 onkeyup: e => e.key === 'Enter' ? this.checkValue(e.target.value) : null
-            });
-
+            }
+        });
 
         // the clear button
-        const clearButton = new Button(this.parent,
-            this.storeKey, this.store, this.prop,
-            this.inputType, this.values, this.locked, {
+        const clearButton = new Button({
+            parent: this.parent,
+            storeKey: this.storeKey,
+            store: this.store,
+            prop: this.prop,
+            inputType: this.inputType,
+            values: this.values,
+            locked: this.locked,
+            elementOptions: {
                 innerHTML: '🞬',
                 className: 'button clear',
                 onclick: (e) => this.value = ''
-            });
+            }
+        });
 
         this.targetElement.append(clearButton.element);
 

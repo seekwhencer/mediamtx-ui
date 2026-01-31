@@ -2,8 +2,8 @@ import Component from "./Component.js";
 import Button from "./button.js";
 
 export default class SelectInput extends Component {
-    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
-        super(parent, storeKey, store, prop, inputType, values, locked, options);
+    constructor(options) {
+        super(options);
 
         this.elementTag = 'select';
         this.elementProps = {
@@ -34,13 +34,20 @@ export default class SelectInput extends Component {
         this.setValue(this.value);
 
         // the clear button
-        const clearButton = new Button(this.parent,
-            this.storeKey, this.store, this.prop,
-            this.inputType, this.values, this.locked, {
+        const clearButton = new Button({
+            parent: this.parent,
+            storeKey: this.storeKey,
+            store: this.store,
+            prop: this.prop,
+            inputType: this.inputType,
+            values: this.values,
+            locked: this.locked,
+            elementOptions: {
                 innerHTML: '🞬',
                 className: 'button clear',
                 onclick: (e) => this.value = ''
-            });
+            }
+        });
 
         this.targetElement.append(clearButton.element);
     }

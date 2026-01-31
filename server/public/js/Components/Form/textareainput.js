@@ -1,8 +1,8 @@
 import Component from "./Component.js";
 
 export default class TextareaInput extends Component {
-    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
-        super(parent, storeKey, store, prop, inputType, values, locked, options);
+    constructor(options) {
+        super(options);
 
         this.elementTag = 'textarea';
         this.elementProps = {

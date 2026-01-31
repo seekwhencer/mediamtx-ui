@@ -161,34 +161,6 @@ const ServerGroups = [
         ]
     },
     {
-        name: 'Authentication',
-        storeKey: 'auth',
-        columns: [
-            {
-                name: 'Connection',
-                props: [
-                    'authMethod',
-                    'authHTTPAddress'
-                ]
-            }, {
-                name: 'Security',
-                props: [
-                    'authJWTJWKS',
-                    'authJWTJWKSFingerprint',
-                    'authJWTClaimKey',
-                    'authJWTInHTTPQuery'
-                ]
-            }, {
-                name: 'Excludes',
-                props: [
-
-                    'authHTTPExclude',
-                    'authJWTExclude'
-                ]
-            }
-        ]
-    },
-    {
         name: 'PPROF',
         storeKey: 'pprof',
         columns: [
@@ -224,6 +196,34 @@ const ServerGroups = [
                     'metricsServerCert',
                     'metricsAllowOrigins',
                     'metricsTrustedProxies'
+                ]
+            }
+        ]
+    },
+    {
+        name: 'Authentication',
+        storeKey: 'auth',
+        columns: [
+            {
+                name: 'Connection',
+                props: [
+                    'authMethod',
+                    'authHTTPAddress'
+                ]
+            }, {
+                name: 'Security',
+                props: [
+                    'authJWTJWKS',
+                    'authJWTJWKSFingerprint',
+                    'authJWTClaimKey',
+                    'authJWTInHTTPQuery'
+                ]
+            }, {
+                name: 'Excludes',
+                props: [
+
+                    'authHTTPExclude',
+                    'authJWTExclude'
                 ]
             }
         ]

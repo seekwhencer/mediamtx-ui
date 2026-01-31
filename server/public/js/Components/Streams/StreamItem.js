@@ -53,24 +53,31 @@ export default class StreamItem {
         const locks = this.schema.locked || [];
 
         // name form item
-        let values = options['name'] || false;          // available enums for select or multiselect
-        let inputType = inputTypes['name'] || false;    // the name of the form input class
-        let locked = locks.includes('name');            // not editable props
-
-        const nameItem = new FormItem(this, false, store, 'name', inputType, values, locked, {
-            className: 'form-item name'
+        const nameItem = new FormItem({
+            parent: this,
+            store: store,
+            prop: 'name',
+            inputType: inputTypes['name'] || false,
+            values: options['name'] || false,
+            locked: locks.includes('name'),
+            elementOptions: {
+                className: 'form-item name'
+            }
         });
 
         this.items.name = nameItem;
         this.element.append(nameItem.element);
 
-        // source form item
-        values = options['source'] || false;          // available enums for select or multiselect
-        inputType = inputTypes['source'] || false;    // the name of the form input class
-        locked = locks.includes('source');            // not editable props
-
-        const sourceItem = new FormItem(this, false, store, 'source', inputType, values, locked, {
-            className: 'form-item source'
+        const sourceItem = new FormItem({
+            parent: this,
+            store: store,
+            prop: 'source',
+            inputType: inputTypes['source'] || false,
+            values: options['source'] || false,
+            locked: locks.includes('source'),
+            elementOptions: {
+                className: 'form-item source'
+            }
         });
 
         this.items.name = nameItem;
@@ -105,11 +112,15 @@ export default class StreamItem {
                         if (prop === 'source')
                             return;
 
-                        const values = options[prop] || false;          // available enums for select or multiselect
-                        const inputType = inputTypes[prop] || false;    // the name of the form input class
-                        const locked = locks.includes(prop);            // not editable props
-
-                        const item = new FormItem(this, false, store, prop, inputType, values, locked, {});
+                        const item = new FormItem({
+                            parent: this,
+                            store: store,
+                            prop: prop,
+                            inputType: inputTypes[prop] || false,
+                            values: options[prop] || false,
+                            locked: locks.includes(prop),
+                            elementOptions: {}
+                        });
 
                         groupElement.append(item.element);
                         this.items[prop] = item;
@@ -124,11 +135,15 @@ export default class StreamItem {
             const groupElement = document.createElement("div");
             groupElement.className = "group fields";
             this.group.props.forEach(prop => {
-                const values = options[prop] || false;          // available enums for select or multiselect
-                const inputType = inputTypes[prop] || false;    // the name of the form input class
-                const locked = locks.includes(prop);            // not editable props
-
-                const item = new FormItem(this, false, store, prop, inputType, values, locked, {});
+                const item = new FormItem({
+                    parent: this,
+                    store: store,
+                    prop: prop,
+                    inputType: inputTypes[prop] || false,
+                    values: options[prop] || false,
+                    locked: locks.includes(prop),
+                    elementOptions: {}
+                });
                 groupElement.append(item.element);
                 this.items[prop] = item;
             });

@@ -32,13 +32,15 @@ export default class UserRow {
         this.element.append(indexElement);*/
 
         this.schema.fields.forEach(prop => {
-            const values = options[prop] || false;          // available enums for select or multiselect
-            const inputType = inputTypes[prop] || false;    // the name of the form input class
-            const locked = locks.includes(prop);            // not editable props
-
-            //console.log([store, options, inputTypes, locks, values, inputType, locked]);
-
-            this.items[prop] = new FormItem(this, false, store, prop, inputType, values, locked, {});
+            this.items[prop] = new FormItem({
+                parent: this,
+                store: store,
+                prop: prop,
+                inputType: inputTypes[prop] || false,
+                values: options[prop] || false,
+                locked: locks.includes(prop),
+                elementOptions: {}
+            });
             this.element.append(this.items[prop].element);
         });
 

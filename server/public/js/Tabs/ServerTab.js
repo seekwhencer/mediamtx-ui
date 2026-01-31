@@ -56,11 +56,17 @@ export default class ServerTab extends Tab {
                     const locks = this.settings[storeKey].locked || [];
 
                     col.props.forEach(prop => {
-                        const values = options[prop] || false;          // available enums for select or multiselect
-                        const inputType = inputTypes[prop] || false;    // the name of the form input class
-                        const locked = locks.includes(prop);            // not editable props
-
-                        const item = new FormItem(this, storeKey, store, prop, inputType, values, locked, {});
+                        //const item = new FormItem(this, storeKey, store, prop, inputType, values, locked, {});
+                        const item = new FormItem({
+                            parent: this,
+                            storeKey: storeKey,
+                            store: store,
+                            prop: prop,
+                            inputType: inputTypes[prop] || false,
+                            values: options[prop] || false,
+                            locked: locks.includes(prop),
+                            elementOptions : {}
+                        });
 
                         groupElement.append(item.element);
                         this.items[prop] = item;

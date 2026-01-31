@@ -1,6 +1,6 @@
 import Component from "./Component.js";
 
-export default class TextInput extends Component {
+export default class SliderInput extends Component {
     constructor(options) {
         super(options);
 
@@ -16,16 +16,10 @@ export default class TextInput extends Component {
             oninput: (e) => this.value = e.target.value,
         };
 
+        this.debounceTimer = false;
+
         this.init();
         this.render();
-    }
-
-    init() {
-        ['min', 'max', 'step'].forEach(attr => {
-            if (this.values[attr] !== undefined)
-                this.elementProps[attr] = this.values[attr];
-        });
-        super.init();
     }
 
     render() {
@@ -48,9 +42,12 @@ export default class TextInput extends Component {
 
     // extend with type convert
     set value(value) {
-        value = Number(value);
-        if (!Number.isNaN(value)) { // stop if not a number
-            super.value = value;
-        }
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+            value = Number(value);
+            if (!Number.isNaN(value)) { // stop if not a number
+                super.value = value;
+            }
+        }, 100);
     }
 }

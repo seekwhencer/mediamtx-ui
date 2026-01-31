@@ -8,6 +8,7 @@ import PermissionsInput from "./permissions.js";
 import NumberInput from './numberinput.js';
 import SelectTextInput from './selecttextinput.js';
 import TextareaInput from "./textareainput.js";
+import SliderInput from './sliderinput.js';
 
 export {
     Button,
@@ -19,5 +20,6 @@ export {
     PermissionsInput,
     NumberInput,
     SelectTextInput,
-    TextareaInput
+    TextareaInput,
+    SliderInput
 }

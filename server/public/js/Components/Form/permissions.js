@@ -2,8 +2,8 @@ import Component from "./Component.js";
 import Button from "./button.js";
 
 export default class PermissionsInput extends Component {
-    constructor(parent, storeKey, store, prop, inputType, values, locked, options) {
-        super(parent, storeKey, store, prop, inputType, values, locked, options);
+    constructor(options) {
+        super(options);
 
         this.elementTag = 'input';
         this.elementProps = {
@@ -76,13 +76,20 @@ export default class PermissionsInput extends Component {
         row.append(input);
 
         // the clear button
-        const clearButton = new Button(this.parent,
-            this.storeKey, this.store, this.prop,
-            this.inputType, this.values, this.locked, {
+        const clearButton = new Button({
+            parent: this.parent,
+            storeKey: this.storeKey,
+            store: this.store,
+            prop: this.prop,
+            inputType: this.inputType,
+            values: this.values,
+            locked: this.locked,
+            elementOptions: {
                 innerHTML: '🞬',
                 className: 'button clear',
                 onclick: (e) => this.clearRow(row)
-            });
+            }
+        });
         row.append(clearButton.element);
 
         return row;
