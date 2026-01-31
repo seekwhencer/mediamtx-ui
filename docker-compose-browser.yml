@@ -1,0 +1,22 @@
+networks:
+  camnet:
+    driver: bridge
+
+services:
+  browser:
+    build:
+      context: ./browser
+      dockerfile: Dockerfile
+    container_name: browser
+    command: ["/app/start.sh"]
+    shm_size: 1g
+    restart: unless-stopped
+    volumes:
+      - ./browser/start.sh:/app/start.sh:ro
+    environment:
+      DISPLAY: ":99"
+    networks:
+      - camnet
+    devices:
+      - '/dev/video10:/dev/video10'
+      - '/dev/video11:/dev/video11'

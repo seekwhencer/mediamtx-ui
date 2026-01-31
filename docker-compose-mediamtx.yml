@@ -5,7 +5,7 @@ networks:
 services:
 
   mediamtx:
-    image: bluenviron/mediamtx:latest
+    image: bluenviron/mediamtx:${MEDIAMTX_VERSION}
     container_name: mediamtx
     restart: unless-stopped
     ports:
@@ -14,8 +14,13 @@ services:
       - "${RTMP_PORT}:${RTMP_PORT}"                 # RTMP
       - "${WEBRTC_PORT}:${WEBRTC_PORT}"             # WebRTC API
       - "${WEBRTC_UDP_PORT}:${WEBRTC_UDP_PORT}/udp" # WebRTC ICE/UDP
-#      - "${API_PORT}:${API_PORT}"                   # API
+      - "${METRICS_PORT}:${METRICS_PORT}"           # Mmetrix ICE/UDP
+#      - "${API_PORT}:${API_PORT}"                   # API ! is reachable per docker network
     volumes:
       - ./config/mediamtx.yml:/mediamtx.yml:ro
+      - ./media:/media
     networks:
       - camnet
+    devices:
+      - '/dev/video10:/dev/video10'
+      - '/dev/video11:/dev/video11'

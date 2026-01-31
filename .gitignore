@@ -8,6 +8,7 @@ server/public/js/Settings/**/*
 /config/backup/**/*
 /config/auth.json
 server/build/**/*
+media/**/*
 
 !data/default.json
 !.gitkeep

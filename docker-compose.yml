@@ -23,10 +23,10 @@ services:
     volumes:
       - /app/node_modules
       - .:/app
-      - /usr/bin/ffmpeg:/usr/local/bin/ffmpeg:ro
-      - /usr/bin/ffprobe:/usr/local/bin/ffprobe:ro
-      - /usr/lib/:/usr/lib/:ro
-      - /etc/alternatives:/etc/alternatives/:ro
+#      - /usr/bin/ffmpeg:/usr/local/bin/ffmpeg:ro
+#      - /usr/bin/ffprobe:/usr/local/bin/ffprobe:ro
+#     - /usr/lib/:/usr/lib/:ro
+#     - /etc/alternatives:/etc/alternatives/:ro
     environment:
       - DEBUG=true
       - VERBOSE=2
