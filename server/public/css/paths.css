@@ -197,6 +197,10 @@
             button.delete {
                 display: none;
             }
+
+            .form-item.source {
+                display: none;
+            }
         }
     }
 }

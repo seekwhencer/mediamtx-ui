@@ -207,6 +207,26 @@ const ServerGroups = [
                 ]
             }
         ]
+    },
+    {
+        name: 'Metrics',
+        storeKey: 'metrics',
+        columns: [
+            {
+                name: 'Enabled',
+                props: ['metrics',
+                    'metricsAddress']
+            }, {
+                name: 'Security',
+                props: [
+                    'metricsEncryption',
+                    'metricsServerKey',
+                    'metricsServerCert',
+                    'metricsAllowOrigins',
+                    'metricsTrustedProxies'
+                ]
+            }
+        ]
     }
 ];
 

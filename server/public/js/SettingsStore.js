@@ -31,7 +31,8 @@ export default class SettingsStore {
             ...this.rtmp,
             ...this.hls,
             ...this.webrtc,
-            ...this.srt
+            ...this.srt,
+            ...this.metrics,
         };
 
         config.authInternalUsers = [];

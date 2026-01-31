@@ -22,6 +22,7 @@ export default class Server extends Events {
 
         this.engine.use(express.static(this.publicDir));
 
+
         this.csrfProtection = csrf();
 
         this.engine.set("trust proxy", 1);
@@ -52,9 +53,9 @@ export default class Server extends Events {
             next();
         });
 
-
         // Mediamtx API Proxy
         this.engine.use('/mediamtx', this.mediamtx.proxy.router);
+        this.engine.use('/mediamtx/metrics', this.mediamtx.metrics.router);
 
         // API routes
         this.routes = new Routes(this);

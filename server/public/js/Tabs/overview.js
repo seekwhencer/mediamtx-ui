@@ -66,7 +66,12 @@ export default class OverviewTab extends Tab {
                 if (!this.items[i.confName]) {
                     this.items[i.confName] = new StreamItem(i, this);
                 } else {
-                    this.items[i.confName].update(i);
+                    if(typeof this.items[i.confName].update === 'function') {
+                        console.log('++++++++++++++++', i.confName);
+                        this.items[i.confName].update(i);
+                    } else {
+                        console.log('>>>>>>>>>>>>>>', i.confName);
+                    }
                 }
             });
         }

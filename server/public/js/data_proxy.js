@@ -17,9 +17,9 @@ export default class DataProxy {
                 if (prop === 'length' && !Array.isArray(this.target)) {
                     return Object.keys(target).length;
                 }
-                if (prop === '_') {
+                /*if (prop === '_') {
                     return this; // this is the secret door to the class
-                }
+                }*/
                 if (prop === 'on') {
                     return (event, callback) => this.on(event, callback);
                 }
