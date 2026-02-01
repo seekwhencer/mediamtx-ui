@@ -52,8 +52,8 @@ export default class Slider {
     initState() {
         if (this.isRange) {
             this.state = {
-                start: this.isPow2 ? this.snap(toExp(this.min)) : this.snap(this.min),
-                end: this.isPow2 ? this.snap(toExp(this.max)) : this.snap(this.max)
+                start: this.isPow2 ? this.snap(toExp(this.min)) : this.snap(this.value[0]),
+                end: this.isPow2 ? this.snap(toExp(this.max)) : this.snap(this.value[1])
             };
         } else {
             this.state = {
@@ -204,7 +204,12 @@ export default class Slider {
 
     setValue(value) {
         console.log('SET VALUE', value);
-        this.state.value = this.isPow2 ? toExp(value) : value;
+        if (!this.isRange) {
+            this.state.value = this.isPow2 ? toExp(value) : value;
+        } else {
+            this.state.start = value[0];
+            this.state.end = value[1];
+        }
         this.updateUI();
     }
 

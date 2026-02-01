@@ -61,6 +61,7 @@ const PathGroups = [
                     'rtspAnyPort',
                     'rtspRangeType',
                     'rtspRangeStart',
+                    'rtspUDPSourcePortRange',
 
                     // Default path settings -> RTP source (when source is RTP)
                     'rtpSDP']

@@ -133,6 +133,7 @@
   "rtspAnyPort": "Support sources that don't provide server ports or use random server ports. This is a security issue and must be used only when interacting with sources that require it.",
   "rtspRangeType": "Range header to send to the source, in order to start streaming from the specified offset. available values: * clock: Absolute time * npt: Normal Play Time * smpte: SMPTE timestamps relative to the start of the recording",
   "rtspRangeStart": "Available values: * clock: UTC ISO 8601 combined date and time string, e.g. 20230812T120000Z * npt: duration such as \"300ms\", \"1.5m\" or \"2h45m\", valid time units are \"ns\", \"us\" (or \"µs\"), \"ms\", \"s\", \"m\", \"h\" * smpte: duration such as \"300ms\", \"1.5m\" or \"2h45m\", valid time units are \"ns\", \"us\" (or \"µs\"), \"ms\", \"s\", \"m\", \"h\"",
+  "rtspUDPSourcePortRange": "Range of ports used as source port in outgoing UDP packets.",
   "rtpSDP": "Default path settings -> RTP source (when source is RTP) session description protocol (SDP) of the RTP stream.",
   "sourceRedirect": "Default path settings -> Redirect source (when source is \"redirect\") path which clients will be redirected to. It can be can be a relative path (i.e. /otherstream) or an absolute RTSP URL.",
   "rpiCameraCamID": "Default path settings -> Raspberry Pi Camera source (when source is \"rpiCamera\") ID of the camera.",
