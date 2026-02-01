@@ -66,9 +66,7 @@ export default class SelectTextInput extends Component {
         });
 
         this.targetElement.append(clearButton.element);
-
         this.check();
-
     }
 
     checkValue(value) {

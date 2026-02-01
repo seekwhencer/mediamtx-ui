@@ -9,6 +9,8 @@ import NumberInput from './numberinput.js';
 import SelectTextInput from './selecttextinput.js';
 import TextareaInput from "./textareainput.js";
 import SliderInput from './sliderinput.js';
+import DurationSliderInput from "./durationsliderinput.js";
+import NumberSliderInput from './numbersliderinput.js';
 
 export {
     Button,
@@ -21,5 +23,7 @@ export {
     NumberInput,
     SelectTextInput,
     TextareaInput,
-    SliderInput
+    SliderInput,
+    DurationSliderInput,
+    NumberSliderInput
 }
