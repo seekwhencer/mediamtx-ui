@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 cp .env.example .env
-cp mediamtx.default.yml mediamtx.yml
+cp config/mediamtx.default.yml config/mediamtx.yml
 mkdir data
 touch data/cam1.json
 

@@ -38,6 +38,8 @@ services:
       - WEBRTC_PORT=${WEBRTC_PORT}
       - WEBRTC_UDP_PORT=${WEBRTC_UDP_PORT}
       - API_PORT=${API_PORT}
+      - MEDIAMTX_API_URL_BASE=http://mediamtx:9997/v3
+      - MEDIAMTX_METRICS_URL_BASE=http://mediamtx:9996/metrics
     devices:
       - '/dev/video0:/dev/video0'
       - '/dev/video1:/dev/video1'
