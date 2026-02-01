@@ -14,10 +14,17 @@ const PathGroups = [
                     'sourceOnDemandCloseAfter'
                 ]
             }, {
+                name: 'Always Available',
+                props: [
+                    'alwaysAvailable',
+                    'alwaysAvailableFile',
+                    'alwaysAvailableTracks'
+                ]
+            }, {
                 name: 'I/O',
-                props: ['maxReaders',
+                props: [
+                    'maxReaders',
                     'srtReadPassphrase',
-                    'fallback',
                     'useAbsoluteTimestamp',
                     'overridePublisher',
                     'srtPublishPassphrase'

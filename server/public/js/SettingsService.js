@@ -244,7 +244,13 @@ export default class SettingsService {
             credentials: 'include'
         });
 
-        if (!res.ok) console.error('SAVE GLOBAL FAILED');
+        const data = await res.json();
+        if (!res.ok) {
+            console.error('SAVE GLOBAL FAILED');
+            this.page.toast.error(data.error);
+        } else {
+            this.page.toast.success('Saved global settings');
+        }
 
         this.debounce.saveGlobal = 0;
         return res.ok;
@@ -273,7 +279,13 @@ export default class SettingsService {
             credentials: 'include'
         });
 
-        if (!res.ok) console.error('SAVE PATH DEFAULTS FAILED');
+        const data = await res.json();
+        if (!res.ok) {
+            console.error('SAVE PATH DEFAULTS FAILED', data.error);
+            this.page.toast.error(data.error);
+        } else {
+            this.page.toast.success('Saved paths settings');
+        }
 
         this.debounce.savePathDefaults = 0;
         await this.loadPathDefaults();
@@ -296,8 +308,6 @@ export default class SettingsService {
             onUpdate: result => this.settings.tree.users.onUpdate({...result, user: user}),
             onSkip: result => this.settings.tree.users.onUpdate({...result, user: user})
         });
-
-        //return await this.saveGlobal();
     }
 
     async updateUser(index, user) {
@@ -312,7 +322,10 @@ export default class SettingsService {
         if (!this.store.users[index])
             return;
 
+        const user = this.store.users[index];
         this.store.users.splice(index, 1);
+
+        this.page.toast.success(`User <strong>${user.user}</strong> deleted`);
         return await this.saveGlobal();
     }
 
@@ -341,8 +354,12 @@ export default class SettingsService {
         );
 
         if (res.ok) {
+            this.page.toast.success('Path added');
             await this.loadPathsList();
-            //this.store.paths[pathData.name] = pathData;
+        } else {
+            const data = await res.json();
+            console.error('ADD PATH FAILED');
+            this.page.toast.error(data.error);
         }
 
         return res.ok;
@@ -371,8 +388,14 @@ export default class SettingsService {
                 }
             );
 
-            if (res.ok)
+            if (res.ok) {
+                this.page.toast.success(`Path <strong>${name}</strong> updated`);
                 await this.loadPathsList();
+            } else {
+                const data = await res.json();
+                console.error('UPDATE PATH FAILED');
+                this.page.toast.error(data.error);
+            }
 
             return res.ok;
         }
@@ -403,8 +426,12 @@ export default class SettingsService {
         );
 
         if (res.ok) {
-            //this.store.paths[name] = pathData;
+            this.page.toast.success('Path replaced');
             await this.loadPathsList();
+        } else {
+            const data = await res.json();
+            console.error('REPLACE PATH FAILED');
+            this.page.toast.error(data.error);
         }
 
         return res.ok;
@@ -427,8 +454,12 @@ export default class SettingsService {
         );
 
         if (res.ok) {
-            //delete this.store.paths[name];
+            this.page.toast.success('Path deleted');
             await this.loadPathsList();
+        } else {
+            const data = await res.json();
+            console.error('DELETE PATH FAILED');
+            this.page.toast.error(data.error);
         }
 
         return res.ok;

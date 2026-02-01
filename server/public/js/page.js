@@ -1,3 +1,4 @@
+import Toast from "./Toast.js";
 import EventEmitter from "./event_emitter.js";
 import FetchManager from "./fetch_manager.js";
 
@@ -15,6 +16,11 @@ import LoadingIndicatorComponent from "./Components/Page/Loadingindicator.js";
 export default class Page {
     constructor() {
         this.label = this.constructor.name.toUpperCase();
+        this.toast = new Toast({
+            duration: 5000,
+            maxWidth: 400,
+            position: 'top-right',
+        });
         this.events = window._EVENTS = new EventEmitter();
         this.fm = new FetchManager({
             onUnauthorized() {
