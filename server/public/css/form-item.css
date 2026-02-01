@@ -266,7 +266,6 @@
             cursor: grab;
             font-weight: 600;
             font-size: var(--fs-xxs);
-            padding: 15px;
         }
 
         .handle[aria-grabbed="true"] {
@@ -307,6 +306,31 @@
         .slider-input {
             input:nth-child(2) {
                 margin-left: 10px;
+            }
+        }
+    }
+
+    &.available-tracks {
+        .rows {
+            .row {
+                position: relative;
+                margin-bottom: var(--space-s);
+
+                button.clear {
+                    top: 9px;
+                    right: 22px;
+                    bottom: inherit;
+                }
+
+                select[value=""] {
+                    &::before {
+                        content: "Select a track...";
+                        color: var(--text-light-color);
+                        position: absolute;
+                        left: 12px;
+                        top: 50%;
+                    }
+                }
             }
         }
     }

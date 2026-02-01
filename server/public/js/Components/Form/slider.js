@@ -73,8 +73,10 @@ export default class Slider {
             this.rangeEl.style.left = ps + '%';
             this.rangeEl.style.width = (pe - ps) + '%';
 
-            this.handleStart.textContent = this.displayValue(this.state.start);
-            this.handleEnd.textContent = this.displayValue(this.state.end);
+            if (this.hasHandleValue) {
+                this.handleStart.textContent = this.displayValue(this.state.start);
+                this.handleEnd.textContent = this.displayValue(this.state.end);
+            }
         } else {
             const p = this.pctForValue(this.state.value);
 

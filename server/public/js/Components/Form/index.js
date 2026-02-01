@@ -11,6 +11,7 @@ import TextareaInput from "./textareainput.js";
 import SliderInput from './sliderinput.js';
 import DurationSliderInput from "./durationsliderinput.js";
 import NumberSliderInput from './numbersliderinput.js';
+import AvailableTracksInput from "./availabletracksinput.js";
 
 export {
     Button,
@@ -25,5 +26,6 @@ export {
     TextareaInput,
     SliderInput,
     DurationSliderInput,
-    NumberSliderInput
+    NumberSliderInput,
+    AvailableTracksInput
 }
