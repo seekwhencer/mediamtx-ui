@@ -1,4 +1,6 @@
 # 🎥mediamtx-ui
+> For mediaMTX version **`1.16.0`**
+
 Configure your [mediaMTX server](https://mediamtx.org/) with this dependency free (so far) web ui.
 - It is running in a dockerized setup.
 - The UI has it's own webserver, running in a separate container.  
@@ -17,14 +19,8 @@ Configure your [mediaMTX server](https://mediamtx.org/) with this dependency fre
 - authentication for the frontend
 - dockerized setup for a local scenario
 
-## 🡆 Features (future)
-- orchestrate mediaMTX server by node.js (to reload the config or load other configurations)
-- config switcher (chose between different configurations)
-- source management
-- add, edit, delete (manage) local usb devices with ffmpeg
-- change usb camera properties (brightness, auto exposure, ...)
-- ... what else?
-
+## 🡆 Not a feature (at the moment)
+- persist runtime config ;)
 
 ![Screenshot Overview](https://raw.githubusercontent.com/seekwhencer/mediamtx-ui/refs/heads/master/screenshots/screenshot_1.png?raw=true "Screenshot Overview")
 - Top Left: RTSP IP Cam Stream
@@ -197,6 +193,7 @@ Saves the current runtime config into `config/mediamtx.yml` and rotates the old 
 
 ```
 
+
 ## 🡆 DONE
 - api proxy
 - state structure
@@ -206,11 +203,14 @@ Saves the current runtime config into `config/mediamtx.yml` and rotates the old 
 - settings as proxy object, emitting events
 - events + ejecters
 - fail safe inputs by resetting the fields to their previous working values
+- number slider, range slider
 - login
 
 ## 🡆 @TODO
 ### Feature
 - source management
+- add, edit, delete (manage) local usb devices with ffmpeg
+- change usb camera properties (brightness, auto exposure, ...)
 - recording
 - playback
 - storage management for the recordings
@@ -219,6 +219,7 @@ Saves the current runtime config into `config/mediamtx.yml` and rotates the old 
 - override config props from env vars (coming from compose file)
 - locking props from env vars
 - as metrics bridge to the influxdb
+- instances management (multiple mediaMTX servers)
 
 ### Frontend
 - responsive
