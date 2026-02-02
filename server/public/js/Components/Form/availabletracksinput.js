@@ -1,5 +1,6 @@
 import Component from "./Component.js";
 import Button from "./button.js";
+import CheckboxInput from "./checkboxinput.js";
 
 export default class AvailableTracksInput extends Component {
     constructor(options) {
@@ -83,14 +84,31 @@ export default class AvailableTracksInput extends Component {
         channelCountInput.onkeyup = e => e.key === 'Enter' ? this.concatValue() : null;
         channelCountInput.placeholder = 'channel count';
 
+        const muLawInput = document.createElement('input');
+        muLawInput.type = 'checkbox';
+        muLawInput.name = 'muLaw';
+        muLawInput.checked = value.muLaw;
+        muLawInput.oninput = () => {
+            muLawInput.value === 'false' ? muLawInput.value = 'true' : muLawInput.value = 'false';
+            this.concatValue();
+        }
+
+        const muLawLabel = document.createElement('label');
+        muLawLabel.innerHTML = 'Mu-Law algorithm';
+
         if (!this.withSampleRateAndChannelCount.includes(value.codec)) {
             channelCountInput.style.display = 'none';
             sampleRateInput.style.display = 'none';
+            muLawInput.style.display = 'none';
         }
+
+        muLawLabel.style.display = muLawInput.style.display = value.codec === 'G711' ? 'block' : 'none';
 
         row.append(codecSelect);
         row.append(sampleRateInput);
         row.append(channelCountInput);
+        row.append(muLawInput);
+        row.append(muLawLabel);
 
         // the clear button
         const clearButton = new Button({
@@ -116,24 +134,41 @@ export default class AvailableTracksInput extends Component {
         const values = [];
         const rows = [...this.inputs.querySelectorAll('.row')];
         rows.forEach(row => {
-            const codec = row.querySelector('[name=codec]').value;
-            const sampleRate = Number(row.querySelector('[name=sampleRate]').value);
-            const channelCount = Number(row.querySelector('[name=channelCount]').value);
+            const codecInput = row.querySelector('[name=codec]');
+            const sampleRateInput = row.querySelector('[name=sampleRate]');
+            const channelCountInput = row.querySelector('[name=channelCount]');
+            const muLawInput = row.querySelector('[name=muLaw]');
+            const labelMuLaw = row.querySelector('label');
+
+
+            const codec = codecInput.value;
+            const sampleRate = Number(sampleRateInput.value);
+            const channelCount = Number(channelCountInput.value);
+            const muLaw = muLawInput.checked;
 
             if (codec !== '') {
                 let value = {codec: codec, sampleRate: 0, channelCount: 0, muLaw: false};
                 if (this.withSampleRateAndChannelCount.includes(codec)) {
                     value = {...value, sampleRate: sampleRate, channelCount: channelCount};
                 }
+                if (codec === 'G711') {
+                    value = {...value, muLaw: muLaw};
+                }
                 values.push(value);
             }
 
             if (this.withSampleRateAndChannelCount.includes(codec)) {
-                row.querySelector('[name=sampleRate]').style.display = 'block';
-                row.querySelector('[name=channelCount]').style.display = 'block';
+                sampleRateInput.style.display = 'block';
+                channelCountInput.style.display = 'block';
             } else {
-                row.querySelector('[name=sampleRate]').style.display = 'none';
-                row.querySelector('[name=channelCount]').style.display = 'none';
+                sampleRateInput.style.display = 'none';
+                channelCountInput.style.display = 'none';
+            }
+
+            if (codec === 'G711') {
+                labelMuLaw.style.display = muLawInput.style.display = 'block';
+            } else {
+                labelMuLaw.style.display = muLawInput.style.display = 'none';
             }
         });
 
@@ -143,12 +178,26 @@ export default class AvailableTracksInput extends Component {
             if (codecInput.value === '')
                 row.remove();
         });
+
         // add new empty row
         const add = this.renderRow({codec: ''});
         this.inputs.append(add);
 
         this.element.value = JSON.stringify(values);
-        this.value = values; // debounced
+
+        // check if fields filled
+        let check = true;
+        values.forEach(v => {
+            if (check === false)
+                return;
+
+            if (this.withSampleRateAndChannelCount.includes(v.codec) && (v.sampleRate === 0 || v.channelCount === 0)) {
+                check = false;
+            }
+        });
+
+        if (check === true)
+            this.value = values; // debounced
     }
 
     setValue(value) {

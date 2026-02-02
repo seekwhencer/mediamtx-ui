@@ -315,6 +315,8 @@
             .row {
                 position: relative;
                 margin-bottom: var(--space-s);
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
 
                 button.clear {
                     top: 9px;
@@ -322,15 +324,30 @@
                     bottom: inherit;
                 }
 
-                select[value=""] {
-                    &::before {
-                        content: "Select a track...";
-                        color: var(--text-light-color);
-                        position: absolute;
-                        left: 12px;
-                        top: 50%;
-                    }
+                select[name=codec] {
+                    grid-column: 1 / -1;
                 }
+
+                input[name=sampleRate] {
+                    text-align: center;
+                }
+
+                input[name=channelCount] {
+                    text-align: center;
+                }
+
+                input[name=muLaw] {
+                    height: 40px;
+                    transform: translateY(5px);
+                }
+
+                label {
+                    position: absolute;
+                    bottom: 16px;
+                    left: 50px;
+                    text-transform: uppercase;
+                }
+
             }
         }
     }
