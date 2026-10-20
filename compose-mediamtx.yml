@@ -1,0 +1,22 @@
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:${MEDIAMTX_VERSION}
+    container_name: mediamtx
+    restart: unless-stopped
+    ports:
+      - "${HLS_PORT}:${HLS_PORT}" 
+      - "${RTSP_PORT}:${RTSP_PORT}"
+      - "${RTMP_PORT}:${RTMP_PORT}"
+      - "${WEBRTC_PORT}:${WEBRTC_PORT}"
+      - "${WEBRTC_UDP_PORT}:${WEBRTC_UDP_PORT}/udp"
+      - "${METRICS_PORT}:${METRICS_PORT}"
+      - "${API_PORT}:${API_PORT}"
+    volumes:
+      - ./mediamtx/mediamtx.yml:/mediamtx.yml:ro
+    networks:
+      - mediamtx
+
+networks:
+  mediamtx:
+    external: false
+    name: "mediamtx"

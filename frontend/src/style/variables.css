@@ -1,0 +1,127 @@
+:root {
+  /* Brand */
+  --color-primary: #1172a3;
+  --color-primary-hover: #0d5f89;
+  --color-primary-active: #0a4d70;
+  --color-primary-subtle: rgba(17, 114, 163, 0.10);
+
+  /* Neutrals (light) */
+  --color-bg: #f5f6f8;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f0f2f5;
+  --color-text: #1f2430;
+  --color-text-secondary: #5b6472;
+  --color-muted: #8a93a2;
+  --color-border: #e2e6ec;
+  --color-border-strong: #d2d8e0;
+
+  /* Status */
+  --color-success: #1e7e34;
+  --color-success-subtle: rgba(30, 126, 52, 0.10);
+  --color-validation: #a16a00;
+  --color-validation-subtle: rgba(161, 106, 0, 0.10);
+  --color-error: #b00020;
+  --color-error-subtle: rgba(176, 0, 32, 0.08);
+  --color-connection: #6a1b9a;
+  --color-connection-subtle: rgba(106, 27, 154, 0.10);
+
+  /* Shape */
+  --radius-sm: 6px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-pill: 999px;
+
+  /* Depth */
+  --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
+  --shadow-md: 0 4px 14px rgba(16, 24, 40, 0.08);
+  --shadow-lg: 0 12px 30px rgba(16, 24, 40, 0.14);
+
+  /* Space (4px base) */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+  --space-10: 2.5rem;
+  --space-12: 3rem;
+
+  /* Type */
+  --font-sans: "Sofia Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Jetbrains Mono", ui-monospace, "SF Mono", "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* Type scale (rem, 16px base) */
+  --fs-2xs: 0.625rem;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.875rem;
+  --fs-md: 1rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.25rem;
+  --fs-2xl: 1.5rem;
+
+  --transition: 0.18s ease-in-out;
+}
+
+/* System preference: dark, unless explicitly forced to light. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --color-primary: #4db4dd;
+    --color-primary-hover: #6fcfe8;
+    --color-primary-active: #93def5;
+    --color-primary-subtle: rgba(77, 180, 221, 0.16);
+
+    --color-bg: #0f1115;
+    --color-surface: #1a1d23;
+    --color-surface-alt: #23272e;
+    --color-text: #e7e9ee;
+    --color-text-secondary: #aeb7c3;
+    --color-muted: #8690a0;
+    --color-border: #2c313a;
+    --color-border-strong: #39404b;
+
+    --color-success: #58c26a;
+    --color-success-subtle: rgba(88, 194, 106, 0.16);
+    --color-validation: #e0b857;
+    --color-validation-subtle: rgba(224, 184, 87, 0.16);
+    --color-error: #ef7f8a;
+    --color-error-subtle: rgba(239, 127, 138, 0.14);
+    --color-connection: #c79be0;
+    --color-connection-subtle: rgba(199, 155, 224, 0.16);
+
+    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+    --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.55);
+  }
+}
+
+/* Manual override via the data-theme attribute on <html>. */
+:root[data-theme="dark"] {
+  --color-primary: #4db4dd;
+  --color-primary-hover: #6fcfe8;
+  --color-primary-active: #93def5;
+  --color-primary-subtle: rgba(77, 180, 221, 0.16);
+
+  --color-bg: #0f1115;
+  --color-surface: #1a1d23;
+  --color-surface-alt: #23272e;
+  --color-text: #e7e9ee;
+  --color-text-secondary: #aeb7c3;
+  --color-muted: #8690a0;
+  --color-border: #2c313a;
+  --color-border-strong: #39404b;
+
+  --color-success: #58c26a;
+  --color-success-subtle: rgba(88, 194, 106, 0.16);
+  --color-validation: #e0b857;
+  --color-validation-subtle: rgba(224, 184, 87, 0.16);
+  --color-error: #ef7f8a;
+  --color-error-subtle: rgba(239, 127, 138, 0.14);
+  --color-connection: #c79be0;
+  --color-connection-subtle: rgba(199, 155, 224, 0.16);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 14px rgba(0, 0, 0, 0.45);
+  --shadow-lg: 0 12px 30px rgba(0, 0, 0, 0.55);
+}

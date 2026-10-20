@@ -1,0 +1,37 @@
+# Dependencies (reinstalled inside image)
+node_modules/
+server/node_modules
+frontend/node_modules
+
+# Build output (rebuilt inside image)
+dist/
+frontend/dist
+
+# Secrets & local runtime config
+.env
+server/config.json
+data/
+
+# VCS, docs & tooling
+.git/
+.gitignore
+.dockerignore
+compose.yml
+compose-dev.yml
+compose-mediamtx.yml
+AGENTS.md
+.docs/
+.HANDOFF_STATE.md
+
+# Tests & dev artifacts
+server/test
+server/tests
+frontend/tests
+frontend/ssr-probe*.jsx
+frontend/ssr-smoke*.mjs
+
+# Logs & OS
+*.log
+npm-debug.log*
+.DS_Store
+.kilo

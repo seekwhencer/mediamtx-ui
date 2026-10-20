@@ -1,0 +1,30 @@
+services:
+  mediamtx-ui:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    container_name: mediamtx-ui
+    image: mediamtx-ui
+    restart: unless-stopped
+    command: ["npm", "run", "dev"]
+    working_dir: /app/server
+    ports:
+      - ${SERVER_PORT}:${SERVER_PORT}
+    networks:
+      - mediamtx
+    volumes:
+      - ./:/app
+      - /app/server/node_modules
+      - /app/frontend/node_modules
+    environment:
+      - NODE_ENV=development
+      - SERVER_PORT=${SERVER_PORT}
+      - MEDIAMTX_BASE_URL=http://mediamtx:9997
+      # Speicherpfad für die persistierte mediamtx.yml (relativ zum Server-CWD /app/server).
+      # Leer lassen, um das Auto-Speichern auszuschalten.
+      - MEDIAMTX_CONFIG_PATH=${MEDIAMTX_CONFIG_PATH:-../mediamtx/mediamtx.yml}
+
+networks:
+  mediamtx:
+    external: false
+    name: "mediamtx"
