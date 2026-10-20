@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
@@ -12,6 +13,7 @@ import Badge from '../ui/Badge';
 import KickButton from '../ui/KickButton';
 
 export default function WebRTC() {
+  const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
 
@@ -23,16 +25,16 @@ export default function WebRTC() {
   const kick = useKick('/webrtc/sessions/kick', [QUERY_KEYS.webrtcSessions]);
 
   const columns = [
-    { key: 'id', label: 'ID', render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
-    { key: 'created', label: 'Created', render: (row) => formatDate(row.created) },
-    { key: 'path', label: 'Path' },
-    { key: 'remoteAddr', label: 'Remote Addr' },
-    { key: 'user', label: 'User', render: (row) => row.user || '–' },
-    { key: 'state', label: 'State', render: (row) => <Badge value={row.state}>{enumLabel('webrtcSessionState', row.state)}</Badge> },
-    { key: 'localCandidate', label: 'Local Candidate', render: (row) => <code className="mono">{row.localCandidate || '–'}</code> },
-    { key: 'remoteCandidate', label: 'Remote Candidate', render: (row) => <code className="mono">{row.remoteCandidate || '–'}</code> },
-    { key: 'inboundBytes', label: 'Inbound', render: (row) => formatBytes(row.inboundBytes) },
-    { key: 'outboundBytes', label: 'Outbound', render: (row) => formatBytes(row.outboundBytes) },
+    { key: 'id', label: t('pages.webrtc.id'), render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
+    { key: 'created', label: t('pages.webrtc.created'), render: (row) => formatDate(row.created) },
+    { key: 'path', label: t('pages.webrtc.path') },
+    { key: 'remoteAddr', label: t('pages.webrtc.remoteAddr') },
+    { key: 'user', label: t('pages.webrtc.user'), render: (row) => row.user || '–' },
+    { key: 'state', label: t('pages.webrtc.state'), render: (row) => <Badge value={row.state}>{enumLabel('webrtcSessionState', row.state, t)}</Badge> },
+    { key: 'localCandidate', label: t('pages.webrtc.localCandidate'), render: (row) => <code className="mono">{row.localCandidate || '–'}</code> },
+    { key: 'remoteCandidate', label: t('pages.webrtc.remoteCandidate'), render: (row) => <code className="mono">{row.remoteCandidate || '–'}</code> },
+    { key: 'inboundBytes', label: t('pages.webrtc.inbound'), render: (row) => formatBytes(row.inboundBytes) },
+    { key: 'outboundBytes', label: t('pages.webrtc.outbound'), render: (row) => formatBytes(row.outboundBytes) },
     {
       key: 'actions',
       label: '',
@@ -49,8 +51,8 @@ export default function WebRTC() {
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">WebRTC</h2>
-          <p className="page__subtitle">Sessions (Kick) — Auto-Refresh alle 10 s.</p>
+          <h2 className="page__title">{t('pages.webrtc.title')}</h2>
+          <p className="page__subtitle">{t('pages.webrtc.subtitle')}</p>
         </div>
       </header>
 
@@ -70,7 +72,7 @@ export default function WebRTC() {
             setPage(0);
           },
         }}
-        emptyMessage="No WebRTC sessions"
+        emptyMessage={t('pages.webrtc.noSessions')}
       />
     </div>
   );

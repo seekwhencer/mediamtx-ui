@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import FormField from './FormField';
 import Button from '../ui/Button';
 import ErrorAlert from '../ui/ErrorAlert';
@@ -9,12 +10,15 @@ export default function FormBuilder({
   catalog,
   initialValues,
   onSubmit,
-  submitLabel = 'Save',
+  submitLabel,
   loading = false,
   loadError = null,
   disabled = false,
-  loadingLabel = 'Loading config…',
+  loadingLabel,
 }) {
+  const { t } = useTranslation();
+  if (submitLabel == null) submitLabel = t('common.save');
+  if (loadingLabel == null) loadingLabel = t('form.loadingConfig');
   const groups = useMemo(() => getGroups(catalog), [catalog]);
 
   // Synchron initialisieren (lazy), wenn initialValues beim Mount vorliegen
@@ -53,7 +57,7 @@ export default function FormBuilder({
   const handleSubmit = async (e) => {
     e?.preventDefault();
     if (!values) return;
-    const errs = validateValues(catalog, values);
+    const errs = validateValues(catalog, values, t);
     setErrors(errs);
     if (Object.keys(errs).length > 0) {
       setSubmitError(null);
@@ -72,7 +76,7 @@ export default function FormBuilder({
     }
   };
 
-  if (loadError) return <ErrorAlert error={loadError} title="Load failed" />;
+  if (loadError) return <ErrorAlert error={loadError} title={t('form.loadFailed')} />;
   if (loading || values === null) {
     return (
       <div className="table__loading">
@@ -93,7 +97,7 @@ export default function FormBuilder({
               toggleGroup(group);
             }}
           >
-            <span>{group}</span>
+            <span>{t(`groups.${group}`, { defaultValue: group })}</span>
             <span className="formbuilder__group-count">{fields.length}</span>
           </summary>
           <div className="formbuilder__fields">
@@ -110,12 +114,12 @@ export default function FormBuilder({
         </details>
       ))}
       <div className="formbuilder__actions">
-        {saved && <span className="formbuilder__saved">Saved ✓</span>}
+        {saved && <span className="formbuilder__saved">{t('form.saved')}</span>}
         <Button type="submit" variant="primary" loading={submitting} disabled={disabled}>
           {submitLabel}
         </Button>
       </div>
-      {submitError && <ErrorAlert error={submitError} title="Save failed" />}
+      {submitError && <ErrorAlert error={submitError} title={t('form.saveFailed')} />}
     </form>
   );
 }

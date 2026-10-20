@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useListQuery } from '../../hooks/useApi';
@@ -9,6 +10,7 @@ import PathsCard from '../dashboard/PathsCard';
 import QuickLinks from '../dashboard/QuickLinks';
 
 export default function Dashboard() {
+  const { t } = useTranslation();
   const refetchInterval = useAutoRefresh();
 
   const info = useQuery({
@@ -32,23 +34,23 @@ export default function Dashboard() {
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">Dashboard</h2>
-          <p className="page__subtitle">Übersicht: Protokolle, Instanz, Pfade — Auto-Refresh alle 10 s.</p>
+          <h2 className="page__title">{t('dashboard.title')}</h2>
+          <p className="page__subtitle">{t('dashboard.subtitle')}</p>
         </div>
       </header>
 
       <InfoCard info={info.data} loading={info.isPending} error={info.error} />
 
       <section className="dashboard__section">
-        <h3 className="dashboard__section-title">Protokolle</h3>
+        <h3 className="dashboard__section-title">{t('dashboard.protocols')}</h3>
         <div className="card-grid">
           <ProtocolCard
             title="HLS"
             to="/hls"
             error={hlsMuxers.error || hlsSessions.error}
             metrics={[
-              { label: 'Muxer', value: hlsMuxers.data?.itemCount, loading: hlsMuxers.isPending },
-              { label: 'Sessions', value: hlsSessions.data?.itemCount, loading: hlsSessions.isPending },
+              { label: t('dashboard.muxer'), value: hlsMuxers.data?.itemCount, loading: hlsMuxers.isPending },
+              { label: t('dashboard.sessions'), value: hlsSessions.data?.itemCount, loading: hlsSessions.isPending },
             ]}
           />
           <ProtocolCard
@@ -56,33 +58,33 @@ export default function Dashboard() {
             to="/rtsp"
             error={rtspConns.error || rtspSessions.error}
             metrics={[
-              { label: 'Conns', value: rtspConns.data?.itemCount, loading: rtspConns.isPending },
-              { label: 'Sessions', value: rtspSessions.data?.itemCount, loading: rtspSessions.isPending },
+              { label: t('dashboard.conns'), value: rtspConns.data?.itemCount, loading: rtspConns.isPending },
+              { label: t('dashboard.sessions'), value: rtspSessions.data?.itemCount, loading: rtspSessions.isPending },
             ]}
           />
           <ProtocolCard
             title="RTMP"
             to="/rtmp"
             error={rtmpConns.error}
-            metrics={[{ label: 'Conns', value: rtmpConns.data?.itemCount, loading: rtmpConns.isPending }]}
+            metrics={[{ label: t('dashboard.conns'), value: rtmpConns.data?.itemCount, loading: rtmpConns.isPending }]}
           />
           <ProtocolCard
             title="SRT"
             to="/srt"
             error={srtConns.error}
-            metrics={[{ label: 'Conns', value: srtConns.data?.itemCount, loading: srtConns.isPending }]}
+            metrics={[{ label: t('dashboard.conns'), value: srtConns.data?.itemCount, loading: srtConns.isPending }]}
           />
           <ProtocolCard
             title="WebRTC"
             to="/webrtc"
             error={webrtcSessions.error}
-            metrics={[{ label: 'Sessions', value: webrtcSessions.data?.itemCount, loading: webrtcSessions.isPending }]}
+            metrics={[{ label: t('dashboard.sessions'), value: webrtcSessions.data?.itemCount, loading: webrtcSessions.isPending }]}
           />
           <ProtocolCard
             title="MoQ"
             to="/moq"
             error={moqSessions.error}
-            metrics={[{ label: 'Sessions', value: moqSessions.data?.itemCount, loading: moqSessions.isPending }]}
+            metrics={[{ label: t('dashboard.sessions'), value: moqSessions.data?.itemCount, loading: moqSessions.isPending }]}
           />
         </div>
       </section>

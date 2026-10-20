@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useMutationWithInvalidate } from '../../hooks/useApi';
@@ -7,6 +8,7 @@ import FormBuilder from './FormBuilder';
 import { GLOBAL_CONF_CATALOG } from './fieldCatalog';
 
 export default function GlobalConfigForm() {
+  const { t } = useTranslation();
   const [restarting, setRestarting] = useState(false);
   const restartingRef = useRef(false);
   const saveTimeRef = useRef(0);
@@ -60,9 +62,9 @@ export default function GlobalConfigForm() {
       initialValues={query.data}
       loading={query.isPending || showRestarting}
       loadError={showRestarting ? null : query.error}
-      loadingLabel={showRestarting ? 'mediamtx startet neu.' : 'Loading config…'}
+      loadingLabel={showRestarting ? t('form.mediamtxRestarting') : t('form.loadingConfig')}
       onSubmit={(values) => mutation.mutateAsync(values)}
-      submitLabel="Save"
+      submitLabel={t('common.save')}
     />
   );
 }

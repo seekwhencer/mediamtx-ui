@@ -1,0 +1,501 @@
+{
+  "common": {
+    "save": "Salva",
+    "cancel": "Annulla",
+    "add": "Aggiungi",
+    "edit": "Modifica",
+    "replace": "Sostituisci",
+    "delete": "Elimina",
+    "close": "Chiudi",
+    "back": "Indietro",
+    "next": "Avanti",
+    "details": "Dettagli",
+    "stats": "Statistiche",
+    "kick": "Espelli",
+    "loading": "Caricamento…",
+    "error": "Errore",
+    "unknownError": "Errore sconosciuto",
+    "noItems": "Nessun elemento",
+    "online": "online",
+    "offline": "offline",
+    "available": "disponibile",
+    "unavailable": "non disponibile",
+    "yes": "sì",
+    "no": "no",
+    "on": "attivo",
+    "off": "disattivo",
+    "perPage": "Per pagina",
+    "pageOf": "Pagina {{page}} di {{count}}",
+    "items": "{{count}} elementi",
+    "removeRow": "Elimina riga {{n}}",
+    "removeTag": "Rimuovi {{tag}}",
+    "saved": "Salvato ✓",
+    "loadFailed": "Caricamento non riuscito",
+    "saveFailed": "Salvataggio non riuscito",
+    "restartRequired": "Riavvio richiesto",
+    "notFound": "Non trovato",
+    "backToDashboard": "Torna alla Dashboard",
+    "allPaths": "Tutti i percorsi",
+    "detailsArrow": "Dettagli →",
+    "allPathsArrow": "Tutti i percorsi →"
+  },
+  "nav": {
+    "overview": "Panoramica",
+    "dashboard": "Dashboard",
+    "configuration": "Configurazione",
+    "global": "Generale",
+    "internalUsers": "Utenti interni",
+    "paths": "Percorsi",
+    "pathDefaults": "Predefiniti percorso",
+    "runtime": "Runtime",
+    "hls": "HLS",
+    "rtsp": "RTSP",
+    "rtmp": "RTMP",
+    "srt": "SRT",
+    "webrtc": "WebRTC",
+    "moq": "MoQ",
+    "recordings": "Registrazioni",
+    "settings": "Impostazioni"
+  },
+  "topbar": {
+    "online": "online",
+    "offline": "offline",
+    "connecting": "connessione…",
+    "refresh": "Aggiorna",
+    "language": "Lingua"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Panoramica: protocolli, istanza, percorsi — auto-refresh ogni 10 s.",
+    "protocols": "Protocolli",
+    "instance": "Istanza",
+    "version": "Versione",
+    "started": "Avvio",
+    "instanceLoading": "Caricamento istanza…",
+    "instanceNotReachable": "MediaMTX non raggiungibile",
+    "paths": "Percorsi",
+    "allPaths": "Tutti i percorsi →",
+    "pathsNotReachable": "Percorsi non raggiungibili",
+    "pathsLoading": "Caricamento percorsi…",
+    "totalPaths": "Percorsi totali",
+    "quickAccess": "Accesso rapido",
+    "globalConfig": "Configurazione generale",
+    "pathDefaults": "Predefiniti percorso",
+    "internalUsers": "Utenti interni",
+    "pathConfigs": "Configurazioni percorso",
+    "muxer": "Muxer",
+    "sessions": "Sessioni",
+    "conns": "Connessioni",
+    "notReachable": "{{title}} non raggiungibile",
+    "loading": "{{title}} in caricamento…"
+  },
+  "pages": {
+    "configGlobal": {
+      "title": "Configurazione generale",
+      "subtitle": "GlobalConf — tutte le impostazioni globali di MediaMTX."
+    },
+    "configPathDefaults": {
+      "title": "Predefiniti percorso",
+      "subtitle": "Configurazione predefinita del percorso (PathConf). Le modifiche si applicano a tutti i percorsi senza override proprio."
+    },
+    "internalUsers": {
+      "title": "Utenti interni",
+      "subtitle": "Utenti di autenticazione interni (authInternalUsers dalla configurazione globale).",
+      "addUser": "+ Aggiungi utente",
+      "noUsers": "Nessun utente interno",
+      "user": "Utente",
+      "ips": "IP",
+      "permissions": "Permessi",
+      "actions": "Azioni",
+      "editUser": "Modifica utente: {{name}}",
+      "replaceUser": "Sostituisci utente: {{name}}",
+      "deleteUser": "Elimina utente",
+      "deleteUserConfirm": "Eliminare l'utente <strong>{{name}}</strong>? L'operazione non può essere annullata."
+    },
+    "configPaths": {
+      "title": "Configurazioni percorso",
+      "subtitle": "CRUD percorsi: Aggiungi, Modifica (PATCH), Sostituisci (POST), Elimina.",
+      "addPath": "+ Aggiungi percorso",
+      "noPaths": "Nessun percorso configurato",
+      "name": "Nome",
+      "source": "Origine",
+      "record": "Registrazione",
+      "alwaysAvailable": "Sempre disponibile",
+      "forward": "Inoltra",
+      "maxReaders": "Max lettori",
+      "actions": "Azioni",
+      "addPathModal": "Aggiungi percorso",
+      "editPath": "Modifica percorso: {{name}}",
+      "replacePath": "Sostituisci percorso: {{name}}",
+      "deletePath": "Elimina percorso",
+      "deletePathConfirm": "Eliminare il percorso <strong>{{name}}</strong>? L'operazione non può essere annullata.",
+      "nameRequired": "Il nome è obbligatorio",
+      "optionalHint": "Opzionale: configura il percorso ora o più tardi nella pagina di dettaglio."
+    },
+    "configPathDetail": {
+      "title": "Configurazione percorso: {{name}}",
+      "allPaths": "← Tutti i percorsi"
+    },
+    "runtimePaths": {
+      "title": "Percorsi runtime",
+      "subtitle": "Percorsi attivi: online/disponibile, origine, lettori — auto-refresh ogni 10 s.",
+      "noActivePaths": "Nessun percorso attivo",
+      "name": "Nome",
+      "online": "Online",
+      "available": "Disponibile",
+      "sourceType": "Tipo di origine",
+      "readers": "Lettori"
+    },
+    "runtimePathDetail": {
+      "title": "Percorso: {{name}}",
+      "subtitle": "Dettagli runtime: origine, lettori, tracce, destinazioni di inoltro, origine statica.",
+      "back": "← Indietro",
+      "pathNotLoaded": "Percorso non caricato",
+      "status": "Stato",
+      "confName": "Nome conf",
+      "onlineSince": "Online dal",
+      "availableSince": "Disponibile dal",
+      "inboundBytes": "Byte in ingresso",
+      "outboundBytes": "Byte in uscita",
+      "inboundFramesInError": "Frame in ingresso in errore",
+      "source": "Origine",
+      "noSource": "Nessuna origine.",
+      "readers": "Lettori ({{count}})",
+      "noReaders": "Nessun lettore.",
+      "tracks": "Tracce ({{count}})",
+      "noTracks": "Nessuna traccia.",
+      "forwardDestinations": "Destinazioni di inoltro",
+      "noForwardDests": "Nessuna destinazione di inoltro",
+      "staticSource": "Origine statica",
+      "noStaticSource": "Nessuna origine statica per questo percorso.",
+      "staticSourceNotLoaded": "Origine statica non caricata",
+      "created": "Creato",
+      "state": "Stato",
+      "type": "Tipo",
+      "lastError": "Ultimo errore",
+      "loading": "Caricamento…",
+      "id": "ID",
+      "outbound": "In uscita",
+      "details": "Dettagli",
+      "forwardDest": "Destinazione di inoltro: {{id}}",
+      "codecProps": "codecProps",
+      "typeSpecific": "typeSpecific",
+      "forwardDestFull": "ForwardDest"
+    },
+    "hls": {
+      "title": "HLS",
+      "subtitle": "Muxer e sessioni — auto-refresh ogni 10 s.",
+      "muxers": "Muxer",
+      "sessions": "Sessioni",
+      "noMuxers": "Nessun muxer HLS",
+      "noSessions": "Nessuna sessione HLS",
+      "path": "Percorso",
+      "created": "Creato",
+      "lastRequest": "Ultima richiesta",
+      "outbound": "In uscita",
+      "framesDiscarded": "Frame scartati",
+      "id": "ID",
+      "remoteAddr": "Indirizzo remoto",
+      "user": "Utente",
+      "userAgent": "User Agent",
+      "cdn": "CDN"
+    },
+    "rtsp": {
+      "title": "RTSP",
+      "subtitle": "Connessioni e sessioni (espelli) — auto-refresh ogni 10 s.",
+      "connections": "Connessioni",
+      "sessions": "Sessioni",
+      "noConnections": "Nessuna connessione {{proto}}",
+      "noSessions": "Nessuna sessione {{proto}}",
+      "id": "ID",
+      "created": "Creato",
+      "remoteAddr": "Indirizzo remoto",
+      "session": "Sessione",
+      "tunnel": "Tunnel",
+      "inbound": "In ingresso",
+      "outbound": "In uscita",
+      "path": "Percorso",
+      "user": "Utente",
+      "state": "Stato",
+      "transport": "Transport"
+    },
+    "rtmp": {
+      "title": "RTMP",
+      "subtitle": "Connessioni (espelli) — auto-refresh ogni 10 s.",
+      "noConnections": "Nessuna connessione {{proto}}",
+      "id": "ID",
+      "created": "Creato",
+      "path": "Percorso",
+      "remoteAddr": "Indirizzo remoto",
+      "user": "Utente",
+      "state": "Stato",
+      "inbound": "In ingresso",
+      "outbound": "In uscita"
+    },
+    "srt": {
+      "title": "SRT",
+      "subtitle": "Connessioni (espelli) + statistiche SRT — auto-refresh ogni 10 s.",
+      "noConnections": "Nessuna connessione SRT",
+      "id": "ID",
+      "created": "Creato",
+      "path": "Percorso",
+      "remoteAddr": "Indirizzo remoto",
+      "user": "Utente",
+      "state": "Stato",
+      "inbound": "In ingresso",
+      "outbound": "In uscita",
+      "stats": "Statistiche",
+      "srtStats": "Statistiche SRT: {{id}}",
+      "srtConn": "SRTConn (incl. statistiche)"
+    },
+    "webrtc": {
+      "title": "WebRTC",
+      "subtitle": "Sessioni (espelli) — auto-refresh ogni 10 s.",
+      "noSessions": "Nessuna sessione WebRTC",
+      "id": "ID",
+      "created": "Creato",
+      "path": "Percorso",
+      "remoteAddr": "Indirizzo remoto",
+      "user": "Utente",
+      "state": "Stato",
+      "localCandidate": "Candidato locale",
+      "remoteCandidate": "Candidato remoto",
+      "inbound": "In ingresso",
+      "outbound": "In uscita"
+    },
+    "moq": {
+      "title": "MoQ",
+      "subtitle": "Sessioni Media-over-QUIC (espelli) — auto-refresh ogni 10 s.",
+      "noSessions": "Nessuna sessione MoQ",
+      "id": "ID",
+      "created": "Creato",
+      "path": "Percorso",
+      "remoteAddr": "Indirizzo remoto",
+      "userAgent": "User Agent",
+      "state": "Stato",
+      "version": "Versione",
+      "transport": "Transport",
+      "inbound": "In ingresso",
+      "outbound": "In uscita"
+    },
+    "recordings": {
+      "title": "Registrazioni",
+      "subtitle": "Registrazioni + segmenti (elimina) — auto-refresh ogni 10 s.",
+      "noRecordings": "Nessuna registrazione",
+      "name": "Nome",
+      "segments": "Segmenti",
+      "recording": "Registrazione: {{name}}",
+      "delete": "Elimina",
+      "noSegments": "Nessun segmento."
+    },
+    "settings": {
+      "title": "Impostazioni",
+      "subtitle": "Impostazioni server (persistite, API) e impostazioni app (questo browser, localStorage).",
+      "server": "Server",
+      "app": "App (questo browser)",
+      "saveServer": "Salva server",
+      "saveApp": "Salva app",
+      "applied": "{{key}} — applicato",
+      "restartRequired": "{{key}} — riavvio richiesto",
+      "noChanges": "Nessune modifiche.",
+      "appSaved": "Impostazioni app salvate"
+    },
+    "notFound": {
+      "title": "Pagina non trovata",
+      "subtitle": "Il percorso richiesto non esiste.",
+      "backToDashboard": "Torna alla Dashboard"
+    }
+  },
+  "form": {
+    "loadingConfig": "Caricamento configurazione…",
+    "mediamtxRestarting": "mediamtx si sta riavviando.",
+    "saved": "Salvato ✓",
+    "loadFailed": "Caricamento non riuscito",
+    "saveFailed": "Salvataggio non riuscito",
+    "restartRequired": "Riavvio richiesto",
+    "addRow": "Aggiungi riga",
+    "noEntries": "Nessun elemento.",
+    "removeRow": "Elimina riga {{n}}"
+  },
+  "settings": {
+    "serverPort": "Porta server",
+    "verboseLogging": "Log dettagliati",
+    "mediamtxBaseUrl": "URL base MediaMTX",
+    "mediamtxAuthToken": "Token di autenticazione MediaMTX",
+    "mediamtxApiVersion": "Versione API MediaMTX",
+    "mediamtxBridgeTimeout": "Timeout bridge MediaMTX (ms)",
+    "apiBaseUrl": "URL base API",
+    "theme": "Tema",
+    "autoRefreshMs": "Auto-refresh (ms, 0 = disattivo)",
+    "itemsPerPage": "Elementi per pagina",
+    "groupServer": "Server",
+    "groupMediaMTX": "MediaMTX",
+    "groupBridge": "Bridge",
+    "groupAPI": "API",
+    "groupDisplay": "Visualizzazione",
+    "groupBehavior": "Comportamento",
+    "placeholderAuthToken": "•••• (invariato) / vuoto = elimina",
+    "placeholderApiBaseUrl": "/v3 (predefinito)"
+  },
+  "groups": {
+    "Server": "Server",
+    "MediaMTX": "MediaMTX",
+    "Bridge": "Bridge",
+    "API": "API",
+    "Display": "Visualizzazione",
+    "Behavior": "Comportamento"
+  },
+  "validation": {
+    "required": "{{label}} è obbligatorio",
+    "mustBeNumber": "{{label}} deve essere un numero",
+    "mustBeGte": "{{label}} deve essere ≥ {{min}}",
+    "mustBeLte": "{{label}} deve essere ≤ {{max}}",
+    "mustBeDuration": "{{label}} deve essere una durata (es. 5s, 1h30m)",
+    "mustBeSize": "{{label}} deve essere una dimensione (es. 50MiB)",
+    "mustBeOneOf": "{{label}} deve essere una delle opzioni consentite",
+    "unknownOptions": "{{label}}: opzione/i sconosciuta/e {{options}}",
+    "mustContainNumbers": "{{label}} deve contenere solo numeri",
+    "mustBeList": "{{label}} deve essere un elenco",
+    "invalidItem": "elemento non valido"
+  },
+  "enums": {
+    "authAction": {
+      "publish": "Pubblica",
+      "read": "Leggi",
+      "playback": "Playback",
+      "api": "API",
+      "metrics": "Metrics",
+      "pprof": "Pprof"
+    },
+    "authMethod": {
+      "internal": "Interno",
+      "http": "HTTP",
+      "jwt": "JWT"
+    },
+    "encryption": {
+      "no": "No",
+      "optional": "Opzionale",
+      "strict": "Stretto"
+    },
+    "hlsVariant": {
+      "mpegts": "MPEG-TS",
+      "fmp4": "FMP4",
+      "lowLatency": "Bassa latenza"
+    },
+    "logLevel": {
+      "error": "Errore",
+      "warn": "Avviso",
+      "info": "Info",
+      "debug": "Debug"
+    },
+    "logDestination": {
+      "stdout": "Stdout",
+      "file": "File",
+      "syslog": "Syslog"
+    },
+    "moqSessionState": {
+      "idle": "Inattivo",
+      "read": "Letto",
+      "publish": "Pubblicato"
+    },
+    "moqVersion": {
+      "moqt-16": "MOQT-16",
+      "moqt-17": "MOQT-17",
+      "moqt-18": "MOQT-18",
+      "moqt-19": "MOQT-19"
+    },
+    "pathReaderType": {
+      "hlsSession": "Sessione HLS",
+      "rtmpConn": "Conn RTMP",
+      "rtspConn": "Conn RTSP",
+      "rtspSession": "Sessione RTSP",
+      "srtConn": "Conn SRT",
+      "webRTCSession": "Sessione WebRTC",
+      "moqSession": "Sessione MoQ",
+      "hidden": "Nascosto"
+    },
+    "pathSourceType": {
+      "hlsSource": "Origine HLS",
+      "redirect": "Reindirizzamento",
+      "rpiCameraSource": "Camera Raspberry Pi",
+      "rtmpConn": "Conn RTMP",
+      "rtmpSource": "Origine RTMP",
+      "rtspSession": "Sessione RTSP",
+      "rtspSource": "Origine RTSP",
+      "srtConn": "Conn SRT",
+      "srtSource": "Origine SRT",
+      "mpegtsSource": "Origine MPEG-TS",
+      "rtpSource": "Origine RTP",
+      "webRTCSession": "Sessione WebRTC",
+      "webRTCSource": "Origine WebRTC",
+      "moqSource": "Origine MoQ",
+      "moqSession": "Sessione MoQ"
+    },
+    "forwardDestType": {
+      "rtmp": "RTMP",
+      "rtsp": "RTSP",
+      "srt": "SRT",
+      "moq": "MoQ",
+      "webRTC": "WebRTC"
+    },
+    "forwardDestProtocol": {
+      "rtmp": "RTMP",
+      "rtmps": "RTMPS",
+      "rtsp": "RTSP",
+      "rtsps": "RTSPS",
+      "srt": "SRT",
+      "moq": "MoQ",
+      "whip": "WHIP",
+      "whips": "WHIPS"
+    },
+    "forwardDestState": {
+      "idle": "Inattivo",
+      "forwarding": "Inoltro",
+      "error": "Errore"
+    },
+    "recordFormat": {
+      "fmp4": "FMP4",
+      "mpegts": "MPEG-TS"
+    },
+    "rtmpConnState": {
+      "idle": "Inattivo",
+      "read": "Letto",
+      "publish": "Pubblicato"
+    },
+    "rtspAuthMethod": {
+      "basic": "Basic",
+      "digest": "Digest"
+    },
+    "rtspRangeType": {
+      "": "(vuoto)",
+      "clock": "Ora",
+      "npt": "NPT",
+      "smpte": "SMPTE"
+    },
+    "rtspSessionState": {
+      "idle": "Inattivo",
+      "read": "Letto",
+      "publish": "Pubblicato"
+    },
+    "rtspTransport": {
+      "udp": "UDP",
+      "multicast": "Multicast",
+      "tcp": "TCP",
+      "automatic": "Automatico"
+    },
+    "srtConnState": {
+      "idle": "Inattivo",
+      "read": "Letto",
+      "publish": "Pubblicato"
+    },
+    "staticSourceState": {
+      "idle": "Inattivo",
+      "running": "In esecuzione",
+      "error": "Errore"
+    },
+    "webrtcSessionState": {
+      "read": "Letto",
+      "publish": "Pubblicato"
+    }
+  }
+}

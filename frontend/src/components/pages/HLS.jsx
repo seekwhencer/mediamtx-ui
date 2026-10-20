@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
@@ -12,6 +13,7 @@ import Tabs from '../ui/Tabs';
 import KickButton from '../ui/KickButton';
 
 export default function HLS() {
+  const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
 
@@ -40,26 +42,26 @@ export default function HLS() {
   };
 
   const muxerColumns = [
-    { key: 'path', label: 'Path' },
-    { key: 'created', label: 'Created', render: (row) => formatDate(row.created) },
-    { key: 'lastRequest', label: 'Last Request', render: (row) => formatDate(row.lastRequest) },
-    { key: 'outboundBytes', label: 'Outbound', render: (row) => formatBytes(row.outboundBytes) },
-    { key: 'outboundFramesDiscarded', label: 'Frames Discarded', render: (row) => row.outboundFramesDiscarded ?? 0 },
+    { key: 'path', label: t('pages.hls.path') },
+    { key: 'created', label: t('pages.hls.created'), render: (row) => formatDate(row.created) },
+    { key: 'lastRequest', label: t('pages.hls.lastRequest'), render: (row) => formatDate(row.lastRequest) },
+    { key: 'outboundBytes', label: t('pages.hls.outbound'), render: (row) => formatBytes(row.outboundBytes) },
+    { key: 'outboundFramesDiscarded', label: t('pages.hls.framesDiscarded'), render: (row) => row.outboundFramesDiscarded ?? 0 },
   ];
 
   const sessionColumns = [
-    { key: 'id', label: 'ID', render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
-    { key: 'created', label: 'Created', render: (row) => formatDate(row.created) },
-    { key: 'path', label: 'Path' },
-    { key: 'remoteAddr', label: 'Remote Addr' },
-    { key: 'user', label: 'User', render: (row) => row.user || '–' },
-    { key: 'userAgent', label: 'User Agent', render: (row) => row.userAgent || '–' },
+    { key: 'id', label: t('pages.hls.id'), render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
+    { key: 'created', label: t('pages.hls.created'), render: (row) => formatDate(row.created) },
+    { key: 'path', label: t('pages.hls.path') },
+    { key: 'remoteAddr', label: t('pages.hls.remoteAddr') },
+    { key: 'user', label: t('pages.hls.user'), render: (row) => row.user || '–' },
+    { key: 'userAgent', label: t('pages.hls.userAgent'), render: (row) => row.userAgent || '–' },
     {
       key: 'isCDN',
-      label: 'CDN',
-      render: (row) => <Badge color={row.isCDN ? 'blue' : 'gray'}>{row.isCDN ? 'yes' : 'no'}</Badge>,
+      label: t('pages.hls.cdn'),
+      render: (row) => <Badge color={row.isCDN ? 'blue' : 'gray'}>{row.isCDN ? t('common.yes') : t('common.no')}</Badge>,
     },
-    { key: 'outboundBytes', label: 'Outbound', render: (row) => formatBytes(row.outboundBytes) },
+    { key: 'outboundBytes', label: t('pages.hls.outbound'), render: (row) => formatBytes(row.outboundBytes) },
     {
       key: 'actions',
       label: '',
@@ -76,8 +78,8 @@ export default function HLS() {
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">HLS</h2>
-          <p className="page__subtitle">Muxer & Sessions — Auto-Refresh alle 10 s.</p>
+          <h2 className="page__title">{t('pages.hls.title')}</h2>
+          <p className="page__subtitle">{t('pages.hls.subtitle')}</p>
         </div>
       </header>
 
@@ -85,7 +87,7 @@ export default function HLS() {
         items={[
           {
             id: 'muxers',
-            label: 'Muxer',
+            label: t('pages.hls.muxers'),
             content: (
               <DataTable
                 columns={muxerColumns}
@@ -93,13 +95,13 @@ export default function HLS() {
                 loading={muxers.isPending}
                 error={muxers.error}
                 pagination={pagination}
-                emptyMessage="No HLS muxers"
+                emptyMessage={t('pages.hls.noMuxers')}
               />
             ),
           },
           {
             id: 'sessions',
-            label: 'Sessions',
+            label: t('pages.hls.sessions'),
             content: (
               <DataTable
                 columns={sessionColumns}
@@ -107,7 +109,7 @@ export default function HLS() {
                 loading={sessions.isPending}
                 error={sessions.error}
                 pagination={pagination}
-                emptyMessage="No HLS sessions"
+                emptyMessage={t('pages.hls.noSessions')}
               />
             ),
           },

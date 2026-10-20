@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import Spinner from '../ui/Spinner';
 import ErrorAlert from '../ui/ErrorAlert';
 import Pagination from './Pagination';
@@ -17,10 +18,12 @@ export default function DataTable({
   error,
   pagination,
   onRowClick,
-  emptyMessage = 'No items',
+  emptyMessage,
   initialSort = null,
 }) {
+  const { t } = useTranslation();
   const [sort, setSort] = useState(initialSort);
+  const empty = emptyMessage ?? t('common.noItems');
 
   const rows = useMemo(() => {
     if (!sort || !Array.isArray(data)) return data || [];
@@ -81,7 +84,7 @@ export default function DataTable({
             {rows.length === 0 ? (
               <tr>
                 <td colSpan={columns.length} className="table__empty">
-                  {emptyMessage}
+                  {empty}
                 </td>
               </tr>
             ) : (

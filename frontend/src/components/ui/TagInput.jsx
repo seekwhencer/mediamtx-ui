@@ -1,6 +1,8 @@
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 export default function TagInput({ value = [], onChange, type = 'string', label, placeholder, disabled = false, id, name }) {
+  const { t } = useTranslation();
   const [draft, setDraft] = useState('');
 
   const commit = (raw) => {
@@ -48,7 +50,7 @@ export default function TagInput({ value = [], onChange, type = 'string', label,
               type="button"
               className="ui-taginput__remove"
               onClick={() => removeAt(i)}
-              aria-label={`Remove ${tag}`}
+              aria-label={t('common.removeTag', { tag })}
               disabled={disabled}
             >
               ×

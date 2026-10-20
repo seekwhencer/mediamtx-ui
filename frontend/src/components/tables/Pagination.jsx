@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next';
+
 const PAGE_SIZES = [10, 25, 50, 100];
 
 export default function Pagination({
@@ -8,15 +10,18 @@ export default function Pagination({
   onPageChange,
   onItemsPerPageChange,
 }) {
+  const { t } = useTranslation();
   const hasPages = pageCount > 1;
 
   return (
     <div className="pagination">
       <div className="pagination__info">
-        {typeof itemCount === 'number' && <span className="pagination__count">{itemCount} items</span>}
+        {typeof itemCount === 'number' && (
+          <span className="pagination__count">{t('common.items', { count: itemCount })}</span>
+        )}
         {hasPages && (
           <span className="pagination__page">
-            Page {page + 1} of {pageCount}
+            {t('common.pageOf', { page: page + 1, count: pageCount })}
           </span>
         )}
       </div>
@@ -27,7 +32,7 @@ export default function Pagination({
           disabled={page <= 0}
           onClick={() => onPageChange?.(page - 1)}
         >
-          Back
+          {t('common.back')}
         </button>
         <button
           type="button"
@@ -35,11 +40,11 @@ export default function Pagination({
           disabled={page >= pageCount - 1}
           onClick={() => onPageChange?.(page + 1)}
         >
-          Next
+          {t('common.next')}
         </button>
         {onItemsPerPageChange && (
           <label className="pagination__size">
-            <span>Per page</span>
+            <span>{t('common.perPage')}</span>
             <select value={itemsPerPage} onChange={(e) => onItemsPerPageChange(Number(e.target.value))}>
               {PAGE_SIZES.map((s) => (
                 <option key={s} value={s}>

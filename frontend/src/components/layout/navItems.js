@@ -1,46 +1,48 @@
+// Navigation: labelKey = i18n-Key (siehe locales/*.json).
 export const NAV_SECTIONS = [
   {
-    label: 'Übersicht',
-    items: [{ to: '/', label: 'Dashboard', end: true }],
+    labelKey: 'nav.overview',
+    items: [{ to: '/', labelKey: 'nav.dashboard', end: true }],
   },
   {
-    label: 'Konfiguration',
+    labelKey: 'nav.configuration',
     items: [
-      { to: '/config/global', label: 'Global' },
-      { to: '/config/internal-users', label: 'Interne Benutzer' },
-      { to: '/config/paths', label: 'Pfade' },
-      { to: '/config/path-defaults', label: 'Path Defaults' }
+      { to: '/config/global', labelKey: 'nav.global' },
+      { to: '/config/internal-users', labelKey: 'nav.internalUsers' },
+      { to: '/config/paths', labelKey: 'nav.paths' },
+      { to: '/config/path-defaults', labelKey: 'nav.pathDefaults' },
     ],
   },
   {
-    label: 'Laufzeit',
+    labelKey: 'nav.runtime',
     items: [
-      { to: '/paths', label: 'Pfade' },
-      { to: '/hls', label: 'HLS' },
-      { to: '/rtsp', label: 'RTSP' },
-      { to: '/rtmp', label: 'RTMP' },
-      { to: '/srt', label: 'SRT' },
-      { to: '/webrtc', label: 'WebRTC' },
-      { to: '/moq', label: 'MoQ' },
+      { to: '/paths', labelKey: 'nav.paths' },
+      { to: '/hls', labelKey: 'nav.hls' },
+      { to: '/rtsp', labelKey: 'nav.rtsp' },
+      { to: '/rtmp', labelKey: 'nav.rtmp' },
+      { to: '/srt', labelKey: 'nav.srt' },
+      { to: '/webrtc', labelKey: 'nav.webrtc' },
+      { to: '/moq', labelKey: 'nav.moq' },
     ],
   },
   {
-    label: 'Aufnahmen',
-    items: [{ to: '/recordings', label: 'Recordings' }],
+    labelKey: 'nav.recordings',
+    items: [{ to: '/recordings', labelKey: 'nav.recordings' }],
   },
   {
-    label: 'Einstellungen',
-    items: [{ to: '/settings', label: 'Settings' }],
+    labelKey: 'nav.settings',
+    items: [{ to: '/settings', labelKey: 'nav.settings' }],
   },
 ];
 
-export function titleForPath(pathname) {
+// Liefert den i18n-Key des Seiten-Titels für eine Pfad-URL.
+export function titleKeyForPath(pathname) {
   for (const section of NAV_SECTIONS) {
     for (const item of section.items) {
       if (pathname === item.to || pathname.startsWith(`${item.to}/`)) {
-        return item.label;
+        return item.labelKey;
       }
     }
   }
-  return 'Nicht gefunden';
+  return 'common.notFound';
 }

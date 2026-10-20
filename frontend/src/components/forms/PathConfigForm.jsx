@@ -10,7 +10,7 @@ import { PATH_CONF_CATALOG } from './fieldCatalog';
 export default function PathConfigForm({
   initialValues,
   onSubmit,
-  submitLabel = 'Save',
+  submitLabel,
   loading = false,
   loadError = null,
   disabled = false,

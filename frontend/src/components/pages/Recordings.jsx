@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useListQuery, useMutationWithInvalidate } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
@@ -10,6 +11,7 @@ import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 
 export default function Recordings() {
+  const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
   const [detailName, setDetailName] = useState(null);
@@ -34,8 +36,8 @@ export default function Recordings() {
   }, [detailName, list.data, detailFallback]);
 
   const columns = [
-    { key: 'name', label: 'Name' },
-    { key: 'segments', label: 'Segments', render: (row) => (Array.isArray(row.segments) ? row.segments.length : 0) },
+    { key: 'name', label: t('pages.recordings.name') },
+    { key: 'segments', label: t('pages.recordings.segments'), render: (row) => (Array.isArray(row.segments) ? row.segments.length : 0) },
   ];
 
   const segments = detail && Array.isArray(detail.segments) ? detail.segments : [];
@@ -44,8 +46,8 @@ export default function Recordings() {
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">Recordings</h2>
-          <p className="page__subtitle">Aufnahmen + Segmente (Delete) — Auto-Refresh alle 10 s.</p>
+          <h2 className="page__title">{t('pages.recordings.title')}</h2>
+          <p className="page__subtitle">{t('pages.recordings.subtitle')}</p>
         </div>
       </header>
 
@@ -69,11 +71,11 @@ export default function Recordings() {
           setDetailName(row.name);
           setDetailFallback(row);
         }}
-        emptyMessage="No recordings"
+        emptyMessage={t('pages.recordings.noRecordings')}
       />
 
       <Modal
-        title={`Recording: ${detail?.name ?? ''}`}
+        title={t('pages.recordings.recording', { name: detail?.name ?? '' })}
         isOpen={!!detail}
         onClose={() => {
           setDetailName(null);
@@ -93,13 +95,13 @@ export default function Recordings() {
                       loading={deleteSegment.isPending}
                       onClick={() => deleteSegment.mutate({ name: detail.name, start: seg.start })}
                     >
-                      Delete
+                      {t('pages.recordings.delete')}
                     </Button>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="formdialog__hint">Keine Segmente (no segments).</p>
+              <p className="formdialog__hint">{t('pages.recordings.noSegments')}</p>
             )}
           </div>
         )}

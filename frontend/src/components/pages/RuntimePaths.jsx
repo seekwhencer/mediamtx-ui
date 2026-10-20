@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
@@ -9,6 +10,7 @@ import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
 
 export default function RuntimePaths() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
@@ -20,29 +22,29 @@ export default function RuntimePaths() {
   });
 
   const columns = [
-    { key: 'name', label: 'Name' },
+    { key: 'name', label: t('pages.runtimePaths.name') },
     {
       key: 'online',
-      label: 'Online',
-      render: (row) => <Badge value={row.online ? 'online' : 'offline'}>{row.online ? 'online' : 'offline'}</Badge>,
+      label: t('pages.runtimePaths.online'),
+      render: (row) => <Badge value={row.online ? 'online' : 'offline'}>{row.online ? t('common.online') : t('common.offline')}</Badge>,
     },
     {
       key: 'available',
-      label: 'Available',
+      label: t('pages.runtimePaths.available'),
       render: (row) => (
-        <Badge value={row.available ? 'available' : 'unavailable'}>{row.available ? 'available' : 'unavailable'}</Badge>
+        <Badge value={row.available ? 'available' : 'unavailable'}>{row.available ? t('common.available') : t('common.unavailable')}</Badge>
       ),
     },
-    { key: 'source.type', label: 'Source Type', render: (row) => (row.source ? enumLabel('pathSourceType', row.source.type) : '–') },
-    { key: 'readers', label: 'Readers', render: (row) => (Array.isArray(row.readers) ? row.readers.length : 0) },
+    { key: 'source.type', label: t('pages.runtimePaths.sourceType'), render: (row) => (row.source ? enumLabel('pathSourceType', row.source.type, t) : '–') },
+    { key: 'readers', label: t('pages.runtimePaths.readers'), render: (row) => (Array.isArray(row.readers) ? row.readers.length : 0) },
   ];
 
   return (
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">Laufzeit-Pfade</h2>
-          <p className="page__subtitle">Aktive Pfade: online/available, Source, Readers — Auto-Refresh alle 10 s.</p>
+          <h2 className="page__title">{t('pages.runtimePaths.title')}</h2>
+          <p className="page__subtitle">{t('pages.runtimePaths.subtitle')}</p>
         </div>
       </header>
 
@@ -63,7 +65,7 @@ export default function RuntimePaths() {
           },
         }}
         onRowClick={(row) => navigate(`/paths/${encodeURIComponent(row.name)}`)}
-        emptyMessage="No active paths"
+        emptyMessage={t('pages.runtimePaths.noActivePaths')}
       />
     </div>
   );

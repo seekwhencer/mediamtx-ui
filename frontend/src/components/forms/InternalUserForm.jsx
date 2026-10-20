@@ -5,7 +5,7 @@ import { INTERNAL_USER_CATALOG } from './fieldCatalog';
 // - Add:     POST   /config/internal-users/add
 // - Edit:    PATCH  /config/internal-users/patch/{id}
 // - Replace: POST   /config/internal-users/replace/{id}
-export default function InternalUserForm({ initialValues, onSubmit, submitLabel = 'Save', disabled = false }) {
+export default function InternalUserForm({ initialValues, onSubmit, submitLabel, disabled = false }) {
   return (
     <FormBuilder
       catalog={INTERNAL_USER_CATALOG}

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import Input from '../ui/Input';
 import Select from '../ui/Select';
 import Toggle from '../ui/Toggle';
@@ -12,25 +13,32 @@ const FULL_WIDTH_TYPES = new Set(['list', 'multi-select']);
 const SELF_ERROR_TYPES = new Set(['text', 'password', 'number', 'duration', 'size', 'command', 'path', 'select']);
 
 export default function FormField({ field, value, onChange, error, idPrefix = 'fb' }) {
+  const { t } = useTranslation();
   const id = `${idPrefix}-${field.name}`;
   const span = FULL_WIDTH_TYPES.has(field.type) ? 'formbuilder__field--full' : '';
+
+  // Übersetztes Label + Placeholder (labelKey/placeholderKey → i18n, sonst roh).
+  const label = field.labelKey ? t(field.labelKey, { defaultValue: field.label }) : field.label;
+  const placeholder = field.placeholderKey
+    ? t(field.placeholderKey, { defaultValue: field.placeholder })
+    : field.placeholder;
 
   const renderControl = () => {
     switch (field.type) {
       case 'toggle':
-        return <Toggle checked={!!value} onChange={onChange} label={field.label} id={id} name={field.name} />;
+        return <Toggle checked={!!value} onChange={onChange} label={label} id={id} name={field.name} />;
       case 'number':
         return (
           <Input
             id={id}
             name={field.name}
-            label={field.label}
+            label={label}
             type="number"
             value={value ?? ''}
             min={field.min}
             max={field.max}
             step={field.step}
-            placeholder={field.placeholder}
+            placeholder={placeholder}
             onChange={(e) => onChange(e.target.value === '' ? '' : Number(e.target.value))}
             error={error}
           />
@@ -43,7 +51,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             min={field.min ?? 0}
             max={field.max ?? 100}
             step={field.step ?? 1}
-            label={field.label}
+            label={label}
             id={id}
             name={field.name}
           />
@@ -53,10 +61,10 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
           <Select
             id={id}
             name={field.name}
-            label={field.label}
+            label={label}
             value={value ?? ''}
             options={field.options || []}
-            placeholder={field.placeholder}
+            placeholder={placeholder}
             onChange={(e) => onChange(e.target.value)}
             error={error}
           />
@@ -67,7 +75,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             value={Array.isArray(value) ? value : []}
             onChange={onChange}
             options={field.options || []}
-            label={field.label}
+            label={label}
             name={field.name}
           />
         );
@@ -77,8 +85,8 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             value={Array.isArray(value) ? value : []}
             onChange={onChange}
             type="string"
-            label={field.label}
-            placeholder={field.placeholder}
+            label={label}
+            placeholder={placeholder}
             name={field.name}
           />
         );
@@ -88,8 +96,8 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             value={Array.isArray(value) ? value : []}
             onChange={onChange}
             type="number"
-            label={field.label}
-            placeholder={field.placeholder}
+            label={label}
+            placeholder={placeholder}
             name={field.name}
           />
         );
@@ -100,10 +108,10 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
           <Input
             id={id}
             name={field.name}
-            label={field.label}
+            label={label}
             type="password"
             value={value ?? ''}
-            placeholder={field.placeholder}
+            placeholder={placeholder}
             onChange={(e) => onChange(e.target.value)}
             error={error}
           />
@@ -118,7 +126,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
           return (
             <div className={`ui-field ${error ? 'has-error' : ''}`.trim()}>
               <label className="ui-field__label" htmlFor={id}>
-                {field.label}
+                {label}
               </label>
               <textarea
                 id={id}
@@ -126,7 +134,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
                 className={`ui-input ${mono ? 'ui-input--mono' : ''}`}
                 rows={6}
                 value={value ?? ''}
-                placeholder={field.placeholder}
+                placeholder={placeholder}
                 aria-invalid={error ? true : undefined}
                 onChange={(e) => onChange(e.target.value)}
               />
@@ -137,11 +145,11 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
           <Input
             id={id}
             name={field.name}
-            label={field.label}
+            label={label}
             type="text"
             mono={mono}
             value={value ?? ''}
-            placeholder={field.placeholder}
+            placeholder={placeholder}
             onChange={(e) => onChange(e.target.value)}
             error={error}
           />
@@ -152,7 +160,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
           <Input
             id={id}
             name={field.name}
-            label={field.label}
+            label={label}
             type="text"
             value={value ?? ''}
             onChange={(e) => onChange(e.target.value)}
@@ -168,7 +176,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
     <div className={`formbuilder__field ${span}`.trim()}>
       {field.description && <Markdown text={field.description} className="formbuilder__desc" />}
       {field.restartRequired && (
-        <span className="ui-badge ui-badge--amber formbuilder__restart-badge">Restart required</span>
+        <span className="ui-badge ui-badge--amber formbuilder__restart-badge">{t('form.restartRequired')}</span>
       )}
       {renderControl()}
       {error && !selfError && <span className="ui-field__error">{error}</span>}

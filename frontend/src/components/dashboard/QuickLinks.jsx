@@ -1,21 +1,24 @@
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import Card from '../ui/Card';
 
 const LINKS = [
-  { to: '/config/global', label: 'Globale Konfiguration' },
-  { to: '/config/path-defaults', label: 'Path Defaults' },
-  { to: '/config/internal-users', label: 'Interne Benutzer' },
-  { to: '/config/paths', label: 'Pfad-Konfigurationen' },
+  { to: '/config/global', labelKey: 'dashboard.globalConfig' },
+  { to: '/config/path-defaults', labelKey: 'dashboard.pathDefaults' },
+  { to: '/config/internal-users', labelKey: 'dashboard.internalUsers' },
+  { to: '/config/paths', labelKey: 'dashboard.pathConfigs' },
 ];
 
 export default function QuickLinks() {
+  const { t } = useTranslation();
+
   return (
-    <Card title="Schnellzugriff">
+    <Card title={t('dashboard.quickAccess')}>
       <ul className="quicklinks">
         {LINKS.map((l) => (
           <li key={l.to}>
             <Link className="ui-link" to={l.to}>
-              {l.label}
+              {t(l.labelKey)}
             </Link>
           </li>
         ))}

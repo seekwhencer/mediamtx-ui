@@ -1,17 +1,20 @@
 import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { NAV_SECTIONS } from './navItems';
 
 export default function Sidebar() {
+  const { t } = useTranslation();
+
   return (
     <aside className="layout__sidebar">
       <div className="sidebar__brand">
         <span className="sidebar__logo" aria-hidden="true">MTX</span>
         <span className="sidebar__name">mediamtx ui</span>
       </div>
-      <nav className="sidebar__nav" aria-label="Hauptnavigation">
+      <nav className="sidebar__nav" aria-label={t('nav.overview')}>
         {NAV_SECTIONS.map((section) => (
-          <div className="sidebar__section" key={section.label}>
-            <div className="sidebar__section-label">{section.label}</div>
+          <div className="sidebar__section" key={section.labelKey}>
+            <div className="sidebar__section-label">{t(section.labelKey)}</div>
             <ul className="sidebar__list">
               {section.items.map((item) => (
                 <li key={item.to}>
@@ -20,7 +23,7 @@ export default function Sidebar() {
                     end={item.end}
                     className={({ isActive }) => `sidebar__link${isActive ? ' is-active' : ''}`}
                   >
-                    {item.label}
+                    {t(item.labelKey)}
                   </NavLink>
                 </li>
               ))}

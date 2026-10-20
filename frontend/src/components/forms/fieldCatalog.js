@@ -372,21 +372,21 @@ export const INTERNAL_USER_CATALOG = [
 // ===== Server-Settings (INITIAL_SETTINGS.md §6.9) =====
 
 export const SERVER_SETTINGS_CATALOG = [
-  { name: 'serverPort', label: 'Server Port', type: 'number', group: 'Server', min: 1, max: 65535, restartRequired: true },
-  { name: 'verbose', label: 'Verbose Logging', type: 'toggle', group: 'Server' },
-  { name: 'mediamtxBaseUrl', label: 'MediaMTX Base URL', type: 'text', group: 'MediaMTX', placeholder: 'http://localhost:9997' },
-  { name: 'mediamtxAuthToken', label: 'MediaMTX Auth Token', type: 'password', group: 'MediaMTX', placeholder: '•••• (unverändert) / leer = löschen' },
-  { name: 'mediamtxApiVersion', label: 'MediaMTX API Version', type: 'text', group: 'Bridge', placeholder: 'v3', restartRequired: true },
-  { name: 'mediamtxBridgeTimeout', label: 'MediaMTX Bridge Timeout (ms)', type: 'number', group: 'Bridge', min: 1000, max: 300000 },
+  { name: 'serverPort', label: 'Server Port', labelKey: 'settings.serverPort', type: 'number', group: 'Server', min: 1, max: 65535, restartRequired: true },
+  { name: 'verbose', label: 'Verbose Logging', labelKey: 'settings.verboseLogging', type: 'toggle', group: 'Server' },
+  { name: 'mediamtxBaseUrl', label: 'MediaMTX Base URL', labelKey: 'settings.mediamtxBaseUrl', type: 'text', group: 'MediaMTX', placeholder: 'http://localhost:9997' },
+  { name: 'mediamtxAuthToken', label: 'MediaMTX Auth Token', labelKey: 'settings.mediamtxAuthToken', type: 'password', group: 'MediaMTX', placeholder: '•••• (unchanged) / empty = delete', placeholderKey: 'settings.placeholderAuthToken' },
+  { name: 'mediamtxApiVersion', label: 'MediaMTX API Version', labelKey: 'settings.mediamtxApiVersion', type: 'text', group: 'Bridge', placeholder: 'v3', restartRequired: true },
+  { name: 'mediamtxBridgeTimeout', label: 'MediaMTX Bridge Timeout (ms)', labelKey: 'settings.mediamtxBridgeTimeout', type: 'number', group: 'Bridge', min: 1000, max: 300000 },
 ];
 
 // ===== App-Settings (INITIAL_SETTINGS.md §6.9) =====
 
 export const APP_SETTINGS_CATALOG = [
-  { name: 'apiBaseUrl', label: 'API Base URL', type: 'text', group: 'API', placeholder: '/v3 (Default)' },
-  { name: 'theme', label: 'Theme', type: 'select', group: 'Darstellung', options: ['dark', 'light'] },
-  { name: 'autoRefreshMs', label: 'Auto-Refresh (ms, 0 = aus)', type: 'number', group: 'Verhalten', min: 0, max: 3600000 },
-  { name: 'itemsPerPage', label: 'Items Per Page', type: 'number', group: 'Verhalten', min: 10, max: 500 },
+  { name: 'apiBaseUrl', label: 'API Base URL', labelKey: 'settings.apiBaseUrl', type: 'text', group: 'API', placeholder: '/v3 (default)', placeholderKey: 'settings.placeholderApiBaseUrl' },
+  { name: 'theme', label: 'Theme', labelKey: 'settings.theme', type: 'select', group: 'Display', options: ['dark', 'light'] },
+  { name: 'autoRefreshMs', label: 'Auto-Refresh (ms, 0 = off)', labelKey: 'settings.autoRefreshMs', type: 'number', group: 'Behavior', min: 0, max: 3600000 },
+  { name: 'itemsPerPage', label: 'Items Per Page', labelKey: 'settings.itemsPerPage', type: 'number', group: 'Behavior', min: 10, max: 500 },
 ];
 
 // ===== Helpers (reine Funktionen) =====
@@ -401,12 +401,19 @@ function isEmpty(v) {
   return false;
 }
 
-function validateField(field, value, errors, path) {
+// Übersetztes Feld-Label (labelKey → i18n, sonst rohes label).
+function fieldLabel(field, t) {
+  if (field.labelKey && t) return t(field.labelKey, { defaultValue: field.label });
+  return field.label;
+}
+
+function validateField(field, value, errors, path, t) {
   if (field.deprecated) return;
   const key = path || field.name;
+  const label = fieldLabel(field, t);
 
   if (field.required && isEmpty(value)) {
-    errors[key] = `${field.label} is required`;
+    errors[key] = t('validation.required', { label });
     return;
   }
   if (isEmpty(value)) return;
@@ -416,54 +423,54 @@ function validateField(field, value, errors, path) {
     case 'slider': {
       const n = typeof value === 'number' ? value : Number(value);
       if (!Number.isFinite(n)) {
-        errors[key] = `${field.label} must be a number`;
+        errors[key] = t('validation.mustBeNumber', { label });
       } else if (field.min != null && n < field.min) {
-        errors[key] = `${field.label} must be ≥ ${field.min}`;
+        errors[key] = t('validation.mustBeGte', { label, min: field.min });
       } else if (field.max != null && n > field.max) {
-        errors[key] = `${field.label} must be ≤ ${field.max}`;
+        errors[key] = t('validation.mustBeLte', { label, max: field.max });
       }
       break;
     }
     case 'duration':
       if (typeof value !== 'string' || !DURATION_RE.test(value.trim())) {
-        errors[key] = `${field.label} must be a duration (e.g. 5s, 1h30m)`;
+        errors[key] = t('validation.mustBeDuration', { label });
       }
       break;
     case 'size':
       if (typeof value !== 'string' || !SIZE_RE.test(value.trim())) {
-        errors[key] = `${field.label} must be a size (e.g. 50MiB)`;
+        errors[key] = t('validation.mustBeSize', { label });
       }
       break;
     case 'select':
       if (field.options?.length) {
         const ok = field.options.some((o) => (typeof o === 'object' && o !== null ? o.value : o) === value);
-        if (!ok) errors[key] = `${field.label} must be one of the allowed options`;
+        if (!ok) errors[key] = t('validation.mustBeOneOf', { label });
       }
       break;
     case 'multi-select':
       if (field.options?.length) {
         const allowed = field.options.map((o) => (typeof o === 'object' && o !== null ? o.value : o));
         const bad = value.filter((v) => !allowed.includes(v));
-        if (bad.length) errors[key] = `${field.label}: unknown option(s) ${bad.join(', ')}`;
+        if (bad.length) errors[key] = t('validation.unknownOptions', { label, options: bad.join(', ') });
       }
       break;
     case 'tags-number':
       if (value.some((v) => !Number.isFinite(Number(v)))) {
-        errors[key] = `${field.label} must contain numbers only`;
+        errors[key] = t('validation.mustContainNumbers', { label });
       }
       break;
     case 'list': {
       if (!Array.isArray(value)) {
-        errors[key] = `${field.label} must be a list`;
+        errors[key] = t('validation.mustBeList', { label });
         break;
       }
       value.forEach((item, i) => {
         if (item == null || typeof item !== 'object') {
-          errors[`${key}[${i}]`] = 'invalid item';
+          errors[`${key}[${i}]`] = t('validation.invalidItem');
           return;
         }
         for (const sub of field.itemSchema || []) {
-          validateField(sub, item[sub.name], errors, `${key}[${i}].${sub.name}`);
+          validateField(sub, item[sub.name], errors, `${key}[${i}].${sub.name}`, t);
         }
       });
       break;
@@ -473,10 +480,10 @@ function validateField(field, value, errors, path) {
   }
 }
 
-export function validateValues(catalog, values) {
+export function validateValues(catalog, values, t) {
   const errors = {};
   for (const field of catalog) {
-    validateField(field, (values || {})[field.name], errors);
+    validateField(field, (values || {})[field.name], errors, null, t);
   }
   return errors;
 }

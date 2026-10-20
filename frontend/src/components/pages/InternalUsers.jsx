@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation, Trans } from 'react-i18next';
 import { useMutationWithInvalidate } from '../../hooks/useApi';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
@@ -9,6 +10,7 @@ import Button from '../ui/Button';
 import InternalUserForm from '../forms/InternalUserForm';
 
 export default function InternalUsers() {
+  const { t } = useTranslation();
   // Users live in the global config (authInternalUsers) — there is no
   // /config/internal-users/* endpoint. Same request as the global config page.
   const query = useQuery({
@@ -40,11 +42,11 @@ export default function InternalUsers() {
   const close = () => setDialog(null);
 
   const columns = [
-    { key: 'user', label: 'User' },
-    { key: 'ips', label: 'IPs', render: (row) => (Array.isArray(row.ips) && row.ips.length ? row.ips.join(', ') : '–') },
+    { key: 'user', label: t('pages.internalUsers.user') },
+    { key: 'ips', label: t('pages.internalUsers.ips'), render: (row) => (Array.isArray(row.ips) && row.ips.length ? row.ips.join(', ') : '–') },
     {
       key: 'permissions',
-      label: 'Permissions',
+      label: t('pages.internalUsers.permissions'),
       render: (row) =>
         Array.isArray(row.permissions) && row.permissions.length
           ? row.permissions.map((p) => `${p.action}:${p.path}`).join(', ')
@@ -52,18 +54,18 @@ export default function InternalUsers() {
     },
     {
       key: 'actions',
-      label: '',
+      label: t('pages.internalUsers.actions'),
       sortable: false,
       render: (row) => (
         <div className="rowactions">
           <Button variant="ghost" size="sm" onClick={() => setDialog({ mode: 'edit', row })}>
-            Edit
+            {t('common.edit')}
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setDialog({ mode: 'replace', row })}>
-            Replace
+            {t('common.replace')}
           </Button>
           <Button variant="danger" size="sm" onClick={() => setDialog({ mode: 'delete', row })}>
-            Delete
+            {t('common.delete')}
           </Button>
         </div>
       ),
@@ -74,11 +76,11 @@ export default function InternalUsers() {
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">Interne Benutzer</h2>
-          <p className="page__subtitle">Interne Auth-Benutzer (authInternalUsers aus der globalen Config).</p>
+          <h2 className="page__title">{t('pages.internalUsers.title')}</h2>
+          <p className="page__subtitle">{t('pages.internalUsers.subtitle')}</p>
         </div>
         <Button variant="primary" onClick={() => setDialog({ mode: 'add' })}>
-          + Add User
+          {t('pages.internalUsers.addUser')}
         </Button>
       </header>
 
@@ -87,20 +89,24 @@ export default function InternalUsers() {
         data={users}
         loading={query.isPending}
         error={query.error}
-        emptyMessage="No internal users"
+        emptyMessage={t('pages.internalUsers.noUsers')}
       />
 
-      <Modal title="Add User" isOpen={dialog?.mode === 'add'} onClose={close}>
+      <Modal title={t('pages.internalUsers.addUser')} isOpen={dialog?.mode === 'add'} onClose={close}>
         <InternalUserForm
           key="add"
           initialValues={{}}
           onSubmit={(user) => addMut.mutateAsync(user).then(close)}
-          submitLabel="Add"
+          submitLabel={t('common.add')}
         />
       </Modal>
 
       <Modal
-        title={`${dialog?.mode === 'edit' ? 'Edit' : 'Replace'} User: ${dialog?.row?.user ?? ''}`}
+        title={
+          dialog?.mode === 'edit'
+            ? t('pages.internalUsers.editUser', { name: dialog?.row?.user ?? '' })
+            : t('pages.internalUsers.replaceUser', { name: dialog?.row?.user ?? '' })
+        }
         isOpen={dialog?.mode === 'edit' || dialog?.mode === 'replace'}
         onClose={close}
       >
@@ -114,32 +120,35 @@ export default function InternalUsers() {
             onSubmit={(user) =>
               (dialog.mode === 'edit' ? editMut : replaceMut).mutateAsync({ id: dialog.row.id, user }).then(close)
             }
-            submitLabel={dialog.mode === 'edit' ? 'Save' : 'Replace'}
+            submitLabel={dialog.mode === 'edit' ? t('common.save') : t('common.replace')}
           />
         )}
       </Modal>
 
       <Modal
-        title="Delete User"
+        title={t('pages.internalUsers.deleteUser')}
         isOpen={dialog?.mode === 'delete'}
         onClose={close}
         footer={
           <>
             <Button variant="secondary" onClick={close}>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button
               variant="danger"
               loading={deleteMut.isPending}
               onClick={() => deleteMut.mutateAsync(dialog?.row?.id).then(close)}
             >
-              Delete
+              {t('common.delete')}
             </Button>
           </>
         }
       >
         <p>
-          Delete user <strong>{dialog?.row?.user}</strong>? This cannot be undone.
+          <Trans
+            i18nKey="pages.internalUsers.deleteUserConfirm"
+            values={{ name: dialog?.row?.user }}
+          />
         </p>
       </Modal>
     </div>

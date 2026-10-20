@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
@@ -13,6 +14,7 @@ import Tabs from '../ui/Tabs';
 import KickButton from '../ui/KickButton';
 
 function RTSPSection({ base }) {
+  const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
 
@@ -41,25 +43,25 @@ function RTSPSection({ base }) {
   };
 
   const connColumns = [
-    { key: 'id', label: 'ID', render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
-    { key: 'created', label: 'Created', render: (row) => formatDate(row.created) },
-    { key: 'remoteAddr', label: 'Remote Addr' },
-    { key: 'session', label: 'Session', render: (row) => (row.session ? <code className="mono">{String(row.session).slice(0, 8)}…</code> : '–') },
-    { key: 'tunnel', label: 'Tunnel', render: (row) => row.tunnel || '–' },
-    { key: 'inboundBytes', label: 'Inbound', render: (row) => formatBytes(row.inboundBytes) },
-    { key: 'outboundBytes', label: 'Outbound', render: (row) => formatBytes(row.outboundBytes) },
+    { key: 'id', label: t('pages.rtsp.id'), render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
+    { key: 'created', label: t('pages.rtsp.created'), render: (row) => formatDate(row.created) },
+    { key: 'remoteAddr', label: t('pages.rtsp.remoteAddr') },
+    { key: 'session', label: t('pages.rtsp.session'), render: (row) => (row.session ? <code className="mono">{String(row.session).slice(0, 8)}…</code> : '–') },
+    { key: 'tunnel', label: t('pages.rtsp.tunnel'), render: (row) => row.tunnel || '–' },
+    { key: 'inboundBytes', label: t('pages.rtsp.inbound'), render: (row) => formatBytes(row.inboundBytes) },
+    { key: 'outboundBytes', label: t('pages.rtsp.outbound'), render: (row) => formatBytes(row.outboundBytes) },
   ];
 
   const sessionColumns = [
-    { key: 'id', label: 'ID', render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
-    { key: 'created', label: 'Created', render: (row) => formatDate(row.created) },
-    { key: 'path', label: 'Path' },
-    { key: 'remoteAddr', label: 'Remote Addr' },
-    { key: 'user', label: 'User', render: (row) => row.user || '–' },
-    { key: 'state', label: 'State', render: (row) => <Badge value={row.state}>{enumLabel('rtspSessionState', row.state)}</Badge> },
-    { key: 'transport', label: 'Transport', render: (row) => (row.transport ? enumLabel('rtspTransport', row.transport) : '–') },
-    { key: 'inboundBytes', label: 'Inbound', render: (row) => formatBytes(row.inboundBytes) },
-    { key: 'outboundBytes', label: 'Outbound', render: (row) => formatBytes(row.outboundBytes) },
+    { key: 'id', label: t('pages.rtsp.id'), render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
+    { key: 'created', label: t('pages.rtsp.created'), render: (row) => formatDate(row.created) },
+    { key: 'path', label: t('pages.rtsp.path') },
+    { key: 'remoteAddr', label: t('pages.rtsp.remoteAddr') },
+    { key: 'user', label: t('pages.rtsp.user'), render: (row) => row.user || '–' },
+    { key: 'state', label: t('pages.rtsp.state'), render: (row) => <Badge value={row.state}>{enumLabel('rtspSessionState', row.state, t)}</Badge> },
+    { key: 'transport', label: t('pages.rtsp.transport'), render: (row) => (row.transport ? enumLabel('rtspTransport', row.transport, t) : '–') },
+    { key: 'inboundBytes', label: t('pages.rtsp.inbound'), render: (row) => formatBytes(row.inboundBytes) },
+    { key: 'outboundBytes', label: t('pages.rtsp.outbound'), render: (row) => formatBytes(row.outboundBytes) },
     {
       key: 'actions',
       label: '',
@@ -77,7 +79,7 @@ function RTSPSection({ base }) {
       items={[
         {
           id: 'conns',
-          label: 'Connections',
+          label: t('pages.rtsp.connections'),
           content: (
             <DataTable
               columns={connColumns}
@@ -85,13 +87,13 @@ function RTSPSection({ base }) {
               loading={conns.isPending}
               error={conns.error}
               pagination={pagination}
-              emptyMessage={`No ${base.toUpperCase()} connections`}
+              emptyMessage={t('pages.rtsp.noConnections', { proto: base.toUpperCase() })}
             />
           ),
         },
         {
           id: 'sessions',
-          label: 'Sessions',
+          label: t('pages.rtsp.sessions'),
           content: (
             <DataTable
               columns={sessionColumns}
@@ -99,7 +101,7 @@ function RTSPSection({ base }) {
               loading={sessions.isPending}
               error={sessions.error}
               pagination={pagination}
-              emptyMessage={`No ${base.toUpperCase()} sessions`}
+              emptyMessage={t('pages.rtsp.noSessions', { proto: base.toUpperCase() })}
             />
           ),
         },
@@ -109,12 +111,13 @@ function RTSPSection({ base }) {
 }
 
 export default function RTSP() {
+  const { t } = useTranslation();
   return (
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">RTSP</h2>
-          <p className="page__subtitle">Connections & Sessions (Kick) — Auto-Refresh alle 10 s.</p>
+          <h2 className="page__title">{t('pages.rtsp.title')}</h2>
+          <p className="page__subtitle">{t('pages.rtsp.subtitle')}</p>
         </div>
       </header>
 

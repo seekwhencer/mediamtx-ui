@@ -1,0 +1,501 @@
+{
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "add": "Add",
+    "edit": "Edit",
+    "replace": "Replace",
+    "delete": "Delete",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "details": "Details",
+    "stats": "Stats",
+    "kick": "Kick",
+    "loading": "Loading…",
+    "error": "Error",
+    "unknownError": "Unknown error",
+    "noItems": "No items",
+    "online": "online",
+    "offline": "offline",
+    "available": "available",
+    "unavailable": "unavailable",
+    "yes": "yes",
+    "no": "no",
+    "on": "on",
+    "off": "off",
+    "perPage": "Per page",
+    "pageOf": "Page {{page}} of {{count}}",
+    "items": "{{count}} items",
+    "removeRow": "Remove row {{n}}",
+    "removeTag": "Remove {{tag}}",
+    "saved": "Saved ✓",
+    "loadFailed": "Load failed",
+    "saveFailed": "Save failed",
+    "restartRequired": "Restart required",
+    "notFound": "Not found",
+    "backToDashboard": "Back to Dashboard",
+    "allPaths": "All paths",
+    "detailsArrow": "Details →",
+    "allPathsArrow": "All paths →"
+  },
+  "nav": {
+    "overview": "Overview",
+    "dashboard": "Dashboard",
+    "configuration": "Configuration",
+    "global": "Global",
+    "internalUsers": "Internal Users",
+    "paths": "Paths",
+    "pathDefaults": "Path Defaults",
+    "runtime": "Runtime",
+    "hls": "HLS",
+    "rtsp": "RTSP",
+    "rtmp": "RTMP",
+    "srt": "SRT",
+    "webrtc": "WebRTC",
+    "moq": "MoQ",
+    "recordings": "Recordings",
+    "settings": "Settings"
+  },
+  "topbar": {
+    "online": "online",
+    "offline": "offline",
+    "connecting": "connecting…",
+    "refresh": "Refresh",
+    "language": "Language"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "subtitle": "Overview: protocols, instance, paths — auto-refresh every 10 s.",
+    "protocols": "Protocols",
+    "instance": "Instance",
+    "version": "Version",
+    "started": "Started",
+    "instanceLoading": "Loading instance…",
+    "instanceNotReachable": "MediaMTX not reachable",
+    "paths": "Paths",
+    "allPaths": "All paths →",
+    "pathsNotReachable": "Paths not reachable",
+    "pathsLoading": "Loading paths…",
+    "totalPaths": "Total paths",
+    "quickAccess": "Quick access",
+    "globalConfig": "Global configuration",
+    "pathDefaults": "Path Defaults",
+    "internalUsers": "Internal users",
+    "pathConfigs": "Path configurations",
+    "muxer": "Muxer",
+    "sessions": "Sessions",
+    "conns": "Conns",
+    "notReachable": "{{title}} not reachable",
+    "loading": "{{title}} loading…"
+  },
+  "pages": {
+    "configGlobal": {
+      "title": "Global configuration",
+      "subtitle": "GlobalConf — all global MediaMTX settings."
+    },
+    "configPathDefaults": {
+      "title": "Path Defaults",
+      "subtitle": "Default path configuration (PathConf). Changes apply to all paths that have no own override."
+    },
+    "internalUsers": {
+      "title": "Internal Users",
+      "subtitle": "Internal auth users (authInternalUsers from the global config).",
+      "addUser": "+ Add User",
+      "noUsers": "No internal users",
+      "user": "User",
+      "ips": "IPs",
+      "permissions": "Permissions",
+      "actions": "Actions",
+      "editUser": "Edit User: {{name}}",
+      "replaceUser": "Replace User: {{name}}",
+      "deleteUser": "Delete User",
+      "deleteUserConfirm": "Delete user <strong>{{name}}</strong>? This cannot be undone."
+    },
+    "configPaths": {
+      "title": "Path configurations",
+      "subtitle": "Path CRUD: Add, Edit (PATCH), Replace (POST), Delete.",
+      "addPath": "+ Add Path",
+      "noPaths": "No paths configured",
+      "name": "Name",
+      "source": "Source",
+      "record": "Record",
+      "alwaysAvailable": "Always Available",
+      "forward": "Forward",
+      "maxReaders": "Max Readers",
+      "actions": "Actions",
+      "addPathModal": "Add Path",
+      "editPath": "Edit Path: {{name}}",
+      "replacePath": "Replace Path: {{name}}",
+      "deletePath": "Delete Path",
+      "deletePathConfirm": "Delete path <strong>{{name}}</strong>? This cannot be undone.",
+      "nameRequired": "Name is required",
+      "optionalHint": "Optional: configure the path now, or later on its detail page."
+    },
+    "configPathDetail": {
+      "title": "Path configuration: {{name}}",
+      "allPaths": "← All paths"
+    },
+    "runtimePaths": {
+      "title": "Runtime paths",
+      "subtitle": "Active paths: online/available, source, readers — auto-refresh every 10 s.",
+      "noActivePaths": "No active paths",
+      "name": "Name",
+      "online": "Online",
+      "available": "Available",
+      "sourceType": "Source Type",
+      "readers": "Readers"
+    },
+    "runtimePathDetail": {
+      "title": "Path: {{name}}",
+      "subtitle": "Runtime details: source, readers, tracks, forward destinations, static source.",
+      "back": "← Back",
+      "pathNotLoaded": "Path not loaded",
+      "status": "Status",
+      "confName": "Conf Name",
+      "onlineSince": "Online Since",
+      "availableSince": "Available Since",
+      "inboundBytes": "Inbound Bytes",
+      "outboundBytes": "Outbound Bytes",
+      "inboundFramesInError": "Inbound Frames in Error",
+      "source": "Source",
+      "noSource": "No source.",
+      "readers": "Readers ({{count}})",
+      "noReaders": "No readers.",
+      "tracks": "Tracks ({{count}})",
+      "noTracks": "No tracks.",
+      "forwardDestinations": "Forward Destinations",
+      "noForwardDests": "No forward destinations",
+      "staticSource": "Static Source",
+      "noStaticSource": "No static source for this path.",
+      "staticSourceNotLoaded": "Static source not loaded",
+      "created": "Created",
+      "state": "State",
+      "type": "Type",
+      "lastError": "Last Error",
+      "loading": "Loading…",
+      "id": "ID",
+      "outbound": "Outbound",
+      "details": "Details",
+      "forwardDest": "Forward Destination: {{id}}",
+      "codecProps": "codecProps",
+      "typeSpecific": "typeSpecific",
+      "forwardDestFull": "ForwardDest"
+    },
+    "hls": {
+      "title": "HLS",
+      "subtitle": "Muxers & sessions — auto-refresh every 10 s.",
+      "muxers": "Muxers",
+      "sessions": "Sessions",
+      "noMuxers": "No HLS muxers",
+      "noSessions": "No HLS sessions",
+      "path": "Path",
+      "created": "Created",
+      "lastRequest": "Last Request",
+      "outbound": "Outbound",
+      "framesDiscarded": "Frames Discarded",
+      "id": "ID",
+      "remoteAddr": "Remote Addr",
+      "user": "User",
+      "userAgent": "User Agent",
+      "cdn": "CDN"
+    },
+    "rtsp": {
+      "title": "RTSP",
+      "subtitle": "Connections & sessions (kick) — auto-refresh every 10 s.",
+      "connections": "Connections",
+      "sessions": "Sessions",
+      "noConnections": "No {{proto}} connections",
+      "noSessions": "No {{proto}} sessions",
+      "id": "ID",
+      "created": "Created",
+      "remoteAddr": "Remote Addr",
+      "session": "Session",
+      "tunnel": "Tunnel",
+      "inbound": "Inbound",
+      "outbound": "Outbound",
+      "path": "Path",
+      "user": "User",
+      "state": "State",
+      "transport": "Transport"
+    },
+    "rtmp": {
+      "title": "RTMP",
+      "subtitle": "Connections (kick) — auto-refresh every 10 s.",
+      "noConnections": "No {{proto}} connections",
+      "id": "ID",
+      "created": "Created",
+      "path": "Path",
+      "remoteAddr": "Remote Addr",
+      "user": "User",
+      "state": "State",
+      "inbound": "Inbound",
+      "outbound": "Outbound"
+    },
+    "srt": {
+      "title": "SRT",
+      "subtitle": "Connections (kick) + SRT stats — auto-refresh every 10 s.",
+      "noConnections": "No SRT connections",
+      "id": "ID",
+      "created": "Created",
+      "path": "Path",
+      "remoteAddr": "Remote Addr",
+      "user": "User",
+      "state": "State",
+      "inbound": "Inbound",
+      "outbound": "Outbound",
+      "stats": "Stats",
+      "srtStats": "SRT Stats: {{id}}",
+      "srtConn": "SRTConn (incl. stats)"
+    },
+    "webrtc": {
+      "title": "WebRTC",
+      "subtitle": "Sessions (kick) — auto-refresh every 10 s.",
+      "noSessions": "No WebRTC sessions",
+      "id": "ID",
+      "created": "Created",
+      "path": "Path",
+      "remoteAddr": "Remote Addr",
+      "user": "User",
+      "state": "State",
+      "localCandidate": "Local Candidate",
+      "remoteCandidate": "Remote Candidate",
+      "inbound": "Inbound",
+      "outbound": "Outbound"
+    },
+    "moq": {
+      "title": "MoQ",
+      "subtitle": "Media-over-QUIC sessions (kick) — auto-refresh every 10 s.",
+      "noSessions": "No MoQ sessions",
+      "id": "ID",
+      "created": "Created",
+      "path": "Path",
+      "remoteAddr": "Remote Addr",
+      "userAgent": "User Agent",
+      "state": "State",
+      "version": "Version",
+      "transport": "Transport",
+      "inbound": "Inbound",
+      "outbound": "Outbound"
+    },
+    "recordings": {
+      "title": "Recordings",
+      "subtitle": "Recordings + segments (delete) — auto-refresh every 10 s.",
+      "noRecordings": "No recordings",
+      "name": "Name",
+      "segments": "Segments",
+      "recording": "Recording: {{name}}",
+      "delete": "Delete",
+      "noSegments": "No segments."
+    },
+    "settings": {
+      "title": "Settings",
+      "subtitle": "Server settings (persisted, API) and app settings (this browser, localStorage).",
+      "server": "Server",
+      "app": "App (this browser)",
+      "saveServer": "Save server",
+      "saveApp": "Save app",
+      "applied": "{{key}} — applied",
+      "restartRequired": "{{key}} — restart required",
+      "noChanges": "No changes.",
+      "appSaved": "App settings saved"
+    },
+    "notFound": {
+      "title": "Page not found",
+      "subtitle": "The requested path does not exist.",
+      "backToDashboard": "Back to Dashboard"
+    }
+  },
+  "form": {
+    "loadingConfig": "Loading config…",
+    "mediamtxRestarting": "mediamtx is restarting.",
+    "saved": "Saved ✓",
+    "loadFailed": "Load failed",
+    "saveFailed": "Save failed",
+    "restartRequired": "Restart required",
+    "addRow": "Add row",
+    "noEntries": "No entries.",
+    "removeRow": "Remove row {{n}}"
+  },
+  "settings": {
+    "serverPort": "Server Port",
+    "verboseLogging": "Verbose Logging",
+    "mediamtxBaseUrl": "MediaMTX Base URL",
+    "mediamtxAuthToken": "MediaMTX Auth Token",
+    "mediamtxApiVersion": "MediaMTX API Version",
+    "mediamtxBridgeTimeout": "MediaMTX Bridge Timeout (ms)",
+    "apiBaseUrl": "API Base URL",
+    "theme": "Theme",
+    "autoRefreshMs": "Auto-Refresh (ms, 0 = off)",
+    "itemsPerPage": "Items Per Page",
+    "groupServer": "Server",
+    "groupMediaMTX": "MediaMTX",
+    "groupBridge": "Bridge",
+    "groupAPI": "API",
+    "groupDisplay": "Display",
+    "groupBehavior": "Behavior",
+    "placeholderAuthToken": "•••• (unchanged) / empty = delete",
+    "placeholderApiBaseUrl": "/v3 (default)"
+  },
+  "groups": {
+    "Server": "Server",
+    "MediaMTX": "MediaMTX",
+    "Bridge": "Bridge",
+    "API": "API",
+    "Display": "Display",
+    "Behavior": "Behavior"
+  },
+  "validation": {
+    "required": "{{label}} is required",
+    "mustBeNumber": "{{label}} must be a number",
+    "mustBeGte": "{{label}} must be ≥ {{min}}",
+    "mustBeLte": "{{label}} must be ≤ {{max}}",
+    "mustBeDuration": "{{label}} must be a duration (e.g. 5s, 1h30m)",
+    "mustBeSize": "{{label}} must be a size (e.g. 50MiB)",
+    "mustBeOneOf": "{{label}} must be one of the allowed options",
+    "unknownOptions": "{{label}}: unknown option(s) {{options}}",
+    "mustContainNumbers": "{{label}} must contain numbers only",
+    "mustBeList": "{{label}} must be a list",
+    "invalidItem": "invalid item"
+  },
+  "enums": {
+    "authAction": {
+      "publish": "Publish",
+      "read": "Read",
+      "playback": "Playback",
+      "api": "API",
+      "metrics": "Metrics",
+      "pprof": "Pprof"
+    },
+    "authMethod": {
+      "internal": "Internal",
+      "http": "HTTP",
+      "jwt": "JWT"
+    },
+    "encryption": {
+      "no": "No",
+      "optional": "Optional",
+      "strict": "Strict"
+    },
+    "hlsVariant": {
+      "mpegts": "MPEG-TS",
+      "fmp4": "FMP4",
+      "lowLatency": "Low Latency"
+    },
+    "logLevel": {
+      "error": "Error",
+      "warn": "Warn",
+      "info": "Info",
+      "debug": "Debug"
+    },
+    "logDestination": {
+      "stdout": "Stdout",
+      "file": "File",
+      "syslog": "Syslog"
+    },
+    "moqSessionState": {
+      "idle": "Idle",
+      "read": "Read",
+      "publish": "Publish"
+    },
+    "moqVersion": {
+      "moqt-16": "MOQT-16",
+      "moqt-17": "MOQT-17",
+      "moqt-18": "MOQT-18",
+      "moqt-19": "MOQT-19"
+    },
+    "pathReaderType": {
+      "hlsSession": "HLS Session",
+      "rtmpConn": "RTMP Conn",
+      "rtspConn": "RTSP Conn",
+      "rtspSession": "RTSP Session",
+      "srtConn": "SRT Conn",
+      "webRTCSession": "WebRTC Session",
+      "moqSession": "MoQ Session",
+      "hidden": "Hidden"
+    },
+    "pathSourceType": {
+      "hlsSource": "HLS Source",
+      "redirect": "Redirect",
+      "rpiCameraSource": "Raspberry Pi Camera",
+      "rtmpConn": "RTMP Conn",
+      "rtmpSource": "RTMP Source",
+      "rtspSession": "RTSP Session",
+      "rtspSource": "RTSP Source",
+      "srtConn": "SRT Conn",
+      "srtSource": "SRT Source",
+      "mpegtsSource": "MPEG-TS Source",
+      "rtpSource": "RTP Source",
+      "webRTCSession": "WebRTC Session",
+      "webRTCSource": "WebRTC Source",
+      "moqSource": "MoQ Source",
+      "moqSession": "MoQ Session"
+    },
+    "forwardDestType": {
+      "rtmp": "RTMP",
+      "rtsp": "RTSP",
+      "srt": "SRT",
+      "moq": "MoQ",
+      "webRTC": "WebRTC"
+    },
+    "forwardDestProtocol": {
+      "rtmp": "RTMP",
+      "rtmps": "RTMPS",
+      "rtsp": "RTSP",
+      "rtsps": "RTSPS",
+      "srt": "SRT",
+      "moq": "MoQ",
+      "whip": "WHIP",
+      "whips": "WHIPS"
+    },
+    "forwardDestState": {
+      "idle": "Idle",
+      "forwarding": "Forwarding",
+      "error": "Error"
+    },
+    "recordFormat": {
+      "fmp4": "FMP4",
+      "mpegts": "MPEG-TS"
+    },
+    "rtmpConnState": {
+      "idle": "Idle",
+      "read": "Read",
+      "publish": "Publish"
+    },
+    "rtspAuthMethod": {
+      "basic": "Basic",
+      "digest": "Digest"
+    },
+    "rtspRangeType": {
+      "": "(empty)",
+      "clock": "Clock",
+      "npt": "NPT",
+      "smpte": "SMPTE"
+    },
+    "rtspSessionState": {
+      "idle": "Idle",
+      "read": "Read",
+      "publish": "Publish"
+    },
+    "rtspTransport": {
+      "udp": "UDP",
+      "multicast": "Multicast",
+      "tcp": "TCP",
+      "automatic": "Automatic"
+    },
+    "srtConnState": {
+      "idle": "Idle",
+      "read": "Read",
+      "publish": "Publish"
+    },
+    "staticSourceState": {
+      "idle": "Idle",
+      "running": "Running",
+      "error": "Error"
+    },
+    "webrtcSessionState": {
+      "read": "Read",
+      "publish": "Publish"
+    }
+  }
+}

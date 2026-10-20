@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useListQuery } from '../../hooks/useApi';
@@ -26,6 +27,7 @@ function DetailSection({ title, children }) {
 }
 
 export default function RuntimePathDetail() {
+  const { t } = useTranslation();
   const { name } = useParams();
   const navigate = useNavigate();
   const [fwdDetail, setFwdDetail] = useState(null);
@@ -56,11 +58,11 @@ export default function RuntimePathDetail() {
   const readers = Array.isArray(p?.readers) ? p.readers : [];
 
   const fwdColumns = [
-    { key: 'id', label: 'ID', render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
-    { key: 'type', label: 'Type', render: (row) => enumLabel('forwardDestType', row.type) },
-    { key: 'state', label: 'State', render: (row) => <Badge value={row.state}>{enumLabel('forwardDestState', row.state)}</Badge> },
-    { key: 'outboundBytes', label: 'Outbound', render: (row) => formatBytes(row.outboundBytes) },
-    { key: 'lastError', label: 'Last Error', render: (row) => row.lastError || '–' },
+    { key: 'id', label: t('pages.runtimePathDetail.id'), render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
+    { key: 'type', label: t('pages.runtimePathDetail.type'), render: (row) => enumLabel('forwardDestType', row.type, t) },
+    { key: 'state', label: t('pages.runtimePathDetail.state'), render: (row) => <Badge value={row.state}>{enumLabel('forwardDestState', row.state, t)}</Badge> },
+    { key: 'outboundBytes', label: t('pages.runtimePathDetail.outbound'), render: (row) => formatBytes(row.outboundBytes) },
+    { key: 'lastError', label: t('pages.runtimePathDetail.lastError'), render: (row) => row.lastError || '–' },
     {
       key: 'actions',
       label: '',
@@ -68,7 +70,7 @@ export default function RuntimePathDetail() {
       render: (row) => (
         <div className="rowactions" onClick={(e) => e.stopPropagation()}>
           <Button variant="ghost" size="sm" onClick={() => setFwdDetail(row)}>
-            Details
+            {t('pages.runtimePathDetail.details')}
           </Button>
         </div>
       ),
@@ -79,144 +81,144 @@ export default function RuntimePathDetail() {
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">Pfad: {name}</h2>
-          <p className="page__subtitle">Laufzeit-Details: Source, Readers, Tracks, Forward-Destinations, Static Source.</p>
+          <h2 className="page__title">{t('pages.runtimePathDetail.title', { name })}</h2>
+          <p className="page__subtitle">{t('pages.runtimePathDetail.subtitle')}</p>
         </div>
         <Button variant="secondary" onClick={() => navigate('/paths')}>
-          ← Back
+          {t('pages.runtimePathDetail.back')}
         </Button>
       </header>
 
       {path.error ? (
-        <ErrorAlert error={path.error} title="Pfad nicht geladen" />
+        <ErrorAlert error={path.error} title={t('pages.runtimePathDetail.pathNotLoaded')} />
       ) : path.isPending ? (
         <div className="table__loading">
           <Spinner />
         </div>
       ) : (
         <>
-          <DetailSection title="Status">
+          <DetailSection title={t('pages.runtimePathDetail.status')}>
             <div className="detail__badges">
-              <Badge value={p.online ? 'online' : 'offline'}>{p.online ? 'online' : 'offline'}</Badge>
-              <Badge value={p.available ? 'available' : 'unavailable'}>{p.available ? 'available' : 'unavailable'}</Badge>
+              <Badge value={p.online ? 'online' : 'offline'}>{p.online ? t('common.online') : t('common.offline')}</Badge>
+              <Badge value={p.available ? 'available' : 'unavailable'}>{p.available ? t('common.available') : t('common.unavailable')}</Badge>
             </div>
             <dl className="detail__rows">
               <div className="detail__row">
-                <dt>Conf Name</dt>
+                <dt>{t('pages.runtimePathDetail.confName')}</dt>
                 <dd>{p.confName || '–'}</dd>
               </div>
               <div className="detail__row">
-                <dt>Online Since</dt>
+                <dt>{t('pages.runtimePathDetail.onlineSince')}</dt>
                 <dd>{formatDate(p.onlineTime)}</dd>
               </div>
               <div className="detail__row">
-                <dt>Available Since</dt>
+                <dt>{t('pages.runtimePathDetail.availableSince')}</dt>
                 <dd>{formatDate(p.availableTime)}</dd>
               </div>
               <div className="detail__row">
-                <dt>Inbound Bytes</dt>
+                <dt>{t('pages.runtimePathDetail.inboundBytes')}</dt>
                 <dd>{formatBytes(p.inboundBytes)}</dd>
               </div>
               <div className="detail__row">
-                <dt>Outbound Bytes</dt>
+                <dt>{t('pages.runtimePathDetail.outboundBytes')}</dt>
                 <dd>{formatBytes(p.outboundBytes)}</dd>
               </div>
               <div className="detail__row">
-                <dt>Inbound Frames in Error</dt>
+                <dt>{t('pages.runtimePathDetail.inboundFramesInError')}</dt>
                 <dd>{p.inboundFramesInError ?? 0}</dd>
               </div>
             </dl>
           </DetailSection>
 
-          <DetailSection title="Source">
+          <DetailSection title={t('pages.runtimePathDetail.source')}>
             {p.source ? (
               <dl className="detail__rows">
                 <div className="detail__row">
-                  <dt>Type</dt>
-                  <dd>{enumLabel('pathSourceType', p.source.type)}</dd>
+                  <dt>{t('pages.runtimePathDetail.type')}</dt>
+                  <dd>{enumLabel('pathSourceType', p.source.type, t)}</dd>
                 </div>
                 <div className="detail__row">
-                  <dt>ID</dt>
+                  <dt>{t('pages.runtimePathDetail.id')}</dt>
                   <dd>{p.source.id || '–'}</dd>
                 </div>
               </dl>
             ) : (
-              <p className="detail__hint">Keine Source (no source).</p>
+              <p className="detail__hint">{t('pages.runtimePathDetail.noSource')}</p>
             )}
           </DetailSection>
 
-          <DetailSection title={`Readers (${readers.length})`}>
+          <DetailSection title={t('pages.runtimePathDetail.readers', { count: readers.length })}>
             {readers.length ? (
               <ul className="readerlist">
                 {readers.map((r, i) => (
                   <li key={r.id ?? i}>
-                    <Badge color="blue">{enumLabel('pathReaderType', r.type)}</Badge>
+                    <Badge color="blue">{enumLabel('pathReaderType', r.type, t)}</Badge>
                     <code className="mono">{r.id}</code>
                   </li>
                 ))}
               </ul>
             ) : (
-              <p className="detail__hint">Keine Readers (no readers).</p>
+              <p className="detail__hint">{t('pages.runtimePathDetail.noReaders')}</p>
             )}
           </DetailSection>
 
-          <DetailSection title={`Tracks (${tracks.length})`}>
+          <DetailSection title={t('pages.runtimePathDetail.tracks', { count: tracks.length })}>
             {tracks.length ? (
               <div className="tracklist">
-                {tracks.map((t, i) => (
+                {tracks.map((tr, i) => (
                   <div className="track" key={i}>
-                    <Badge color="blue">{t.codec}</Badge>
-                    <JsonBlock data={t.codecProps} title="codecProps" />
+                    <Badge color="blue">{tr.codec}</Badge>
+                    <JsonBlock data={tr.codecProps} title={t('pages.runtimePathDetail.codecProps')} />
                   </div>
                 ))}
               </div>
             ) : (
-              <p className="detail__hint">Keine Tracks (no tracks).</p>
+              <p className="detail__hint">{t('pages.runtimePathDetail.noTracks')}</p>
             )}
           </DetailSection>
 
-          <DetailSection title="Forward Destinations">
+          <DetailSection title={t('pages.runtimePathDetail.forwardDestinations')}>
             <DataTable
               columns={fwdColumns}
               data={forwardDests.data?.items}
               loading={forwardDests.isPending}
               error={forwardDests.error}
-              emptyMessage="No forward destinations"
+              emptyMessage={t('pages.runtimePathDetail.noForwardDests')}
             />
           </DetailSection>
 
-          <DetailSection title="Static Source">
+          <DetailSection title={t('pages.runtimePathDetail.staticSource')}>
             {staticSource.error ? (
               staticSource.error.status === 404 ? (
-                <p className="detail__hint">Keine Static Source für diesen Pfad (not available).</p>
+                <p className="detail__hint">{t('pages.runtimePathDetail.noStaticSource')}</p>
               ) : (
-                <ErrorAlert error={staticSource.error} title="Static Source nicht geladen" />
+                <ErrorAlert error={staticSource.error} title={t('pages.runtimePathDetail.staticSourceNotLoaded')} />
               )
             ) : staticSource.isPending ? (
-              <Spinner size="sm" label="Lädt…" />
+              <Spinner size="sm" label={t('pages.runtimePathDetail.loading')} />
             ) : (
               <>
                 <dl className="detail__rows">
                   <div className="detail__row">
-                    <dt>Created</dt>
+                    <dt>{t('pages.runtimePathDetail.created')}</dt>
                     <dd>{formatDate(staticSource.data.created)}</dd>
                   </div>
                   <div className="detail__row">
-                    <dt>State</dt>
+                    <dt>{t('pages.runtimePathDetail.state')}</dt>
                     <dd>
-                      <Badge value={staticSource.data.state}>{enumLabel('staticSourceState', staticSource.data.state)}</Badge>
+                      <Badge value={staticSource.data.state}>{enumLabel('staticSourceState', staticSource.data.state, t)}</Badge>
                     </dd>
                   </div>
                   <div className="detail__row">
-                    <dt>Type</dt>
-                    <dd>{enumLabel('pathSourceType', staticSource.data.type)}</dd>
+                    <dt>{t('pages.runtimePathDetail.type')}</dt>
+                    <dd>{enumLabel('pathSourceType', staticSource.data.type, t)}</dd>
                   </div>
                   <div className="detail__row">
-                    <dt>Last Error</dt>
+                    <dt>{t('pages.runtimePathDetail.lastError')}</dt>
                     <dd>{staticSource.data.lastError || '–'}</dd>
                   </div>
                 </dl>
-                <JsonBlock data={staticSource.data.typeSpecific} title="typeSpecific" />
+                <JsonBlock data={staticSource.data.typeSpecific} title={t('pages.runtimePathDetail.typeSpecific')} />
               </>
             )}
           </DetailSection>
@@ -224,14 +226,14 @@ export default function RuntimePathDetail() {
       )}
 
       <Modal
-        title={`Forward Destination: ${fwdDetail ? String(fwdDetail.id).slice(0, 8) : ''}`}
+        title={t('pages.runtimePathDetail.forwardDest', { id: fwdDetail ? String(fwdDetail.id).slice(0, 8) : '' })}
         isOpen={!!fwdDetail}
         onClose={() => setFwdDetail(null)}
       >
         {fwdDetail && (
           <div className="formdialog">
-            <JsonBlock data={fwdDetail.typeSpecific} title="typeSpecific" />
-            <JsonBlock data={fwdDetail} title="ForwardDest" />
+            <JsonBlock data={fwdDetail.typeSpecific} title={t('pages.runtimePathDetail.typeSpecific')} />
+            <JsonBlock data={fwdDetail} title={t('pages.runtimePathDetail.forwardDestFull')} />
           </div>
         )}
       </Modal>

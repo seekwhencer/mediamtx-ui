@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation, Trans } from 'react-i18next';
 import { useListQuery, useMutationWithInvalidate } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { api } from '../../api/client';
@@ -12,6 +13,7 @@ import Badge from '../ui/Badge';
 import PathConfigForm from '../forms/PathConfigForm';
 
 export default function ConfigPaths() {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
 
@@ -48,8 +50,9 @@ export default function ConfigPaths() {
   const submitAdd = async (conf) => {
     const name = newName.trim();
     if (!name) {
-      setNameError('Name is required');
-      throw new Error('Name is required');
+      const msg = t('pages.configPaths.nameRequired');
+      setNameError(msg);
+      throw new Error(msg);
     }
     setNameError(null);
     await addMut.mutateAsync({ name, conf });
@@ -57,34 +60,34 @@ export default function ConfigPaths() {
   };
 
   const columns = [
-    { key: 'name', label: 'Name' },
-    { key: 'source', label: 'Source' },
+    { key: 'name', label: t('pages.configPaths.name') },
+    { key: 'source', label: t('pages.configPaths.source') },
     {
       key: 'record',
-      label: 'Record',
-      render: (row) => <Badge color={row.record ? 'green' : 'gray'}>{row.record ? 'on' : 'off'}</Badge>,
+      label: t('pages.configPaths.record'),
+      render: (row) => <Badge color={row.record ? 'green' : 'gray'}>{row.record ? t('common.on') : t('common.off')}</Badge>,
     },
     {
       key: 'alwaysAvailable',
-      label: 'Always Available',
-      render: (row) => <Badge color={row.alwaysAvailable ? 'green' : 'gray'}>{row.alwaysAvailable ? 'on' : 'off'}</Badge>,
+      label: t('pages.configPaths.alwaysAvailable'),
+      render: (row) => <Badge color={row.alwaysAvailable ? 'green' : 'gray'}>{row.alwaysAvailable ? t('common.on') : t('common.off')}</Badge>,
     },
-    { key: 'forward', label: 'Forward', render: (row) => (Array.isArray(row.forward) ? row.forward.length : 0) },
-    { key: 'maxReaders', label: 'Max Readers' },
+    { key: 'forward', label: t('pages.configPaths.forward'), render: (row) => (Array.isArray(row.forward) ? row.forward.length : 0) },
+    { key: 'maxReaders', label: t('pages.configPaths.maxReaders') },
     {
       key: 'actions',
-      label: '',
+      label: t('pages.configPaths.actions'),
       sortable: false,
       render: (row) => (
         <div className="rowactions" onClick={(e) => e.stopPropagation()}>
           <Button variant="ghost" size="sm" onClick={() => setDialog({ mode: 'edit', row })}>
-            Edit
+            {t('common.edit')}
           </Button>
           <Button variant="ghost" size="sm" onClick={() => setDialog({ mode: 'replace', row })}>
-            Replace
+            {t('common.replace')}
           </Button>
           <Button variant="danger" size="sm" onClick={() => setDialog({ mode: 'delete', row })}>
-            Delete
+            {t('common.delete')}
           </Button>
         </div>
       ),
@@ -95,11 +98,11 @@ export default function ConfigPaths() {
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">Pfad-Konfigurationen</h2>
-          <p className="page__subtitle">Path-CRUD: Add, Edit (PATCH), Replace (POST), Delete.</p>
+          <h2 className="page__title">{t('pages.configPaths.title')}</h2>
+          <p className="page__subtitle">{t('pages.configPaths.subtitle')}</p>
         </div>
         <Button variant="primary" onClick={() => setDialog({ mode: 'add' })}>
-          + Add Path
+          {t('pages.configPaths.addPath')}
         </Button>
       </header>
 
@@ -120,13 +123,13 @@ export default function ConfigPaths() {
           },
         }}
         onRowClick={(row) => navigate(`/config/paths/${encodeURIComponent(row.name)}`)}
-        emptyMessage="No paths configured"
+        emptyMessage={t('pages.configPaths.noPaths')}
       />
 
-      <Modal title="Add Path" isOpen={dialog?.mode === 'add'} onClose={close}>
+      <Modal title={t('pages.configPaths.addPathModal')} isOpen={dialog?.mode === 'add'} onClose={close}>
         <div className="formdialog">
           <Input
-            label="Name"
+            label={t('pages.configPaths.name')}
             value={newName}
             placeholder="cam1"
             error={nameError}
@@ -135,13 +138,17 @@ export default function ConfigPaths() {
               setNameError(null);
             }}
           />
-          <p className="formdialog__hint">Optional: configure the path now, or later on its detail page.</p>
-          <PathConfigForm key="add" initialValues={{}} onSubmit={submitAdd} submitLabel="Add" />
+          <p className="formdialog__hint">{t('pages.configPaths.optionalHint')}</p>
+          <PathConfigForm key="add" initialValues={{}} onSubmit={submitAdd} submitLabel={t('common.add')} />
         </div>
       </Modal>
 
       <Modal
-        title={`${dialog?.mode === 'edit' ? 'Edit' : 'Replace'} Path: ${dialog?.row?.name ?? ''}`}
+        title={
+          dialog?.mode === 'edit'
+            ? t('pages.configPaths.editPath', { name: dialog?.row?.name ?? '' })
+            : t('pages.configPaths.replacePath', { name: dialog?.row?.name ?? '' })
+        }
         isOpen={dialog?.mode === 'edit' || dialog?.mode === 'replace'}
         onClose={close}
       >
@@ -155,32 +162,32 @@ export default function ConfigPaths() {
             onSubmit={(conf) =>
               (dialog.mode === 'edit' ? editMut : replaceMut).mutateAsync({ name: dialog.row.name, conf }).then(close)
             }
-            submitLabel={dialog.mode === 'edit' ? 'Save' : 'Replace'}
+            submitLabel={dialog.mode === 'edit' ? t('common.save') : t('common.replace')}
           />
         )}
       </Modal>
 
       <Modal
-        title="Delete Path"
+        title={t('pages.configPaths.deletePath')}
         isOpen={dialog?.mode === 'delete'}
         onClose={close}
         footer={
           <>
             <Button variant="secondary" onClick={close}>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button
               variant="danger"
               loading={deleteMut.isPending}
               onClick={() => deleteMut.mutateAsync(dialog?.row?.name).then(close)}
             >
-              Delete
+              {t('common.delete')}
             </Button>
           </>
         }
       >
         <p>
-          Delete path <strong>{dialog?.row?.name}</strong>? This cannot be undone.
+          <Trans i18nKey="pages.configPaths.deletePathConfirm" values={{ name: dialog?.row?.name }} />
         </p>
       </Modal>
     </div>

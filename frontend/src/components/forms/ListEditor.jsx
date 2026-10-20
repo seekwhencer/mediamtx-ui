@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import Button from '../ui/Button';
 import FormField from './FormField';
 
@@ -12,14 +13,15 @@ function defaultItem(schema) {
   return item;
 }
 
-export default function ListEditor({ value = [], itemSchema = [], onChange, addLabel = 'Add row', idPrefix = 'fb-list' }) {
+export default function ListEditor({ value = [], itemSchema = [], onChange, idPrefix = 'fb-list' }) {
+  const { t } = useTranslation();
   const add = () => onChange([...value, defaultItem(itemSchema)]);
   const removeAt = (i) => onChange(value.filter((_, idx) => idx !== i));
   const updateAt = (i, name, v) => onChange(value.map((item, idx) => (idx === i ? { ...item, [name]: v } : item)));
 
   return (
     <div className="listeditor">
-      {value.length === 0 && <p className="listeditor__empty">No entries.</p>}
+      {value.length === 0 && <p className="listeditor__empty">{t('form.noEntries')}</p>}
       {value.map((item, i) => (
         <div key={i} className="listeditor__row">
           <div className="listeditor__fields">
@@ -31,14 +33,14 @@ export default function ListEditor({ value = [], itemSchema = [], onChange, addL
             type="button"
             className="ui-btn ui-btn--ghost ui-btn--sm listeditor__remove"
             onClick={() => removeAt(i)}
-            aria-label={`Remove row ${i + 1}`}
+            aria-label={t('form.removeRow', { n: i + 1 })}
           >
             ×
           </button>
         </div>
       ))}
       <Button type="button" variant="secondary" size="sm" onClick={add}>
-        + {addLabel}
+        + {t('form.addRow')}
       </Button>
     </div>
   );

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
@@ -12,6 +13,7 @@ import Badge from '../ui/Badge';
 import KickButton from '../ui/KickButton';
 
 export default function MoQ() {
+  const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
 
@@ -23,16 +25,16 @@ export default function MoQ() {
   const kick = useKick('/moq/sessions/kick', [QUERY_KEYS.moqSessions]);
 
   const columns = [
-    { key: 'id', label: 'ID', render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
-    { key: 'created', label: 'Created', render: (row) => formatDate(row.created) },
-    { key: 'path', label: 'Path' },
-    { key: 'remoteAddr', label: 'Remote Addr' },
-    { key: 'userAgent', label: 'User Agent', render: (row) => row.userAgent || '–' },
-    { key: 'state', label: 'State', render: (row) => <Badge value={row.state}>{enumLabel('moqSessionState', row.state)}</Badge> },
-    { key: 'version', label: 'Version', render: (row) => enumLabel('moqVersion', row.version) },
-    { key: 'transport', label: 'Transport', render: (row) => row.transport || '–' },
-    { key: 'inboundBytes', label: 'Inbound', render: (row) => formatBytes(row.inboundBytes) },
-    { key: 'outboundBytes', label: 'Outbound', render: (row) => formatBytes(row.outboundBytes) },
+    { key: 'id', label: t('pages.moq.id'), render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
+    { key: 'created', label: t('pages.moq.created'), render: (row) => formatDate(row.created) },
+    { key: 'path', label: t('pages.moq.path') },
+    { key: 'remoteAddr', label: t('pages.moq.remoteAddr') },
+    { key: 'userAgent', label: t('pages.moq.userAgent'), render: (row) => row.userAgent || '–' },
+    { key: 'state', label: t('pages.moq.state'), render: (row) => <Badge value={row.state}>{enumLabel('moqSessionState', row.state, t)}</Badge> },
+    { key: 'version', label: t('pages.moq.version'), render: (row) => enumLabel('moqVersion', row.version, t) },
+    { key: 'transport', label: t('pages.moq.transport'), render: (row) => row.transport || '–' },
+    { key: 'inboundBytes', label: t('pages.moq.inbound'), render: (row) => formatBytes(row.inboundBytes) },
+    { key: 'outboundBytes', label: t('pages.moq.outbound'), render: (row) => formatBytes(row.outboundBytes) },
     {
       key: 'actions',
       label: '',
@@ -49,8 +51,8 @@ export default function MoQ() {
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">MoQ</h2>
-          <p className="page__subtitle">Media-over-QUIC Sessions (Kick) — Auto-Refresh alle 10 s.</p>
+          <h2 className="page__title">{t('pages.moq.title')}</h2>
+          <p className="page__subtitle">{t('pages.moq.subtitle')}</p>
         </div>
       </header>
 
@@ -70,7 +72,7 @@ export default function MoQ() {
             setPage(0);
           },
         }}
-        emptyMessage="No MoQ sessions"
+        emptyMessage={t('pages.moq.noSessions')}
       />
     </div>
   );

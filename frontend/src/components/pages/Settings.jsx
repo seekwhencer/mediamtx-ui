@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useTranslation } from 'react-i18next';
 import { localApi } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useAppSettings, setAppSettings } from '../../services/appSettings';
@@ -9,6 +10,7 @@ import Card from '../ui/Card';
 import Badge from '../ui/Badge';
 
 export default function Settings() {
+  const { t } = useTranslation();
   const queryClient = useQueryClient();
 
   // --- Server-Settings (API) ---
@@ -52,47 +54,45 @@ export default function Settings() {
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">Einstellungen</h2>
-          <p className="page__subtitle">
-            Server-Settings (persistiert, API) und App-Settings (dieser Browser, localStorage).
-          </p>
+          <h2 className="page__title">{t('pages.settings.title')}</h2>
+          <p className="page__subtitle">{t('pages.settings.subtitle')}</p>
         </div>
       </header>
 
-      <Card title="Server">
+      <Card title={t('pages.settings.server')}>
         <FormBuilder
           catalog={SERVER_SETTINGS_CATALOG}
           initialValues={data}
           onSubmit={(values) => saveServer.mutateAsync(values)}
-          submitLabel="Server speichern"
+          submitLabel={t('pages.settings.saveServer')}
           loading={isPending}
           loadError={error}
         />
         {serverResult && (
           <div className="settings__result">
             {serverResult.applied.map((k) => (
-              <Badge key={k} color="green">{k} — angewendet</Badge>
+              <Badge key={k} color="green">{t('pages.settings.applied', { key: k })}</Badge>
             ))}
             {serverResult.restartRequired.map((k) => (
-              <Badge key={k} color="amber">{k} — Restart erforderlich</Badge>
+              <Badge key={k} color="amber">{t('pages.settings.restartRequired', { key: k })}</Badge>
             ))}
             {serverResult.applied.length === 0 && serverResult.restartRequired.length === 0 && (
-              <span className="settings__result-none">Keine Änderungen.</span>
+              <span className="settings__result-none">{t('pages.settings.noChanges')}</span>
             )}
           </div>
         )}
       </Card>
 
-      <Card title="App (dieser Browser)">
+      <Card title={t('pages.settings.app')}>
         <FormBuilder
           catalog={APP_SETTINGS_CATALOG}
           initialValues={appSettings}
           onSubmit={saveApp}
-          submitLabel="App speichern"
+          submitLabel={t('pages.settings.saveApp')}
         />
         {appSaved && (
           <div className="settings__result">
-            <Badge color="green">App-Settings gespeichert</Badge>
+            <Badge color="green">{t('pages.settings.appSaved')}</Badge>
           </div>
         )}
       </Card>

@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next';
 import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
@@ -12,6 +13,7 @@ import Badge from '../ui/Badge';
 import KickButton from '../ui/KickButton';
 
 function RTMPSection({ base }) {
+  const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
 
@@ -23,14 +25,14 @@ function RTMPSection({ base }) {
   const kick = useKick(`/${base}/conns/kick`, [QUERY_KEYS[`${base}Conns`]]);
 
   const columns = [
-    { key: 'id', label: 'ID', render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
-    { key: 'created', label: 'Created', render: (row) => formatDate(row.created) },
-    { key: 'path', label: 'Path' },
-    { key: 'remoteAddr', label: 'Remote Addr' },
-    { key: 'user', label: 'User', render: (row) => row.user || '–' },
-    { key: 'state', label: 'State', render: (row) => <Badge value={row.state}>{enumLabel('rtmpConnState', row.state)}</Badge> },
-    { key: 'inboundBytes', label: 'Inbound', render: (row) => formatBytes(row.inboundBytes) },
-    { key: 'outboundBytes', label: 'Outbound', render: (row) => formatBytes(row.outboundBytes) },
+    { key: 'id', label: t('pages.rtmp.id'), render: (row) => <code className="mono">{String(row.id).slice(0, 8)}…</code> },
+    { key: 'created', label: t('pages.rtmp.created'), render: (row) => formatDate(row.created) },
+    { key: 'path', label: t('pages.rtmp.path') },
+    { key: 'remoteAddr', label: t('pages.rtmp.remoteAddr') },
+    { key: 'user', label: t('pages.rtmp.user'), render: (row) => row.user || '–' },
+    { key: 'state', label: t('pages.rtmp.state'), render: (row) => <Badge value={row.state}>{enumLabel('rtmpConnState', row.state, t)}</Badge> },
+    { key: 'inboundBytes', label: t('pages.rtmp.inbound'), render: (row) => formatBytes(row.inboundBytes) },
+    { key: 'outboundBytes', label: t('pages.rtmp.outbound'), render: (row) => formatBytes(row.outboundBytes) },
     {
       key: 'actions',
       label: '',
@@ -60,18 +62,19 @@ function RTMPSection({ base }) {
           setPage(0);
         },
       }}
-      emptyMessage={`No ${base.toUpperCase()} connections`}
+      emptyMessage={t('pages.rtmp.noConnections', { proto: base.toUpperCase() })}
     />
   );
 }
 
 export default function RTMP() {
+  const { t } = useTranslation();
   return (
     <div className="page">
       <header className="page__header">
         <div>
-          <h2 className="page__title">RTMP</h2>
-          <p className="page__subtitle">Connections (Kick) — Auto-Refresh alle 10 s.</p>
+          <h2 className="page__title">{t('pages.rtmp.title')}</h2>
+          <p className="page__subtitle">{t('pages.rtmp.subtitle')}</p>
         </div>
       </header>
 
