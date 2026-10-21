@@ -35,3 +35,4 @@ frontend/ssr-smoke*.mjs
 npm-debug.log*
 .DS_Store
 .kilo
+.vscode
