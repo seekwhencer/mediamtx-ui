@@ -66,7 +66,22 @@ class MediaMTXConfigStore {
             paths,
         };
 
-        const yamlText = YAML.stringify(doc, { lineWidth: 0 });
+        let yamlText = YAML.stringify(doc, {
+            lineWidth: 0,
+            doubleQuotedAsJSON: true,
+            trueStr: 'true',
+            falseStr: 'false',
+        });
+
+        // eemeli/yaml folgt YAML 1.2: "no"/"off" sind dort keine Booleans und
+        // werden daher unquoted ausgegeben. MediaMTX (Go yaml.v3, YAML 1.1)
+        // parst sie aber als false → Config-Load bricht ab. Diese String-Werte
+        // müssen doppelt-quoted sein.
+        yamlText = yamlText
+            .replaceAll('rtspEncryption: no', 'rtspEncryption: "no"')
+            .replaceAll('rtmpEncryption: no', 'rtmpEncryption: "no"')
+            .replaceAll('rpiCameraDenoise: off', 'rpiCameraDenoise: "off"');
+
         mkdirSync(dirname(path), { recursive: true });
         writeFileSync(path, yamlText, 'utf8');
         this.logger.log(this.label, `MediaMTX config saved to ${path}`);

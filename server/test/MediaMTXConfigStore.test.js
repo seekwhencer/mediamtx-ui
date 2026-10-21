@@ -83,6 +83,38 @@ describe('MediaMTXConfigStore', () => {
         cleanup();
     });
 
+    it('quotes YAML-1.1 boolean string values (no/off) so MediaMTX can parse them', async () => {
+        const { path, cleanup } = tmpOutPath();
+        const client = makeClient((opts) => {
+            if (opts.url.includes('/config/global/get')) {
+                return Promise.resolve({ status: 200, data: { rtspEncryption: 'no', rtmpEncryption: 'no' } });
+            }
+            if (opts.url.includes('/config/path-defaults/get')) {
+                return Promise.resolve({ status: 200, data: { rpiCameraDenoise: 'off' } });
+            }
+            if (opts.url.includes('/config/paths/list')) {
+                return Promise.resolve({ status: 200, data: { itemCount: 0, pageCount: 1, items: [] } });
+            }
+            return Promise.reject(new Error('unexpected url: ' + opts.url));
+        });
+
+        const store = makeStore({ mediamtxConfigPath: path }, client);
+        await store.save();
+
+        const content = readFileSync(path, 'utf8');
+        // eemeli/yaml (YAML 1.2) würde "no"/"off" unquoted ausgeben; MediaMTX
+        // (Go yaml.v3, YAML 1.1) parst sie als false → Config-Load bricht ab.
+        // Die Store muss diese String-Werte daher doppelt-quoten.
+        expect(content).toContain('rtspEncryption: "no"');
+        expect(content).toContain('rtmpEncryption: "no"');
+        expect(content).toContain('rpiCameraDenoise: "off"');
+        expect(content).not.toMatch(/^rtspEncryption: no$/m);
+        expect(content).not.toMatch(/^rtmpEncryption: no$/m);
+        expect(content).not.toMatch(/^\s*rpiCameraDenoise: off$/m);
+
+        cleanup();
+    });
+
     it('paginates through all path pages', async () => {
         const { path, cleanup } = tmpOutPath();
         const client = makeClient((opts) => {
