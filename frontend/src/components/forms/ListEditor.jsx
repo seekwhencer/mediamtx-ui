@@ -13,7 +13,7 @@ function defaultItem(schema) {
   return item;
 }
 
-export default function ListEditor({ value = [], itemSchema = [], onChange, idPrefix = 'fb-list' }) {
+export default function ListEditor({ value = [], itemSchema = [], onChange, idPrefix = 'fb-list', label }) {
   const { t } = useTranslation();
   const add = () => onChange([...value, defaultItem(itemSchema)]);
   const removeAt = (i) => onChange(value.filter((_, idx) => idx !== i));
@@ -21,6 +21,7 @@ export default function ListEditor({ value = [], itemSchema = [], onChange, idPr
 
   return (
     <div className="listeditor">
+      {label && <label className="ui-field__label">{label}</label>}
       {value.length === 0 && <p className="listeditor__empty">{t('form.noEntries')}</p>}
       {value.map((item, i) => (
         <div key={i} className="listeditor__row">

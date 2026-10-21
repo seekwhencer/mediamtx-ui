@@ -1,0 +1,7 @@
+/* ===== Row-Aktionen (Tabellen) ===== */
+.rowactions {
+  display: flex;
+  width: fit-content;
+  margin-left: auto;
+  gap: var(--space-1);
+}

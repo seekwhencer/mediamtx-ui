@@ -1,4 +1,4 @@
-export default function Toggle({ checked, onChange, label, disabled = false, id, name }) {
+export default function Toggle({ checked, onChange, label, labelExtra, disabled = false, id, name }) {
   return (
     <label className={`ui-toggle ${disabled ? 'is-disabled' : ''}`.trim()}>
       <input
@@ -13,7 +13,12 @@ export default function Toggle({ checked, onChange, label, disabled = false, id,
       <span className="ui-toggle__track" aria-hidden="true">
         <span className="ui-toggle__thumb" />
       </span>
-      {label && <span className="ui-toggle__label">{label}</span>}
+      {label && (
+        <span className="ui-toggle__label">
+          {label}
+          {labelExtra}
+        </span>
+      )}
     </label>
   );
 }

@@ -13,11 +13,31 @@ Dashboard, configuration, runtime monitoring, and recordings — via the MediaMT
 - **Dark/Light theme** — switchable without reload
 - **Config persistence** — after successful config mutations the current MediaMTX config is written as `mediamtx.yml` (optional, `MEDIAMTX_CONFIG_PATH`)
 
-## Screenshots
+## Quickstart (Docker)
 
+```bash
+cp .env.default .env          # Adjust ports/version
+
+# MediaMTX + UI (production)
+docker compose -f compose-mediamtx.yml -f compose.yml up -d --build
+
+# UI (development, Vite HMR)
+docker compose -f compose-mediamtx.yml -f compose-dev.yml up -d --build
+```
+
+UI available at `http://localhost:${SERVER_PORT}` (default `3000`).
+The UI talks to MediaMTX over the Docker network (`http://mediamtx:9997`) — no API port mapping required.
+
+> **Note:** `compose-mediamtx.yml` mounts `mediamtx/mediamtx.yml` read-only into the MediaMTX container.
+> The UI can update the file on the host side (auto-save via `MEDIAMTX_CONFIG_PATH`) — MediaMTX reads it on startup.
+
+
+## Screenshots
+![Tooltips](.docs/screenshots/tooltip.png)
 | | |
-|---|---|
+|--|--|
 | ![Dashboard](.docs/screenshots/dashboard.png) | ![Global](.docs/screenshots/config-global.png) |
+| ![Tooltips](.docs/screenshots/tooltip.png) | ![Language](.docs/screenshots/language.png) |
 | ![Internal users](.docs/screenshots/config-internal-users.png) | ![Paths (configuration)](.docs/screenshots/config-paths.png) |
 | ![Path defaults](.docs/screenshots/config-path-defaults.png) | ![Paths (runtime)](.docs/screenshots/runtime-paths.png) |
 | ![HLS](.docs/screenshots/runtime-hls.png) | ![RTSP](.docs/screenshots/runtime-rtsp.png) |
@@ -38,65 +58,6 @@ Browser ──► UI server (Node.js 22, Express 5)
 - **`server/`** — Node.js 22, Express 5, ESM. The `MediaMTXBridge` forwards every request under `/v3/*` 1:1 to MediaMTX (method, path, query, body, headers) — no per-endpoint code. New MediaMTX endpoints require zero server code.
 - **`frontend/`** — React 19, Vite 8, TanStack Query, React Router 7, react-markdown. Generic API client (`api.get/post/patch/delete`) instead of individual functions.
 - **Route order is mandatory:** `/health` → Settings → Bridge → frontend catch-all (last).
-
-## Project structure
-
-```
-├── compose.yml            # Production (NODE_ENV=production, npm start)
-├── compose-dev.yml        # Development (NODE_ENV=development, Vite dev via UI server)
-├── compose-mediamtx.yml   # MediaMTX service (bluenviron/mediamtx)
-├── .env.default           # Env template (ports, version, config path)
-├── server/                # Node.js backend
-│   ├── index.js           # Entry point (--init-config: writes defaults to config.json)
-│   ├── Dockerfile
-│   ├── src/
-│   │   ├── Config.js              # Env + config.json, settings (masked, validated, persisted)
-│   │   ├── Server.js              # HTTP server, security headers, error handler
-│   │   ├── Logger.js
-│   │   ├── MediaMTXBridge.js      # Agnostic proxy to MediaMTX
-│   │   ├── MediaMTXConfigStore.js # Persists mediamtx.yml after config mutations
-│   │   └── Router/
-│   │       ├── index.js           # Route order
-│   │       ├── SettingsRouter.js  # GET/PATCH /api/settings
-│   │       └── FrontendRouter.js  # Static (prod) / Vite dev (dev) + SPA fallback
-│   └── test/                  # vitest + E2E (mock MediaMTX)
-├── frontend/              # React frontend
-│   └── src/
-│       ├── api/client.js          # Axios instance + generic methods
-│       ├── services/              # queryKeys, appSettings (localStorage)
-│       ├── hooks/                 # useApi, usePagination, useKick, useAutoRefresh
-│       ├── components/
-│       │   ├── layout/            # Layout, Sidebar, TopBar
-│       │   ├── pages/             # Dashboard, Config-*, Runtime-*, Recordings, Settings
-│       │   ├── dashboard/         # ProtocolCard, InfoCard, PathsCard, QuickLinks
-│       │   ├── forms/             # FormBuilder, fieldCatalog, ListEditor
-│       │   ├── tables/            # DataTable, Pagination
-│       │   └── ui/                # Button, Input, Select, Toggle, Tabs, Modal, …
-│       └── style/                 # CSS variables, light/dark
-├── mediamtx/
-│   ├── mediamtx.yml           # MediaMTX config (git-ignored, persisted by the UI)
-│   ├── mediamtx.default.yml   # Reference config
-│   └── openapi.yml            # OpenAPI spec of the MediaMTX API
-└── .docs/                   # Concept & roadmap (basics, server, frontend, settings)
-```
-
-## Quickstart (Docker)
-
-```bash
-cp .env.default .env          # Adjust ports/version
-
-# MediaMTX + UI (production)
-docker compose -f compose-mediamtx.yml -f compose.yml up -d --build
-
-# UI (development, Vite HMR)
-docker compose -f compose-mediamtx.yml -f compose-dev.yml up -d --build
-```
-
-UI available at `http://localhost:${SERVER_PORT}` (default `3000`).
-The UI talks to MediaMTX over the Docker network (`http://mediamtx:9997`) — no API port mapping required.
-
-> **Note:** `compose-mediamtx.yml` mounts `mediamtx/mediamtx.yml` read-only into the MediaMTX container.
-> The UI can update the file on the host side (auto-save via `MEDIAMTX_CONFIG_PATH`) — MediaMTX reads it on startup.
 
 ## Local development
 
@@ -156,6 +117,48 @@ All server settings can be viewed and changed under **`/settings`** in the UI:
 | `GET` | `/*` | Frontend (SPA, deep links work) |
 
 Error format: `{ error, status: 'error', code }` — codes: `not_found`, `invalid_settings`, `upstream_unreachable` (MediaMTX unreachable), `internal_error`.
+
+## Project structure
+
+```
+├── compose.yml            # Production (NODE_ENV=production, npm start)
+├── compose-dev.yml        # Development (NODE_ENV=development, Vite dev via UI server)
+├── compose-mediamtx.yml   # MediaMTX service (bluenviron/mediamtx)
+├── .env.default           # Env template (ports, version, config path)
+├── server/                # Node.js backend
+│   ├── index.js           # Entry point (--init-config: writes defaults to config.json)
+│   ├── Dockerfile
+│   ├── src/
+│   │   ├── Config.js              # Env + config.json, settings (masked, validated, persisted)
+│   │   ├── Server.js              # HTTP server, security headers, error handler
+│   │   ├── Logger.js
+│   │   ├── MediaMTXBridge.js      # Agnostic proxy to MediaMTX
+│   │   ├── MediaMTXConfigStore.js # Persists mediamtx.yml after config mutations
+│   │   └── Router/
+│   │       ├── index.js           # Route order
+│   │       ├── SettingsRouter.js  # GET/PATCH /api/settings
+│   │       └── FrontendRouter.js  # Static (prod) / Vite dev (dev) + SPA fallback
+│   └── test/                  # vitest + E2E (mock MediaMTX)
+├── frontend/              # React frontend
+│   └── src/
+│       ├── api/client.js          # Axios instance + generic methods
+│       ├── services/              # queryKeys, appSettings (localStorage)
+│       ├── hooks/                 # useApi, usePagination, useKick, useAutoRefresh
+│       ├── components/
+│       │   ├── layout/            # Layout, Sidebar, TopBar
+│       │   ├── pages/             # Dashboard, Config-*, Runtime-*, Recordings, Settings
+│       │   ├── dashboard/         # ProtocolCard, InfoCard, PathsCard, QuickLinks
+│       │   ├── forms/             # FormBuilder, fieldCatalog, ListEditor
+│       │   ├── tables/            # DataTable, Pagination
+│       │   └── ui/                # Button, Input, Select, Toggle, Tabs, Modal, …
+│       └── style/                 # CSS variables, light/dark
+├── mediamtx/
+│   ├── mediamtx.yml           # MediaMTX config (git-ignored, persisted by the UI)
+│   ├── mediamtx.default.yml   # Reference config
+│   └── openapi.yml            # OpenAPI spec of the MediaMTX API
+└── .docs/                   # Concept & roadmap (basics, server, frontend, settings)
+```
+
 
 ## Tests
 

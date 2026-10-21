@@ -1,0 +1,38 @@
+/* ===== JsonBlock (typeSpecific / codecProps) ===== */
+.jsonblock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-width: 0;
+}
+
+.jsonblock__title {
+  font-size: var(--fs-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-secondary);
+}
+
+.jsonblock__pre {
+  margin: 0;
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  overflow-x: auto;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.jsonblock__pre code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text);
+  white-space: pre;
+}
+
+.jsonblock__empty {
+  color: var(--color-muted);
+  font-size: var(--fs-sm);
+}

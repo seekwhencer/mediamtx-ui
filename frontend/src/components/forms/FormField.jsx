@@ -6,7 +6,7 @@ import Slider from '../ui/Slider';
 import TagInput from '../ui/TagInput';
 import MultiSelect from '../ui/MultiSelect';
 import ListEditor from './ListEditor';
-import Markdown from '../ui/Markdown';
+import Tooltip from '../ui/Tooltip';
 
 const FULL_WIDTH_TYPES = new Set(['list', 'multi-select']);
 // Diese Typen rendern ihre eigene Fehlermeldung (via error-Prop).
@@ -23,16 +23,23 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
     ? t(field.placeholderKey, { defaultValue: field.placeholder })
     : field.placeholder;
 
+  // Tooltip-Text (descriptionKey → i18n, sonst rohe description als Fallback).
+  const tooltipText = field.descriptionKey
+    ? t(field.descriptionKey, { defaultValue: field.description })
+    : field.description;
+  const labelExtra = tooltipText ? <Tooltip text={tooltipText} /> : null;
+
   const renderControl = () => {
     switch (field.type) {
       case 'toggle':
-        return <Toggle checked={!!value} onChange={onChange} label={label} id={id} name={field.name} />;
+        return <Toggle checked={!!value} onChange={onChange} label={label} labelExtra={labelExtra} id={id} name={field.name} />;
       case 'number':
         return (
           <Input
             id={id}
             name={field.name}
             label={label}
+            labelExtra={labelExtra}
             type="number"
             value={value ?? ''}
             min={field.min}
@@ -52,6 +59,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             max={field.max ?? 100}
             step={field.step ?? 1}
             label={label}
+            labelExtra={labelExtra}
             id={id}
             name={field.name}
           />
@@ -62,6 +70,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             id={id}
             name={field.name}
             label={label}
+            labelExtra={labelExtra}
             value={value ?? ''}
             options={field.options || []}
             placeholder={placeholder}
@@ -76,6 +85,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             onChange={onChange}
             options={field.options || []}
             label={label}
+            labelExtra={labelExtra}
             name={field.name}
           />
         );
@@ -86,6 +96,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             onChange={onChange}
             type="string"
             label={label}
+            labelExtra={labelExtra}
             placeholder={placeholder}
             name={field.name}
           />
@@ -97,18 +108,20 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             onChange={onChange}
             type="number"
             label={label}
+            labelExtra={labelExtra}
             placeholder={placeholder}
             name={field.name}
           />
         );
       case 'list':
-        return <ListEditor value={Array.isArray(value) ? value : []} itemSchema={field.itemSchema || []} onChange={onChange} idPrefix={`${idPrefix}-${field.name}`} />;
+        return <ListEditor value={Array.isArray(value) ? value : []} itemSchema={field.itemSchema || []} onChange={onChange} idPrefix={`${idPrefix}-${field.name}`} label={label} />;
       case 'password':
         return (
           <Input
             id={id}
             name={field.name}
             label={label}
+            labelExtra={labelExtra}
             type="password"
             value={value ?? ''}
             placeholder={placeholder}
@@ -127,6 +140,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             <div className={`ui-field ${error ? 'has-error' : ''}`.trim()}>
               <label className="ui-field__label" htmlFor={id}>
                 {label}
+                {labelExtra}
               </label>
               <textarea
                 id={id}
@@ -146,6 +160,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             id={id}
             name={field.name}
             label={label}
+            labelExtra={labelExtra}
             type="text"
             mono={mono}
             value={value ?? ''}
@@ -161,6 +176,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             id={id}
             name={field.name}
             label={label}
+            labelExtra={labelExtra}
             type="text"
             value={value ?? ''}
             onChange={(e) => onChange(e.target.value)}
@@ -174,7 +190,6 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
 
   return (
     <div className={`formbuilder__field ${span}`.trim()}>
-      {field.description && <Markdown text={field.description} className="formbuilder__desc" />}
       {field.restartRequired && (
         <span className="ui-badge ui-badge--amber formbuilder__restart-badge">{t('form.restartRequired')}</span>
       )}

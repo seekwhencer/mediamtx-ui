@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-export default function TagInput({ value = [], onChange, type = 'string', label, placeholder, disabled = false, id, name }) {
+export default function TagInput({ value = [], onChange, type = 'string', label, labelExtra, placeholder, disabled = false, id, name }) {
   const { t } = useTranslation();
   const [draft, setDraft] = useState('');
 
@@ -40,6 +40,7 @@ export default function TagInput({ value = [], onChange, type = 'string', label,
       {label && (
         <label className="ui-taginput__label" htmlFor={id || name}>
           {label}
+          {labelExtra}
         </label>
       )}
       <div className="ui-taginput__box">

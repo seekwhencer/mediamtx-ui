@@ -6,6 +6,7 @@ function normalizeOptions(options = []) {
 
 export default function Select({
   label,
+  labelExtra,
   hint,
   error,
   id,
@@ -24,6 +25,7 @@ export default function Select({
       {label && (
         <label className="ui-field__label" htmlFor={selectId}>
           {label}
+          {labelExtra}
         </label>
       )}
       <select id={selectId} name={name} className={classes} aria-invalid={error ? true : undefined} {...rest}>

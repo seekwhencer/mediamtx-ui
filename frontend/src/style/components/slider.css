@@ -1,0 +1,31 @@
+/* ===== Slider ===== */
+.ui-slider {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.ui-slider__label {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.ui-slider__row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.ui-slider input[type='range'] {
+  flex: 1;
+  accent-color: var(--color-primary);
+}
+
+.ui-slider__value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text-secondary);
+  min-width: 4ch;
+  text-align: right;
+}

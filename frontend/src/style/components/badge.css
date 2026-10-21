@@ -1,0 +1,36 @@
+/* ===== Badge ===== */
+.ui-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--radius-pill);
+  padding: 2px 10px;
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.ui-badge--gray {
+  background: var(--color-surface-alt);
+  color: var(--color-text-secondary);
+}
+
+.ui-badge--green {
+  background: var(--color-success-subtle);
+  color: var(--color-success);
+}
+
+.ui-badge--red {
+  background: var(--color-error-subtle);
+  color: var(--color-error);
+}
+
+.ui-badge--amber {
+  background: var(--color-validation-subtle);
+  color: var(--color-validation);
+}
+
+.ui-badge--blue {
+  background: var(--color-primary-subtle);
+  color: var(--color-primary);
+}

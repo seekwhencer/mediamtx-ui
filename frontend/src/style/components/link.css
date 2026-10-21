@@ -1,0 +1,12 @@
+/* ===== Link ===== */
+.ui-link {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-size: var(--fs-sm);
+  transition: color var(--transition);
+}
+
+.ui-link:hover {
+  color: var(--color-primary-hover);
+  text-decoration: underline;
+}

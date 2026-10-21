@@ -1,0 +1,17 @@
+/* ===== Form-Dialog (Name + Formular) ===== */
+.formdialog {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.formdialog__hint {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+}

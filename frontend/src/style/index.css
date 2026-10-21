@@ -1,4 +1,4 @@
 @import './variables.css';
 @import './typo.css';
 @import './global.css';
-@import './components.css';
+@import './components/index.css';

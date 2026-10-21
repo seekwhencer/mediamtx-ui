@@ -1,4 +1,4 @@
-export default function Slider({ value, onChange, min = 0, max = 100, step = 1, label, disabled = false, id, name }) {
+export default function Slider({ value, onChange, min = 0, max = 100, step = 1, label, labelExtra, disabled = false, id, name }) {
   const num = Number(value);
   const safe = Number.isFinite(num) ? num : min;
 
@@ -7,6 +7,7 @@ export default function Slider({ value, onChange, min = 0, max = 100, step = 1, 
       {label && (
         <label className="ui-slider__label" htmlFor={id || name}>
           {label}
+          {labelExtra}
         </label>
       )}
       <div className="ui-slider__row">

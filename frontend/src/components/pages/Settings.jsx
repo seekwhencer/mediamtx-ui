@@ -16,7 +16,7 @@ export default function Settings() {
   // --- Server-Settings (API) ---
   const { data, isPending, error } = useQuery({
     queryKey: QUERY_KEYS.settings,
-    queryFn: () => localApi.get('/api/settings'),
+    queryFn: () => localApi.get('/api/settings').then((res) => res.data),
     staleTime: 0,
     refetchOnWindowFocus: false,
     retry: false,

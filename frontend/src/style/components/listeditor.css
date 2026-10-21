@@ -1,0 +1,35 @@
+/* ===== ListEditor (Array von Objekten) ===== */
+.listeditor {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.listeditor__empty {
+  margin: 0;
+  font-size: var(--fs-xs);
+  color: var(--color-muted);
+}
+
+.listeditor__row {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  background: var(--color-surface-alt);
+}
+
+.listeditor__fields {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: var(--space-3);
+  min-width: 0;
+}
+
+.listeditor__remove {
+  flex: none;
+  margin-top: 2px;
+}

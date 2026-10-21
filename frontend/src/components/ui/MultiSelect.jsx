@@ -6,7 +6,7 @@ function optionLabel(opt) {
   return typeof opt === 'object' && opt !== null ? opt.label ?? String(opt.value) : String(opt);
 }
 
-export default function MultiSelect({ value = [], onChange, options = [], label, disabled = false, name }) {
+export default function MultiSelect({ value = [], onChange, options = [], label, labelExtra, disabled = false, name }) {
   const toggle = (opt) => {
     const v = optionValue(opt);
     if (value.includes(v)) {
@@ -18,7 +18,12 @@ export default function MultiSelect({ value = [], onChange, options = [], label,
 
   return (
     <div className="ui-multiselect" role="group" aria-label={label}>
-      {label && <span className="ui-multiselect__label">{label}</span>}
+      {label && (
+        <span className="ui-multiselect__label">
+          {label}
+          {labelExtra}
+        </span>
+      )}
       <div className="ui-multiselect__options">
         {options.map((opt) => {
           const v = optionValue(opt);

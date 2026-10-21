@@ -1,5 +1,6 @@
 export default function Input({
   label,
+  labelExtra,
   hint,
   error,
   id,
@@ -16,6 +17,7 @@ export default function Input({
       {label && (
         <label className="ui-field__label" htmlFor={inputId}>
           {label}
+          {labelExtra}
         </label>
       )}
       <input id={inputId} name={name} className={classes} aria-invalid={error ? true : undefined} {...rest} />
