@@ -13,6 +13,7 @@ services:
       - "${API_PORT}:${API_PORT}"
     volumes:
       - ./mediamtx/mediamtx.yml:/mediamtx.yml:ro
+      - ./data:/data
     networks:
       - mediamtx
 

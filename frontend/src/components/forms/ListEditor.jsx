@@ -32,7 +32,7 @@ export default function ListEditor({ value = [], itemSchema = [], onChange, idPr
           </div>
           <button
             type="button"
-            className="ui-btn ui-btn--ghost ui-btn--sm listeditor__remove"
+            className="ui-btn ui-btn--danger ui-btn--sm listeditor__remove"
             onClick={() => removeAt(i)}
             aria-label={t('form.removeRow', { n: i + 1 })}
           >

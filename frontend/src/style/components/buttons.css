@@ -21,6 +21,16 @@
   cursor: not-allowed;
 }
 
+.ui-btn--sm {
+  padding: var(--space-1) var(--space-3);
+  font-size: var(--fs-xs);
+}
+
+.ui-btn--lg {
+  padding: var(--space-3) var(--space-6);
+  font-size: var(--fs-md);
+}
+
 .ui-btn--primary {
   background: var(--color-primary);
   color: var(--color-surface-alt);
@@ -46,7 +56,7 @@
 
 .ui-btn--danger {
   background: var(--color-error);
-  color: #fff;
+  color: var(--color-surface-alt);
 }
 
 .ui-btn--danger:hover:not(:disabled) {
@@ -63,15 +73,6 @@
   color: var(--color-text);
 }
 
-.ui-btn--sm {
-  padding: var(--space-1) var(--space-3);
-  font-size: var(--fs-xs);
-}
-
-.ui-btn--lg {
-  padding: var(--space-3) var(--space-6);
-  font-size: var(--fs-md);
-}
 
 .ui-btn__spinner {
   width: 1em;

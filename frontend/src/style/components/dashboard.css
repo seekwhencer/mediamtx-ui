@@ -96,3 +96,7 @@
   padding: 0;
   list-style: none;
 }
+
+.paths-card__paths-list {
+  margin-top: var(--space-3);
+}

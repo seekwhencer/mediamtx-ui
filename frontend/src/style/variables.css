@@ -1,9 +1,9 @@
 :root {
   /* Brand */
-  --color-primary: #1172a3;
-  --color-primary-hover: #0d5f89;
-  --color-primary-active: #0a4d70;
-  --color-primary-subtle: rgba(17, 114, 163, 0.10);
+  --color-primary: #4a9fe6;
+  --color-primary-hover: color-mix(in srgb, var(--color-primary) 85%, black);
+  --color-primary-active: color-mix(in srgb, var(--color-primary) 70%, black);
+  --color-primary-subtle: color-mix(in srgb, var(--color-primary) 10%, transparent);
 
   /* Neutrals (light) */
   --color-bg: #f5f6f8;
@@ -17,13 +17,13 @@
 
   /* Status */
   --color-success: #1e7e34;
-  --color-success-subtle: rgba(30, 126, 52, 0.10);
+  --color-success-subtle: color-mix(in srgb, var(--color-success) 85%, black);
   --color-validation: #a16a00;
-  --color-validation-subtle: rgba(161, 106, 0, 0.10);
+  --color-validation-subtle: color-mix(in srgb, var(--color-validation) 85%, black);
   --color-error: #b00020;
-  --color-error-subtle: rgba(176, 0, 32, 0.08);
+  --color-error-subtle: color-mix(in srgb, var(--color-error) 85%, black);
   --color-connection: #6a1b9a;
-  --color-connection-subtle: rgba(106, 27, 154, 0.10);
+  --color-connection-subtle: color-mix(in srgb, var(--color-connection) 85%, black);
 
   /* Shape */
   --radius-sm: 6px;
@@ -64,13 +64,19 @@
   --transition: 0.18s ease-in-out;
 }
 
+:root[data-theme="light"] {
+  --color-success-subtle: color-mix(in srgb, var(--color-success) 15%, white);
+  --color-validation-subtle: color-mix(in srgb, var(--color-validation) 15%, white);
+  --color-error-subtle: color-mix(in srgb, var(--color-error) 15%, white);
+  --color-connection-subtle: color-mix(in srgb, var(--color-connection) 15%, white);
+}
+
 /* System preference: dark, unless explicitly forced to light. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --color-primary: #4db4dd;
-    --color-primary-hover: #6fcfe8;
-    --color-primary-active: #93def5;
-    --color-primary-subtle: rgba(77, 180, 221, 0.16);
+    --color-primary-hover: color-mix(in srgb, var(--color-primary) 60%, white);
+    --color-primary-active: color-mix(in srgb, var(--color-primary) 70%, white);
+    --color-primary-subtle: color-mix(in srgb, var(--color-primary) 10%, transparent);
 
     --color-bg: #0f1115;
     --color-surface: #1a1d23;
@@ -98,10 +104,9 @@
 
 /* Manual override via the data-theme attribute on <html>. */
 :root[data-theme="dark"] {
-  --color-primary: #4db4dd;
-  --color-primary-hover: #6fcfe8;
-  --color-primary-active: #93def5;
-  --color-primary-subtle: rgba(77, 180, 221, 0.16);
+  --color-primary-hover: color-mix(in srgb, var(--color-primary) 60%, white);
+  --color-primary-active: color-mix(in srgb, var(--color-primary) 70%, white);
+  --color-primary-subtle: color-mix(in srgb, var(--color-primary) 10%, transparent);
 
   --color-bg: #0f1115;
   --color-surface: #1a1d23;
