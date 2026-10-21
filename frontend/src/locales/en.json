@@ -308,6 +308,7 @@
   },
   "form": {
     "loadingConfig": "Loading config…",
+    "groupsNav": "Config groups",
     "mediamtxRestarting": "mediamtx is restarting.",
     "saved": "Saved ✓",
     "loadFailed": "Load failed",

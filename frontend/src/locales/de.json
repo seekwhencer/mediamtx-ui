@@ -308,6 +308,7 @@
   },
   "form": {
     "loadingConfig": "Konfiguration lädt…",
+    "groupsNav": "Konfigurationsgruppen",
     "mediamtxRestarting": "mediamtx startet neu.",
     "saved": "Gespeichert ✓",
     "loadFailed": "Laden fehlgeschlagen",

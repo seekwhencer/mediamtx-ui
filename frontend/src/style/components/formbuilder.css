@@ -5,6 +5,46 @@
   gap: var(--space-3);
 }
 
+/* Subnavigation: Gruppen als Buttons, klickbar → Gruppe öffnen + scrollen */
+.formbuilder__subnav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+
+}
+
+.formbuilder__subnav-btn {
+  appearance: none;
+  border: 1px solid var(--color-border-strong);
+  background: var(--color-surface);
+  color: var(--color-text-secondary);
+  font-family: inherit;
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  line-height: 1.2;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.formbuilder__subnav-btn:hover {
+  background: var(--color-surface-alt);
+  color: var(--color-text);
+}
+
+.formbuilder__subnav-btn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.formbuilder__subnav-btn.is-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface-alt);
+}
+
 .formbuilder__group {
   background: var(--color-surface);
   border: 1px solid var(--color-border);
@@ -91,4 +131,5 @@
   align-self: flex-start;
   position: absolute;
   right: 0;
+  font-size: var(--fs-2xs);
 }

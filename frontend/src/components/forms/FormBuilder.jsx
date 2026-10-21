@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FormField from './FormField';
 import Button from '../ui/Button';
@@ -29,11 +29,22 @@ export default function FormBuilder({
   const [submitError, setSubmitError] = useState(null);
   const [saved, setSaved] = useState(false);
   const [openGroups, setOpenGroups] = useState(() => new Set(groups.length ? [groups[0][0]] : []));
+  const [scrollToken, setScrollToken] = useState(0);
+  const scrollTargetRef = useRef(null);
 
   // Werte initialisieren, sobald initialValues asynchron ankommen (einmalig).
   useEffect(() => {
     if (values === null && initialValues) setValues(initialValues);
   }, [initialValues, values]);
+
+  // Nach Klick auf eine Subnav-Gruppe: Gruppe ist geöffnet → sanft dorthin scrollen.
+  useEffect(() => {
+    if (scrollToken === 0) return;
+    const group = scrollTargetRef.current;
+    if (group == null) return;
+    const el = document.querySelector(`.formbuilder__group[data-group="${CSS.escape(group)}"]`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [scrollToken]);
 
   const setValue = (name, v) => {
     setValues((prev) => ({ ...(prev || {}), [name]: v }));
@@ -52,6 +63,17 @@ export default function FormBuilder({
       else next.add(group);
       return next;
     });
+  };
+
+  // Subnav: Gruppe öffnen und als Ziel für den Scroll markieren.
+  const openGroup = (group) => {
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      next.add(group);
+      return next;
+    });
+    scrollTargetRef.current = group;
+    setScrollToken((n) => n + 1);
   };
 
   const handleSubmit = async (e) => {
@@ -87,39 +109,53 @@ export default function FormBuilder({
   }
 
   return (
-    <form className="formbuilder" onSubmit={handleSubmit} noValidate>
-      {groups.map(([group, fields]) => (
-        <details key={group} className="formbuilder__group" open={openGroups.has(group)}>
-          <summary
-            className="formbuilder__group-title"
-            onClick={(e) => {
-              e.preventDefault();
-              toggleGroup(group);
-            }}
+    <>
+      <nav className="formbuilder__subnav" aria-label={t('form.groupsNav')}>
+        {groups.map(([group]) => (
+          <button
+            key={group}
+            type="button"
+            className={`formbuilder__subnav-btn${openGroups.has(group) ? ' is-active' : ''}`}
+            onClick={() => openGroup(group)}
           >
-            <span>{t(`groups.${group}`, { defaultValue: group })}</span>
-            <span className="formbuilder__group-count">{fields.length}</span>
-          </summary>
-          <div className="formbuilder__fields">
-            {fields.map((field) => (
-              <FormField
-                key={field.name}
-                field={field}
-                value={values[field.name]}
-                onChange={(v) => setValue(field.name, v)}
-                error={errors[field.name]}
-              />
-            ))}
-          </div>
-        </details>
-      ))}
-      <div className="formbuilder__actions">
-        {saved && <span className="formbuilder__saved">{t('form.saved')}</span>}
-        <Button type="submit" variant="primary" loading={submitting} disabled={disabled}>
-          {submitLabel}
-        </Button>
-      </div>
-      {submitError && <ErrorAlert error={submitError} title={t('form.saveFailed')} />}
-    </form>
+            {t(`groups.${group}`, { defaultValue: group })}
+          </button>
+        ))}
+      </nav>
+      <form className="formbuilder" onSubmit={handleSubmit} noValidate>
+        {groups.map(([group, fields]) => (
+          <details key={group} className="formbuilder__group" data-group={group} open={openGroups.has(group)}>
+            <summary
+              className="formbuilder__group-title"
+              onClick={(e) => {
+                e.preventDefault();
+                toggleGroup(group);
+              }}
+            >
+              <span>{t(`groups.${group}`, { defaultValue: group })}</span>
+              <span className="formbuilder__group-count">{fields.length}</span>
+            </summary>
+            <div className="formbuilder__fields">
+              {fields.map((field) => (
+                <FormField
+                  key={field.name}
+                  field={field}
+                  value={values[field.name]}
+                  onChange={(v) => setValue(field.name, v)}
+                  error={errors[field.name]}
+                />
+              ))}
+            </div>
+          </details>
+        ))}
+        <div className="formbuilder__actions">
+          {saved && <span className="formbuilder__saved">{t('form.saved')}</span>}
+          <Button type="submit" variant="primary" loading={submitting} disabled={disabled}>
+            {submitLabel}
+          </Button>
+        </div>
+        {submitError && <ErrorAlert error={submitError} title={t('form.saveFailed')} />}
+      </form>
+    </>
   );
 }

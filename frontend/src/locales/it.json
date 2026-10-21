@@ -308,6 +308,7 @@
   },
   "form": {
     "loadingConfig": "Caricamento configurazione…",
+    "groupsNav": "Gruppi di configurazione",
     "mediamtxRestarting": "mediamtx si sta riavviando.",
     "saved": "Salvato ✓",
     "loadFailed": "Caricamento non riuscito",

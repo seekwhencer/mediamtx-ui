@@ -23,7 +23,7 @@
 
 .ui-btn--primary {
   background: var(--color-primary);
-  color: #fff;
+  color: var(--color-surface-alt);
 }
 
 .ui-btn--primary:hover:not(:disabled) {
