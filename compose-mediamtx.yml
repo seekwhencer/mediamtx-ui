@@ -3,6 +3,10 @@ services:
     image: bluenviron/mediamtx:${MEDIAMTX_VERSION}
     container_name: mediamtx
     restart: unless-stopped
+    environment:
+      # HLS-Base-URL für die UI (Theater/Stream-Wall) — für MediaMTX selbst ohne Wirkung,
+      # hier nur für Konsistenz mit .env / .env.default / compose*.yml.
+      - VITE_MEDIAMTX_HLS_URL=${VITE_MEDIAMTX_HLS_URL:-http://localhost:8888}
     ports:
       - "${HLS_PORT}:${HLS_PORT}" 
       - "${RTSP_PORT}:${RTSP_PORT}"

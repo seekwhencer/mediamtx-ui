@@ -377,6 +377,7 @@ export const SERVER_SETTINGS_CATALOG = [
 
 export const APP_SETTINGS_CATALOG = [
   { name: 'apiBaseUrl', label: 'API Base URL', labelKey: 'settings.apiBaseUrl', type: 'text', group: 'API', placeholder: '/v3 (default)', placeholderKey: 'settings.placeholderApiBaseUrl', descriptionKey: 'fields.apiBaseUrl' },
+  { name: 'hlsBaseUrl', label: 'HLS Base URL', labelKey: 'settings.hlsBaseUrl', type: 'text', group: 'API', placeholder: 'http://localhost:8888', placeholderKey: 'settings.placeholderHlsBaseUrl', descriptionKey: 'fields.hlsBaseUrl' },
   { name: 'theme', label: 'Theme', labelKey: 'settings.theme', type: 'select', group: 'Display', options: ['dark', 'light'], descriptionKey: 'fields.theme' },
   { name: 'autoRefreshMs', label: 'Auto-Refresh (ms, 0 = off)', labelKey: 'settings.autoRefreshMs', type: 'number', group: 'Behavior', min: 0, max: 3600000, descriptionKey: 'fields.autoRefreshMs' },
   { name: 'itemsPerPage', label: 'Items Per Page', labelKey: 'settings.itemsPerPage', type: 'number', group: 'Behavior', min: 10, max: 500, descriptionKey: 'fields.itemsPerPage' },

@@ -40,6 +40,7 @@
     "allPathsArrow": "All paths →"
   },
   "nav": {
+    "theatre": "Theater",
     "overview": "Overview",
     "dashboard": "Dashboard",
     "configuration": "Configuration",
@@ -300,6 +301,25 @@
       "noChanges": "No changes.",
       "appSaved": "App settings saved"
     },
+    "theatre": {
+      "title": "Theater",
+      "subtitle": "Watch live streams fullscreen",
+      "selectPath": "Select a path below to start the stream",
+      "noPaths": "No paths found",
+      "hlsNotConfigured": "HLS base URL not configured (Settings → hlsBaseUrl)",
+      "hlsUnsupported": "Browser does not support HLS",
+      "streamError": "Stream error",
+      "errorOffline": "Path is offline or not found (HTTP 404). Check the path name and MediaMTX status.",
+      "errorCors": "CORS error: the browser blocked the stream request. Set hlsAllowOrigin in mediamtx.yml (e.g. *) and check hlsBaseUrl (Settings).",
+      "stop": "Stop",
+      "mute": "Mute",
+      "unmute": "Unmute",
+      "fullscreen": "Fullscreen",
+      "exitFullscreen": "Exit fullscreen",
+      "back": "Back",
+      "tileAria": "{{name}} ({{status}})",
+      "stripAria": "Stream paths"
+    },
     "notFound": {
       "title": "Page not found",
       "subtitle": "The requested path does not exist.",
@@ -547,6 +567,7 @@
     "mediamtxApiVersion": "Version of the MediaMTX Control API (e.g. v3).",
     "mediamtxBridgeTimeout": "Timeout for bridge calls to MediaMTX in milliseconds.",
     "apiBaseUrl": "Base path of the own API (default /v3).",
+    "hlsBaseUrl": "Base URL of the HLS playback server (e.g. http://localhost:8888). Empty = default (VITE_MEDIAMTX_HLS_URL).",
     "theme": "Color theme of the interface (dark or light).",
     "autoRefreshMs": "Interval in ms at which data is automatically reloaded. 0 = off.",
     "itemsPerPage": "Number of entries displayed per page."
@@ -559,6 +580,7 @@
     "mediamtxApiVersion": "MediaMTX API Version",
     "mediamtxBridgeTimeout": "MediaMTX Bridge Timeout (ms)",
     "apiBaseUrl": "API Base URL",
+    "hlsBaseUrl": "HLS Base URL",
     "theme": "Theme",
     "autoRefreshMs": "Auto-Refresh (ms, 0 = off)",
     "itemsPerPage": "Items Per Page",
@@ -569,7 +591,8 @@
     "groupDisplay": "Display",
     "groupBehavior": "Behavior",
     "placeholderAuthToken": "•••• (unchanged) / empty = delete",
-    "placeholderApiBaseUrl": "/v3 (default)"
+    "placeholderApiBaseUrl": "/v3 (default)",
+    "placeholderHlsBaseUrl": "http://localhost:8888"
   },
   "groups": {
     "Server": "Server",

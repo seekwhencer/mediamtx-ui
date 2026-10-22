@@ -20,6 +20,8 @@ services:
       - NODE_ENV=production
       - SERVER_PORT=${SERVER_PORT}
       - MEDIAMTX_BASE_URL=http://mediamtx:9997
+      # HLS-Base-URL für die UI (Theater/Stream-Wall) — Vite liest VITE_* aus der Prozess-Umgebung.
+      - VITE_MEDIAMTX_HLS_URL=${VITE_MEDIAMTX_HLS_URL:-http://localhost:8888}
 
 networks:
   mediamtx:

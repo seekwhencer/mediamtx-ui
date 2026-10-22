@@ -40,6 +40,7 @@
     "allPathsArrow": "Tutti i percorsi →"
   },
   "nav": {
+    "theatre": "Teatro",
     "overview": "Panoramica",
     "dashboard": "Dashboard",
     "configuration": "Configurazione",
@@ -300,6 +301,25 @@
       "noChanges": "Nessune modifiche.",
       "appSaved": "Impostazioni app salvate"
     },
+    "theatre": {
+      "title": "Teatro",
+      "subtitle": "Guarda i live stream a schermo intero",
+      "selectPath": "Seleziona un percorso qui sotto per avviare lo stream",
+      "noPaths": "Nessun percorso trovato",
+      "hlsNotConfigured": "URL base HLS non configurato (Impostazioni → hlsBaseUrl)",
+      "hlsUnsupported": "Il browser non supporta HLS",
+      "streamError": "Errore di stream",
+      "errorOffline": "Percorso offline o non trovato (HTTP 404). Controlla il nome del percorso e lo stato di MediaMTX.",
+      "errorCors": "Errore CORS: il browser ha bloccato la richiesta dello stream. Imposta hlsAllowOrigin in mediamtx.yml (es. *) e controlla hlsBaseUrl (Impostazioni).",
+      "stop": "Stop",
+      "mute": "Disattiva audio",
+      "unmute": "Attiva audio",
+      "fullscreen": "Schermo intero",
+      "exitFullscreen": "Esci dallo schermo intero",
+      "back": "Indietro",
+      "tileAria": "{{name}} ({{status}})",
+      "stripAria": "Percorsi stream"
+    },
     "notFound": {
       "title": "Pagina non trovata",
       "subtitle": "Il percorso richiesto non esiste.",
@@ -326,6 +346,7 @@
     "mediamtxApiVersion": "Versione API MediaMTX",
     "mediamtxBridgeTimeout": "Timeout bridge MediaMTX (ms)",
     "apiBaseUrl": "URL base API",
+    "hlsBaseUrl": "URL base HLS",
     "theme": "Tema",
     "autoRefreshMs": "Auto-refresh (ms, 0 = disattivo)",
     "itemsPerPage": "Elementi per pagina",
@@ -336,7 +357,8 @@
     "groupDisplay": "Visualizzazione",
     "groupBehavior": "Comportamento",
     "placeholderAuthToken": "•••• (invariato) / vuoto = elimina",
-    "placeholderApiBaseUrl": "/v3 (predefinito)"
+    "placeholderApiBaseUrl": "/v3 (predefinito)",
+    "placeholderHlsBaseUrl": "http://localhost:8888"
   },
   "groups": {
     "Server": "Server",

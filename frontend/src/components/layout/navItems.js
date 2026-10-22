@@ -1,6 +1,10 @@
 // Navigation: labelKey = i18n-Key (siehe locales/*.json).
 export const NAV_SECTIONS = [
   {
+    labelKey: 'nav.theatre',
+    items: [{ to: '/theatre', labelKey: 'nav.theatre' }],
+  },
+  {
     labelKey: 'nav.overview',
     items: [{ to: '/', labelKey: 'nav.dashboard', end: true }],
   },

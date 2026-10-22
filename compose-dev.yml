@@ -20,6 +20,8 @@ services:
       - NODE_ENV=development
       - SERVER_PORT=${SERVER_PORT}
       - MEDIAMTX_BASE_URL=http://mediamtx:9997
+      # HLS-Base-URL für die UI (Theater/Stream-Wall) — Vite liest VITE_* aus der Prozess-Umgebung.
+      - VITE_MEDIAMTX_HLS_URL=${VITE_MEDIAMTX_HLS_URL:-http://localhost:8888}
       # Speicherpfad für die persistierte mediamtx.yml (relativ zum Server-CWD /app/server).
       # Leer lassen, um das Auto-Speichern auszuschalten.
       - MEDIAMTX_CONFIG_PATH=${MEDIAMTX_CONFIG_PATH:-../mediamtx/mediamtx.yml}

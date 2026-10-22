@@ -18,6 +18,7 @@ import WebRTC from './components/pages/WebRTC';
 import MoQ from './components/pages/MoQ';
 import Recordings from './components/pages/Recordings';
 import Settings from './components/pages/Settings';
+import Theatre from './components/pages/Theatre';
 import NotFound from './components/pages/NotFound';
 
 export default function App() {
@@ -30,6 +31,8 @@ export default function App() {
 
   return (
     <Routes>
+      {/* Theater: echte Fullscreen-Oberfläche — bewusst außerhalb der Layout-Gruppe (kein Sidebar/TopBar). */}
+      <Route path="theatre" element={<Theatre />} />
       <Route element={<Layout />}>
         <Route index element={<Dashboard />} />
         <Route path="config/global" element={<ConfigGlobal />} />

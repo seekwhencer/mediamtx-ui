@@ -40,6 +40,7 @@
     "allPathsArrow": "Alle Pfade →"
   },
   "nav": {
+    "theatre": "Theater",
     "overview": "Übersicht",
     "dashboard": "Dashboard",
     "configuration": "Konfiguration",
@@ -300,6 +301,25 @@
       "noChanges": "Keine Änderungen.",
       "appSaved": "App-Settings gespeichert"
     },
+    "theatre": {
+      "title": "Theater",
+      "subtitle": "Live-Streams fullscreen ansehen",
+      "selectPath": "Pfad unten wählen, um den Stream zu starten",
+      "noPaths": "Keine Pfade gefunden",
+      "hlsNotConfigured": "HLS-Base-URL nicht konfiguriert (Settings → hlsBaseUrl)",
+      "hlsUnsupported": "Browser unterstützt kein HLS",
+      "streamError": "Stream-Fehler",
+      "errorOffline": "Pfad offline oder nicht gefunden (HTTP 404). Pfadnamen und MediaMTX-Status prüfen.",
+      "errorCors": "CORS-Fehler: Der Browser hat die Stream-Anfrage blockiert. hlsAllowOrigin in mediamtx.yml setzen (z. B. *) und hlsBaseUrl prüfen (Einstellungen).",
+      "stop": "Stopp",
+      "mute": "Stummschalten",
+      "unmute": "Ton an",
+      "fullscreen": "Vollbild",
+      "exitFullscreen": "Vollbild beenden",
+      "back": "Zurück",
+      "tileAria": "{{name}} ({{status}})",
+      "stripAria": "Stream-Pfade"
+    },
     "notFound": {
       "title": "Seite nicht gefunden",
       "subtitle": "Der angefragte Pfad existiert nicht.",
@@ -547,6 +567,7 @@
     "mediamtxApiVersion": "Version der MediaMTX Control API (z. B. v3).",
     "mediamtxBridgeTimeout": "Timeout für Bridge-Aufrufe an MediaMTX in Millisekunden.",
     "apiBaseUrl": "Basis-Pfad der eigenen API (Default /v3).",
+    "hlsBaseUrl": "Basis-URL des HLS-Playback-Servers (z. B. http://localhost:8888). Leer = Default (VITE_MEDIAMTX_HLS_URL).",
     "theme": "Farbtheme der Oberfläche (dark oder light).",
     "autoRefreshMs": "Intervall in ms, in dem Daten automatisch neu geladen werden. 0 = aus.",
     "itemsPerPage": "Anzahl der pro Seite angezeigten Einträge."
@@ -559,6 +580,7 @@
     "mediamtxApiVersion": "MediaMTX-API-Version",
     "mediamtxBridgeTimeout": "MediaMTX-Bridge-Timeout (ms)",
     "apiBaseUrl": "API-Basis-URL",
+    "hlsBaseUrl": "HLS-Basis-URL",
     "theme": "Design",
     "autoRefreshMs": "Auto-Refresh (ms, 0 = aus)",
     "itemsPerPage": "Einträge pro Seite",
@@ -569,7 +591,8 @@
     "groupDisplay": "Darstellung",
     "groupBehavior": "Verhalten",
     "placeholderAuthToken": "•••• (unverändert) / leer = löschen",
-    "placeholderApiBaseUrl": "/v3 (Standard)"
+    "placeholderApiBaseUrl": "/v3 (Standard)",
+    "placeholderHlsBaseUrl": "http://localhost:8888"
   },
   "groups": {
     "Server": "Server",
