@@ -33,17 +33,10 @@ The UI talks to MediaMTX over the Docker network (`http://mediamtx:9997`) — no
 
 
 ## Screenshots
-![Tooltips](.docs/screenshots/tooltip.png)
-| | |
-|--|--|
-| ![Dashboard](.docs/screenshots/dashboard.png) | ![Global](.docs/screenshots/config-global.png) |
-| ![Tooltips](.docs/screenshots/tooltip.png) | ![Language](.docs/screenshots/language.png) |
-| ![Internal users](.docs/screenshots/config-internal-users.png) | ![Paths (configuration)](.docs/screenshots/config-paths.png) |
-| ![Path defaults](.docs/screenshots/config-path-defaults.png) | ![Paths (runtime)](.docs/screenshots/runtime-paths.png) |
-| ![HLS](.docs/screenshots/runtime-hls.png) | ![RTSP](.docs/screenshots/runtime-rtsp.png) |
-| ![RTMP](.docs/screenshots/runtime-rtmp.png) | ![SRT](.docs/screenshots/runtime-srt.png) |
-| ![WebRTC](.docs/screenshots/runtime-webrtc.png) | ![MoQ](.docs/screenshots/runtime-moq.png) |
-| ![Recordings](.docs/screenshots/recordings.png) | ![Settings](.docs/screenshots/settings.png) |
+
+| Light | Dark |
+|-------|------|
+| ![Dashboard (light)](.docs/screenshots/light_dashboard.png) | ![Dashboard (dark)](.docs/screenshots/dark_dashboard.png) |
 
 ## Architecture
 
@@ -175,3 +168,25 @@ cd frontend && npm run build       # Build check
 - `.docs/INITIAL_FRONTEND.md` — Frontend architecture
 - `.docs/INITIAL_SETTINGS.md` — Settings concept
 - `.docs/ROADMAP.md` — Phases & status (57/57 done)
+
+## All screenshots
+
+| Page | Light | Dark |
+|------|-------|------|
+| Theatre | ![Theatre (light)](.docs/screenshots/light_theatre.png) | ![Theatre (dark)](.docs/screenshots/dark_theatre.png) |
+| Global | ![Global (light)](.docs/screenshots/light_global.png) | ![Global (dark)](.docs/screenshots/dark_global.png) |
+| Global (all groups) | ![Global groups (light)](.docs/screenshots/light_global_subnav.png) | ![Global groups (dark)](.docs/screenshots/dark_global_subnav.png) |
+| Internal users | ![Internal users (light)](.docs/screenshots/light_internal-users.png) | ![Internal users (dark)](.docs/screenshots/dark_internal-users.png) |
+| Paths (configuration) | ![Paths config (light)](.docs/screenshots/light_paths.png) | ![Paths config (dark)](.docs/screenshots/dark_paths.png) |
+| Path defaults | ![Path defaults (light)](.docs/screenshots/light_path-defaults.png) | ![Path defaults (dark)](.docs/screenshots/dark_path-defaults.png) |
+| Path defaults (all groups) | ![Path defaults groups (light)](.docs/screenshots/light_path-defaults_subnav.png) | ![Path defaults groups (dark)](.docs/screenshots/dark_path-defaults_subnav.png) |
+| Paths (runtime) | ![Paths runtime (light)](.docs/screenshots/light_runtime-paths.png) | ![Paths runtime (dark)](.docs/screenshots/dark_runtime-paths.png) |
+| HLS | ![HLS (light)](.docs/screenshots/light_hls.png) | ![HLS (dark)](.docs/screenshots/dark_hls.png) |
+| RTSP | ![RTSP (light)](.docs/screenshots/light_rtsp.png) | ![RTSP (dark)](.docs/screenshots/dark_rtsp.png) |
+| RTMP | ![RTMP (light)](.docs/screenshots/light_rtmp.png) | ![RTMP (dark)](.docs/screenshots/dark_rtmp.png) |
+| SRT | ![SRT (light)](.docs/screenshots/light_srt.png) | ![SRT (dark)](.docs/screenshots/dark_srt.png) |
+| WebRTC | ![WebRTC (light)](.docs/screenshots/light_webrtc.png) | ![WebRTC (dark)](.docs/screenshots/dark_webrtc.png) |
+| MoQ | ![MoQ (light)](.docs/screenshots/light_moq.png) | ![MoQ (dark)](.docs/screenshots/dark_moq.png) |
+| Recordings | ![Recordings (light)](.docs/screenshots/light_recordings.png) | ![Recordings (dark)](.docs/screenshots/dark_recordings.png) |
+| Settings | ![Settings (light)](.docs/screenshots/light_settings.png) | ![Settings (dark)](.docs/screenshots/dark_settings.png) |
+
