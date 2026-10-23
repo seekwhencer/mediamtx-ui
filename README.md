@@ -33,6 +33,25 @@ The UI talks to MediaMTX over the Docker network (`http://mediamtx:9997`) — no
 > **Note:** `compose-mediamtx.yml` mounts `mediamtx/mediamtx.yml` read-only into the MediaMTX container.
 > The UI can update the file on the host side (auto-save via `MEDIAMTX_CONFIG_PATH`) — MediaMTX reads it on startup.
 
+### MediaMTX from the main branch (unreleased)
+
+Some endpoints (e.g. `config/internal-users/*`) only exist on the **main branch**, not in released versions. To run MediaMTX compiled from `main` (or any branch/tag/commit) instead of the released image:
+
+```bash
+# Build + run MediaMTX from main (drop-in replacement for compose-mediamtx.yml)
+docker compose -f compose-mediamtx-build.yml up --build -d
+
+# Pin to a specific branch / tag / full commit SHA
+docker compose -f compose-mediamtx-build.yml build --build-arg MEDIAMTX_REF=v1.21.2
+# …or via env:  MEDIAMTX_BUILD_REF=<ref> docker compose -f compose-mediamtx-build.yml up --build
+```
+
+- **`mediamtx/Dockerfile`** — multi-stage build: `golang:1.27-alpine3.24` compiles a static binary (`CGO_ENABLED=0`) from the cloned repo, then copies it into a `scratch` runtime image (mirrors the official `docker/standard.Dockerfile`).
+- **`compose-mediamtx-build.yml`** — builds the image (`mediamtx:main`) and runs it with the same ports/volumes/network as `compose-mediamtx.yml`.
+- The build clones `bluenviron/mediamtx` at `MEDIAMTX_REF` (default `main`), so it always tracks the latest main unless pinned.
+
+> **Note:** `compose-mediamtx.yml` and `compose-mediamtx-build.yml` both define a `mediamtx` service with `container_name: mediamtx` — they are **alternatives**, run one at a time.
+
 
 ## First Start
 - edit the `mediamtx/mediamtx.yml`
@@ -139,7 +158,8 @@ Error format: `{ error, status: 'error', code }` — codes: `not_found`, `invali
 ```
 ├── compose.yml            # Production (NODE_ENV=production, npm start)
 ├── compose-dev.yml        # Development (NODE_ENV=development, Vite dev via UI server)
-├── compose-mediamtx.yml   # MediaMTX service (bluenviron/mediamtx)
+├── compose-mediamtx.yml   # MediaMTX service (bluenviron/mediamtx, released)
+├── compose-mediamtx-build.yml  # MediaMTX service (compiled from main, see mediamtx/Dockerfile)
 ├── .env.default           # Env template (ports, version, config path)
 ├── server/                # Node.js backend
 │   ├── index.js           # Entry point (--init-config: writes defaults to config.json)
@@ -169,6 +189,7 @@ Error format: `{ error, status: 'error', code }` — codes: `not_found`, `invali
 │       │   └── ui/                # Button, Input, Select, Toggle, Tabs, Modal, …
 │       └── style/                 # CSS variables, light/dark
 ├── mediamtx/
+│   ├── Dockerfile             # Compiles MediaMTX from main (used by compose-mediamtx-build.yml)
 │   ├── mediamtx.yml           # MediaMTX config (git-ignored, persisted by the UI)
 │   ├── mediamtx.default.yml   # Reference config
 │   └── openapi.yml            # OpenAPI spec of the MediaMTX API

@@ -6,6 +6,7 @@ import Dashboard from './components/pages/Dashboard';
 import ConfigGlobal from './components/pages/ConfigGlobal';
 import ConfigPathDefaults from './components/pages/ConfigPathDefaults';
 import InternalUsers from './components/pages/InternalUsers';
+import InternalUserDetail from './components/pages/InternalUserDetail';
 import ConfigPaths from './components/pages/ConfigPaths';
 import ConfigPathDetail from './components/pages/ConfigPathDetail';
 import RuntimePaths from './components/pages/RuntimePaths';
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="config/global" element={<ConfigGlobal />} />
         <Route path="config/path-defaults" element={<ConfigPathDefaults />} />
         <Route path="config/internal-users" element={<InternalUsers />} />
+        <Route path="config/internal-users/:id" element={<InternalUserDetail />} />
         <Route path="config/paths" element={<ConfigPaths />} />
         <Route path="config/paths/:name" element={<ConfigPathDetail />} />
         <Route path="paths" element={<RuntimePaths />} />

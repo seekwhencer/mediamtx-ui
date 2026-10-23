@@ -1,6 +1,6 @@
 services:
   mediamtx:
-    image: bluenviron/mediamtx:${MEDIAMTX_VERSION}
+    image: ${MEDIAMTX_IMAGE}
     container_name: mediamtx
     restart: always
     ports:

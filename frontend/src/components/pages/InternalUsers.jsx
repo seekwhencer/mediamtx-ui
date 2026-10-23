@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation, Trans } from 'react-i18next';
 import { useMutationWithInvalidate } from '../../hooks/useApi';
@@ -11,32 +12,33 @@ import InternalUserForm from '../forms/InternalUserForm';
 
 export default function InternalUsers() {
   const { t } = useTranslation();
-  // Users live in the global config (authInternalUsers) — there is no
-  // /config/internal-users/* endpoint. Same request as the global config page.
+  const navigate = useNavigate();
+  // Users come from the /config/internal-users/list endpoint, which returns
+  // runtime IDs + one-based positions (needed for the detail route + mutations).
   const query = useQuery({
-    queryKey: QUERY_KEYS.globalConfig,
-    queryFn: () => api.get('/config/global/get'),
+    queryKey: QUERY_KEYS.internalUsers,
+    queryFn: () => api.get('/config/internal-users/list'),
     retry: false,
   });
-  const users = query.data?.authInternalUsers ?? [];
+  const users = query.data?.items ?? [];
 
   // dialog: { mode: 'add' } | { mode: 'edit'|'replace', row } | { mode: 'delete', row }
   const [dialog, setDialog] = useState(null);
 
   const addMut = useMutationWithInvalidate((user) => api.post('/config/internal-users/add', user), [
-    QUERY_KEYS.globalConfig,
+    QUERY_KEYS.internalUsers,
   ]);
   const editMut = useMutationWithInvalidate(
     (v) => api.patch(`/config/internal-users/patch/${encodeURIComponent(v.id)}`, v.user),
-    [QUERY_KEYS.globalConfig]
+    [QUERY_KEYS.internalUsers]
   );
   const replaceMut = useMutationWithInvalidate(
     (v) => api.post(`/config/internal-users/replace/${encodeURIComponent(v.id)}`, v.user),
-    [QUERY_KEYS.globalConfig]
+    [QUERY_KEYS.internalUsers]
   );
   const deleteMut = useMutationWithInvalidate(
     (id) => api.delete(`/config/internal-users/delete/${encodeURIComponent(id)}`),
-    [QUERY_KEYS.globalConfig]
+    [QUERY_KEYS.internalUsers]
   );
 
   const close = () => setDialog(null);
@@ -57,7 +59,7 @@ export default function InternalUsers() {
       label: t('pages.internalUsers.actions'),
       sortable: false,
       render: (row) => (
-        <div className="rowactions">
+        <div className="rowactions" onClick={(e) => e.stopPropagation()}>
           <Button variant="ghost" size="sm" onClick={() => setDialog({ mode: 'edit', row })}>
             {t('common.edit')}
           </Button>
@@ -89,6 +91,7 @@ export default function InternalUsers() {
         data={users}
         loading={query.isPending}
         error={query.error}
+        onRowClick={(row) => navigate(`/config/internal-users/${encodeURIComponent(row.id)}`)}
         emptyMessage={t('pages.internalUsers.noUsers')}
       />
 

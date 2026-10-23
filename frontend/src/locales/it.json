@@ -113,6 +113,10 @@
       "deleteUser": "Elimina utente",
       "deleteUserConfirm": "Eliminare l'utente <strong>{{name}}</strong>? L'operazione non può essere annullata."
     },
+    "internalUserDetail": {
+      "title": "Utente: {{name}}",
+      "allUsers": "← Tutti gli utenti"
+    },
     "configPaths": {
       "title": "Configurazioni percorso",
       "subtitle": "CRUD percorsi: Aggiungi, Modifica (PATCH), Sostituisci (POST), Elimina.",

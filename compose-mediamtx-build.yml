@@ -1,0 +1,38 @@
+# Builds MediaMTX from the main branch (see mediamtx/Dockerfile) and runs it.
+# Drop-in alternative to compose-mediamtx.yml (which pulls the released image).
+#
+# Usage:
+#   docker compose -f compose-mediamtx-build.yml up --build -d
+#
+# Pin to a specific branch / tag / full commit SHA:
+#   docker compose -f compose-mediamtx-build.yml build --build-arg MEDIAMTX_REF=v1.21.2
+#   # or via env:  MEDIAMTX_BUILD_REF=abc123def docker compose -f compose-mediamtx-build.yml up --build
+
+services:
+  mediamtx:
+    build:
+      context: .
+      dockerfile: mediamtx/Dockerfile
+      args:
+        MEDIAMTX_REF: ${MEDIAMTX_BUILD_REF:-main}
+    image: mediamtx:main
+    container_name: mediamtx
+    restart: always
+    ports:
+      - "${HLS_PORT}:${HLS_PORT}"
+      - "${RTSP_PORT}:${RTSP_PORT}"
+      - "${RTMP_PORT}:${RTMP_PORT}"
+      - "${WEBRTC_PORT}:${WEBRTC_PORT}"
+      - "${WEBRTC_UDP_PORT}:${WEBRTC_UDP_PORT}/udp"
+      - "${METRICS_PORT}:${METRICS_PORT}"
+    volumes:
+      - ./mediamtx/mediamtx.yml:/mediamtx.yml:ro
+      - ./data:/data
+      - ./build:/build
+    networks:
+      - mediamtx
+
+networks:
+  mediamtx:
+    external: false
+    name: "mediamtx"

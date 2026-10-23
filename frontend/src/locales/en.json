@@ -113,6 +113,10 @@
       "deleteUser": "Delete User",
       "deleteUserConfirm": "Delete user <strong>{{name}}</strong>? This cannot be undone."
     },
+    "internalUserDetail": {
+      "title": "User: {{name}}",
+      "allUsers": "← All users"
+    },
     "configPaths": {
       "title": "Path configurations",
       "subtitle": "Path CRUD: Add, Edit (PATCH), Replace (POST), Delete.",

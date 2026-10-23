@@ -113,6 +113,10 @@
       "deleteUser": "Benutzer löschen",
       "deleteUserConfirm": "Benutzer <strong>{{name}}</strong> löschen? Dies kann nicht rückgängig gemacht werden."
     },
+    "internalUserDetail": {
+      "title": "Benutzer: {{name}}",
+      "allUsers": "← Alle Benutzer"
+    },
     "configPaths": {
       "title": "Pfad-Konfigurationen",
       "subtitle": "Path-CRUD: Add, Edit (PATCH), Replace (POST), Delete.",
