@@ -108,6 +108,42 @@ export default function FormBuilder({
     );
   }
 
+  const renderFields = (fields) => (
+    <div className="formbuilder__fields">
+      {fields.map((field) => (
+        <FormField
+          key={field.name}
+          field={field}
+          value={values[field.name]}
+          onChange={(v) => setValue(field.name, v)}
+          error={errors[field.name]}
+        />
+      ))}
+    </div>
+  );
+
+  const actions = (
+    <div className="formbuilder__actions">
+      {saved && <span className="formbuilder__saved">{t('form.saved')}</span>}
+      <Button type="submit" variant="primary" loading={submitting} disabled={disabled}>
+        {submitLabel}
+      </Button>
+    </div>
+  );
+
+  // Einzelne Gruppe (z. B. Interner Benutzer): keine Subnav, kein Summary,
+  // immer aufgeklappt — nur die Felder in einer Karte.
+  if (groups.length === 1) {
+    const [, fields] = groups[0];
+    return (
+      <form className="formbuilder" onSubmit={handleSubmit} noValidate>
+        <div className="formbuilder__group">{renderFields(fields)}</div>
+        {actions}
+        {submitError && <ErrorAlert error={submitError} title={t('form.saveFailed')} />}
+      </form>
+    );
+  }
+
   return (
     <>
       <nav className="formbuilder__subnav" aria-label={t('form.groupsNav')}>
@@ -135,25 +171,10 @@ export default function FormBuilder({
               <span>{t(`groups.${group}`, { defaultValue: group })}</span>
               <span className="formbuilder__group-count">{fields.length}</span>
             </summary>
-            <div className="formbuilder__fields">
-              {fields.map((field) => (
-                <FormField
-                  key={field.name}
-                  field={field}
-                  value={values[field.name]}
-                  onChange={(v) => setValue(field.name, v)}
-                  error={errors[field.name]}
-                />
-              ))}
-            </div>
+            {renderFields(fields)}
           </details>
         ))}
-        <div className="formbuilder__actions">
-          {saved && <span className="formbuilder__saved">{t('form.saved')}</span>}
-          <Button type="submit" variant="primary" loading={submitting} disabled={disabled}>
-            {submitLabel}
-          </Button>
-        </div>
+        {actions}
         {submitError && <ErrorAlert error={submitError} title={t('form.saveFailed')} />}
       </form>
     </>
