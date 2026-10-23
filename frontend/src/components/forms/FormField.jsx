@@ -7,6 +7,7 @@ import TagInput from '../ui/TagInput';
 import MultiSelect from '../ui/MultiSelect';
 import ListEditor from './ListEditor';
 import Tooltip from '../ui/Tooltip';
+import { primaryColorForHue } from '../../utils/primaryColor';
 
 const FULL_WIDTH_TYPES = new Set(['list', 'multi-select']);
 // Diese Typen rendern ihre eigene Fehlermeldung (via error-Prop).
@@ -50,7 +51,8 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             error={error}
           />
         );
-      case 'slider':
+      case 'slider': {
+        const previewColor = field.colorPreview ? primaryColorForHue(value) : undefined;
         return (
           <Slider
             value={value ?? field.min ?? 0}
@@ -62,8 +64,10 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             labelExtra={labelExtra}
             id={id}
             name={field.name}
+            previewColor={previewColor}
           />
         );
+      }
       case 'select':
         return (
           <Select

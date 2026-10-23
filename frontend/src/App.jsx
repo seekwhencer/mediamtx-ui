@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAppSettings } from './services/appSettings';
+import { applyPrimaryHue } from './utils/primaryColor';
 import Layout from './components/layout/Layout';
 import Dashboard from './components/pages/Dashboard';
 import ConfigGlobal from './components/pages/ConfigGlobal';
@@ -23,12 +24,17 @@ import Theatre from './components/pages/Theatre';
 import NotFound from './components/pages/NotFound';
 
 export default function App() {
-  const { theme } = useAppSettings();
+  const { theme, primaryHue } = useAppSettings();
 
   // Theme (dark/light) via data-theme — reagiert auf Änderungen ohne Reload.
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
+
+  // Primary-Farbton: ersetzt :root --color-primary (Sättigung + Helligkeit fix).
+  useEffect(() => {
+    applyPrimaryHue(primaryHue);
+  }, [primaryHue]);
 
   return (
     <Routes>

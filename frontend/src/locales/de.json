@@ -573,6 +573,7 @@
     "apiBaseUrl": "Basis-Pfad der eigenen API (Default /v3).",
     "hlsBaseUrl": "Basis-URL des HLS-Playback-Servers (z. B. http://localhost:8888). Leer = Default (VITE_MEDIAMTX_HLS_URL).",
     "theme": "Farbtheme der Oberfläche (dark oder light).",
+    "primaryHue": "Farbton der Primärfarbe (0–360). Sättigung und Helligkeit bleiben fix; ersetzt --color-primary.",
     "autoRefreshMs": "Intervall in ms, in dem Daten automatisch neu geladen werden. 0 = aus.",
     "itemsPerPage": "Anzahl der pro Seite angezeigten Einträge."
   },
@@ -586,6 +587,7 @@
     "apiBaseUrl": "API-Basis-URL",
     "hlsBaseUrl": "HLS-Basis-URL",
     "theme": "Design",
+    "primaryHue": "Primärfarbton",
     "autoRefreshMs": "Auto-Refresh (ms, 0 = aus)",
     "itemsPerPage": "Einträge pro Seite",
     "groupServer": "Server",

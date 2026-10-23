@@ -352,6 +352,7 @@
     "apiBaseUrl": "URL base API",
     "hlsBaseUrl": "URL base HLS",
     "theme": "Tema",
+    "primaryHue": "Tono primario",
     "autoRefreshMs": "Auto-refresh (ms, 0 = disattivo)",
     "itemsPerPage": "Elementi per pagina",
     "groupServer": "Server",

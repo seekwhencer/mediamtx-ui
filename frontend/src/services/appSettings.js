@@ -1,4 +1,5 @@
 import { useSyncExternalStore } from 'react';
+import { defaultPrimaryHue } from '../utils/primaryColor';
 
 const KEY = 'mtxui.appSettings';
 
@@ -6,6 +7,7 @@ export const APP_SETTINGS_DEFAULTS = {
   apiBaseUrl: '', // '' → Default (VITE_MEDIAMTX_API_URL oder /v3)
   hlsBaseUrl: '', // '' → Default (VITE_MEDIAMTX_HLS_URL)
   theme: 'dark', // 'dark' | 'light'
+  primaryHue: defaultPrimaryHue(), // Farbton (0-360); Sättigung + Helligkeit fix (s. primaryColor.js)
   autoRefreshMs: 10000, // 0 = aus
   itemsPerPage: 100,
 };
