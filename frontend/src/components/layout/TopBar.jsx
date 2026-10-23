@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { RefreshCw } from 'lucide-react';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
@@ -51,7 +52,13 @@ export default function TopBar() {
         <Badge color={status === 'online' ? 'green' : status === 'offline' ? 'red' : 'gray'}>
           {status === 'online' ? t('topbar.online') : status === 'offline' ? t('topbar.offline') : t('topbar.connecting')}
         </Badge>
-        <Button variant="secondary" size="sm" loading={refreshing} onClick={handleRefresh}>
+        <Button
+          variant="secondary"
+          size="sm"
+          icon={RefreshCw}
+          className={refreshing ? 'is-refreshing' : ''}
+          onClick={handleRefresh}
+        >
           {t('topbar.refresh')}
         </Button>
         <div className="topbar__lang" role="group" aria-label={t('topbar.language')}>

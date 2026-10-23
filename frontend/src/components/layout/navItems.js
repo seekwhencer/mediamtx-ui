@@ -1,41 +1,47 @@
+import {
+  Clapperboard, LayoutDashboard, Settings2, Users, FolderTree,
+  SlidersHorizontal, Activity, Radio, Video, MonitorPlay,
+  SatelliteDish, Wifi, Boxes, HardDrive, Settings,
+} from 'lucide-react';
+
 // Navigation: labelKey = i18n-Key (siehe locales/*.json).
 export const NAV_SECTIONS = [
   {
     labelKey: 'nav.theatre',
-    items: [{ to: '/theatre', labelKey: 'nav.theatre' }],
+    items: [{ to: '/theatre', labelKey: 'nav.theatre', icon: Clapperboard }],
   },
   {
     labelKey: 'nav.overview',
-    items: [{ to: '/', labelKey: 'nav.dashboard', end: true }],
+    items: [{ to: '/', labelKey: 'nav.dashboard', end: true, icon: LayoutDashboard }],
   },
   {
     labelKey: 'nav.configuration',
     items: [
-      { to: '/config/global', labelKey: 'nav.global' },
-      { to: '/config/internal-users', labelKey: 'nav.internalUsers' },
-      { to: '/config/paths', labelKey: 'nav.paths' },
-      { to: '/config/path-defaults', labelKey: 'nav.pathDefaults' },
+      { to: '/config/global', labelKey: 'nav.global', icon: Settings2 },
+      { to: '/config/internal-users', labelKey: 'nav.internalUsers', icon: Users },
+      { to: '/config/paths', labelKey: 'nav.paths', icon: FolderTree },
+      { to: '/config/path-defaults', labelKey: 'nav.pathDefaults', icon: SlidersHorizontal },
     ],
   },
   {
     labelKey: 'nav.runtime',
     items: [
-      { to: '/paths', labelKey: 'nav.paths' },
-      { to: '/hls', labelKey: 'nav.hls' },
-      { to: '/rtsp', labelKey: 'nav.rtsp' },
-      { to: '/rtmp', labelKey: 'nav.rtmp' },
-      { to: '/srt', labelKey: 'nav.srt' },
-      { to: '/webrtc', labelKey: 'nav.webrtc' },
-      { to: '/moq', labelKey: 'nav.moq' },
+      { to: '/paths', labelKey: 'nav.paths', icon: Activity },
+      { to: '/hls', labelKey: 'nav.hls', icon: Radio },
+      { to: '/rtsp', labelKey: 'nav.rtsp', icon: Video },
+      { to: '/rtmp', labelKey: 'nav.rtmp', icon: MonitorPlay },
+      { to: '/srt', labelKey: 'nav.srt', icon: SatelliteDish },
+      { to: '/webrtc', labelKey: 'nav.webrtc', icon: Wifi },
+      { to: '/moq', labelKey: 'nav.moq', icon: Boxes },
     ],
   },
   {
     labelKey: 'nav.recordings',
-    items: [{ to: '/recordings', labelKey: 'nav.recordings' }],
+    items: [{ to: '/recordings', labelKey: 'nav.recordings', icon: HardDrive }],
   },
   {
     labelKey: 'nav.settings',
-    items: [{ to: '/settings', labelKey: 'nav.settings' }],
+    items: [{ to: '/settings', labelKey: 'nav.settings', icon: Settings }],
   },
 ];
 

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { X } from 'lucide-react';
 
 export default function TagInput({ value = [], onChange, type = 'string', label, labelExtra, placeholder, disabled = false, id, name }) {
   const { t } = useTranslation();
@@ -54,7 +55,7 @@ export default function TagInput({ value = [], onChange, type = 'string', label,
               aria-label={t('common.removeTag', { tag })}
               disabled={disabled}
             >
-              ×
+              <X size={12} />
             </button>
           </span>
         ))}

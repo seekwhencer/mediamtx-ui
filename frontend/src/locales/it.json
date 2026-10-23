@@ -36,7 +36,7 @@
     "notFound": "Non trovato",
     "backToDashboard": "Torna alla Dashboard",
     "allPaths": "Tutti i percorsi",
-    "detailsArrow": "Dettagli →",
+    "detailsArrow": "Dettagli",
     "allPathsArrow": "Tutti i percorsi →"
   },
   "nav": {
@@ -75,7 +75,7 @@
     "instanceLoading": "Caricamento istanza…",
     "instanceNotReachable": "MediaMTX non raggiungibile",
     "paths": "Percorsi",
-    "allPaths": "Tutti i percorsi →",
+    "allPaths": "Tutti i percorsi",
     "pathsNotReachable": "Percorsi non raggiungibili",
     "pathsLoading": "Caricamento percorsi…",
     "totalPaths": "Percorsi totali",
@@ -102,7 +102,7 @@
     "internalUsers": {
       "title": "Utenti interni",
       "subtitle": "Utenti di autenticazione interni (authInternalUsers dalla configurazione globale).",
-      "addUser": "+ Aggiungi utente",
+      "addUser": "Aggiungi utente",
       "noUsers": "Nessun utente interno",
       "user": "Utente",
       "ips": "IP",
@@ -115,12 +115,12 @@
     },
     "internalUserDetail": {
       "title": "Utente: {{name}}",
-      "allUsers": "← Tutti gli utenti"
+      "allUsers": "Tutti gli utenti"
     },
     "configPaths": {
       "title": "Configurazioni percorso",
       "subtitle": "CRUD percorsi: Aggiungi, Modifica (PATCH), Sostituisci (POST), Elimina.",
-      "addPath": "+ Aggiungi percorso",
+      "addPath": "Aggiungi percorso",
       "noPaths": "Nessun percorso configurato",
       "name": "Nome",
       "source": "Origine",
@@ -139,7 +139,7 @@
     },
     "configPathDetail": {
       "title": "Configurazione percorso: {{name}}",
-      "allPaths": "← Tutti i percorsi"
+      "allPaths": "Tutti i percorsi"
     },
     "runtimePaths": {
       "title": "Percorsi runtime",
@@ -334,7 +334,7 @@
     "loadingConfig": "Caricamento configurazione…",
     "groupsNav": "Gruppi di configurazione",
     "mediamtxRestarting": "mediamtx si sta riavviando.",
-    "saved": "Salvato ✓",
+    "saved": "Salvato",
     "loadFailed": "Caricamento non riuscito",
     "saveFailed": "Salvataggio non riuscito",
     "restartRequired": "Riavvio richiesto",

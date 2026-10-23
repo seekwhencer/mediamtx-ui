@@ -1,0 +1,11 @@
+/* ===== Lucide-Icons (globale Basis) ===== */
+.lucide {
+  flex: none;            /* bricht nicht in Flex-Containern */
+  vertical-align: middle;
+}
+
+/* Spin (Refresh, Loader) — nutzt bestehendes ui-spin aus buttons.css */
+.is-spinning .lucide,
+.lucide.is-spinning {
+  animation: ui-spin 0.7s linear infinite;
+}

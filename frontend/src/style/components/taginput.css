@@ -16,7 +16,7 @@
   flex-wrap: wrap;
   align-items: center;
   gap: var(--space-1);
-  background: var(--color-surface);
+  background: var(--color-surface-hi);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
   padding: var(--space-1) var(--space-2);
@@ -59,7 +59,7 @@
   flex: 1;
   min-width: 8ch;
   border: none;
-  background: transparent;
+  background-color: transparent;
   font-family: inherit;
   font-size: var(--fs-sm);
   color: var(--color-text);

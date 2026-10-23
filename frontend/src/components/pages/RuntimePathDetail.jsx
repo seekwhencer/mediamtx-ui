@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { ArrowLeft } from 'lucide-react';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useListQuery } from '../../hooks/useApi';
@@ -84,7 +85,7 @@ export default function RuntimePathDetail() {
           <h2 className="page__title">{t('pages.runtimePathDetail.title', { name })}</h2>
           <p className="page__subtitle">{t('pages.runtimePathDetail.subtitle')}</p>
         </div>
-        <Button variant="secondary" onClick={() => navigate('/paths')}>
+        <Button variant="secondary" icon={ArrowLeft} onClick={() => navigate('/paths')}>
           {t('pages.runtimePathDetail.back')}
         </Button>
       </header>

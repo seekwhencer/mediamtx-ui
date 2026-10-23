@@ -33,7 +33,7 @@
 
 .ui-btn--primary {
   background: var(--color-primary);
-  color: var(--color-surface-alt);
+  color: var(--color-surface);
 }
 
 .ui-btn--primary:hover:not(:disabled) {
@@ -69,10 +69,14 @@
 }
 
 .ui-btn--ghost:hover:not(:disabled) {
-  background: var(--color-surface-alt);
-  color: var(--color-text);
+  background: var(--color-primary);
+  color: var(--color-surface);
 }
 
+
+.ui-btn__icon {
+  flex: none;
+}
 
 .ui-btn__spinner {
   width: 1em;
@@ -88,4 +92,9 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+/* Refresh-Button: Icon spinnt während Refresh (kein Doppel-Spinner) */
+.ui-btn.is-refreshing .ui-btn__icon {
+  animation: ui-spin 0.7s linear infinite;
 }

@@ -5,6 +5,7 @@ export default function Button({
   disabled = false,
   type = 'button',
   className = '',
+  icon: Icon,
   children,
   ...rest
 }) {
@@ -21,6 +22,7 @@ export default function Button({
   return (
     <button type={type} className={classes} disabled={disabled || loading} {...rest}>
       {loading && <span className="ui-btn__spinner" aria-hidden="true" />}
+      {Icon && <Icon size={16} className="ui-btn__icon" />}
       <span className="ui-btn__label">{children}</span>
     </button>
   );

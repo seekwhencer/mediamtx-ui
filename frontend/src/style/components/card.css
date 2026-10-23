@@ -18,7 +18,15 @@
 }
 
 .ui-card__title {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   font-size: var(--fs-md);
+}
+
+.ui-card__title-icon {
+  flex: none;
+  color: var(--color-text-secondary);
 }
 
 .ui-card__value {

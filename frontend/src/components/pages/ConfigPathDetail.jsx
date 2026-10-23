@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ArrowLeft } from 'lucide-react';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useMutationWithInvalidate } from '../../hooks/useApi';
@@ -28,7 +29,8 @@ export default function ConfigPathDetail() {
         <div>
           <h2 className="page__title">{t('pages.configPathDetail.title', { name: decoded })}</h2>
           <p className="page__subtitle">
-            <Link className="ui-link" to="/config/paths">
+            <Link className="ui-link ui-link--icon" to="/config/paths">
+              <ArrowLeft size={14} />
               {t('pages.configPathDetail.allPaths')}
             </Link>
           </p>

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { X } from 'lucide-react';
 
 export default function Modal({ title, isOpen, onClose, children, footer }) {
   const { t } = useTranslation();
@@ -25,7 +26,7 @@ export default function Modal({ title, isOpen, onClose, children, footer }) {
         <header className="ui-modal__header">
           <h2 className="ui-modal__title">{title}</h2>
           <button type="button" className="ui-modal__close" onClick={onClose} aria-label={t('common.close')}>
-            ×
+            <X size={18} />
           </button>
         </header>
         <div className="ui-modal__body">{children}</div>

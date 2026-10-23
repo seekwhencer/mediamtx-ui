@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Video, Play, Loader2 } from 'lucide-react';
 
 export default function PathTile({ name, online, active, loading, error, onClick }) {
   const { t } = useTranslation();
@@ -27,43 +28,18 @@ export default function PathTile({ name, online, active, loading, error, onClick
       <span className="theatre-tile__dot" aria-hidden="true" />
       <span className="theatre-tile__body">
         <span className="theatre-tile__icon" aria-hidden="true">
-          <svg
-            viewBox="0 0 24 24"
-            width="22"
-            height="22"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <rect x="2" y="6" width="13" height="12" rx="2" />
-            <path d="M15 10l7-3v10l-7-3" />
-          </svg>
+          <Video size={22} strokeWidth={1.8} />
         </span>
         <span className="theatre-tile__name">{name}</span>
       </span>
       {loading && (
         <span className="theatre-tile__overlay" aria-hidden="true">
-          <svg className="theatre-tile__spinner" viewBox="0 0 24 24" width="22" height="22" fill="none">
-            <circle
-              cx="12"
-              cy="12"
-              r="9"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeDasharray="42"
-              strokeDashoffset="14"
-              strokeLinecap="round"
-            />
-          </svg>
+          <Loader2 size={22} className="theatre-tile__spinner" />
         </span>
       )}
       {active && !loading && (
         <span className="theatre-tile__overlay" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="30" height="30" fill="currentColor">
-            <path d="M8 5v14l11-7z" />
-          </svg>
+          <Play size={30} fill="currentColor" />
         </span>
       )}
     </button>

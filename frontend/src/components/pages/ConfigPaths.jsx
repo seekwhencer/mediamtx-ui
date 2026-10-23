@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation, Trans } from 'react-i18next';
+import { Plus, Pencil, RotateCw, Trash2 } from 'lucide-react';
 import { useListQuery, useMutationWithInvalidate } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { api } from '../../api/client';
@@ -80,13 +81,13 @@ export default function ConfigPaths() {
       sortable: false,
       render: (row) => (
         <div className="rowactions" onClick={(e) => e.stopPropagation()}>
-          <Button variant="ghost" size="sm" onClick={() => setDialog({ mode: 'edit', row })}>
+          <Button variant="ghost" size="sm" icon={Pencil} onClick={() => setDialog({ mode: 'edit', row })}>
             {t('common.edit')}
           </Button>
-          <Button variant="ghost" size="sm" onClick={() => setDialog({ mode: 'replace', row })}>
+          <Button variant="ghost" size="sm" icon={RotateCw} onClick={() => setDialog({ mode: 'replace', row })}>
             {t('common.replace')}
           </Button>
-          <Button variant="danger" size="sm" onClick={() => setDialog({ mode: 'delete', row })}>
+          <Button variant="danger" size="sm" icon={Trash2} onClick={() => setDialog({ mode: 'delete', row })}>
             {t('common.delete')}
           </Button>
         </div>
@@ -101,7 +102,7 @@ export default function ConfigPaths() {
           <h2 className="page__title">{t('pages.configPaths.title')}</h2>
           <p className="page__subtitle">{t('pages.configPaths.subtitle')}</p>
         </div>
-        <Button variant="primary" onClick={() => setDialog({ mode: 'add' })}>
+        <Button variant="primary" icon={Plus} onClick={() => setDialog({ mode: 'add' })}>
           {t('pages.configPaths.addPath')}
         </Button>
       </header>
@@ -178,6 +179,7 @@ export default function ConfigPaths() {
             </Button>
             <Button
               variant="danger"
+              icon={Trash2}
               loading={deleteMut.isPending}
               onClick={() => deleteMut.mutateAsync(dialog?.row?.name).then(close)}
             >

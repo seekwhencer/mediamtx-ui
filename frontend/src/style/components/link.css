@@ -10,3 +10,10 @@
   color: var(--color-primary-hover);
   text-decoration: underline;
 }
+
+/* Link mit Icon (z. B. "← All paths"): Icon + Text ausgerichtet */
+.ui-link--icon {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+}

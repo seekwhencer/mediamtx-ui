@@ -17,7 +17,7 @@ body {
   background-color: var(--color-bg);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-  background-image: radial-gradient(120vh circle at center bottom, color-mix(in srgb, var(--color-primary) 30%, transparent), transparent), radial-gradient(50vh circle at center top, color-mix(in srgb, var(--color-primary) 10%, transparent), transparent);
+  background-image: radial-gradient(120vh circle at center bottom, color-mix(in srgb, var(--color-primary) 10%, transparent), transparent), radial-gradient(50vh circle at center top, color-mix(in srgb, var(--color-primary) 5%, transparent), transparent);
   min-height: 100vh;
 }
 
@@ -72,7 +72,7 @@ svg {
 }
 
 .main__container {
-  max-width: 95vw; 
+  max-width: 95vw;
   margin: auto;
-  padding-top: var(--space-4); 
+  padding-top: var(--space-4);
 }

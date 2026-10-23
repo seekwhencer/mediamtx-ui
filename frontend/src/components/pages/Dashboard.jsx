@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
+import { Radio, Video, MonitorPlay, SatelliteDish, Wifi, Boxes } from 'lucide-react';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useListQuery } from '../../hooks/useApi';
@@ -8,6 +9,15 @@ import InfoCard from '../dashboard/InfoCard';
 import ProtocolCard from '../dashboard/ProtocolCard';
 import PathsCard from '../dashboard/PathsCard';
 import QuickLinks from '../dashboard/QuickLinks';
+
+const PROTOCOL_ICONS = {
+  HLS: Radio,
+  RTSP: Video,
+  RTMP: MonitorPlay,
+  SRT: SatelliteDish,
+  WebRTC: Wifi,
+  MoQ: Boxes,
+};
 
 export default function Dashboard() {
   const { t } = useTranslation();
@@ -46,6 +56,7 @@ export default function Dashboard() {
         <div className="card-grid">
           <ProtocolCard
             title="HLS"
+            icon={PROTOCOL_ICONS.HLS}
             to="/hls"
             error={hlsMuxers.error || hlsSessions.error}
             metrics={[
@@ -55,6 +66,7 @@ export default function Dashboard() {
           />
           <ProtocolCard
             title="RTSP"
+            icon={PROTOCOL_ICONS.RTSP}
             to="/rtsp"
             error={rtspConns.error || rtspSessions.error}
             metrics={[
@@ -64,24 +76,28 @@ export default function Dashboard() {
           />
           <ProtocolCard
             title="RTMP"
+            icon={PROTOCOL_ICONS.RTMP}
             to="/rtmp"
             error={rtmpConns.error}
             metrics={[{ label: t('dashboard.conns'), value: rtmpConns.data?.itemCount, loading: rtmpConns.isPending }]}
           />
           <ProtocolCard
             title="SRT"
+            icon={PROTOCOL_ICONS.SRT}
             to="/srt"
             error={srtConns.error}
             metrics={[{ label: t('dashboard.conns'), value: srtConns.data?.itemCount, loading: srtConns.isPending }]}
           />
           <ProtocolCard
             title="WebRTC"
+            icon={PROTOCOL_ICONS.WebRTC}
             to="/webrtc"
             error={webrtcSessions.error}
             metrics={[{ label: t('dashboard.sessions'), value: webrtcSessions.data?.itemCount, loading: webrtcSessions.isPending }]}
           />
           <ProtocolCard
             title="MoQ"
+            icon={PROTOCOL_ICONS.MoQ}
             to="/moq"
             error={moqSessions.error}
             metrics={[{ label: t('dashboard.sessions'), value: moqSessions.data?.itemCount, loading: moqSessions.isPending }]}

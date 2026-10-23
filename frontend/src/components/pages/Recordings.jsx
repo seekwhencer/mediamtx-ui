@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Trash2 } from 'lucide-react';
 import { useListQuery, useMutationWithInvalidate } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
@@ -92,6 +93,7 @@ export default function Recordings() {
                     <Button
                       variant="danger"
                       size="sm"
+                      icon={Trash2}
                       loading={deleteSegment.isPending}
                       onClick={() => deleteSegment.mutate({ name: detail.name, start: seg.start })}
                     >

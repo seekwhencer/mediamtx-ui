@@ -36,7 +36,7 @@
     "notFound": "Nicht gefunden",
     "backToDashboard": "Zurück zum Dashboard",
     "allPaths": "Alle Pfade",
-    "detailsArrow": "Details →",
+    "detailsArrow": "Details",
     "allPathsArrow": "Alle Pfade →"
   },
   "nav": {
@@ -75,7 +75,7 @@
     "instanceLoading": "Instanz lädt…",
     "instanceNotReachable": "MediaMTX nicht erreichbar",
     "paths": "Pfade",
-    "allPaths": "Alle Pfade →",
+    "allPaths": "Alle Pfade",
     "pathsNotReachable": "Pfade nicht erreichbar",
     "pathsLoading": "Pfade laden…",
     "totalPaths": "Pfade gesamt",
@@ -102,7 +102,7 @@
     "internalUsers": {
       "title": "Interne Benutzer",
       "subtitle": "Interne Auth-Benutzer (authInternalUsers aus der globalen Config).",
-      "addUser": "+ Benutzer hinzufügen",
+      "addUser": "Benutzer hinzufügen",
       "noUsers": "Keine internen Benutzer",
       "user": "Benutzer",
       "ips": "IPs",
@@ -115,12 +115,12 @@
     },
     "internalUserDetail": {
       "title": "Benutzer: {{name}}",
-      "allUsers": "← Alle Benutzer"
+      "allUsers": "Alle Benutzer"
     },
     "configPaths": {
       "title": "Pfad-Konfigurationen",
       "subtitle": "Path-CRUD: Add, Edit (PATCH), Replace (POST), Delete.",
-      "addPath": "+ Pfad hinzufügen",
+      "addPath": "Pfad hinzufügen",
       "noPaths": "Keine Pfade konfiguriert",
       "name": "Name",
       "source": "Quelle",
@@ -139,7 +139,7 @@
     },
     "configPathDetail": {
       "title": "Pfad-Konfiguration: {{name}}",
-      "allPaths": "← Alle Pfade"
+      "allPaths": "Alle Pfade"
     },
     "runtimePaths": {
       "title": "Laufzeit-Pfade",
@@ -334,7 +334,7 @@
     "loadingConfig": "Konfiguration lädt…",
     "groupsNav": "Konfigurationsgruppen",
     "mediamtxRestarting": "mediamtx startet neu.",
-    "saved": "Gespeichert ✓",
+    "saved": "Gespeichert",
     "loadFailed": "Laden fehlgeschlagen",
     "saveFailed": "Speichern fehlgeschlagen",
     "restartRequired": "Neustart erforderlich",

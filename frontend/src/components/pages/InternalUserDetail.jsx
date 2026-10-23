@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ArrowLeft } from 'lucide-react';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useMutationWithInvalidate } from '../../hooks/useApi';
@@ -37,7 +38,8 @@ export default function InternalUserDetail() {
         <div>
           <h2 className="page__title">{t('pages.internalUserDetail.title', { name: query.data?.user ?? decoded })}</h2>
           <p className="page__subtitle">
-            <Link className="ui-link" to="/config/internal-users">
+            <Link className="ui-link ui-link--icon" to="/config/internal-users">
+              <ArrowLeft size={14} />
               {t('pages.internalUserDetail.allUsers')}
             </Link>
           </p>

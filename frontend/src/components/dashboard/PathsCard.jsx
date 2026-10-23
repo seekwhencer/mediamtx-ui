@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Activity, ArrowRight } from 'lucide-react';
 import Card from '../ui/Card';
 import Spinner from '../ui/Spinner';
 import ErrorAlert from '../ui/ErrorAlert';
@@ -35,7 +36,13 @@ export default function PathsCard({ data, loading, error }) {
   return (
     <Card
       title={t('dashboard.paths')}
-      actions={<Link className="ui-link" to="/paths">{t('dashboard.allPaths')}</Link>}
+      icon={Activity}
+      actions={
+        <Link className="ui-link ui-link--icon" to="/paths">
+          {t('dashboard.allPaths')}
+          <ArrowRight size={14} />
+        </Link>
+      }
     >
       {error ? (
         <ErrorAlert error={error} title={t('dashboard.pathsNotReachable')} />

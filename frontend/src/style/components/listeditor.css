@@ -33,3 +33,7 @@
   flex: none;
   margin-top: 2px;
 }
+
+.listeditor__btn--add-row {
+  align-self: flex-start; 
+}

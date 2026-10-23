@@ -42,7 +42,7 @@
 .formbuilder__subnav-btn.is-active {
   background: var(--color-primary);
   border-color: var(--color-primary);
-  color: var(--color-surface-alt);
+  color: var(--color-surface);
 }
 
 .formbuilder__group {

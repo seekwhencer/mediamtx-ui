@@ -1,17 +1,24 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { ArrowRight } from 'lucide-react';
 import Card from '../ui/Card';
 import Spinner from '../ui/Spinner';
 import ErrorAlert from '../ui/ErrorAlert';
 
-export default function ProtocolCard({ title, to, metrics, error }) {
+export default function ProtocolCard({ title, to, metrics, error, icon: Icon }) {
   const { t } = useTranslation();
   const loading = metrics.some((m) => m.loading);
 
   return (
     <Card
       title={title}
-      actions={to && <Link className="ui-link" to={to}>{t('common.detailsArrow')}</Link>}
+      icon={Icon}
+      actions={to && (
+        <Link className="ui-link ui-link--icon" to={to}>
+          {t('common.detailsArrow')}
+          <ArrowRight size={14} />
+        </Link>
+      )}
     >
       {error ? (
         <ErrorAlert error={error} title={t('dashboard.notReachable', { title })} />

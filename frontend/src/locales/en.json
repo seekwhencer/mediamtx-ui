@@ -36,7 +36,7 @@
     "notFound": "Not found",
     "backToDashboard": "Back to Dashboard",
     "allPaths": "All paths",
-    "detailsArrow": "Details →",
+    "detailsArrow": "Details",
     "allPathsArrow": "All paths →"
   },
   "nav": {
@@ -75,7 +75,7 @@
     "instanceLoading": "Loading instance…",
     "instanceNotReachable": "MediaMTX not reachable",
     "paths": "Paths",
-    "allPaths": "All paths →",
+    "allPaths": "All paths",
     "pathsNotReachable": "Paths not reachable",
     "pathsLoading": "Loading paths…",
     "totalPaths": "Total paths",
@@ -102,7 +102,7 @@
     "internalUsers": {
       "title": "Internal Users",
       "subtitle": "Internal auth users (authInternalUsers from the global config).",
-      "addUser": "+ Add User",
+      "addUser": "Add User",
       "noUsers": "No internal users",
       "user": "User",
       "ips": "IPs",
@@ -115,12 +115,12 @@
     },
     "internalUserDetail": {
       "title": "User: {{name}}",
-      "allUsers": "← All users"
+      "allUsers": "All users"
     },
     "configPaths": {
       "title": "Path configurations",
       "subtitle": "Path CRUD: Add, Edit (PATCH), Replace (POST), Delete.",
-      "addPath": "+ Add Path",
+      "addPath": "Add Path",
       "noPaths": "No paths configured",
       "name": "Name",
       "source": "Source",
@@ -139,7 +139,7 @@
     },
     "configPathDetail": {
       "title": "Path configuration: {{name}}",
-      "allPaths": "← All paths"
+      "allPaths": "All paths"
     },
     "runtimePaths": {
       "title": "Runtime paths",
@@ -334,7 +334,7 @@
     "loadingConfig": "Loading config…",
     "groupsNav": "Config groups",
     "mediamtxRestarting": "mediamtx is restarting.",
-    "saved": "Saved ✓",
+    "saved": "Saved",
     "loadFailed": "Load failed",
     "saveFailed": "Save failed",
     "restartRequired": "Restart required",

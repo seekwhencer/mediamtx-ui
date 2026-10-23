@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Plus, X } from 'lucide-react';
 import Button from '../ui/Button';
 import FormField from './FormField';
 
@@ -36,12 +37,12 @@ export default function ListEditor({ value = [], itemSchema = [], onChange, idPr
             onClick={() => removeAt(i)}
             aria-label={t('form.removeRow', { n: i + 1 })}
           >
-            ×
+            <X size={14} />
           </button>
         </div>
       ))}
-      <Button type="button" variant="secondary" size="sm" onClick={add}>
-        + {t('form.addRow')}
+      <Button type="button" className="listeditor__btn--add-row" variant="primary" icon={Plus} onClick={add}>
+        {t('form.addRow')}
       </Button>
     </div>
   );

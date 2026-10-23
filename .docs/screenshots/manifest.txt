@@ -1,7 +1,3 @@
-config-global.png
-config-internal-users.png
-config-path-defaults.png
-config-paths.png
 dark_dashboard.png
 dark_global.png
 dark_global_subnav.png
@@ -19,8 +15,6 @@ dark_settings.png
 dark_srt.png
 dark_theatre.png
 dark_webrtc.png
-dashboard.png
-language.png
 light_dashboard.png
 light_global.png
 light_global_subnav.png
@@ -38,13 +32,3 @@ light_settings.png
 light_srt.png
 light_theatre.png
 light_webrtc.png
-recordings.png
-runtime-hls.png
-runtime-moq.png
-runtime-paths.png
-runtime-rtmp.png
-runtime-rtsp.png
-runtime-srt.png
-runtime-webrtc.png
-settings.png
-tooltip.png

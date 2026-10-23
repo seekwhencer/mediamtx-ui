@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const PAGE_SIZES = [10, 25, 50, 100];
 
@@ -32,6 +33,7 @@ export default function Pagination({
           disabled={page <= 0}
           onClick={() => onPageChange?.(page - 1)}
         >
+          <ChevronLeft size={14} />
           {t('common.back')}
         </button>
         <button
@@ -41,6 +43,7 @@ export default function Pagination({
           onClick={() => onPageChange?.(page + 1)}
         >
           {t('common.next')}
+          <ChevronRight size={14} />
         </button>
         {onItemsPerPageChange && (
           <label className="pagination__size">

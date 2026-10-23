@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { Zap } from 'lucide-react';
 import Card from '../ui/Card';
 
 const LINKS = [
@@ -13,7 +14,7 @@ export default function QuickLinks() {
   const { t } = useTranslation();
 
   return (
-    <Card title={t('dashboard.quickAccess')}>
+    <Card title={t('dashboard.quickAccess')} icon={Zap}>
       <ul className="quicklinks">
         {LINKS.map((l) => (
           <li key={l.to}>

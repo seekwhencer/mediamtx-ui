@@ -8,7 +8,8 @@
   /* Neutrals (light) */
   --color-bg: #f5f6f8;
   --color-surface: #ffffff;
-  --color-surface-alt: #f0f2f5;
+  --color-surface-hi: color-mix(in srgb, var(--color-surface) 99%, black);
+  --color-surface-alt: color-mix(in srgb, var(--color-surface) 92%, black);
   --color-text: #1f2430;
   --color-text-secondary: #5b6472;
   --color-muted: #8a93a2;
@@ -26,11 +27,12 @@
   --color-connection-subtle: color-mix(in srgb, var(--color-connection) 85%, black);
 
   /* Shape */
-  --radius-sm: 6px;
-  --radius: 10px;
-  --radius-lg: 14px;
-  --radius-xl: 20px;
-  --radius-pill: 999px;
+  --radius-factor: 0.7;
+  --radius-sm: calc(6px * var(--radius-factor));
+  --radius: calc(10px * var(--radius-factor));
+  --radius-lg: calc(14px * var(--radius-factor));
+  --radius-xl: calc(20px * var(--radius-factor));
+  --radius-pill: calc(999px * var(--radius-factor));
 
   /* Depth */
   --shadow-sm: 0 1px 2px rgba(16, 24, 40, 0.06);
@@ -80,7 +82,8 @@
 
     --color-bg: #0f1115;
     --color-surface: #1a1d23;
-    --color-surface-alt: #23272e;
+    --color-surface-hi: color-mix(in srgb, var(--color-surface) 98%, white);
+    --color-surface-alt: color-mix(in srgb, var(--color-surface) 99%, white);
     --color-text: #e7e9ee;
     --color-text-secondary: #aeb7c3;
     --color-muted: #8690a0;
@@ -110,7 +113,8 @@
 
   --color-bg: #0f1115;
   --color-surface: #1a1d23;
-  --color-surface-alt: #23272e;
+  --color-surface-hi: color-mix(in srgb, var(--color-surface) 98%, white);
+  --color-surface-alt: color-mix(in srgb, var(--color-surface) 95%, white);
   --color-text: #e7e9ee;
   --color-text-secondary: #aeb7c3;
   --color-muted: #8690a0;

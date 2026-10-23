@@ -16,17 +16,21 @@ export default function Sidebar() {
           <div className="sidebar__section" key={section.labelKey}>
             <div className="sidebar__section-label">{t(section.labelKey)}</div>
             <ul className="sidebar__list">
-              {section.items.map((item) => (
-                <li key={item.to}>
-                  <NavLink
-                    to={item.to}
-                    end={item.end}
-                    className={({ isActive }) => `sidebar__link${isActive ? ' is-active' : ''}`}
-                  >
-                    {t(item.labelKey)}
-                  </NavLink>
-                </li>
-              ))}
+              {section.items.map((item) => {
+                const Icon = item.icon;
+                return (
+                  <li key={item.to}>
+                    <NavLink
+                      to={item.to}
+                      end={item.end}
+                      className={({ isActive }) => `sidebar__link${isActive ? ' is-active' : ''}`}
+                    >
+                      {Icon && <Icon size={16} className="sidebar__link-icon" />}
+                      <span className="sidebar__link-label">{t(item.labelKey)}</span>
+                    </NavLink>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         ))}

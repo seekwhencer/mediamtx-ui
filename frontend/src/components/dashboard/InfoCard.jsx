@@ -1,4 +1,5 @@
 import { useTranslation } from 'react-i18next';
+import { Server } from 'lucide-react';
 import Card from '../ui/Card';
 import Spinner from '../ui/Spinner';
 import ErrorAlert from '../ui/ErrorAlert';
@@ -8,7 +9,7 @@ export default function InfoCard({ info, loading, error }) {
   const { t } = useTranslation();
 
   return (
-    <Card title={t('dashboard.instance')}>
+    <Card title={t('dashboard.instance')} icon={Server}>
       {error ? (
         <ErrorAlert error={error} title={t('dashboard.instanceNotReachable')} />
       ) : loading ? (

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Save, CircleCheckBig } from 'lucide-react';
 import FormField from './FormField';
 import Button from '../ui/Button';
 import ErrorAlert from '../ui/ErrorAlert';
@@ -124,8 +125,13 @@ export default function FormBuilder({
 
   const actions = (
     <div className="formbuilder__actions">
-      {saved && <span className="formbuilder__saved">{t('form.saved')}</span>}
-      <Button type="submit" variant="primary" loading={submitting} disabled={disabled}>
+      {saved && (
+        <span className="formbuilder__saved">
+          <CircleCheckBig size={14} />
+          {t('form.saved')}
+        </span>
+      )}
+      <Button type="submit" variant="primary" icon={Save} loading={submitting} disabled={disabled}>
         {submitLabel}
       </Button>
     </div>

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ArrowUp, ArrowDown, Inbox } from 'lucide-react';
 import Spinner from '../ui/Spinner';
 import ErrorAlert from '../ui/ErrorAlert';
 import Pagination from './Pagination';
@@ -74,7 +75,11 @@ export default function DataTable({
                     aria-sort={active ? (sort.dir === 'asc' ? 'ascending' : 'descending') : undefined}
                   >
                     {col.label}
-                    {active && <span className="table__sort-indicator">{sort.dir === 'asc' ? '▲' : '▼'}</span>}
+                    {active && (
+                      <span className="table__sort-indicator">
+                        {sort.dir === 'asc' ? <ArrowUp size={14} /> : <ArrowDown size={14} />}
+                      </span>
+                    )}
                   </th>
                 );
               })}
@@ -84,6 +89,7 @@ export default function DataTable({
             {rows.length === 0 ? (
               <tr>
                 <td colSpan={columns.length} className="table__empty">
+                  <Inbox size={24} className="table__empty-icon" />
                   {empty}
                 </td>
               </tr>

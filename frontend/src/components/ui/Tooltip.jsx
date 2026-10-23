@@ -1,7 +1,8 @@
 import { useId } from 'react';
+import { Info } from 'lucide-react';
 
 // Kleine Info-Tooltip-Komponente (keine externe Library).
-// Rendert ein fokussierbares Info-Icon (ⓘ) + Tooltip-Text.
+// Rendert ein fokussierbares Info-Icon + Tooltip-Text.
 // Sichtbar bei hover + focus, versteckt bei leave/blur (CSS).
 // Barrierefreiheit: button aria-label = Text, Tooltip role="tooltip" via aria-describedby.
 export default function Tooltip({ text }) {
@@ -16,7 +17,7 @@ export default function Tooltip({ text }) {
         aria-describedby={id}
         onClick={(e) => e.stopPropagation()}
       >
-        <span aria-hidden="true">ⓘ</span>
+        <Info size={14} />
       </button>
       <span className="ui-tooltip__content" role="tooltip" id={id}>
         {text}
