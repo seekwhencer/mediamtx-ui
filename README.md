@@ -13,6 +13,8 @@ Dashboard, configuration, runtime monitoring, and recordings — via the MediaMT
 - **Dark/Light theme** — switchable without reload
 - **Config persistence** — after successful config mutations the current MediaMTX config is written as `mediamtx.yml` (optional, `MEDIAMTX_CONFIG_PATH`)
 
+> **NOTE:** Don't use it reachable over the internet! Use it in a local network environment.
+
 ## Quickstart (Docker)
 
 ```bash
@@ -31,6 +33,27 @@ The UI talks to MediaMTX over the Docker network (`http://mediamtx:9997`) — no
 > **Note:** `compose-mediamtx.yml` mounts `mediamtx/mediamtx.yml` read-only into the MediaMTX container.
 > The UI can update the file on the host side (auto-save via `MEDIAMTX_CONFIG_PATH`) — MediaMTX reads it on startup.
 
+
+## First Start
+- edit the `mediamtx/mediamtx.yml`
+- add the network ip from the mediamtx-ui container, replace `XXX.XXX.0.0/16` with your own
+  
+ ```
+  - user: any
+    pass: ""
+    ips:
+      - 127.0.0.1/32
+      - ::1/128
+      - 172.18.0.0/16
+      - XXX.XXX.0.0/16
+    permissions:
+      - action: api
+        path: ""
+      - action: metrics
+        path: ""
+      - action: pprof
+        path: ""
+```
 
 ## Screenshots
 

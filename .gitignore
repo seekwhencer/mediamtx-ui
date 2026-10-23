@@ -25,3 +25,5 @@ npm-debug.log*
 .DS_Store
 .vscode
 
+compose-dev-local.yml
+compose-prod-local.yml
