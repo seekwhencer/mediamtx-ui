@@ -32,8 +32,14 @@
 .listeditor__remove {
   flex: none;
   margin-top: 2px;
+  padding: var(--space-1) var(--space-1);
+}
+
+.listeditor__remove:hover {
+ 
 }
 
 .listeditor__btn--add-row {
-  align-self: flex-start; 
+  align-self: flex-start;
+  margin-top: var(--space-3);
 }

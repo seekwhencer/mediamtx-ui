@@ -7,12 +7,13 @@ import {
 // Navigation: labelKey = i18n-Key (siehe locales/*.json).
 export const NAV_SECTIONS = [
   {
-    labelKey: 'nav.theatre',
-    items: [{ to: '/theatre', labelKey: 'nav.theatre', icon: Clapperboard }],
-  },
-  {
     labelKey: 'nav.overview',
-    items: [{ to: '/', labelKey: 'nav.dashboard', end: true, icon: LayoutDashboard }],
+    items: [
+      { to: '/', labelKey: 'nav.dashboard', end: true, icon: LayoutDashboard },
+      { to: '/theatre', labelKey: 'nav.theatre', icon: Clapperboard },
+      { to: '/paths', labelKey: 'nav.paths', icon: Activity },
+      { to: '/recordings', labelKey: 'nav.recordings', icon: HardDrive }
+    ],
   },
   {
     labelKey: 'nav.configuration',
@@ -26,7 +27,6 @@ export const NAV_SECTIONS = [
   {
     labelKey: 'nav.runtime',
     items: [
-      { to: '/paths', labelKey: 'nav.paths', icon: Activity },
       { to: '/hls', labelKey: 'nav.hls', icon: Radio },
       { to: '/rtsp', labelKey: 'nav.rtsp', icon: Video },
       { to: '/rtmp', labelKey: 'nav.rtmp', icon: MonitorPlay },
@@ -36,11 +36,7 @@ export const NAV_SECTIONS = [
     ],
   },
   {
-    labelKey: 'nav.recordings',
-    items: [{ to: '/recordings', labelKey: 'nav.recordings', icon: HardDrive }],
-  },
-  {
-    labelKey: 'nav.settings',
+    labelKey: 'nav.ui',
     items: [{ to: '/settings', labelKey: 'nav.settings', icon: Settings }],
   },
 ];
