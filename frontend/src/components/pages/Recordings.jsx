@@ -29,7 +29,7 @@ export default function Recordings() {
     [QUERY_KEYS.recordings]
   );
 
-  // Detail aus der Live-Liste ableiten (bleibt nach Segment-Delete aktuell), Fallback = geklickte Zeile.
+  // Derive the detail from the live list (stays current after segment delete), fallback = clicked row.
   const detail = useMemo(() => {
     if (!detailName) return null;
     const live = (list.data?.items || []).find((r) => r.name === detailName);

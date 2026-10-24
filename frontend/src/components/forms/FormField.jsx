@@ -11,7 +11,7 @@ import { primaryColorForHue } from '../../utils/primaryColor';
 import { radiusForFactor } from '../../utils/radius';
 
 const FULL_WIDTH_TYPES = new Set(['list', 'multi-select']);
-// Diese Typen rendern ihre eigene Fehlermeldung (via error-Prop).
+// These types render their own error message (via the error prop).
 const SELF_ERROR_TYPES = new Set(['text', 'password', 'number', 'duration', 'size', 'command', 'path', 'select']);
 
 export default function FormField({ field, value, onChange, error, idPrefix = 'fb' }) {
@@ -19,13 +19,13 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
   const id = `${idPrefix}-${field.name}`;
   const span = FULL_WIDTH_TYPES.has(field.type) ? 'formbuilder__field--full' : '';
 
-  // Übersetztes Label + Placeholder (labelKey/placeholderKey → i18n, sonst roh).
+  // Translated label + placeholder (labelKey/placeholderKey → i18n, otherwise raw).
   const label = field.labelKey ? t(field.labelKey, { defaultValue: field.label }) : field.label;
   const placeholder = field.placeholderKey
     ? t(field.placeholderKey, { defaultValue: field.placeholder })
     : field.placeholder;
 
-  // Tooltip-Text (descriptionKey → i18n, sonst rohe description als Fallback).
+  // Tooltip text (descriptionKey → i18n, otherwise the raw description as fallback).
   const tooltipText = field.descriptionKey
     ? t(field.descriptionKey, { defaultValue: field.description })
     : field.description;

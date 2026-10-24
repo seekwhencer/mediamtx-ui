@@ -13,7 +13,7 @@ export default function PathTile({ name, online, active, loading, error, onClick
     .filter(Boolean)
     .join(' ');
 
-  // 9.3 — Accessible Name: Pfadname + Online-Status (Dot ist nur visuell).
+  // 9.3 — Accessible name: path name + online status (dot is purely visual).
   const status = online ? t('common.online') : t('common.offline');
 
   return (

@@ -27,24 +27,24 @@ import NotFound from './components/pages/NotFound';
 export default function App() {
   const { theme, primaryHue, radiusFactor } = useAppSettings();
 
-  // Theme (dark/light) via data-theme — reagiert auf Änderungen ohne Reload.
+  // Theme (dark/light) via data-theme — reacts to changes without a reload.
   useEffect(() => {
     document.documentElement.dataset.theme = theme;
   }, [theme]);
 
-  // Primary-Farbton: ersetzt :root --color-primary (Sättigung + Helligkeit fix).
+  // Primary hue: replaces :root --color-primary (saturation + lightness fixed).
   useEffect(() => {
     applyPrimaryHue(primaryHue);
   }, [primaryHue]);
 
-  // Roundness: ersetzt :root --radius-factor (alle --radius-* folgen).
+  // Roundness: replaces :root --radius-factor (all --radius-* follow).
   useEffect(() => {
     applyRadiusFactor(radiusFactor);
   }, [radiusFactor]);
 
   return (
     <Routes>
-      {/* Theater: echte Fullscreen-Oberfläche — bewusst außerhalb der Layout-Gruppe (kein Sidebar/TopBar). */}
+      {/* Theatre: true fullscreen surface — deliberately outside the layout group (no sidebar/top bar). */}
       <Route path="theatre" element={<Theatre />} />
       <Route element={<Layout />}>
         <Route index element={<Dashboard />} />

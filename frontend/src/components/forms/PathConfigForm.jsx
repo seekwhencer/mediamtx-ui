@@ -1,12 +1,12 @@
 import FormBuilder from './FormBuilder';
 import { PATH_CONF_CATALOG } from './fieldCatalog';
 
-// PathConf-Formular (dünn): Daten + Submit kommen von der Page.
+// PathConf form (thin): data + submit come from the page.
 // - Path Defaults: GET /config/path-defaults/get → PATCH /config/path-defaults/patch
-// - Pfad-Add:     initialValues={} → POST /config/paths/add/{name}
-// - Pfad-Edit:    initialValues=PathConf → PATCH /config/paths/patch/{name}
-// - Pfad-Replace: initialValues=PathConf → POST /config/paths/replace/{name}
-// - Pfad-Detail:  GET /config/paths/get/{name} → PATCH /config/paths/patch/{name}
+// - Path Add:     initialValues={} → POST /config/paths/add/{name}
+// - Path Edit:    initialValues=PathConf → PATCH /config/paths/patch/{name}
+// - Path Replace: initialValues=PathConf → POST /config/paths/replace/{name}
+// - Path Detail:  GET /config/paths/get/{name} → PATCH /config/paths/patch/{name}
 export default function PathConfigForm({
   initialValues,
   onSubmit,

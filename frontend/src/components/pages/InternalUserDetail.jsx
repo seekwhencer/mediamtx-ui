@@ -23,8 +23,8 @@ export default function InternalUserDetail() {
     [QUERY_KEYS.internalUsers, QUERY_KEYS.internalUser(decoded)]
   );
 
-  // id + pos sind Runtime-Felder (Schema InternalUser) und gehören nicht in den
-  // Submit (Schema AuthInternalUser) — vor dem Formular herausfiltern.
+  // id + pos are runtime fields (InternalUser schema) and do not belong in the
+  // submit (AuthInternalUser schema) — filter them out before the form.
   const user = query.data
     ? (() => {
         const { id: _id, pos: _pos, ...rest } = query.data;

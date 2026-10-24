@@ -13,7 +13,7 @@ export default function Settings() {
   const { t } = useTranslation();
   const queryClient = useQueryClient();
 
-  // --- Server-Settings (API) ---
+  // --- Server settings (API) ---
   const { data, isPending, error } = useQuery({
     queryKey: QUERY_KEYS.settings,
     queryFn: () => localApi.get('/api/settings').then((res) => res.data),
@@ -29,7 +29,7 @@ export default function Settings() {
       const body = { ...values };
       delete body.runtimeKeys;
       delete body.restartKeys;
-      // Token-Regel: leer = löschen (FormBuilder normalisiert '' → null).
+      // Token rule: empty = delete (FormBuilder normalizes '' → null).
       if (body.mediamtxAuthToken == null) body.mediamtxAuthToken = '';
       return localApi.patch('/api/settings', body);
     },
@@ -40,7 +40,7 @@ export default function Settings() {
     onError: () => setServerResult(null),
   });
 
-  // --- App-Settings (lokal) ---
+  // --- App settings (local) ---
   const appSettings = useAppSettings();
   const [appSaved, setAppSaved] = useState(false);
 

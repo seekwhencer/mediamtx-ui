@@ -10,7 +10,7 @@ import { buildHlsUrl } from '../../utils/buildHlsUrl';
 import PathTile from '../theatre/PathTile';
 import TheatreTopBar from '../theatre/TheatreTopBar';
 
-// Zentrierter Hinweis/Empty-State über dem (schwarzen) Video-Hintergrund.
+// Centered hint/empty state over the (black) video background.
 function EmptyState({ title, text }) {
   return (
     <div className="theatre__empty">
@@ -27,7 +27,7 @@ export default function Theatre() {
   const stripRef = useRef(null);
   const [activePath, setActivePath] = useState(null);
 
-  // 4.1 — Alle Pfade (online + offline), Auto-Refresh aktiv.
+  // 4.1 — All paths (online + offline), auto-refresh enabled.
   const refetchInterval = useAutoRefresh();
   const list = useListQuery(QUERY_KEYS.runtimePaths, (p) => api.get('/paths/list', p), {
     itemsPerPage: 500,
@@ -35,15 +35,15 @@ export default function Theatre() {
   });
   const items = list.data?.items ?? [];
 
-  // 4.4 — HLS-Base-URL konfiguriert? (buildHlsUrl liefert '' ohne Base)
+  // 4.4 — HLS base URL configured? (buildHlsUrl returns '' without a base)
   const hlsConfigured = buildHlsUrl('probe') !== '';
 
-  // 4.3 — useHlsPlayer-Verdrahtung: activePath → URL, sonst null (Stopp).
-  // 8.2 — errorKind: 'none' | 'offline' | 'cors' | 'network' (klare Fehlermeldung).
+  // 4.3 — useHlsPlayer wiring: activePath → URL, otherwise null (stop).
+  // 8.2 — errorKind: 'none' | 'offline' | 'cors' | 'network' (clear error message).
   const { status, supported, errorKind } = useHlsPlayer(videoRef, activePath ? buildHlsUrl(activePath) : null);
 
-  // 8.3 — Aktiver Tile bleibt sichtbar: bei activePath-Wechsel in den Strip scrollen.
-  // dataset-Vergleich statt CSS-Selector → Sonderzeichen im Pfadnamen sind egal (8.4).
+  // 8.3 — Active tile stays visible: scroll the strip on activePath change.
+  // dataset comparison instead of a CSS selector → special characters in the path name don't matter (8.4).
   useEffect(() => {
     if (!activePath || !stripRef.current) return;
     const tile = Array.from(stripRef.current.children).find(
@@ -52,20 +52,20 @@ export default function Theatre() {
     if (tile) tile.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   }, [activePath]);
 
-  // 7.3 — Tile-Navigation nur möglich, wenn der Tile-Strip gerendert wird.
+  // 7.3 — Tile navigation only possible when the tile strip is rendered.
   const canInteract = supported && hlsConfigured && !list.isError && items.length > 0;
 
-  // 4.2 — Klick: inaktiv → Start · aktiv → Stopp · anderer → Wechsel.
+  // 4.2 — Click: inactive → start · active → stop · other → switch.
   const handleTileClick = (name) => {
     setActivePath((prev) => (prev === name ? null : name));
   };
 
-  // 6.1 — Exit: navigate(-1) → Unmount → Stream stoppt (useHlsPlayer destroy).
+  // 6.1 — Exit: navigate(-1) → unmount → stream stops (useHlsPlayer destroy).
   const handleExit = () => navigate(-1);
 
   // 7.2 + 7.3 — Keyboard (THEATRE.md §6.4):
-  // - Esc: kontextabhängig → Fullscreen aktiv? verlassen : Stream stoppen.
-  // - ←/→: zum vorherigen/nächsten Tile springen (Wrap-around), nur mit Tiles.
+  // - Esc: context-dependent → fullscreen active? exit : stop stream.
+  // - ←/→: jump to previous/next tile (wrap-around), only with tiles.
   useEffect(() => {
     const onKey = (e) => {
       if (e.key === 'Escape') {
@@ -81,11 +81,11 @@ export default function Theatre() {
         const dir = e.key === 'ArrowRight' ? 1 : -1;
         setActivePath((prev) => {
           if (prev === null) {
-            // Kein aktiver Pfad: → startet ersten, ← startet letzten.
+            // No active path: → starts the first, ← starts the last.
             return dir === 1 ? items[0].name : items[items.length - 1].name;
           }
           const idx = items.findIndex((it) => it.name === prev);
-          if (idx === -1) return prev; // aktiver Pfad nicht mehr in der Liste
+          if (idx === -1) return prev; // active path no longer in the list
           const next = (idx + dir + items.length) % items.length;
           return items[next].name;
         });
@@ -95,7 +95,7 @@ export default function Theatre() {
     return () => document.removeEventListener('keydown', onKey);
   }, [canInteract, items]);
 
-  // 4.4 — Empty-States (Vordergrund). Reihenfolge: fundamentalste Einschränkung zuerst.
+  // 4.4 — Empty states (foreground). Order: most fundamental restriction first.
   let content;
   if (!supported) {
     content = <EmptyState title={t('pages.theatre.title')} text={t('pages.theatre.hlsUnsupported')} />;
@@ -108,12 +108,12 @@ export default function Theatre() {
   } else if (items.length === 0) {
     content = <EmptyState title={t('pages.theatre.title')} text={t('pages.theatre.noPaths')} />;
   } else {
-    // Normalfall: Hinweis/Fehler + Tile-Strip (Vordergrund).
+    // Normal case: hint/error + tile strip (foreground).
     content = (
       <>
         {activePath && status === 'error' && (
           <div className="theatre__error" role="alert">
-            {/* 8.2 — CORS/offline klar benennen, sonst generischer Stream-Fehler. */}
+            {/* 8.2 — Name CORS/offline explicitly, otherwise a generic stream error. */}
             {errorKind === 'cors'
               ? t('pages.theatre.errorCors')
               : errorKind === 'offline'
@@ -129,7 +129,7 @@ export default function Theatre() {
           </div>
         )}
 
-        {/* 9.3 — Tile-Strip als benannte Gruppe für Screenreader. */}
+        {/* 9.3 — Tile strip as a named group for screen readers. */}
         <div className="theatre-strip" ref={stripRef} aria-label={t('pages.theatre.stripAria')}>
           {items.map((item) => (
             <PathTile
@@ -147,7 +147,7 @@ export default function Theatre() {
     );
   }
 
-  // Video (Hintergrund) + Top-Bar (6.x) + Content (Empty-State oder Tiles).
+  // Video (background) + top bar (6.x) + content (empty state or tiles).
   return (
     <div className="theatre">
       <video ref={videoRef} className="theatre__video" playsInline />

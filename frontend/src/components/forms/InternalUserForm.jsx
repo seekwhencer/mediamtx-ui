@@ -1,7 +1,7 @@
 import FormBuilder from './FormBuilder';
 import { INTERNAL_USER_CATALOG } from './fieldCatalog';
 
-// InternalUser-Formular (dünn): Daten + Submit kommen von der Page.
+// InternalUser form (thin): data + submit come from the page.
 // - Add:     POST   /config/internal-users/add
 // - Edit:    PATCH  /config/internal-users/patch/{id}
 // - Replace: POST   /config/internal-users/replace/{id}

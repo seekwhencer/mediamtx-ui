@@ -2,15 +2,15 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Volume2, VolumeX, Maximize, Minimize } from 'lucide-react';
 
-// 6.4 — Auto-Hide: 3 s ohne Mausbewegung → Bar ausgeblendet.
+// 6.4 — Auto-hide: 3 s without mouse movement → bar hidden.
 const HIDE_DELAY_MS = 3000;
 
 /**
- * Theatre-Top-Bar (THEATRE.md §6.3):
- * - links: Exit-Button (←) → onExit (navigate(-1) → Unmount → Stream stoppt)
- * - rechts: aktueller Pfadname, Mute/Unmute-Toggle, Fullscreen-Toggle
- * - Auto-Hide: 3 s ohne Mausbewegung opacity 0; Maus/Hover → sichtbar;
- *   ausgeblendet = pointer-events none (blockiert nie die Interaktion)
+ * Theatre top bar (THEATRE.md §6.3):
+ * - left: exit button (←) → onExit (navigate(-1) → unmount → stream stops)
+ * - right: current path name, mute/unmute toggle, fullscreen toggle
+ * - auto-hide: 3 s without mouse movement → opacity 0; mouse/hover → visible;
+ *   hidden = pointer-events none (never blocks interaction)
  */
 export default function TheatreTopBar({ videoRef, activePath, onExit }) {
   const { t } = useTranslation();
@@ -20,20 +20,20 @@ export default function TheatreTopBar({ videoRef, activePath, onExit }) {
   const visibleRef = useRef(true);
   const hideTimerRef = useRef(null);
 
-  // 6.2 — Icon mit echtem Video-State synchronisieren (z. B. Autoplay-Block).
+  // 6.2 — Sync icon with the real video state (e.g. autoplay block).
   useEffect(() => {
     const video = videoRef.current;
     if (video) setMuted(video.muted);
   }, [videoRef]);
 
-  // 6.3 — Fullscreen-State via fullscreenchange-Event.
+  // 6.3 — Fullscreen state via the fullscreenchange event.
   useEffect(() => {
     const onChange = () => setIsFullscreen(Boolean(document.fullscreenElement));
     document.addEventListener('fullscreenchange', onChange);
     return () => document.removeEventListener('fullscreenchange', onChange);
   }, []);
 
-  // 6.4 — Auto-Hide-Logik (Timer + Sichtbarkeit, Ref gegen unnötige Renders).
+  // 6.4 — Auto-hide logic (timer + visibility, ref to avoid unnecessary renders).
   const show = useCallback(() => {
     if (hideTimerRef.current) {
       clearTimeout(hideTimerRef.current);
@@ -69,7 +69,7 @@ export default function TheatreTopBar({ videoRef, activePath, onExit }) {
     };
   }, [show, scheduleHide]);
 
-  // 6.2 — Mute/Unmute: wirkt sofort auf dem <video>, Icon wechselt.
+  // 6.2 — Mute/unmute: applies immediately to the <video>, icon switches.
   const handleMuteToggle = () => {
     const next = !muted;
     setMuted(next);
@@ -77,7 +77,7 @@ export default function TheatreTopBar({ videoRef, activePath, onExit }) {
     if (video) video.muted = next;
   };
 
-  // 6.3 — Fullscreen auf document.documentElement (Icon via fullscreenchange).
+  // 6.3 — Fullscreen on document.documentElement (icon via fullscreenchange).
   const handleFullscreenToggle = () => {
     if (document.fullscreenElement) {
       document.exitFullscreen().catch(() => {});

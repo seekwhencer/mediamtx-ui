@@ -22,9 +22,9 @@ export default function GlobalConfigForm() {
   const query = useQuery({
     queryKey: QUERY_KEYS.globalConfig,
     queryFn: () => api.get('/config/global/get'),
-    // MediaMTX startet nach einem Global-Save neu. Solange der Upstream
-    // nicht erreichbar ist (502 / upstream_unreachable), immer wieder
-    // versuchen, bis er wieder antwortet.
+    // MediaMTX restarts after a global save. While the upstream
+    // is unreachable (502 / upstream_unreachable), keep retrying
+    // until it responds again.
     retry: (failureCount, error) => {
       const upstreamDown = error?.code === 'upstream_unreachable' || error?.status === 502;
       return restartingRef.current && upstreamDown && failureCount < 500;
@@ -40,11 +40,11 @@ export default function GlobalConfigForm() {
     [QUERY_KEYS.globalConfig]
   );
 
-  // Ein frisches Laden liegt vor, wenn die Config nach dem Save erneut
-  // erfolgreich geladen wurde (dataUpdatedAt > Save-Zeitpunkt).
+  // A fresh load has happened when the config was successfully
+  // loaded again after the save (dataUpdatedAt > save time).
   const freshLoaded = query.isSuccess && query.dataUpdatedAt > saveTimeRef.current;
 
-  // Sobald die Config wieder geladen ist, Restart-Zustand zurücksetzen.
+  // Once the config is loaded again, reset the restarting state.
   useEffect(() => {
     if (restarting && freshLoaded) {
       restartingRef.current = false;
@@ -52,8 +52,8 @@ export default function GlobalConfigForm() {
     }
   }, [restarting, freshLoaded]);
 
-  // Solange nach dem Save noch kein frisches Laden vorliegt: Spinner +
-  // Hinweis statt "Load failed" zeigen.
+  // Until a fresh load exists after the save: show spinner +
+  // hint instead of "Load failed".
   const showRestarting = restarting && !freshLoaded;
 
   return (

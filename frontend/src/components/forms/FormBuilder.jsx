@@ -22,8 +22,8 @@ export default function FormBuilder({
   if (loadingLabel == null) loadingLabel = t('form.loadingConfig');
   const groups = useMemo(() => getGroups(catalog), [catalog]);
 
-  // Synchron initialisieren (lazy), wenn initialValues beim Mount vorliegen
-  // (Modal-Flows + SSR). Asynchrone Daten (Query) kommen über den Effect unten.
+  // Initialize synchronously (lazy) when initialValues are present at mount
+  // (modal flows + SSR). Async data (query) arrives via the effect below.
   const [values, setValues] = useState(() => (initialValues ? { ...initialValues } : null));
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -33,12 +33,12 @@ export default function FormBuilder({
   const [scrollToken, setScrollToken] = useState(0);
   const scrollTargetRef = useRef(null);
 
-  // Werte initialisieren, sobald initialValues asynchron ankommen (einmalig).
+  // Initialize values once initialValues arrive asynchronously (one-time).
   useEffect(() => {
     if (values === null && initialValues) setValues(initialValues);
   }, [initialValues, values]);
 
-  // Nach Klick auf eine Subnav-Gruppe: Gruppe ist geöffnet → sanft dorthin scrollen.
+  // After clicking a subnav group: the group is open → scroll smoothly to it.
   useEffect(() => {
     if (scrollToken === 0) return;
     const group = scrollTargetRef.current;
@@ -66,7 +66,7 @@ export default function FormBuilder({
     });
   };
 
-  // Subnav: Gruppe öffnen und als Ziel für den Scroll markieren.
+  // Subnav: open the group and mark it as the scroll target.
   const openGroup = (group) => {
     setOpenGroups((prev) => {
       const next = new Set(prev);
@@ -137,8 +137,8 @@ export default function FormBuilder({
     </div>
   );
 
-  // Einzelne Gruppe (z. B. Interner Benutzer): keine Subnav, kein Summary,
-  // immer aufgeklappt — nur die Felder in einer Karte.
+  // Single group (e.g. internal user): no subnav, no summary,
+  // always expanded — just the fields in one card.
   if (groups.length === 1) {
     const [, fields] = groups[0];
     return (
