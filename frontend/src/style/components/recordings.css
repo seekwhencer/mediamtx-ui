@@ -23,3 +23,32 @@
   font-family: var(--font-mono);
   font-size: var(--fs-sm);
 }
+
+/* ===== Recordings: Player ===== */
+.recording-player {
+  margin-bottom: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #000;
+}
+
+.recording-player__video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  display: block;
+  background: #000;
+}
+
+.recording-player__actions {
+  display: flex;
+  gap: var(--space-2);
+  padding: var(--space-2);
+  background: var(--color-surface-alt);
+}
+
+/* ===== Recordings: Segment-Aktionen (Play + Delete) ===== */
+.segmentlist__actions {
+  display: flex;
+  gap: var(--space-2);
+}

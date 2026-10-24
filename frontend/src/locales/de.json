@@ -292,7 +292,13 @@
       "segments": "Segmente",
       "recording": "Aufnahme: {{name}}",
       "delete": "Löschen",
-      "noSegments": "Keine Segmente."
+      "noSegments": "Keine Segmente.",
+      "play": "Abspielen",
+      "stop": "Stopp",
+      "fullscreen": "Vollbild",
+      "exitFullscreen": "Vollbild beenden",
+      "playerError": "Wiedergabe-Fehler",
+      "playerHint": "Segment wählen zum Abspielen"
     },
     "settings": {
       "title": "Einstellungen",

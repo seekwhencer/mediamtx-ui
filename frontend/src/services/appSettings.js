@@ -7,6 +7,7 @@ const KEY = 'mtxui.appSettings';
 export const APP_SETTINGS_DEFAULTS = {
   apiBaseUrl: '', // '' → Default (VITE_MEDIAMTX_API_URL oder /v3)
   hlsBaseUrl: '', // '' → Default (VITE_MEDIAMTX_HLS_URL)
+  playbackBaseUrl: '', // '' → Default (VITE_MEDIAMTX_PLAYBACK_URL)
   theme: 'dark', // 'dark' | 'light'
   primaryHue: defaultPrimaryHue(), // Farbton (0-360); Sättigung + Helligkeit fix (s. primaryColor.js)
   radiusFactor: defaultRadiusFactor(), // Roundness (0-1); skaliert --radius-* (s. radius.js)

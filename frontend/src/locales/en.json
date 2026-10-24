@@ -292,7 +292,13 @@
       "segments": "Segments",
       "recording": "Recording: {{name}}",
       "delete": "Delete",
-      "noSegments": "No segments."
+      "noSegments": "No segments.",
+      "play": "Play",
+      "stop": "Stop",
+      "fullscreen": "Fullscreen",
+      "exitFullscreen": "Exit fullscreen",
+      "playerError": "Playback error",
+      "playerHint": "Select a segment to play"
     },
     "settings": {
       "title": "Settings",

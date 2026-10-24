@@ -292,7 +292,13 @@
       "segments": "Segmenti",
       "recording": "Registrazione: {{name}}",
       "delete": "Elimina",
-      "noSegments": "Nessun segmento."
+      "noSegments": "Nessun segmento.",
+      "play": "Riproduci",
+      "stop": "Stop",
+      "fullscreen": "Schermo intero",
+      "exitFullscreen": "Esci dallo schermo intero",
+      "playerError": "Errore di riproduzione",
+      "playerHint": "Seleziona un segmento da riprodurre"
     },
     "settings": {
       "title": "Impostazioni",

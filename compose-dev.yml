@@ -21,6 +21,7 @@ services:
       - SERVER_PORT=${SERVER_PORT}
       - MEDIAMTX_BASE_URL=http://mediamtx:9997
       - VITE_MEDIAMTX_HLS_URL=${VITE_MEDIAMTX_HLS_URL:-http://localhost:8888}
+      - VITE_MEDIAMTX_PLAYBACK_URL=${VITE_MEDIAMTX_PLAYBACK_URL:-http://localhost:9996}
       - MEDIAMTX_CONFIG_PATH=${MEDIAMTX_CONFIG_PATH:-../mediamtx/mediamtx.yml}
 
 networks:

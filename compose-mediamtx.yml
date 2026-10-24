@@ -10,6 +10,7 @@ services:
       - "${WEBRTC_PORT}:${WEBRTC_PORT}"
       - "${WEBRTC_UDP_PORT}:${WEBRTC_UDP_PORT}/udp"
       - "${METRICS_PORT}:${METRICS_PORT}"
+      - "${PLAYBACK_PORT}:${PLAYBACK_PORT}"
     
     # api port used only via internal network      
     # - "${API_PORT}:${API_PORT}"

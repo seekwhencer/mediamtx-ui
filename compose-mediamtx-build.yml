@@ -25,10 +25,10 @@ services:
       - "${WEBRTC_PORT}:${WEBRTC_PORT}"
       - "${WEBRTC_UDP_PORT}:${WEBRTC_UDP_PORT}/udp"
       - "${METRICS_PORT}:${METRICS_PORT}"
+      - "${PLAYBACK_PORT}:${PLAYBACK_PORT}"
     volumes:
       - ./mediamtx/mediamtx.yml:/mediamtx.yml:ro
       - ./data:/data
-      - ./build:/build
     networks:
       - mediamtx
 
