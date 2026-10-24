@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from 'react';
 import { defaultPrimaryHue } from '../utils/primaryColor';
+import { defaultRadiusFactor } from '../utils/radius';
 
 const KEY = 'mtxui.appSettings';
 
@@ -8,6 +9,7 @@ export const APP_SETTINGS_DEFAULTS = {
   hlsBaseUrl: '', // '' → Default (VITE_MEDIAMTX_HLS_URL)
   theme: 'dark', // 'dark' | 'light'
   primaryHue: defaultPrimaryHue(), // Farbton (0-360); Sättigung + Helligkeit fix (s. primaryColor.js)
+  radiusFactor: defaultRadiusFactor(), // Roundness (0-1); skaliert --radius-* (s. radius.js)
   autoRefreshMs: 10000, // 0 = aus
   itemsPerPage: 100,
 };

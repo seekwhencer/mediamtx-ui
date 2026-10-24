@@ -56,7 +56,8 @@
     "webrtc": "WebRTC",
     "moq": "MoQ",
     "recordings": "Registrazioni",
-    "settings": "Impostazioni"
+    "settings": "Impostazioni",
+    "ui": "Server // UI"
   },
   "topbar": {
     "online": "online",
@@ -353,6 +354,7 @@
     "hlsBaseUrl": "URL base HLS",
     "theme": "Tema",
     "primaryHue": "Tono primario",
+    "radiusFactor": "Arrotondamento",
     "autoRefreshMs": "Auto-refresh (ms, 0 = disattivo)",
     "itemsPerPage": "Elementi per pagina",
     "groupServer": "Server",

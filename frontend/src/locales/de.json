@@ -56,7 +56,8 @@
     "webrtc": "WebRTC",
     "moq": "MoQ",
     "recordings": "Recordings",
-    "settings": "Einstellungen"
+    "settings": "Einstellungen",
+    "ui": "Server // UI"
   },
   "topbar": {
     "online": "online",
@@ -574,6 +575,7 @@
     "hlsBaseUrl": "Basis-URL des HLS-Playback-Servers (z. B. http://localhost:8888). Leer = Default (VITE_MEDIAMTX_HLS_URL).",
     "theme": "Farbtheme der Oberfläche (dark oder light).",
     "primaryHue": "Farbton der Primärfarbe (0–360). Sättigung und Helligkeit bleiben fix; ersetzt --color-primary.",
+    "radiusFactor": "Roundness-Faktor (0–1). Skaliert alle Eckenradien; ersetzt --radius-factor.",
     "autoRefreshMs": "Intervall in ms, in dem Daten automatisch neu geladen werden. 0 = aus.",
     "itemsPerPage": "Anzahl der pro Seite angezeigten Einträge."
   },
@@ -588,6 +590,7 @@
     "hlsBaseUrl": "HLS-Basis-URL",
     "theme": "Design",
     "primaryHue": "Primärfarbton",
+    "radiusFactor": "Roundness",
     "autoRefreshMs": "Auto-Refresh (ms, 0 = aus)",
     "itemsPerPage": "Einträge pro Seite",
     "groupServer": "Server",

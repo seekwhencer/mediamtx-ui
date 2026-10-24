@@ -380,6 +380,7 @@ export const APP_SETTINGS_CATALOG = [
   { name: 'hlsBaseUrl', label: 'HLS Base URL', labelKey: 'settings.hlsBaseUrl', type: 'text', group: 'API', placeholder: 'http://localhost:8888', placeholderKey: 'settings.placeholderHlsBaseUrl', descriptionKey: 'fields.hlsBaseUrl' },
   { name: 'theme', label: 'Theme', labelKey: 'settings.theme', type: 'select', group: 'Display', options: ['dark', 'light'], descriptionKey: 'fields.theme' },
   { name: 'primaryHue', label: 'Primary Hue', labelKey: 'settings.primaryHue', type: 'slider', group: 'Display', min: 0, max: 360, step: 1, colorPreview: true, descriptionKey: 'fields.primaryHue' },
+  { name: 'radiusFactor', label: 'Roundness', labelKey: 'settings.radiusFactor', type: 'slider', group: 'Display', min: 0, max: 1, step: 0.1, radiusPreview: true, descriptionKey: 'fields.radiusFactor' },
   { name: 'autoRefreshMs', label: 'Auto-Refresh (ms, 0 = off)', labelKey: 'settings.autoRefreshMs', type: 'number', group: 'Behavior', min: 0, max: 3600000, descriptionKey: 'fields.autoRefreshMs' },
   { name: 'itemsPerPage', label: 'Items Per Page', labelKey: 'settings.itemsPerPage', type: 'number', group: 'Behavior', min: 10, max: 500, descriptionKey: 'fields.itemsPerPage' },
 ];

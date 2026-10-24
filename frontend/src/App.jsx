@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useAppSettings } from './services/appSettings';
 import { applyPrimaryHue } from './utils/primaryColor';
+import { applyRadiusFactor } from './utils/radius';
 import Layout from './components/layout/Layout';
 import Dashboard from './components/pages/Dashboard';
 import ConfigGlobal from './components/pages/ConfigGlobal';
@@ -24,7 +25,7 @@ import Theatre from './components/pages/Theatre';
 import NotFound from './components/pages/NotFound';
 
 export default function App() {
-  const { theme, primaryHue } = useAppSettings();
+  const { theme, primaryHue, radiusFactor } = useAppSettings();
 
   // Theme (dark/light) via data-theme — reagiert auf Änderungen ohne Reload.
   useEffect(() => {
@@ -35,6 +36,11 @@ export default function App() {
   useEffect(() => {
     applyPrimaryHue(primaryHue);
   }, [primaryHue]);
+
+  // Roundness: ersetzt :root --radius-factor (alle --radius-* folgen).
+  useEffect(() => {
+    applyRadiusFactor(radiusFactor);
+  }, [radiusFactor]);
 
   return (
     <Routes>

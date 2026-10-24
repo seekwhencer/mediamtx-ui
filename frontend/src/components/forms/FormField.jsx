@@ -8,6 +8,7 @@ import MultiSelect from '../ui/MultiSelect';
 import ListEditor from './ListEditor';
 import Tooltip from '../ui/Tooltip';
 import { primaryColorForHue } from '../../utils/primaryColor';
+import { radiusForFactor } from '../../utils/radius';
 
 const FULL_WIDTH_TYPES = new Set(['list', 'multi-select']);
 // Diese Typen rendern ihre eigene Fehlermeldung (via error-Prop).
@@ -52,7 +53,14 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
           />
         );
       case 'slider': {
-        const previewColor = field.colorPreview ? primaryColorForHue(value) : undefined;
+        let previewStyle;
+        if (field.colorPreview) {
+          const color = primaryColorForHue(value);
+          if (color) previewStyle = { backgroundColor: color };
+        } else if (field.radiusPreview) {
+          const radius = radiusForFactor(value);
+          if (radius) previewStyle = { borderRadius: radius };
+        }
         return (
           <Slider
             value={value ?? field.min ?? 0}
@@ -64,7 +72,7 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             labelExtra={labelExtra}
             id={id}
             name={field.name}
-            previewColor={previewColor}
+            previewStyle={previewStyle}
           />
         );
       }
