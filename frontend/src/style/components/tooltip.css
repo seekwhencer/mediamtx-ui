@@ -30,9 +30,13 @@
 }
 
 .ui-tooltip__content {
+  display: inline-block;
   position: absolute;
   bottom: calc(100% + 6px);
   left: 50%;
+  max-width: 300px;
+  min-width: 200px;
+  width: auto;
   transform: translateX(-50%);
   background: var(--color-primary);
   border: 1px solid var(--color-border-strong);
@@ -42,12 +46,6 @@
   font-size: var(--fs-xs);
   line-height: 1.5;
   color: var(--color-surface);
-  width: 380px;
-  max-height: 200px;
-  overflow-y: auto;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  white-space: normal;
   z-index: 20;
   opacity: 0;
   visibility: hidden;

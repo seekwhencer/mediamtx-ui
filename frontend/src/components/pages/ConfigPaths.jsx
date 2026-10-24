@@ -11,7 +11,9 @@ import Modal from '../ui/Modal';
 import Button from '../ui/Button';
 import Input from '../ui/Input';
 import Badge from '../ui/Badge';
+import Tooltip from '../ui/Tooltip';
 import PathConfigForm from '../forms/PathConfigForm';
+import { splitUrlAuth } from '../../utils/splitUrlAuth';
 
 export default function ConfigPaths() {
   const { t } = useTranslation();
@@ -62,7 +64,20 @@ export default function ConfigPaths() {
 
   const columns = [
     { key: 'name', label: t('pages.configPaths.name') },
-    { key: 'source', label: t('pages.configPaths.source') },
+    {
+      key: 'source',
+      label: t('pages.configPaths.source'),
+      render: (row) => {
+        const { url, auth } = splitUrlAuth(row.source);
+        if (url == null || url === '') return '–';
+        return (
+          <>
+            {url}
+            {auth ? <Tooltip text={auth} /> : null}
+          </>
+        );
+      },
+    },
     {
       key: 'record',
       label: t('pages.configPaths.record'),
