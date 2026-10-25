@@ -21,7 +21,7 @@ export default defineConfig({
       });
     },
     ws: {
-//      host: process.env.VITE_WS_HOST || 'localhost', 
+      host: process.env.VITE_WS_HOST || 'localhost', 
       port: process.env.VITE_WS_PORT || 3000,
       protocol: 'ws'
     }

@@ -21,7 +21,7 @@ class FrontendRouter {
         this.config = config;
         this.httpServer = httpServer;
         this.label = '[FrontendRouter]';
-        this.logger = logger || { log: () => {}, error: () => {} };
+        this.logger = logger || { log: () => { }, error: () => { } };
 
         this.router = express.Router();
         this.router.use(express.json());
