@@ -1,7 +1,7 @@
 # mediamtx-ui
 
 Web-based admin interface for [MediaMTX](https://github.com/bluenviron/mediamtx).
-Dashboard, configuration, runtime monitoring, and recordings (list, delete, playback) — via the MediaMTX API (`/v3/*`) and the MediaMTX Playback API.
+Dashboard, configuration, runtime monitoring, live logs, and recordings (list, delete, playback) — via the MediaMTX API (`/v3/*`), the MediaMTX Playback API, and a WebSocket log stream.
 
 ## Features
 
@@ -9,11 +9,17 @@ Dashboard, configuration, runtime monitoring, and recordings (list, delete, play
 - **Configuration** — Global, path defaults, internal users, paths (add/edit/replace/delete); schema-driven forms, deprecated fields hidden
 - **Runtime** — Path list + detail (source, readers, tracks, forward destinations, static source); sessions/connections of all protocols incl. **kick**
 - **Recordings** — List, segment delete, and inline playback (play / stop / fullscreen)
+- **Logs** — Live MediaMTX log monitor (WebSocket `/logs`): history + streaming, level filter (ERR/WAR/INF/DBG), search, pause/resume, auto-reconnect
 - **Settings** — Server settings via API (persisted, "applied"/"restart required" feedback) + app settings local in the browser (theme, auto-refresh, page size, API base URL)
 - **Dark/Light theme** — switchable without reload
 - **Config persistence** — after successful config mutations the current MediaMTX config is written as `mediamtx.yml` (optional, `MEDIAMTX_CONFIG_PATH`)
 
 > **NOTE:** Don't use it reachable over the internet! Use it in a local network environment.
+
+| Light | Dark |
+|-------|------|
+| ![Dashboard (light)](.docs/screenshots/light_dashboard.png) | ![Dashboard (dark)](.docs/screenshots/dark_dashboard.png) |
+
 
 ## Quickstart (Docker)
 
@@ -34,6 +40,8 @@ The UI talks to MediaMTX over the Docker network (`http://mediamtx:9997`) — no
 
 > **Note:** `compose-mediamtx.yml` mounts `mediamtx/mediamtx.yml` read-only into the MediaMTX container.
 > The UI can update the file on the host side (auto-save via `MEDIAMTX_CONFIG_PATH`) — MediaMTX reads it on startup.
+
+> **Logs:** The log monitor tails the MediaMTX log file (`MEDIAMTX_LOG_PATH`, default `../data/mediamtx/mediamtx.log`). MediaMTX must write to a file — the bundled `mediamtx/mediamtx.yml` already sets `logDestinations: [stdout, file]` + `logFile: /data/mediamtx/mediamtx.log`, and `compose-mediamtx.yml` mounts `./data:/data`.
 
 ### MediaMTX from the main branch (unreleased)
 
@@ -76,26 +84,6 @@ docker compose -f compose-mediamtx-build.yml build --build-arg MEDIAMTX_REF=v1.2
         path: ""
 ```
 
-## Screenshots
-
-| Light | Dark |
-|-------|------|
-| ![Dashboard (light)](.docs/screenshots/light_dashboard.png) | ![Dashboard (dark)](.docs/screenshots/dark_dashboard.png) |
-
-## Architecture
-
-```
-Browser ──► UI server (Node.js 22, Express 5)
-              ├─ /health            → Health check
-              ├─ /api/settings      → Server settings (GET/PATCH, persisted)
-              ├─ /v3/*              → MediaMTXBridge (agnostic reverse proxy → MediaMTX API)
-              └─ /*                 → FrontendRouter (React app: build from dist/ or Vite dev)
-```
-
-- **`server/`** — Node.js 22, Express 5, ESM. The `MediaMTXBridge` forwards every request under `/v3/*` 1:1 to MediaMTX (method, path, query, body, headers) — no per-endpoint code. New MediaMTX endpoints require zero server code.
-- **`frontend/`** — React 19, Vite 8, TanStack Query, React Router 7, react-markdown. Generic API client (`api.get/post/patch/delete`) instead of individual functions.
-- **Route order is mandatory:** `/health` → Settings → Bridge → frontend catch-all (last).
-
 ## Local development
 
 **Server** (`server/`):
@@ -128,6 +116,7 @@ In dev mode (`NODE_ENV=development`) the UI server serves the frontend directly 
 | `MEDIAMTX_API_VERSION` | `v3` | API prefix (restart required) |
 | `MEDIAMTX_BRIDGE_TIMEOUT` | `10000` | Bridge timeout in ms |
 | `MEDIAMTX_CONFIG_PATH` | `../mediamtx/mediamtx.yml` (via `.env.default`) | Path for the persisted `mediamtx.yml` (empty = auto-save off) |
+| `MEDIAMTX_LOG_PATH` | `../data/mediamtx/mediamtx.log` (via `.env.default`) | MediaMTX log file for the log monitor (empty = log monitor off) |
 | `CONFIG_PATH` | `server/config.json` | Path of the server config file |
 
 ### Settings (at runtime)
@@ -151,71 +140,21 @@ All server settings can be viewed and changed under **`/settings`** in the UI:
 | `GET` | `/api/settings` | Server settings (secrets masked) |
 | `PATCH` | `/api/settings` | Change settings → `{ applied, restartRequired }` |
 | `*` | `/v3/*` | 1:1 proxy to the MediaMTX API (56 endpoints, see `mediamtx/openapi.yml`) |
+| `WS` | `/logs` | Live log stream: `{ type: 'history' \| 'line' \| 'update', data }` (see `server/src/LogsWebSocket.js`) |
 | `GET` | `/*` | Frontend (SPA, deep links work) |
 
 Error format: `{ error, status: 'error', code }` — codes: `not_found`, `invalid_settings`, `upstream_unreachable` (MediaMTX unreachable), `internal_error`.
 
-## Project structure
 
-```
-├── compose.yml            # Production (NODE_ENV=production, npm start)
-├── compose-dev.yml        # Development (NODE_ENV=development, Vite dev via UI server)
-├── compose-mediamtx.yml   # MediaMTX service (bluenviron/mediamtx, released)
-├── compose-mediamtx-build.yml  # MediaMTX service (compiled from main, see mediamtx/Dockerfile)
-├── .env.default           # Env template (ports, version, config path)
-├── server/                # Node.js backend
-│   ├── index.js           # Entry point (--init-config: writes defaults to config.json)
-│   ├── Dockerfile
-│   ├── src/
-│   │   ├── Config.js              # Env + config.json, settings (masked, validated, persisted)
-│   │   ├── Server.js              # HTTP server, security headers, error handler
-│   │   ├── Logger.js
-│   │   ├── MediaMTXBridge.js      # Agnostic proxy to MediaMTX
-│   │   ├── MediaMTXConfigStore.js # Persists mediamtx.yml after config mutations
-│   │   └── Router/
-│   │       ├── index.js           # Route order
-│   │       ├── SettingsRouter.js  # GET/PATCH /api/settings
-│   │       └── FrontendRouter.js  # Static (prod) / Vite dev (dev) + SPA fallback
-│   └── test/                  # vitest + E2E (mock MediaMTX)
-├── frontend/              # React frontend
-│   └── src/
-│       ├── api/client.js          # Axios instance + generic methods
-│       ├── services/              # queryKeys, appSettings (localStorage)
-│       ├── hooks/                 # useApi, usePagination, useKick, useAutoRefresh
-│       ├── components/
-│       │   ├── layout/            # Layout, Sidebar, TopBar
-│       │   ├── pages/             # Dashboard, Config-*, Runtime-*, Recordings, Settings
-│       │   ├── dashboard/         # ProtocolCard, InfoCard, PathsCard, QuickLinks
-│       │   ├── forms/             # FormBuilder, fieldCatalog, ListEditor
-│       │   ├── tables/            # DataTable, Pagination
-│       │   └── ui/                # Button, Input, Select, Toggle, Tabs, Modal, …
-│       └── style/                 # CSS variables, light/dark
-├── mediamtx/
-│   ├── Dockerfile             # Compiles MediaMTX from main (used by compose-mediamtx-build.yml)
-│   ├── mediamtx.yml           # MediaMTX config (git-ignored, persisted by the UI)
-│   ├── mediamtx.default.yml   # Reference config
-│   ├── openapi.yml            # OpenAPI spec of the MediaMTX API
-│   └── playback.openapi.yml   # OpenAPI spec of the MediaMTX Playback API
-└── .docs/                   # Concept & roadmap (basics, server, frontend, settings)
-```
 
 
 ## Tests
 
 ```bash
-cd server && npm test        # vitest: Config, Bridge, SettingsRouter, ConfigStore (39 tests)
+cd server && npm test        # vitest: Config, Bridge, SettingsRouter, ConfigStore, LogTail, LogsWebSocket (74 tests)
 node server/test/e2e-phase10.mjs   # E2E against mock MediaMTX (CRUD, errors, pagination, kick)
 cd frontend && npm run build       # Build check
 ```
-
-## Documentation
-
-- `.docs/INITIAL_BASICS.md` — Concept, endpoint catalog, schema reference
-- `.docs/INITIAL_SERVER.md` — Backend architecture
-- `.docs/INITIAL_FRONTEND.md` — Frontend architecture
-- `.docs/INITIAL_SETTINGS.md` — Settings concept
-- `.docs/ROADMAP.md` — Phases & status (57/57 done)
-- `.docs/PLAN_RECORDS_PLAYER.md` — Records Player concept & roadmap (recording playback)
 
 ## All screenshots
 
@@ -229,6 +168,7 @@ cd frontend && npm run build       # Build check
 | Path defaults | ![Path defaults (light)](.docs/screenshots/light_path-defaults.png) | ![Path defaults (dark)](.docs/screenshots/dark_path-defaults.png) |
 | Path defaults (all groups) | ![Path defaults groups (light)](.docs/screenshots/light_path-defaults_subnav.png) | ![Path defaults groups (dark)](.docs/screenshots/dark_path-defaults_subnav.png) |
 | Paths (runtime) | ![Paths runtime (light)](.docs/screenshots/light_runtime-paths.png) | ![Paths runtime (dark)](.docs/screenshots/dark_runtime-paths.png) |
+| Logs | ![Logs (light)](.docs/screenshots/light_logs.png) | ![Logs (dark)](.docs/screenshots/dark_logs.png) |
 | HLS | ![HLS (light)](.docs/screenshots/light_hls.png) | ![HLS (dark)](.docs/screenshots/dark_hls.png) |
 | RTSP | ![RTSP (light)](.docs/screenshots/light_rtsp.png) | ![RTSP (dark)](.docs/screenshots/dark_rtsp.png) |
 | RTMP | ![RTMP (light)](.docs/screenshots/light_rtmp.png) | ![RTMP (dark)](.docs/screenshots/dark_rtmp.png) |
