@@ -23,6 +23,17 @@ describe('LogsWebSocket', () => {
 
         tailService = new LogTailService({ mediamtxLogPath: '' }, noopLogger);
         logsWs = new LogsWebSocket(httpServer, tailService, noopLogger);
+
+        // Zentrales Upgrade-Routing (identisch zu Router.setupUpgradeRouting):
+        // Der Log-WebSocket läuft im noServer-Modus, /logs wird hier geroutet.
+        httpServer.on('upgrade', (request, socket, head) => {
+            const pathname = new URL(request.url, `http://${request.headers.host || 'localhost'}`).pathname;
+            if (pathname === '/logs') {
+                logsWs.wss.handleUpgrade(request, socket, head, (ws) => {
+                    logsWs.wss.emit('connection', ws, request);
+                });
+            }
+        });
     });
 
     afterEach(() => {

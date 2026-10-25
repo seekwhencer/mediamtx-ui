@@ -41,9 +41,10 @@ class Router {
         this.router.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
 
         // 1b. Log-Monitor: tail-Child-Process + WebSocket (/logs).
-        //     Kein Express-Route — der WebSocket hängt direkt am httpServer.
+        //     Kein Express-Route — das upgrade-Event wird zentral geroutet.
         this.tailService = new LogTailService(this.config, this.logger);
         this.logsWs = new LogsWebSocket(this.httpServer, this.tailService, this.logger);
+        this.setupUpgradeRouting();
         this.tailService.start(); // no-op, wenn mediamtxLogPath leer
 
         // 2. Settings (server-eigene Endpunkte)
@@ -68,6 +69,38 @@ class Router {
         const frontendRouter = new FrontendRouter(this.config, this.httpServer, this.logger);
         await frontendRouter.init();
         this.router.use('/', frontendRouter.router);
+    }
+
+    /**
+     * Zentrales Upgrade-Routing auf dem gemeinsamen httpServer.
+     *
+     * Verteilt WebSocket-Upgrade-Anfragen gezielt:
+     *   - /logs  → Log-WebSocket (noServer-Modus, manuelles handleUpgrade)
+     *   - sonst  → Vite HMR (Vites eigener selektiver Listener, gebunden via
+     *              ws: { server: httpServer } in der Vite-Konfiguration)
+     *
+     * Wichtig: Der Log-WebSocket läuft im noServer-Modus und registriert KEINEN
+     * eigenen upgrade-Listener. Ein an den Server gebundener ws-Server würde
+     * fremde Upgrades (z. B. Vite HMR) mit 400 Bad Request abbrechen.
+     */
+    setupUpgradeRouting() {
+        this.httpServer.on('upgrade', (request, socket, head) => {
+            let pathname;
+            try {
+                pathname = new URL(request.url, `http://${request.headers.host || 'localhost'}`).pathname;
+            } catch {
+                socket.destroy();
+                return;
+            }
+
+            if (pathname === '/logs') {
+                this.logsWs.wss.handleUpgrade(request, socket, head, (ws) => {
+                    this.logsWs.wss.emit('connection', ws, request);
+                });
+            }
+            // Alle anderen Upgrades (Vite HMR mit ?token=…) übernimmt Vites
+            // eigener selektiver Listener — hier bewusst nichts weiter tun.
+        });
     }
 }
 

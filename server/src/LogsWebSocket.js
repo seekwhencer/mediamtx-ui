@@ -1,8 +1,12 @@
 import { WebSocketServer } from 'ws';
 
 /**
- * WebSocket-Server für den Live-Log-Stream.
- * Hängt am bestehenden HTTP-Server, Endpunkt /logs.
+ * WebSocket-Server für den Live-Log-Stream, Endpunkt /logs.
+ *
+ * Läuft im noServer-Modus: er hängt NICHT direkt am httpServer und registriert
+ * keinen eigenen upgrade-Listener. Das upgrade-Event wird zentral im Router
+ * geroutet (Router.setupUpgradeRouting). So stört er Vites HMR-WebSocket nicht
+ * (ein an den Server gebundener ws-Server würde fremde Upgrades mit 400 abbrechen).
  *
  * Protokoll (JSON):
  *   Server → Client:
@@ -13,7 +17,7 @@ import { WebSocketServer } from 'ws';
  */
 class LogsWebSocket {
     /**
-     * @param {import('node:http').Server} httpServer
+     * @param {import('node:http').Server} httpServer - Referenz auf den HTTP-Server (Upgrade-Routing erfolgt zentral im Router)
      * @param {LogTailService} tailService
      * @param {Logger} [logger]
      */
@@ -21,7 +25,7 @@ class LogsWebSocket {
         this.label = '[LogsWebSocket]';
         this.logger = logger || { log: () => {}, error: () => {} };
         this.tailService = tailService;
-        this.wss = new WebSocketServer({ server: httpServer, path: '/logs' });
+        this.wss = new WebSocketServer({ noServer: true });
         this.wss.on('connection', (ws) => this.onConnection(ws));
         this.wss.on('error', (err) => this.logger.error(this.label, `wss error: ${err.message}`));
     }
