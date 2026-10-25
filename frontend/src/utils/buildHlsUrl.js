@@ -1,10 +1,17 @@
 import { getAppSettings } from '../services/appSettings';
 
-// HLS-Base-URL-Auflösung: App-Settings-Override > Env > leer.
+// HLS-Base-URL-Auflösung: App-Settings-Override > Env > window.location.origin.
 function resolveHlsBase() {
   const override = (getAppSettings().hlsBaseUrl || '').trim();
   if (override) return override.replace(/\/+$/, '');
-  return (import.meta.env.VITE_MEDIAMTX_HLS_URL || '').trim().replace(/\/+$/, '');
+  const env = (import.meta.env.MEDIAMTX_HLS_URL || '').trim();
+  if (env) return env.replace(/\/+$/, '');
+  // Fallback: aktuelle window location (protocol + host + port), damit das Theatre
+  // ohne jegliche Konfiguration funktioniert. SSR-sicher (window-Check).
+  if (typeof window !== 'undefined' && window.location && window.location.origin) {
+    return window.location.origin.replace(/\/+$/, '');
+  }
+  return '';
 }
 
 export function buildHlsUrl(path) {

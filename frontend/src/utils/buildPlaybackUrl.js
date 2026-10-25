@@ -4,7 +4,7 @@ import { getAppSettings } from '../services/appSettings';
 function resolvePlaybackBase() {
   const override = (getAppSettings().playbackBaseUrl || '').trim();
   if (override) return override.replace(/\/+$/, '');
-  return (import.meta.env.VITE_MEDIAMTX_PLAYBACK_URL || '').trim().replace(/\/+$/, '');
+  return (import.meta.env.MEDIAMTX_PLAYBACK_URL || '').trim().replace(/\/+$/, '');
 }
 
 /**

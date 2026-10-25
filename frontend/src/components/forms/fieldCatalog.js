@@ -376,8 +376,9 @@ export const SERVER_SETTINGS_CATALOG = [
 // ===== App-Settings (INITIAL_SETTINGS.md §6.9) =====
 
 export const APP_SETTINGS_CATALOG = [
-  { name: 'apiBaseUrl', label: 'API Base URL', labelKey: 'settings.apiBaseUrl', type: 'text', group: 'API', placeholder: '/v3 (default)', placeholderKey: 'settings.placeholderApiBaseUrl', descriptionKey: 'fields.apiBaseUrl' },
-  { name: 'hlsBaseUrl', label: 'HLS Base URL', labelKey: 'settings.hlsBaseUrl', type: 'text', group: 'API', placeholder: 'http://localhost:8888', placeholderKey: 'settings.placeholderHlsBaseUrl', descriptionKey: 'fields.hlsBaseUrl' },
+  { name: 'apiBaseUrl', label: 'API Base URL', labelKey: 'settings.apiBaseUrl', type: 'text', group: 'URLs', placeholder: '/v3 (default)', placeholderKey: 'settings.placeholderApiBaseUrl', descriptionKey: 'fields.apiBaseUrl' },
+  { name: 'hlsBaseUrl', label: 'HLS Base URL', labelKey: 'settings.hlsBaseUrl', type: 'text', group: 'URLs', placeholder: 'http://localhost:3000 (current origin)', placeholderKey: 'settings.placeholderHlsBaseUrl', descriptionKey: 'fields.hlsBaseUrl' },
+  { name: 'playbackBaseUrl', label: 'Playback Base URL', labelKey: 'settings.playbackBaseUrl', type: 'text', group: 'URLs', placeholder: 'http://localhost:3000 (current origin)', placeholderKey: 'settings.placeholderPlaybackBaseUrl', descriptionKey: 'fields.playbackBaseUrl' },
   { name: 'theme', label: 'Theme', labelKey: 'settings.theme', type: 'select', group: 'Display', options: ['dark', 'light'], descriptionKey: 'fields.theme' },
   { name: 'primaryHue', label: 'Primary Hue', labelKey: 'settings.primaryHue', type: 'slider', group: 'Display', min: 0, max: 360, step: 1, colorPreview: true, descriptionKey: 'fields.primaryHue' },
   { name: 'radiusFactor', label: 'Roundness', labelKey: 'settings.radiusFactor', type: 'slider', group: 'Display', min: 0, max: 1, step: 0.1, radiusPreview: true, descriptionKey: 'fields.radiusFactor' },

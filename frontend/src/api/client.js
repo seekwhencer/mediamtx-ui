@@ -5,7 +5,7 @@ import { getAppSettings } from '../services/appSettings';
 function resolveBaseURL() {
   const override = (getAppSettings().apiBaseUrl || '').trim();
   if (override) return override.replace(/\/+$/, '');
-  return import.meta.env.VITE_MEDIAMTX_API_URL || '/v3';
+  return import.meta.env.MEDIAMTX_API_URL || '/v3';
 }
 
 const client = axios.create({
