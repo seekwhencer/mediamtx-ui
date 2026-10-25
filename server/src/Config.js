@@ -16,11 +16,12 @@ class Config {
         mediamtxAuthToken: '',
         mediamtxApiVersion: 'v3',
         mediamtxBridgeTimeout: 10000,
-        mediamtxConfigPath: ''
+        mediamtxConfigPath: '',
+        mediamtxLogPath: ''
     };
 
     /** Keys, die ohne Restart angewendet werden können. */
-    static runtimeKeys = ['verbose', 'mediamtxBaseUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath'];
+    static runtimeKeys = ['verbose', 'mediamtxBaseUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'mediamtxLogPath'];
     /** Keys, die erst nach einem Restart wirksam werden. */
     static restartKeys = ['serverPort', 'mediamtxApiVersion'];
 
@@ -44,6 +45,7 @@ class Config {
         this.mediamtxApiVersion = env.MEDIAMTX_API_VERSION || this.defaults.mediamtxApiVersion || 'v3';
         this.mediamtxBridgeTimeout = parseInt(env.MEDIAMTX_BRIDGE_TIMEOUT, 10) || this.defaults.mediamtxBridgeTimeout || 10000;
         this.mediamtxConfigPath = env.MEDIAMTX_CONFIG_PATH || this.defaults.mediamtxConfigPath || '';
+        this.mediamtxLogPath = env.MEDIAMTX_LOG_PATH || this.defaults.mediamtxLogPath || '';
     }
 
     /**
@@ -66,7 +68,8 @@ class Config {
             mediamtxAuthToken: this.env.MEDIAMTX_AUTH_TOKEN || Config.defaults.mediamtxAuthToken || '',
             mediamtxApiVersion: this.env.MEDIAMTX_API_VERSION || Config.defaults.mediamtxApiVersion || 'v3',
             mediamtxBridgeTimeout: parseInt(this.env.MEDIAMTX_BRIDGE_TIMEOUT, 10) || Config.defaults.mediamtxBridgeTimeout || 10000,
-            mediamtxConfigPath: this.env.MEDIAMTX_CONFIG_PATH || Config.defaults.mediamtxConfigPath || ''
+            mediamtxConfigPath: this.env.MEDIAMTX_CONFIG_PATH || Config.defaults.mediamtxConfigPath || '',
+            mediamtxLogPath: this.env.MEDIAMTX_LOG_PATH || Config.defaults.mediamtxLogPath || ''
         };
     }
 

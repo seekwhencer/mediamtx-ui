@@ -53,7 +53,7 @@ describe('Config — Settings', () => {
             expect(s.mediamtxApiVersion).toBe('v3');
             expect(s.mediamtxBridgeTimeout).toBe(10000);
             expect(s.mediamtxConfigPath).toBe('');
-            expect(s.runtimeKeys).toEqual(['verbose', 'mediamtxBaseUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath']);
+            expect(s.runtimeKeys).toEqual(['verbose', 'mediamtxBaseUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'mediamtxLogPath']);
             expect(s.restartKeys).toEqual(['serverPort', 'mediamtxApiVersion']);
         });
 

@@ -23,6 +23,7 @@ services:
       # HLS-Base-URL für die UI (Theater/Stream-Wall) — Vite liest VITE_* aus der Prozess-Umgebung.
       - VITE_MEDIAMTX_HLS_URL=${VITE_MEDIAMTX_HLS_URL:-http://localhost:8888}
       - VITE_MEDIAMTX_PLAYBACK_URL=${VITE_MEDIAMTX_PLAYBACK_URL:-http://localhost:9996}
+      - MEDIAMTX_LOG_PATH=${MEDIAMTX_LOG_PATH:-../data/mediamtx/mediamtx.log}
 
 networks:
   mediamtx:

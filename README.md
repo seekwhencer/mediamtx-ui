@@ -1,14 +1,14 @@
 # mediamtx-ui
 
 Web-based admin interface for [MediaMTX](https://github.com/bluenviron/mediamtx).
-Dashboard, configuration, runtime monitoring, and recordings — via the MediaMTX API (`/v3/*`).
+Dashboard, configuration, runtime monitoring, and recordings (list, delete, playback) — via the MediaMTX API (`/v3/*`) and the MediaMTX Playback API.
 
 ## Features
 
 - **Dashboard** — Cards per protocol (HLS, RTSP/RTSPS, RTMP/RTMPS, SRT, WebRTC, MoQ), instance info (version, start time), path overview (online/available), auto-refresh
 - **Configuration** — Global, path defaults, internal users, paths (add/edit/replace/delete); schema-driven forms, deprecated fields hidden
 - **Runtime** — Path list + detail (source, readers, tracks, forward destinations, static source); sessions/connections of all protocols incl. **kick**
-- **Recordings** — List + segment delete
+- **Recordings** — List, segment delete, and inline playback (play / stop / fullscreen)
 - **Settings** — Server settings via API (persisted, "applied"/"restart required" feedback) + app settings local in the browser (theme, auto-refresh, page size, API base URL)
 - **Dark/Light theme** — switchable without reload
 - **Config persistence** — after successful config mutations the current MediaMTX config is written as `mediamtx.yml` (optional, `MEDIAMTX_CONFIG_PATH`)
@@ -29,6 +29,8 @@ docker compose -f compose-mediamtx.yml -f compose-dev.yml up -d --build
 
 UI available at `http://localhost:${SERVER_PORT}` (default `3000`).
 The UI talks to MediaMTX over the Docker network (`http://mediamtx:9997`) — no API port mapping required.
+
+> **Playback:** Recording playback streams directly from the MediaMTX **Playback API** (port `9996`) to the browser, so that port must be reachable from the browser (mapped in `compose-mediamtx.yml`). Base URL: `VITE_MEDIAMTX_PLAYBACK_URL` (build-time) or the `playbackBaseUrl` app setting (runtime override). Recordings must be in a browser-decodable codec (e.g. H.264/AAC) — HEVC/H.265 will not play in most browsers.
 
 > **Note:** `compose-mediamtx.yml` mounts `mediamtx/mediamtx.yml` read-only into the MediaMTX container.
 > The UI can update the file on the host side (auto-save via `MEDIAMTX_CONFIG_PATH`) — MediaMTX reads it on startup.
@@ -139,7 +141,7 @@ All server settings can be viewed and changed under **`/settings`** in the UI:
 - Token rule: masked value = unchanged, empty = deleted, otherwise = new token
 - Persisted in `server/config.json` (git-ignored)
 
-**App settings** (local in the browser, `localStorage`): theme (dark/light), auto-refresh interval, items per page, API base URL override.
+**App settings** (local in the browser, `localStorage`): theme (dark/light), auto-refresh interval, items per page, API base URL override, playback base URL override.
 
 ## API endpoints (UI server)
 
@@ -192,7 +194,8 @@ Error format: `{ error, status: 'error', code }` — codes: `not_found`, `invali
 │   ├── Dockerfile             # Compiles MediaMTX from main (used by compose-mediamtx-build.yml)
 │   ├── mediamtx.yml           # MediaMTX config (git-ignored, persisted by the UI)
 │   ├── mediamtx.default.yml   # Reference config
-│   └── openapi.yml            # OpenAPI spec of the MediaMTX API
+│   ├── openapi.yml            # OpenAPI spec of the MediaMTX API
+│   └── playback.openapi.yml   # OpenAPI spec of the MediaMTX Playback API
 └── .docs/                   # Concept & roadmap (basics, server, frontend, settings)
 ```
 
@@ -212,6 +215,7 @@ cd frontend && npm run build       # Build check
 - `.docs/INITIAL_FRONTEND.md` — Frontend architecture
 - `.docs/INITIAL_SETTINGS.md` — Settings concept
 - `.docs/ROADMAP.md` — Phases & status (57/57 done)
+- `.docs/PLAN_RECORDS_PLAYER.md` — Records Player concept & roadmap (recording playback)
 
 ## All screenshots
 

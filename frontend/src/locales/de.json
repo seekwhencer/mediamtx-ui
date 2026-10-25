@@ -55,6 +55,7 @@
     "srt": "SRT",
     "webrtc": "WebRTC",
     "moq": "MoQ",
+    "logs": "Logs",
     "recordings": "Recordings",
     "settings": "Einstellungen",
     "ui": "Server // UI"
@@ -283,6 +284,21 @@
       "transport": "Transport",
       "inbound": "Eingehend",
       "outbound": "Ausgehend"
+    },
+    "logs": {
+      "title": "Logs",
+      "subtitle": "Live-Ansicht der MediaMTX-Logdatei.",
+      "live": "LIVE",
+      "offline": "OFFLINE",
+      "empty": "Noch keine Log-Einträge.",
+      "error": "Logs konnten nicht geladen werden.",
+      "jumpToLatest": "Zum Neuesten",
+      "pause": "Pause",
+      "resume": "Fortsetzen",
+      "clear": "Leeren",
+      "search": "Filtern…",
+      "levelFilter": "Log-Level",
+      "levelAll": "Alle"
     },
     "recordings": {
       "title": "Recordings",

@@ -4,6 +4,8 @@ import { FrontendRouter } from './FrontendRouter.js';
 import { SettingsRouter } from './SettingsRouter.js';
 import { MediaMTXBridge } from '../MediaMTXBridge.js';
 import { MediaMTXConfigStore } from '../MediaMTXConfigStore.js';
+import { LogTailService } from '../LogTailService.js';
+import { LogsWebSocket } from '../LogsWebSocket.js';
 
 /**
  * Main router class that aggregates all server routes.
@@ -37,6 +39,12 @@ class Router {
 
         // 1. Health
         this.router.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));
+
+        // 1b. Log-Monitor: tail-Child-Process + WebSocket (/logs).
+        //     Kein Express-Route — der WebSocket hängt direkt am httpServer.
+        this.tailService = new LogTailService(this.config, this.logger);
+        this.logsWs = new LogsWebSocket(this.httpServer, this.tailService, this.logger);
+        this.tailService.start(); // no-op, wenn mediamtxLogPath leer
 
         // 2. Settings (server-eigene Endpunkte)
         this.settingsRouter = new SettingsRouter(this.config, this.logger);

@@ -19,6 +19,7 @@ import RTMP from './components/pages/RTMP';
 import SRT from './components/pages/SRT';
 import WebRTC from './components/pages/WebRTC';
 import MoQ from './components/pages/MoQ';
+import Logs from './components/pages/Logs';
 import Recordings from './components/pages/Recordings';
 import Settings from './components/pages/Settings';
 import Theatre from './components/pages/Theatre';
@@ -62,6 +63,7 @@ export default function App() {
         <Route path="srt" element={<SRT />} />
         <Route path="webrtc" element={<WebRTC />} />
         <Route path="moq" element={<MoQ />} />
+        <Route path="logs" element={<Logs />} />
         <Route path="recordings" element={<Recordings />} />
         <Route path="settings" element={<Settings />} />
         <Route path="*" element={<NotFound />} />

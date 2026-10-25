@@ -64,6 +64,8 @@ export class Server {
 
         const shutdown = async () => {
             this.logger.log(this.label, 'Shutting down...');
+            this.router?.logsWs?.close(); // WS-Clients terminate (sonst hängt httpServer.close())
+            this.router?.tailService?.stop(); // tail-Child-Process SIGTERM
             this.httpServer.close(() => process.exit(0));
         };
         process.on('SIGTERM', shutdown);
