@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { mkdtempSync, rmSync, readFileSync, existsSync } from 'node:fs';
+import { mkdtempSync, rmSync, readFileSync, existsSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Config } from '../src/Config.js';
@@ -50,15 +50,42 @@ describe('Config — Settings', () => {
             expect(s.serverPort).toBe(3000);
             expect(s.verbose).toBe(false);
             expect(s.mediamtxBaseUrl).toBe('http://localhost:9997');
+            expect(s.mediamtxMetricsUrl).toBe('http://localhost:9998');
             expect(s.mediamtxApiVersion).toBe('v3');
             expect(s.mediamtxBridgeTimeout).toBe(10000);
             expect(s.mediamtxConfigPath).toBe('');
-            expect(s.runtimeKeys).toEqual(['verbose', 'mediamtxBaseUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'mediamtxLogPath']);
+            expect(s.runtimeKeys).toEqual(['verbose', 'mediamtxBaseUrl', 'mediamtxMetricsUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'mediamtxLogPath']);
             expect(s.restartKeys).toEqual(['serverPort', 'mediamtxApiVersion']);
         });
 
         it('lässt leere Tokens leer', () => {
             expect(ctx.config.getSettings().mediamtxAuthToken).toBe('');
+        });
+    });
+
+    describe('Migration', () => {
+        it('fällt bei altem config.json ohne mediamtxMetricsUrl auf den Default zurück', () => {
+            const dir = mkdtempSync(join(tmpdir(), 'mtxui-config-'));
+            const configPath = join(dir, 'config.json');
+            writeFileSync(configPath, JSON.stringify({
+                serverPort: 3000,
+                verbose: false,
+                mediamtxBaseUrl: 'http://localhost:9997',
+                mediamtxAuthToken: '',
+                mediamtxApiVersion: 'v3',
+                mediamtxBridgeTimeout: 10000,
+                mediamtxConfigPath: '',
+            }, null, 4));
+
+            const config = new Config({ CONFIG_PATH: configPath }, noopLogger);
+
+            expect(config.mediamtxMetricsUrl).toBe('http://localhost:9998');
+            expect(config.getSettings().mediamtxMetricsUrl).toBe('http://localhost:9998');
+            // updateSettings muss mit dem gemergten Default validieren können
+            const result = config.updateSettings({ verbose: true });
+            expect(result.applied).toEqual(['verbose']);
+
+            rmSync(dir, { recursive: true, force: true });
         });
     });
 
@@ -125,6 +152,17 @@ describe('Config — Settings', () => {
             expect(ctx.config.mediamtxAuthToken).toBe('new-token');
             expect(result.applied).toContain('mediamtxAuthToken');
         });
+
+        it('aktualisiert mediamtxMetricsUrl (Runtime-Key, Trailing-Slash wird entfernt)', () => {
+            const result = ctx.config.updateSettings({ mediamtxMetricsUrl: 'http://mtx.test:9998/' });
+
+            expect(result.applied).toEqual(['mediamtxMetricsUrl']);
+            expect(result.restartRequired).toEqual([]);
+            expect(ctx.config.mediamtxMetricsUrl).toBe('http://mtx.test:9998');
+
+            const persisted = JSON.parse(readFileSync(ctx.configPath, 'utf8'));
+            expect(persisted.mediamtxMetricsUrl).toBe('http://mtx.test:9998');
+        });
     });
 
     describe('updateSettings — ungültige Werte', () => {
@@ -135,6 +173,8 @@ describe('Config — Settings', () => {
             ['verbose nicht-boolean', { verbose: 'true' }],
             ['ftp://-URL', { mediamtxBaseUrl: 'ftp://mtx.test:21' }],
             ['ungültige URL', { mediamtxBaseUrl: 'not a url' }],
+            ['Metrics-URL ftp://', { mediamtxMetricsUrl: 'ftp://mtx.test:21' }],
+            ['Metrics-URL ungültig', { mediamtxMetricsUrl: 'not a url' }],
             ['Token nicht-string', { mediamtxAuthToken: 42 }],
             ['API-Version mit führendem /', { mediamtxApiVersion: '/v3' }],
             ['API-Version leer', { mediamtxApiVersion: '' }],
@@ -160,12 +200,13 @@ describe('Config — Settings', () => {
     });
 
     describe('persist', () => {
-        it('schreibt alle sieben Settings-Felder', () => {
+        it('schreibt alle acht Settings-Felder', () => {
             ctx.config.updateSettings({ verbose: true });
             const persisted = JSON.parse(readFileSync(ctx.configPath, 'utf8'));
             expect(Object.keys(persisted).sort()).toEqual([
                 'mediamtxApiVersion', 'mediamtxAuthToken', 'mediamtxBaseUrl',
-                'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'serverPort', 'verbose',
+                'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'mediamtxMetricsUrl',
+                'serverPort', 'verbose',
             ]);
         });
     });

@@ -56,7 +56,7 @@ describe('SettingsRouter', () => {
         expect(body.data.mediamtxAuthToken).toBe('••••oken');
         expect(body.data.serverPort).toBe(3000);
         expect(body.data.mediamtxConfigPath).toBe('');
-        expect(body.data.runtimeKeys).toEqual(['verbose', 'mediamtxBaseUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'mediamtxLogPath']);
+        expect(body.data.runtimeKeys).toEqual(['verbose', 'mediamtxBaseUrl', 'mediamtxMetricsUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'mediamtxLogPath']);
         expect(body.data.restartKeys).toEqual(['serverPort', 'mediamtxApiVersion']);
     });
 

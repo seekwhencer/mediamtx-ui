@@ -55,6 +55,7 @@
     "srt": "SRT",
     "webrtc": "WebRTC",
     "moq": "MoQ",
+    "metrics": "Metriche",
     "logs": "Log",
     "recordings": "Registrazioni",
     "settings": "Impostazioni",
@@ -284,6 +285,55 @@
       "transport": "Transport",
       "inbound": "In ingresso",
       "outbound": "In uscita"
+    },
+    "metrics": {
+      "title": "Metriche",
+      "subtitle": "Metriche live dal server metriche di MediaMTX (Prometheus) — auto-refresh ogni 10 s.",
+      "empty": "Nessuna metrica disponibile",
+      "error": "Metriche MediaMTX non raggiungibili",
+      "loading": "Caricamento metriche…",
+      "totals": {
+        "title": "Totali",
+        "pathsOnline": "Percorsi online",
+        "readers": "Reader",
+        "inbound": "Ingresso",
+        "outbound": "Uscita",
+        "framesInError": "Frame in errore",
+        "perSec": "al secondo"
+      },
+      "protocols": {
+        "title": "Protocolli",
+        "hls": "HLS",
+        "rtsp": "RTSP",
+        "rtmp": "RTMP",
+        "srt": "SRT",
+        "webrtc": "WebRTC",
+        "moq": "MoQ",
+        "muxers": "Muxer",
+        "sessions": "Sessioni",
+        "conns": "Connessioni",
+        "inbound": "Ingresso",
+        "outbound": "Uscita"
+      },
+      "paths": {
+        "title": "Percorsi",
+        "name": "Nome",
+        "state": "Stato",
+        "readers": "Reader",
+        "inbound": "Ingresso",
+        "outbound": "Uscita",
+        "framesInError": "Frame in errore",
+        "noPaths": "Nessun percorso"
+      },
+      "forward": {
+        "title": "Destinazioni di forwarding",
+        "id": "ID",
+        "path": "Percorso",
+        "type": "Tipo",
+        "state": "Stato",
+        "outbound": "Uscita",
+        "noDests": "Nessuna destinazione di forwarding"
+      }
     },
     "logs": {
       "title": "Log",
@@ -590,6 +640,7 @@
     "serverPort": "Porta TCP su cui l'API mediamtx-ui ascolta.",
     "verbose": "Abilita l'output di log dettagliato del server.",
     "mediamtxBaseUrl": "URL base della MediaMTX Control API (es. http://localhost:9997).",
+    "mediamtxMetricsUrl": "URL base del server di metriche MediaMTX (es. http://localhost:9998).",
     "mediamtxAuthToken": "Token di autenticazione per l'API MediaMTX. Vuoto = elimina il token.",
     "mediamtxApiVersion": "Versione della MediaMTX Control API (es. v3).",
     "mediamtxBridgeTimeout": "Timeout delle chiamate bridge a MediaMTX in millisecondi.",
@@ -606,6 +657,7 @@
     "serverPort": "Porta server",
     "verboseLogging": "Log dettagliati",
     "mediamtxBaseUrl": "URL base MediaMTX",
+    "mediamtxMetricsUrl": "URL metriche MediaMTX",
     "mediamtxAuthToken": "Token di autenticazione MediaMTX",
     "mediamtxApiVersion": "Versione API MediaMTX",
     "mediamtxBridgeTimeout": "Timeout bridge MediaMTX (ms)",

@@ -13,6 +13,7 @@ class Config {
         serverPort: 3000,
         verbose: false,
         mediamtxBaseUrl: 'http://localhost:9997',
+        mediamtxMetricsUrl: 'http://localhost:9998',
         mediamtxAuthToken: '',
         mediamtxApiVersion: 'v3',
         mediamtxBridgeTimeout: 10000,
@@ -21,7 +22,7 @@ class Config {
     };
 
     /** Keys, die ohne Restart angewendet werden können. */
-    static runtimeKeys = ['verbose', 'mediamtxBaseUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'mediamtxLogPath'];
+    static runtimeKeys = ['verbose', 'mediamtxBaseUrl', 'mediamtxMetricsUrl', 'mediamtxAuthToken', 'mediamtxBridgeTimeout', 'mediamtxConfigPath', 'mediamtxLogPath'];
     /** Keys, die erst nach einem Restart wirksam werden. */
     static restartKeys = ['serverPort', 'mediamtxApiVersion'];
 
@@ -41,6 +42,9 @@ class Config {
         this.serverPort = parseInt(env.SERVER_PORT, 10) || this.defaults.serverPort;
         this.verbose = env.VERBOSE === 'true' || this.defaults.verbose;
         this.mediamtxBaseUrl = env.MEDIAMTX_BASE_URL || this.defaults.mediamtxBaseUrl;
+        // Fallback auf den statischen Default: ältere config.json-Dateien
+        // kennen den Key noch nicht.
+        this.mediamtxMetricsUrl = env.MEDIAMTX_METRICS_URL || this.defaults.mediamtxMetricsUrl || Config.defaults.mediamtxMetricsUrl;
         this.mediamtxAuthToken = env.MEDIAMTX_AUTH_TOKEN || this.defaults.mediamtxAuthToken || '';
         this.mediamtxApiVersion = env.MEDIAMTX_API_VERSION || this.defaults.mediamtxApiVersion || 'v3';
         this.mediamtxBridgeTimeout = parseInt(env.MEDIAMTX_BRIDGE_TIMEOUT, 10) || this.defaults.mediamtxBridgeTimeout || 10000;
@@ -65,6 +69,7 @@ class Config {
             serverPort: parseInt(this.env.SERVER_PORT, 10) || Config.defaults.serverPort,
             verbose: this.env.VERBOSE === 'true' || Config.defaults.verbose,
             mediamtxBaseUrl: this.env.MEDIAMTX_BASE_URL || Config.defaults.mediamtxBaseUrl,
+            mediamtxMetricsUrl: this.env.MEDIAMTX_METRICS_URL || Config.defaults.mediamtxMetricsUrl,
             mediamtxAuthToken: this.env.MEDIAMTX_AUTH_TOKEN || Config.defaults.mediamtxAuthToken || '',
             mediamtxApiVersion: this.env.MEDIAMTX_API_VERSION || Config.defaults.mediamtxApiVersion || 'v3',
             mediamtxBridgeTimeout: parseInt(this.env.MEDIAMTX_BRIDGE_TIMEOUT, 10) || Config.defaults.mediamtxBridgeTimeout || 10000,
@@ -95,6 +100,7 @@ class Config {
             serverPort: this.serverPort,
             verbose: this.verbose,
             mediamtxBaseUrl: this.mediamtxBaseUrl,
+            mediamtxMetricsUrl: this.mediamtxMetricsUrl,
             mediamtxAuthToken: this.maskSecret(this.mediamtxAuthToken),
             mediamtxApiVersion: this.mediamtxApiVersion,
             mediamtxBridgeTimeout: this.mediamtxBridgeTimeout,
@@ -131,6 +137,12 @@ class Config {
         } catch {
             errors.push('mediamtxBaseUrl muss eine gültige http(s)-URL sein');
         }
+        try {
+            const url = new URL(s.mediamtxMetricsUrl);
+            if (!['http:', 'https:'].includes(url.protocol)) throw new Error('bad protocol');
+        } catch {
+            errors.push('mediamtxMetricsUrl muss eine gültige http(s)-URL sein');
+        }
         if (typeof s.mediamtxAuthToken !== 'string')
             errors.push('mediamtxAuthToken muss ein String sein');
         if (typeof s.mediamtxApiVersion !== 'string'
@@ -154,6 +166,7 @@ class Config {
             serverPort: this.serverPort,
             verbose: this.verbose,
             mediamtxBaseUrl: this.mediamtxBaseUrl,
+            mediamtxMetricsUrl: this.mediamtxMetricsUrl,
             mediamtxAuthToken: this.mediamtxAuthToken,
             mediamtxApiVersion: this.mediamtxApiVersion,
             mediamtxBridgeTimeout: this.mediamtxBridgeTimeout,
@@ -182,6 +195,7 @@ class Config {
         this.serverPort = next.serverPort;
         this.verbose = next.verbose;
         this.mediamtxBaseUrl = next.mediamtxBaseUrl.replace(/\/+$/, '');
+        this.mediamtxMetricsUrl = next.mediamtxMetricsUrl.replace(/\/+$/, '');
         this.mediamtxAuthToken = next.mediamtxAuthToken;
         this.mediamtxApiVersion = next.mediamtxApiVersion;
         this.mediamtxBridgeTimeout = next.mediamtxBridgeTimeout;
@@ -205,6 +219,7 @@ class Config {
                 serverPort: this.serverPort,
                 verbose: this.verbose,
                 mediamtxBaseUrl: this.mediamtxBaseUrl,
+                mediamtxMetricsUrl: this.mediamtxMetricsUrl,
                 mediamtxAuthToken: this.mediamtxAuthToken,
                 mediamtxApiVersion: this.mediamtxApiVersion,
                 mediamtxBridgeTimeout: this.mediamtxBridgeTimeout,

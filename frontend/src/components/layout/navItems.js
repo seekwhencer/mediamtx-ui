@@ -1,7 +1,7 @@
 import {
   Clapperboard, LayoutDashboard, Settings2, Users, FolderTree,
   SlidersHorizontal, Activity, Radio, Video, MonitorPlay,
-  SatelliteDish, Wifi, Boxes, HardDrive, Settings, ScrollText,
+  SatelliteDish, Wifi, Boxes, HardDrive, Settings, ScrollText, Gauge,
 } from 'lucide-react';
 
 // Navigation: labelKey = i18n-Key (siehe locales/*.json).
@@ -33,6 +33,7 @@ export const NAV_SECTIONS = [
       { to: '/srt', labelKey: 'nav.srt', icon: SatelliteDish },
       { to: '/webrtc', labelKey: 'nav.webrtc', icon: Wifi },
       { to: '/moq', labelKey: 'nav.moq', icon: Boxes },
+      { to: '/metrics', labelKey: 'nav.metrics', icon: Gauge },
       { to: '/logs', labelKey: 'nav.logs', icon: ScrollText },
     ],
   },

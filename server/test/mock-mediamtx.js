@@ -353,6 +353,43 @@ function createMockMediaMTX({ itemCount = 3, log = () => {} } = {}) {
         res.json({ started: now(), version: 'v1.9.0-mock' });
     });
 
+    // ---------- Metrics (Prometheus-Text, PLAN_METRICS.md §3.1) ----------
+
+    const metricsText = [
+        '# Paths',
+        'paths{name="cam1",state="online"} 1',
+        'paths_readers{name="cam1",state="online",readerType="hlsSession"} 3',
+        'paths_inbound_bytes{name="cam1",state="online"} 123456',
+        'paths_outbound_bytes{name="cam1",state="online"} 654321',
+        'paths_inbound_frames_in_error{name="cam1",state="online"} 0',
+        '',
+        '# HLS',
+        'hls_muxers{name="cam1"} 1',
+        'hls_sessions{id="abc",path="cam1"} 1',
+        'hls_sessions_outbound_bytes{id="abc",path="cam1"} 187',
+        '',
+        '# RTSP / RTMP / SRT / WebRTC / MoQ',
+        'rtsp_conns{id="def"} 1',
+        'rtsp_conns_inbound_bytes{id="def"} 100',
+        'rtmp_conns{id="ghi",path="cam1",state="publish"} 1',
+        'srt_conns{id="jkl",path="cam1",state="read"} 1',
+        'webrtc_sessions{id="mno",path="cam1",state="read"} 1',
+        'moq_sessions{id="pqr",path="cam1",state="read"} 1',
+        '',
+        '# Forward',
+        'forward_dests{pos="1",id="stu",path="cam1",type="rtmp",state="forwarding"} 1',
+        'forward_dests_outbound_bytes{pos="1",id="stu",path="cam1",type="rtmp",state="forwarding"} 4096',
+        '',
+    ].join('\n');
+
+    app.get('/metrics', (req, res) => {
+        if (req.query.mockError === '500') {
+            return res.status(500).json({ error: 'mock internal error', status: 'error' });
+        }
+        res.set('Content-Type', 'text/plain; version=0.0.4; charset=utf-8');
+        res.send(metricsText);
+    });
+
     app.post('/v3/auth/jwks/refresh', (req, res) => res.json({ status: 'ok' }));
 
     // ---------- Config: Global ----------

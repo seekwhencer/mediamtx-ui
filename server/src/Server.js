@@ -67,6 +67,12 @@ export class Server {
             this.router?.logsWs?.close(); // WS-Clients terminate (sonst hängt httpServer.close())
             this.router?.tailService?.stop(); // tail-Child-Process SIGTERM
             this.httpServer.close(() => process.exit(0));
+            // Offene Verbindungen aktiv beenden, sonst wartet close() ewig
+            // und der Prozess läuft nicht aus (blockiert den --watch-Restart):
+            // - HTTP Keep-Alive → closeAllConnections()
+            // - WebSocket (Vite HMR, /logs) → upgraded Sockets explizit destroyen
+            this.httpServer.closeAllConnections();
+            this.router?.closeUpgradedSockets?.();
         };
         process.on('SIGTERM', shutdown);
         process.on('SIGINT', shutdown);

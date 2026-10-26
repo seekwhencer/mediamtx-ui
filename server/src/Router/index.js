@@ -2,6 +2,8 @@
 import express from 'express';
 import { FrontendRouter } from './FrontendRouter.js';
 import { SettingsRouter } from './SettingsRouter.js';
+import { MetricsRouter } from './MetricsRouter.js';
+import { MetricsService } from '../MetricsService.js';
 import { MediaMTXBridge } from '../MediaMTXBridge.js';
 import { MediaMTXConfigStore } from '../MediaMTXConfigStore.js';
 import { LogTailService } from '../LogTailService.js';
@@ -51,6 +53,12 @@ class Router {
         this.settingsRouter = new SettingsRouter(this.config, this.logger);
         this.router.use(this.settingsRouter.router);
 
+        // 2b. Metrics (server-eigener Endpunkt, holt Metriken vom
+        //     MediaMTX-Metrics-Server) — VOR der Bridge/Frontend.
+        this.metricsService = new MetricsService(this.config, this.logger);
+        this.metricsRouter = new MetricsRouter(this.metricsService, this.logger);
+        this.router.use(this.metricsRouter.router);
+
         // 3. MediaMTX-Bridge (agnostischer Proxy) — VOR dem Frontend.
         this.bridge = new MediaMTXBridge(this.config, this.logger);
         this.router.use(`/${this.config.mediamtxApiVersion || 'v3'}`, this.bridge.router());
@@ -84,7 +92,15 @@ class Router {
      * fremde Upgrades (z. B. Vite HMR) mit 400 Bad Request abbrechen.
      */
     setupUpgradeRouting() {
+        // Alle upgraded Sockets (WebSocket) tracken: httpServer.close() und
+        // closeAllConnections() beenden sie NICHT (nach dem Upgrade gehören
+        // sie nicht mehr zum Server) — ohne explizites Destroyen hängt der
+        // Shutdown (z. B. node --watch-Restart) auf offenen HMR-/Log-WS.
+        this.upgradedSockets = new Set();
         this.httpServer.on('upgrade', (request, socket, head) => {
+            this.upgradedSockets.add(socket);
+            socket.on('close', () => this.upgradedSockets.delete(socket));
+
             let pathname;
             try {
                 pathname = new URL(request.url, `http://${request.headers.host || 'localhost'}`).pathname;
@@ -101,6 +117,14 @@ class Router {
             // Alle anderen Upgrades (Vite HMR mit ?token=…) übernimmt Vites
             // eigener selektiver Listener — hier bewusst nichts weiter tun.
         });
+    }
+
+    /** Beendet alle offenen WebSocket-Verbindungen (Shutdown). */
+    closeUpgradedSockets() {
+        for (const socket of this.upgradedSockets) {
+            socket.destroy();
+        }
+        this.upgradedSockets.clear();
     }
 }
 

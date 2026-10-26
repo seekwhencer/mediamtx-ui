@@ -29,6 +29,7 @@ export const QUERY_KEYS = {
   moqSession: (id) => ['moq', 'sessions', id],
   recordings: ['recordings'],
   recording: (name) => ['recordings', name],
+  metrics: ['metrics'],
 };
 
 export default QUERY_KEYS;

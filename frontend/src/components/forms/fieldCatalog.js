@@ -368,6 +368,7 @@ export const SERVER_SETTINGS_CATALOG = [
   { name: 'serverPort', label: 'Server Port', labelKey: 'settings.serverPort', type: 'number', group: 'Server', min: 1, max: 65535, restartRequired: true, descriptionKey: 'fields.serverPort' },
   { name: 'verbose', label: 'Verbose Logging', labelKey: 'settings.verboseLogging', type: 'toggle', group: 'Server', descriptionKey: 'fields.verbose' },
   { name: 'mediamtxBaseUrl', label: 'MediaMTX Base URL', labelKey: 'settings.mediamtxBaseUrl', type: 'text', group: 'MediaMTX', placeholder: 'http://localhost:9997', descriptionKey: 'fields.mediamtxBaseUrl' },
+  { name: 'mediamtxMetricsUrl', label: 'MediaMTX Metrics URL', labelKey: 'settings.mediamtxMetricsUrl', type: 'text', group: 'MediaMTX', placeholder: 'http://localhost:9998', descriptionKey: 'fields.mediamtxMetricsUrl' },
   { name: 'mediamtxAuthToken', label: 'MediaMTX Auth Token', labelKey: 'settings.mediamtxAuthToken', type: 'password', group: 'MediaMTX', placeholder: '•••• (unchanged) / empty = delete', placeholderKey: 'settings.placeholderAuthToken', descriptionKey: 'fields.mediamtxAuthToken' },
   { name: 'mediamtxApiVersion', label: 'MediaMTX API Version', labelKey: 'settings.mediamtxApiVersion', type: 'text', group: 'Bridge', placeholder: 'v3', restartRequired: true, descriptionKey: 'fields.mediamtxApiVersion' },
   { name: 'mediamtxBridgeTimeout', label: 'MediaMTX Bridge Timeout (ms)', labelKey: 'settings.mediamtxBridgeTimeout', type: 'number', group: 'Bridge', min: 1000, max: 300000, descriptionKey: 'fields.mediamtxBridgeTimeout' },

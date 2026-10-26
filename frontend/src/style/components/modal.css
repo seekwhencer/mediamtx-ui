@@ -15,7 +15,8 @@
   max-height: min(85vh, 720px);
   display: flex;
   flex-direction: column;
-  background: var(--color-surface);
+   background-image: radial-gradient(120vh circle at left bottom, color-mix(in srgb, var(--color-primary) 10%, transparent), transparent), radial-gradient(50vh circle at right top, color-mix(in srgb, var(--color-primary) 5%, transparent), transparent);
+  background-color: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);

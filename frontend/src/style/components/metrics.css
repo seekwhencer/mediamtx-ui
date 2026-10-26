@@ -1,0 +1,67 @@
+/* ===== Metrics ===== */
+.metrics__sections {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+.metrics__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.metrics__section-title {
+  font-size: var(--fs-md);
+  color: var(--color-text-secondary);
+}
+
+.metric-card__sub {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.metric-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.metric-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.metric-list__label {
+  font-size: var(--fs-sm);
+  color: var(--color-text-secondary);
+}
+
+.metric-list__value {
+  font-family: var(--font-mono);
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.metrics__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-8) var(--space-5);
+  background: var(--color-surface);
+  border: 1px dashed var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-md);
+}
+
+/* Letzter Snapshot bei Upstream-Fehler: sichtbar, aber abgedunkelt. */
+.metrics__stale {
+  opacity: 0.55;
+}
