@@ -22,6 +22,7 @@ const NAV = [
   { path: '/srt', slug: 'srt' },
   { path: '/webrtc', slug: 'webrtc' },
   { path: '/moq', slug: 'moq' },
+  { path: '/metrics', slug: 'metrics' },
   { path: '/logs', slug: 'logs' },
   { path: '/recordings', slug: 'recordings' },
   { path: '/settings', slug: 'settings' },

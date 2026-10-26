@@ -4,6 +4,7 @@ dark_global_subnav.png
 dark_hls.png
 dark_internal-users.png
 dark_logs.png
+dark_metrics.png
 dark_moq.png
 dark_path-defaults.png
 dark_path-defaults_subnav.png
@@ -22,6 +23,7 @@ light_global_subnav.png
 light_hls.png
 light_internal-users.png
 light_logs.png
+light_metrics.png
 light_moq.png
 light_path-defaults.png
 light_path-defaults_subnav.png

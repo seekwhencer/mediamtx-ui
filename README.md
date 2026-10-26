@@ -1,13 +1,14 @@
 # mediamtx-ui
 
 Web-based admin interface for [MediaMTX](https://github.com/bluenviron/mediamtx).
-Dashboard, configuration, runtime monitoring, live logs, and recordings (list, delete, playback) — via the MediaMTX API (`/v3/*`), the MediaMTX Playback API, and a WebSocket log stream.
+Dashboard, configuration, runtime monitoring, live metrics, live logs, and recordings (list, delete, playback) — via the MediaMTX API (`/v3/*`), the MediaMTX Playback API, the MediaMTX metrics server (Prometheus), and a WebSocket log stream.
 
 ## Features
 
 - **Dashboard** — Cards per protocol (HLS, RTSP/RTSPS, RTMP/RTMPS, SRT, WebRTC, MoQ), instance info (version, start time), path overview (online/available), auto-refresh
 - **Configuration** — Global, path defaults, internal users, paths (add/edit/replace/delete); schema-driven forms, deprecated fields hidden
 - **Runtime** — Path list + detail (source, readers, tracks, forward destinations, static source); sessions/connections of all protocols incl. **kick**
+- **Metrics** — Live dashboard from the MediaMTX metrics server (Prometheus, port `9998`): totals (paths online, readers, inbound/outbound + throughput), per-protocol (HLS/RTSP/RTMP/SRT/WebRTC/MoQ), per-path, and forward destinations; auto-refresh (polling)
 - **Recordings** — List, segment delete, and inline playback (play / stop / fullscreen)
 - **Logs** — Live MediaMTX log monitor (WebSocket `/logs`): history + streaming, level filter (ERR/WAR/INF/DBG), search, pause/resume, auto-reconnect
 - **Settings** — Server settings via API (persisted, "applied"/"restart required" feedback) + app settings local in the browser (theme, auto-refresh, page size, API base URL)
@@ -112,6 +113,7 @@ In dev mode (`NODE_ENV=development`) the UI server serves the frontend directly 
 | `SERVER_PORT` | `3000` | HTTP port of the UI server |
 | `VERBOSE` | `false` | Verbose logging |
 | `MEDIAMTX_BASE_URL` | `http://localhost:9997` | MediaMTX API (in Compose: `http://mediamtx:9997`) |
+| `MEDIAMTX_METRICS_URL` | `http://localhost:9998` | MediaMTX metrics server (Prometheus) for the metrics dashboard (in Compose: `http://mediamtx:9998`) |
 | `MEDIAMTX_AUTH_TOKEN` | — | Bearer token, forwarded to MediaMTX |
 | `MEDIAMTX_API_VERSION` | `v3` | API prefix (restart required) |
 | `MEDIAMTX_BRIDGE_TIMEOUT` | `10000` | Bridge timeout in ms |
@@ -139,6 +141,7 @@ All server settings can be viewed and changed under **`/settings`** in the UI:
 | `GET` | `/health` | Health check → `{ status: 'ok' }` |
 | `GET` | `/api/settings` | Server settings (secrets masked) |
 | `PATCH` | `/api/settings` | Change settings → `{ applied, restartRequired }` |
+| `GET` | `/api/metrics` | MediaMTX metrics snapshot (Prometheus, parsed + normalized) → `{ ts, totals, paths, protocols, forwardDests }` |
 | `*` | `/v3/*` | 1:1 proxy to the MediaMTX API (56 endpoints, see `mediamtx/openapi.yml`) |
 | `WS` | `/logs` | Live log stream: `{ type: 'history' \| 'line' \| 'update', data }` (see `server/src/LogsWebSocket.js`) |
 | `GET` | `/*` | Frontend (SPA, deep links work) |
@@ -168,6 +171,7 @@ cd frontend && npm run build       # Build check
 | Path defaults | ![Path defaults (light)](.docs/screenshots/light_path-defaults.png) | ![Path defaults (dark)](.docs/screenshots/dark_path-defaults.png) |
 | Path defaults (all groups) | ![Path defaults groups (light)](.docs/screenshots/light_path-defaults_subnav.png) | ![Path defaults groups (dark)](.docs/screenshots/dark_path-defaults_subnav.png) |
 | Paths (runtime) | ![Paths runtime (light)](.docs/screenshots/light_runtime-paths.png) | ![Paths runtime (dark)](.docs/screenshots/dark_runtime-paths.png) |
+| Metrics | ![Metrics (light)](.docs/screenshots/light_metrics.png) | ![Metrics (dark)](.docs/screenshots/dark_metrics.png) |
 | Logs | ![Logs (light)](.docs/screenshots/light_logs.png) | ![Logs (dark)](.docs/screenshots/dark_logs.png) |
 | HLS | ![HLS (light)](.docs/screenshots/light_hls.png) | ![HLS (dark)](.docs/screenshots/dark_hls.png) |
 | RTSP | ![RTSP (light)](.docs/screenshots/light_rtsp.png) | ![RTSP (dark)](.docs/screenshots/dark_rtsp.png) |

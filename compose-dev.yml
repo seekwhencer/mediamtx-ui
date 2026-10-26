@@ -20,6 +20,7 @@ services:
       - NODE_ENV=development
       - SERVER_PORT=${SERVER_PORT}
       - MEDIAMTX_BASE_URL=http://mediamtx:9997
+      - MEDIAMTX_METRICS_URL=http://mediamtx:9998
       - MEDIAMTX_HLS_URL=${MEDIAMTX_HLS_URL:-http://localhost:8888}
       - MEDIAMTX_PLAYBACK_URL=${MEDIAMTX_PLAYBACK_URL:-http://localhost:9996}
       - MEDIAMTX_CONFIG_PATH=${MEDIAMTX_CONFIG_PATH:-../mediamtx/mediamtx.yml}
