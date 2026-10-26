@@ -17,6 +17,11 @@
   z-index: 0;
 }
 
+/* PLAN_THEATRE_EXTEND — Video bleibt gemountet (hls.js-Lebenszyklus), in grid/pip ausgeblendet. */
+.theatre__video.is-hidden {
+  display: none;
+}
+
 /* 4.4 — Empty-States (zentriert, über dem Video; Text hell, da Hintergrund immer schwarz) */
 .theatre__empty {
   position: fixed;
@@ -122,22 +127,33 @@
   text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6);
 }
 
+/* PLAN_THEATRE_EXTEND §6 — Buttons: Icon + Text (Desktop), responsiv. */
 .theatre-topbar__btn {
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
+  gap: var(--space-1);
+  min-height: 32px;
+  padding: var(--space-1) var(--space-2);
   background: rgba(255, 255, 255, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.15);
   border-radius: var(--radius-sm);
   color: #fff;
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
   cursor: pointer;
   transition:
     background var(--transition),
     border-color var(--transition);
+}
+
+.theatre-topbar__btn-icon {
+  flex: none;
+}
+
+.theatre-topbar__btn-label {
+  white-space: nowrap;
 }
 
 .theatre-topbar__btn:hover {
@@ -148,6 +164,44 @@
 .theatre-topbar__btn:focus-visible {
   outline: 2px solid var(--color-primary);
   outline-offset: 2px;
+}
+
+/* PLAN_THEATRE_EXTEND §6.3 — View-Switcher (Segmented-Control: Single/Grid/PiP). */
+.theatre-topbar__viewswitcher {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.theatre-topbar__viewbtn {
+  padding: var(--space-1) var(--space-3);
+  font-family: var(--font-sans);
+  font-size: var(--fs-sm);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: none;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    color var(--transition);
+}
+
+.theatre-topbar__viewbtn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff;
+}
+
+.theatre-topbar__viewbtn:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -2px;
+}
+
+.theatre-topbar__viewbtn.is-active {
+  background: var(--color-primary);
+  color: #fff;
 }
 
 /* ===== Theatre: Tile-Strip (unten mittig, horizontal scrollbar) ===== */
@@ -288,6 +342,148 @@
   background: var(--color-error);
 }
 
+/* ===== PLAN_THEATRE_EXTEND: StreamPlayer (ein Stream: Video + Overlays + Name) ===== */
+.theatre-player {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  background: #000;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  cursor: default;
+}
+
+.theatre-player__video {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #000;
+}
+
+.theatre-player__name {
+  position: absolute;
+  left: var(--space-2);
+  bottom: var(--space-2);
+  max-width: calc(100% - var(--space-4));
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
+.theatre-player__overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  background: color-mix(in srgb, var(--color-bg) 55%, transparent);
+  color: var(--color-primary);
+}
+
+.theatre-player__overlay--error {
+  color: var(--color-error);
+}
+
+.theatre-player__error-text {
+  max-width: 80%;
+  font-size: var(--fs-xs);
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theatre-player__spinner {
+  animation: ui-spin 0.7s linear infinite;
+}
+
+/* State: focused — hervorgehobener Rand (PiP großer Stream). */
+.theatre-player.is-focused {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary-subtle), var(--shadow-lg);
+}
+
+/* State: offline — abgedunkelt. */
+.theatre-player.is-offline {
+  opacity: 0.7;
+}
+
+/* Klickbarer Player (PiP-Thumbs): Hover + Fokus. */
+.theatre-player[role='button'] {
+  cursor: pointer;
+}
+
+.theatre-player[role='button']:hover {
+  border-color: var(--color-primary);
+}
+
+.theatre-player[role='button']:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ===== PLAN_THEATRE_EXTEND: Grid-View (alle Streams gleichzeitig) ===== */
+.theatre-grid {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  box-sizing: border-box;
+}
+
+/* ===== PLAN_THEATRE_EXTEND: PiP-View (ein Stream groß + kleine klickbare) ===== */
+.theatre-pip {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-3);
+  box-sizing: border-box;
+}
+
+.theatre-pip__main {
+  flex: 1;
+  min-height: 0;
+}
+
+.theatre-pip__thumbs {
+  display: flex;
+  gap: var(--space-2);
+  height: 120px;
+  overflow-x: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+.theatre-pip__thumbs::-webkit-scrollbar {
+  height: 8px;
+}
+
+.theatre-pip__thumbs::-webkit-scrollbar-thumb {
+  background: var(--color-border-strong);
+  border-radius: var(--radius-pill);
+}
+
+.theatre-pip__thumbs .theatre-player {
+  flex: none;
+  width: 160px;
+}
+
 /* ===== Responsive: Mobile (≤768px) — Tile-Breite, Strip, Top-Bar (9.2) ===== */
 @media (max-width: 768px) {
   .theatre-topbar {
@@ -298,10 +494,38 @@
     max-width: 32vw;
   }
 
-  /* Größere Touch-Ziele auf Mobile. */
+  /* PLAN_THEATRE_EXTEND §6 — Mobile: Buttons kleiner, OHNE Icon (nur Text). */
   .theatre-topbar__btn {
-    width: 40px;
-    height: 40px;
+    min-height: 28px;
+    padding: var(--space-1);
+    font-size: var(--fs-xs);
+  }
+
+  .theatre-topbar__btn-icon {
+    display: none;
+  }
+
+  .theatre-topbar__viewbtn {
+    padding: var(--space-1) var(--space-2);
+    font-size: var(--fs-xs);
+  }
+
+  .theatre-grid {
+    gap: var(--space-1);
+    padding: var(--space-2);
+  }
+
+  .theatre-pip {
+    gap: var(--space-1);
+    padding: var(--space-2);
+  }
+
+  .theatre-pip__thumbs {
+    height: 96px;
+  }
+
+  .theatre-pip__thumbs .theatre-player {
+    width: 120px;
   }
 
   .theatre-strip {

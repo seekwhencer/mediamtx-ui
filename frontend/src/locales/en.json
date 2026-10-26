@@ -395,7 +395,13 @@
       "exitFullscreen": "Exit fullscreen",
       "back": "Back",
       "tileAria": "{{name}} ({{status}})",
-      "stripAria": "Stream paths"
+      "stripAria": "Stream paths",
+      "viewSingle": "Single",
+      "viewGrid": "Grid",
+      "viewPip": "PiP",
+      "viewModeAria": "View mode",
+      "playerAria": "{{name}}{{focused}}",
+      "focused": " (focused)"
     },
     "notFound": {
       "title": "Page not found",

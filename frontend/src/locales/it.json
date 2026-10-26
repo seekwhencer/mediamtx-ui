@@ -395,7 +395,13 @@
       "exitFullscreen": "Esci dallo schermo intero",
       "back": "Indietro",
       "tileAria": "{{name}} ({{status}})",
-      "stripAria": "Percorsi stream"
+      "stripAria": "Percorsi stream",
+      "viewSingle": "Singolo",
+      "viewGrid": "Griglia",
+      "viewPip": "PiP",
+      "viewModeAria": "Modalità di visualizzazione",
+      "playerAria": "{{name}}{{focused}}",
+      "focused": " (focalizzato)"
     },
     "notFound": {
       "title": "Pagina non trovata",

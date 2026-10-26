@@ -395,7 +395,13 @@
       "exitFullscreen": "Vollbild beenden",
       "back": "Zurück",
       "tileAria": "{{name}} ({{status}})",
-      "stripAria": "Stream-Pfade"
+      "stripAria": "Stream-Pfade",
+      "viewSingle": "Einzeln",
+      "viewGrid": "Raster",
+      "viewPip": "PiP",
+      "viewModeAria": "Ansichtsmodus",
+      "playerAria": "{{name}}{{focused}}",
+      "focused": " (fokussiert)"
     },
     "notFound": {
       "title": "Seite nicht gefunden",
