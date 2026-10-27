@@ -5,6 +5,7 @@ import { useListQuery } from '../../hooks/useApi';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 import { useAutoHide } from '../../hooks/useAutoHide';
 import { useHlsPlayer } from '../../hooks/useHlsPlayer';
+import { useRecordingMap } from '../../hooks/useRecordingMap';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { buildHlsUrl } from '../../utils/buildHlsUrl';
@@ -34,6 +35,7 @@ export default function Theatre() {
 
   // 4.1 — All paths (online + offline), auto-refresh enabled.
   const refetchInterval = useAutoRefresh();
+  const { isRecording } = useRecordingMap();
   const list = useListQuery(QUERY_KEYS.runtimePaths, (p) => api.get('/paths/list', p), {
     itemsPerPage: 500,
     refetchInterval,
@@ -146,7 +148,13 @@ export default function Theatre() {
         style={{ gridTemplateColumns: `repeat(${cols}, 1fr)`, gridTemplateRows: `repeat(${rows}, 1fr)` }}
       >
         {items.map((item) => (
-          <StreamPlayer key={item.name} name={item.name} online={item.online} muted={muted} />
+          <StreamPlayer
+            key={item.name}
+            name={item.name}
+            online={item.online}
+            recording={isRecording(item.confName)}
+            muted={muted}
+          />
         ))}
       </div>
     );
@@ -157,7 +165,13 @@ export default function Theatre() {
     content = (
       <div className="theatre-pip">
         <div className="theatre-pip__main">
-          <StreamPlayer name={focused} online={focusedItem?.online} muted={muted} focused />
+          <StreamPlayer
+            name={focused}
+            online={focusedItem?.online}
+            recording={isRecording(focusedItem?.confName)}
+            muted={muted}
+            focused
+          />
         </div>
         <div className="theatre-pip__thumbs">
           {items
@@ -167,6 +181,7 @@ export default function Theatre() {
                 key={item.name}
                 name={item.name}
                 online={item.online}
+                recording={isRecording(item.confName)}
                 muted={muted}
                 onClick={() => setFocusedPath(item.name)}
               />
@@ -208,6 +223,7 @@ export default function Theatre() {
               key={item.name}
               name={item.name}
               online={item.online}
+              recording={isRecording(item.confName)}
               active={activePath === item.name}
               loading={activePath === item.name && status === 'loading'}
               error={activePath === item.name && status === 'error'}

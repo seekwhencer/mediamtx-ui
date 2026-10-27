@@ -68,6 +68,15 @@
     "refresh": "Aktualisieren",
     "language": "Sprache"
   },
+  "recording": {
+    "rec": "REC",
+    "armed": "REC",
+    "off": "aus",
+    "ariaActive": "Aufnimmt",
+    "ariaArmed": "Aufnahme aktiviert (offline)",
+    "ariaOff": "Keine Aufnahme",
+    "ariaUnknown": "Aufnahme-Status unbekannt"
+  },
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Übersicht: Protokolle, Instanz, Pfade — Auto-Refresh alle 10 s.",
@@ -151,6 +160,7 @@
       "name": "Name",
       "online": "Online",
       "available": "Verfügbar",
+      "record": "Aufnahme",
       "sourceType": "Quellentyp",
       "readers": "Reader"
     },
@@ -160,6 +170,7 @@
       "back": "Zurück",
       "pathNotLoaded": "Pfad nicht geladen",
       "status": "Status",
+      "record": "Aufnahme",
       "confName": "Conf-Name",
       "onlineSince": "Online seit",
       "availableSince": "Verfügbar seit",

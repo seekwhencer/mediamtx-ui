@@ -1,0 +1,56 @@
+/* ===== RecordingBadge (Text-Badge) ===== */
+.rec-badge--pulse {
+  gap: 6px;
+}
+
+.rec-badge__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: rec-pulse 1.4s ease-in-out infinite;
+}
+
+/* ===== RecordingBadge (kompakt, nur Punkt — Theater) ===== */
+.rec-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-muted);
+}
+.rec-dot--rec    { background: var(--color-error); }
+.rec-dot--armed  { background: var(--color-validation); }
+.rec-dot--off    { background: var(--color-muted); }
+.rec-dot--unknown{ background: var(--color-muted); opacity: .5; }
+
+.rec-dot--pulse {
+  animation: rec-pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes rec-pulse {
+  0%, 100% { opacity: 1;   transform: scale(1); }
+  50%      { opacity: .35; transform: scale(.8); }
+}
+
+/* ===== Positionierung im Theater ===== */
+.theatre-tile__rec {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+}
+
+.theatre-player__rec {
+  position: absolute;
+  top: var(--space-2);
+  left: var(--space-2);
+  z-index: 2;
+}
+
+/* Reduced Motion: Puls aus (Barrierefreiheit) */
+@media (prefers-reduced-motion: reduce) {
+  .rec-badge__dot,
+  .rec-dot--pulse {
+    animation: none;
+  }
+}

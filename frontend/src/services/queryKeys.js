@@ -7,6 +7,7 @@ export const QUERY_KEYS = {
   internalUser: (id) => ['config', 'internal-users', id],
   configPaths: ['config', 'paths'],
   configPath: (name) => ['config', 'paths', name],
+  configPathsRecording: ['config', 'paths', 'recording'],
   runtimePaths: ['paths'],
   runtimePath: (name) => ['paths', name],
   forwardDests: (path) => ['paths', 'forward-dests', path],

@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Loader2, AlertTriangle } from 'lucide-react';
 import { useHlsPlayer } from '../../hooks/useHlsPlayer';
 import { buildHlsUrl } from '../../utils/buildHlsUrl';
+import RecordingBadge from '../ui/RecordingBadge';
 
 /**
  * Ein Stream: <video> + eigener useHlsPlayer + Status-Overlays + Name.
@@ -11,7 +12,7 @@ import { buildHlsUrl } from '../../utils/buildHlsUrl';
  * - focused → CSS-Klasse is-focused (hervorhebender Rand).
  * - onClick → PiP-Mode: promote Stream (setzt focusedPath).
  */
-export default function StreamPlayer({ name, online, muted = true, focused = false, onClick }) {
+export default function StreamPlayer({ name, online, recording, muted = true, focused = false, onClick }) {
   const { t } = useTranslation();
   const videoRef = useRef(null);
   const url = buildHlsUrl(name);
@@ -46,6 +47,11 @@ export default function StreamPlayer({ name, online, muted = true, focused = fal
       aria-label={t('pages.theatre.playerAria', { name, focused: focused ? t('pages.theatre.focused') : '' })}
     >
       <video ref={videoRef} className="theatre-player__video" playsInline />
+      {recording !== undefined && (
+        <span className="theatre-player__rec" aria-hidden="true">
+          <RecordingBadge record={recording} online={online} compact />
+        </span>
+      )}
       {status === 'loading' && (
         <div className="theatre-player__overlay" aria-hidden="true">
           <Loader2 size={24} className="theatre-player__spinner" />

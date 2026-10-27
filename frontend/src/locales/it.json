@@ -68,6 +68,15 @@
     "refresh": "Aggiorna",
     "language": "Lingua"
   },
+  "recording": {
+    "rec": "REC",
+    "armed": "REC",
+    "off": "disattivo",
+    "ariaActive": "Registrazione in corso",
+    "ariaArmed": "Registrazione attiva (offline)",
+    "ariaOff": "Nessuna registrazione",
+    "ariaUnknown": "Stato registrazione sconosciuto"
+  },
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Panoramica: protocolli, istanza, percorsi — auto-refresh ogni 10 s.",
@@ -151,6 +160,7 @@
       "name": "Nome",
       "online": "Online",
       "available": "Disponibile",
+      "record": "Registrazione",
       "sourceType": "Tipo di origine",
       "readers": "Lettori"
     },
@@ -160,6 +170,7 @@
       "back": "Indietro",
       "pathNotLoaded": "Percorso non caricato",
       "status": "Stato",
+      "record": "Registrazione",
       "confName": "Nome conf",
       "onlineSince": "Online dal",
       "availableSince": "Disponibile dal",

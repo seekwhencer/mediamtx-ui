@@ -8,12 +8,15 @@ import { QUERY_KEYS } from '../../services/queryKeys';
 import { enumLabel } from '../../utils/constants';
 import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
+import RecordingBadge from '../ui/RecordingBadge';
+import { useRecordingMap } from '../../hooks/useRecordingMap';
 
 export default function RuntimePaths() {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
+  const { isRecording } = useRecordingMap();
 
   const list = useListQuery(QUERY_KEYS.runtimePaths, (p) => api.get('/paths/list', p), {
     page,
@@ -34,6 +37,11 @@ export default function RuntimePaths() {
       render: (row) => (
         <Badge value={row.available ? 'available' : 'unavailable'}>{row.available ? t('common.available') : t('common.unavailable')}</Badge>
       ),
+    },
+    {
+      key: 'record',
+      label: t('pages.runtimePaths.record'),
+      render: (row) => <RecordingBadge record={isRecording(row.confName)} online={row.online} />,
     },
     { key: 'source.type', label: t('pages.runtimePaths.sourceType'), render: (row) => (row.source ? enumLabel('pathSourceType', row.source.type, t) : '–') },
     { key: 'readers', label: t('pages.runtimePaths.readers'), render: (row) => (Array.isArray(row.readers) ? row.readers.length : 0) },

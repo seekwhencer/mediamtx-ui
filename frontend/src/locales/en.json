@@ -68,6 +68,15 @@
     "refresh": "Refresh",
     "language": "Language"
   },
+  "recording": {
+    "rec": "REC",
+    "armed": "REC",
+    "off": "off",
+    "ariaActive": "Recording",
+    "ariaArmed": "Recording configured (offline)",
+    "ariaOff": "Not recording",
+    "ariaUnknown": "Recording state unknown"
+  },
   "dashboard": {
     "title": "Dashboard",
     "subtitle": "Overview: protocols, instance, paths — auto-refresh every 10 s.",
@@ -151,6 +160,7 @@
       "name": "Name",
       "online": "Online",
       "available": "Available",
+      "record": "Record",
       "sourceType": "Source Type",
       "readers": "Readers"
     },
@@ -160,6 +170,7 @@
       "back": "Back",
       "pathNotLoaded": "Path not loaded",
       "status": "Status",
+      "record": "Record",
       "confName": "Conf Name",
       "onlineSince": "Online Since",
       "availableSince": "Available Since",

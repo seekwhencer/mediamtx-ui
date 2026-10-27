@@ -1,7 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { Video, Play, Loader2 } from 'lucide-react';
+import RecordingBadge from '../ui/RecordingBadge';
 
-export default function PathTile({ name, online, active, loading, error, onClick }) {
+export default function PathTile({ name, online, recording, active, loading, error, onClick }) {
   const { t } = useTranslation();
   const classes = [
     'theatre-tile',
@@ -26,6 +27,11 @@ export default function PathTile({ name, online, active, loading, error, onClick
       aria-label={t('pages.theatre.tileAria', { name, status })}
     >
       <span className="theatre-tile__dot" aria-hidden="true" />
+      {recording !== undefined && (
+        <span className="theatre-tile__rec" aria-hidden="true">
+          <RecordingBadge record={recording} online={online} compact />
+        </span>
+      )}
       <span className="theatre-tile__body">
         <span className="theatre-tile__icon" aria-hidden="true">
           <Video size={22} strokeWidth={1.8} />

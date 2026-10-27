@@ -6,11 +6,14 @@ import Spinner from '../ui/Spinner';
 import ErrorAlert from '../ui/ErrorAlert';
 import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
+import RecordingBadge from '../ui/RecordingBadge';
+import { useRecordingMap } from '../../hooks/useRecordingMap';
 import { enumLabel } from '../../utils/constants';
 
 export default function PathsCard({ data, loading, error }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { isRecording } = useRecordingMap();
   const items = data?.items ?? [];
   const online = items.filter((p) => p.online).length;
   const available = items.filter((p) => p.available).length;
@@ -28,6 +31,11 @@ export default function PathsCard({ data, loading, error }) {
       render: (row) => (
         <Badge value={row.available ? 'available' : 'unavailable'}>{row.available ? t('common.available') : t('common.unavailable')}</Badge>
       ),
+    },
+    {
+      key: 'record',
+      label: t('pages.runtimePaths.record'),
+      render: (row) => <RecordingBadge record={isRecording(row.confName)} online={row.online} />,
     },
     { key: 'source.type', label: t('pages.runtimePaths.sourceType'), render: (row) => (row.source ? enumLabel('pathSourceType', row.source.type, t) : '–') },
     { key: 'readers', label: t('pages.runtimePaths.readers'), render: (row) => (Array.isArray(row.readers) ? row.readers.length : 0) },

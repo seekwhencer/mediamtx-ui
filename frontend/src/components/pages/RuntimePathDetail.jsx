@@ -7,11 +7,13 @@ import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useListQuery } from '../../hooks/useApi';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
+import { useRecordingMap } from '../../hooks/useRecordingMap';
 import { formatBytes } from '../../utils/formatBytes';
 import { formatDate } from '../../utils/formatDate';
 import { enumLabel } from '../../utils/constants';
 import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
+import RecordingBadge from '../ui/RecordingBadge';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 import Spinner from '../ui/Spinner';
@@ -33,6 +35,7 @@ export default function RuntimePathDetail() {
   const navigate = useNavigate();
   const [fwdDetail, setFwdDetail] = useState(null);
   const refetchInterval = useAutoRefresh();
+  const { isRecording } = useRecordingMap();
 
   const path = useQuery({
     queryKey: QUERY_KEYS.runtimePath(name),
@@ -55,6 +58,7 @@ export default function RuntimePathDetail() {
   });
 
   const p = path.data;
+  const record = isRecording(p?.confName);
   const tracks = Array.isArray(p?.tracks2) ? p.tracks2 : [];
   const readers = Array.isArray(p?.readers) ? p.readers : [];
 
@@ -102,6 +106,7 @@ export default function RuntimePathDetail() {
             <div className="detail__badges">
               <Badge value={p.online ? 'online' : 'offline'}>{p.online ? t('common.online') : t('common.offline')}</Badge>
               <Badge value={p.available ? 'available' : 'unavailable'}>{p.available ? t('common.available') : t('common.unavailable')}</Badge>
+              <RecordingBadge record={record} online={p.online} />
             </div>
             <dl className="detail__rows">
               <div className="detail__row">
@@ -127,6 +132,10 @@ export default function RuntimePathDetail() {
               <div className="detail__row">
                 <dt>{t('pages.runtimePathDetail.inboundFramesInError')}</dt>
                 <dd>{p.inboundFramesInError ?? 0}</dd>
+              </div>
+              <div className="detail__row">
+                <dt>{t('pages.runtimePathDetail.record')}</dt>
+                <dd><RecordingBadge record={record} online={p.online} /></dd>
               </div>
             </dl>
           </DetailSection>
