@@ -16,8 +16,9 @@
 |**Recordings**|List, segment delete, and inline playback (play / stop / fullscreen)|
 |**Logs**|Live MediaMTX log monitor (WebSocket `/logs`): history + streaming, level filter (ERR/WAR/INF/DBG), search, pause/resume, auto-reconnect|
 |**Settings**|Server settings via API (persisted, "applied"/"restart required" feedback) + app settings local in the browser (theme, auto-refresh, page size, API base URL)|
-|**Dark/Light theme**|switchable without reload|
+|**Display**|Switchable light/dark mode without reload. Define your own "roundness" for UI elements|
 |**Config persistence**|after successful config mutations the current MediaMTX config is written as `mediamtx.yml` (optional, `MEDIAMTX_CONFIG_PATH`)|
+|**Multi lingual**|Translated with i18n files. English, german and italian at the moment.|
 
 
 > **NOTE:** Don't use it reachable over the internet! Use it in a local network environment.
@@ -49,6 +50,7 @@ docker compose -f compose-mediamtx.yml -f compose.yml up -d --build
 # UI (development, Vite HMR)
 docker compose -f compose-mediamtx.yml -f compose-dev.yml up -d --build
 ```
+
 
 UI available at `http://localhost:${SERVER_PORT}` (default `3000`).
 The UI talks to MediaMTX over the Docker network (`http://mediamtx:9997`) — no API port mapping required.
