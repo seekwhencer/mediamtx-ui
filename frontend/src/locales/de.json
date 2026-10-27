@@ -199,7 +199,11 @@
       "forwardDest": "Forward-Destination: {{id}}",
       "codecProps": "codecProps",
       "typeSpecific": "typeSpecific",
-      "forwardDestFull": "ForwardDest"
+      "forwardDestFull": "ForwardDest",
+      "play": "Stream {{name}} abspielen",
+      "streamError": "Stream-Fehler",
+      "streamOffline": "Pfad ist offline oder nicht gefunden (HTTP 404).",
+      "streamCors": "CORS-Fehler: Der Browser hat die Stream-Anfrage blockiert."
     },
     "hls": {
       "title": "HLS",
@@ -669,7 +673,8 @@
     "primaryHue": "Farbton der Primärfarbe (0–360). Sättigung und Helligkeit bleiben fix; ersetzt --color-primary.",
     "radiusFactor": "Roundness-Faktor (0–1). Skaliert alle Eckenradien; ersetzt --radius-factor.",
     "autoRefreshMs": "Intervall in ms, in dem Daten automatisch neu geladen werden. 0 = aus.",
-    "itemsPerPage": "Anzahl der pro Seite angezeigten Einträge."
+    "itemsPerPage": "Anzahl der pro Seite angezeigten Einträge.",
+    "autoplayPathDetail": "Stream in der Path-Detail-Ansicht automatisch starten (stumm). Aus = auf Play drücken."
   },
   "settings": {
     "serverPort": "Serverport",
@@ -687,6 +692,7 @@
     "radiusFactor": "Roundness",
     "autoRefreshMs": "Auto-Refresh (ms, 0 = aus)",
     "itemsPerPage": "Einträge pro Seite",
+    "autoplayPathDetail": "Stream automatisch abspielen (Path-Detail)",
     "groupServer": "Server",
     "groupMediaMTX": "MediaMTX",
     "groupBridge": "Bridge",

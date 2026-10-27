@@ -3,7 +3,7 @@
   <p align='center'>Web-based admin interface</p>
 </p>
 
-![Dashboard (dark)](.docs/screenshots/dark_dashboard.png) 
+[![Dashboard (dark)](.docs/screenshots/dark_dashboard.png)](https://www.youtube.com/watch?v=xky_vmMjL38) 
 
 ## Features
 

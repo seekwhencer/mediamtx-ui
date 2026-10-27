@@ -387,6 +387,7 @@ export const APP_SETTINGS_CATALOG = [
   { name: 'radiusFactor', label: 'Roundness', labelKey: 'settings.radiusFactor', type: 'slider', group: 'Display', min: 0, max: 1, step: 0.1, radiusPreview: true, descriptionKey: 'fields.radiusFactor' },
   { name: 'autoRefreshMs', label: 'Auto-Refresh (ms, 0 = off)', labelKey: 'settings.autoRefreshMs', type: 'number', group: 'Behavior', min: 0, max: 3600000, descriptionKey: 'fields.autoRefreshMs' },
   { name: 'itemsPerPage', label: 'Items Per Page', labelKey: 'settings.itemsPerPage', type: 'number', group: 'Behavior', min: 10, max: 500, descriptionKey: 'fields.itemsPerPage' },
+  { name: 'autoplayPathDetail', label: 'Autoplay Stream (Path Detail)', labelKey: 'settings.autoplayPathDetail', type: 'toggle', group: 'Behavior', descriptionKey: 'fields.autoplayPathDetail' },
 ];
 
 // ===== Helpers (reine Funktionen) =====

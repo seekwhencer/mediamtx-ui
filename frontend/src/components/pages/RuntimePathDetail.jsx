@@ -14,6 +14,7 @@ import { enumLabel } from '../../utils/constants';
 import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
 import RecordingBadge from '../ui/RecordingBadge';
+import PathDetailPlayer from '../theatre/PathDetailPlayer';
 import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 import Spinner from '../ui/Spinner';
@@ -102,43 +103,51 @@ export default function RuntimePathDetail() {
         </div>
       ) : (
         <>
-          <DetailSection title={t('pages.runtimePathDetail.status')}>
-            <div className="detail__badges">
-              <Badge value={p.online ? 'online' : 'offline'}>{p.online ? t('common.online') : t('common.offline')}</Badge>
-              <Badge value={p.available ? 'available' : 'unavailable'}>{p.available ? t('common.available') : t('common.unavailable')}</Badge>
-              <RecordingBadge record={record} online={p.online} />
+          <section className="detail detail--split">
+            <h3 className="detail__title">{t('pages.runtimePathDetail.status')}</h3>
+            <div className="detail__split">
+              <div className="detail__split-info">
+                <div className="detail__badges">
+                  <Badge value={p.online ? 'online' : 'offline'}>{p.online ? t('common.online') : t('common.offline')}</Badge>
+                  <Badge value={p.available ? 'available' : 'unavailable'}>{p.available ? t('common.available') : t('common.unavailable')}</Badge>
+                  <RecordingBadge record={record} online={p.online} />
+                </div>
+                <dl className="detail__rows">
+                  <div className="detail__row">
+                    <dt>{t('pages.runtimePathDetail.confName')}</dt>
+                    <dd>{p.confName || '–'}</dd>
+                  </div>
+                  <div className="detail__row">
+                    <dt>{t('pages.runtimePathDetail.onlineSince')}</dt>
+                    <dd>{formatDate(p.onlineTime)}</dd>
+                  </div>
+                  <div className="detail__row">
+                    <dt>{t('pages.runtimePathDetail.availableSince')}</dt>
+                    <dd>{formatDate(p.availableTime)}</dd>
+                  </div>
+                  <div className="detail__row">
+                    <dt>{t('pages.runtimePathDetail.inboundBytes')}</dt>
+                    <dd>{formatBytes(p.inboundBytes)}</dd>
+                  </div>
+                  <div className="detail__row">
+                    <dt>{t('pages.runtimePathDetail.outboundBytes')}</dt>
+                    <dd>{formatBytes(p.outboundBytes)}</dd>
+                  </div>
+                  <div className="detail__row">
+                    <dt>{t('pages.runtimePathDetail.inboundFramesInError')}</dt>
+                    <dd>{p.inboundFramesInError ?? 0}</dd>
+                  </div>
+                  <div className="detail__row">
+                    <dt>{t('pages.runtimePathDetail.record')}</dt>
+                    <dd><RecordingBadge record={record} online={p.online} /></dd>
+                  </div>
+                </dl>
+              </div>
+              <div className="detail__split-player">
+                <PathDetailPlayer name={name} online={p.online} recording={record} />
+              </div>
             </div>
-            <dl className="detail__rows">
-              <div className="detail__row">
-                <dt>{t('pages.runtimePathDetail.confName')}</dt>
-                <dd>{p.confName || '–'}</dd>
-              </div>
-              <div className="detail__row">
-                <dt>{t('pages.runtimePathDetail.onlineSince')}</dt>
-                <dd>{formatDate(p.onlineTime)}</dd>
-              </div>
-              <div className="detail__row">
-                <dt>{t('pages.runtimePathDetail.availableSince')}</dt>
-                <dd>{formatDate(p.availableTime)}</dd>
-              </div>
-              <div className="detail__row">
-                <dt>{t('pages.runtimePathDetail.inboundBytes')}</dt>
-                <dd>{formatBytes(p.inboundBytes)}</dd>
-              </div>
-              <div className="detail__row">
-                <dt>{t('pages.runtimePathDetail.outboundBytes')}</dt>
-                <dd>{formatBytes(p.outboundBytes)}</dd>
-              </div>
-              <div className="detail__row">
-                <dt>{t('pages.runtimePathDetail.inboundFramesInError')}</dt>
-                <dd>{p.inboundFramesInError ?? 0}</dd>
-              </div>
-              <div className="detail__row">
-                <dt>{t('pages.runtimePathDetail.record')}</dt>
-                <dd><RecordingBadge record={record} online={p.online} /></dd>
-              </div>
-            </dl>
-          </DetailSection>
+          </section>
 
           <DetailSection title={t('pages.runtimePathDetail.source')}>
             {p.source ? (

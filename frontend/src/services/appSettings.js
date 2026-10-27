@@ -13,6 +13,7 @@ export const APP_SETTINGS_DEFAULTS = {
   radiusFactor: defaultRadiusFactor(), // Roundness (0-1); skaliert --radius-* (s. radius.js)
   autoRefreshMs: 10000, // 0 = aus
   itemsPerPage: 100,
+  autoplayPathDetail: false, // Stream in der Path-Detail-Ansicht automatisch abspielen (muted)
 };
 
 function read() {
