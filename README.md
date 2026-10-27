@@ -1,19 +1,24 @@
-# mediamtx-ui
+<p align='center'>
+  <h1 align='center'> MediaMTX UI - The Dashboard</h1>
+  <p align='center'>Web-based admin interface</p>
+</p>
 
-Web-based admin interface for [MediaMTX](https://github.com/bluenviron/mediamtx).
-Dashboard, configuration, runtime monitoring, live metrics, live logs, and recordings (list, delete, playback) — via the MediaMTX API (`/v3/*`), the MediaMTX Playback API, the MediaMTX metrics server (Prometheus), and a WebSocket log stream.
+![Dashboard (dark)](.docs/screenshots/dark_dashboard.png) 
 
 ## Features
 
-- **Dashboard** — Cards per protocol (HLS, RTSP/RTSPS, RTMP/RTMPS, SRT, WebRTC, MoQ), instance info (version, start time), path overview (online/available), auto-refresh
-- **Configuration** — Global, path defaults, internal users, paths (add/edit/replace/delete); schema-driven forms, deprecated fields hidden
-- **Runtime** — Path list + detail (source, readers, tracks, forward destinations, static source); sessions/connections of all protocols incl. **kick**
-- **Metrics** — Live dashboard from the MediaMTX metrics server (Prometheus, port `9998`): totals (paths online, readers, inbound/outbound + throughput), per-protocol (HLS/RTSP/RTMP/SRT/WebRTC/MoQ), per-path, and forward destinations; auto-refresh (polling)
-- **Recordings** — List, segment delete, and inline playback (play / stop / fullscreen)
-- **Logs** — Live MediaMTX log monitor (WebSocket `/logs`): history + streaming, level filter (ERR/WAR/INF/DBG), search, pause/resume, auto-reconnect
-- **Settings** — Server settings via API (persisted, "applied"/"restart required" feedback) + app settings local in the browser (theme, auto-refresh, page size, API base URL)
-- **Dark/Light theme** — switchable without reload
-- **Config persistence** — after successful config mutations the current MediaMTX config is written as `mediamtx.yml` (optional, `MEDIAMTX_CONFIG_PATH`)
+| Feature | Description |
+|-------|------|
+|**Dashboard**|Cards per protocol (HLS, RTSP/RTSPS, RTMP/RTMPS, SRT, WebRTC, MoQ), instance info (version, start time), path overview (online/available), auto-refresh|
+|**Configuration**|Global, path defaults, internal users, paths (add/edit/replace/delete); schema-driven forms, deprecated fields hidden|
+|**Runtime**|Path list + detail (source, readers, tracks, forward destinations, static source); sessions/connections of all protocols incl. **kick**|
+|**Metrics**|Live dashboard from the MediaMTX metrics server (Prometheus, port `9998`): totals (paths online, readers, inbound/outbound + throughput), per-protocol (HLS/RTSP/RTMP/SRT/WebRTC/MoQ), per-path, and forward destinations; auto-refresh (polling)|
+|**Recordings**|List, segment delete, and inline playback (play / stop / fullscreen)|
+|**Logs**|Live MediaMTX log monitor (WebSocket `/logs`): history + streaming, level filter (ERR/WAR/INF/DBG), search, pause/resume, auto-reconnect|
+|**Settings**|Server settings via API (persisted, "applied"/"restart required" feedback) + app settings local in the browser (theme, auto-refresh, page size, API base URL)|
+|**Dark/Light theme**|switchable without reload|
+|**Config persistence**|after successful config mutations the current MediaMTX config is written as `mediamtx.yml` (optional, `MEDIAMTX_CONFIG_PATH`)|
+
 
 > **NOTE:** Don't use it reachable over the internet! Use it in a local network environment.
 
@@ -25,8 +30,19 @@ Dashboard, configuration, runtime monitoring, live metrics, live logs, and recor
 ## Quickstart (Docker)
 
 ```bash
-cp .env.default .env          # Adjust ports/version
+git clone https://github.com/seekwhencer/mediamtx-ui.git
+cd mediamtx-ui
 
+# Adjust ports/version
+cp .env.default .env          
+
+# Build the main branch from mediamtx with the new user api endpoints
+docker compose -f compose-mediamtx-build.yml -f compose.yml up -d --build
+```
+
+Later (not now) when the new api endpoints baken in a mediamtx release
+
+```bash
 # MediaMTX + UI (production)
 docker compose -f compose-mediamtx.yml -f compose.yml up -d --build
 
