@@ -543,6 +543,7 @@
     "runOnConnectRestart": "Restart the command if it exits.",
     "runOnDisconnect": "Command to run when a client disconnects from the server.",
     "source": "Source of the stream. Can be publisher (stream provided by an RTSP/RTMP/WebRTC/SRT client) or a pull URL: rtsp://, rtsps://, rtsp+http://, rtsps+http://, rtsp+ws://, rtsps+ws://, rtmp://…#streamKey, rtmps://…#streamKey, http(s)://…/stream.m3u8, udp+mpegts://ip:port, unix+mpegts://socketPath, udp+rtp://ip:port, srt://host:port?streamid=…, moqt://…, whep(s)://host:port/path, redirect, or rpiCamera. Variables: $MTX_QUERY (query params, passed by first reader), $G1, $G2, … (regex groups if path name is a regex).",
+    "sourceUrl": "Source URL",
     "sourceFingerprint": "If the source is a URL, and the source TLS certificate is self-signed or invalid, you can provide the fingerprint of the certificate in order to validate it anyway.",
     "sourceOnDemand": "If the source is a URL, it will be pulled only when at least one reader is connected, saving bandwidth.",
     "sourceOnDemandStartTimeout": "If sourceOnDemand is yes, readers will be put on hold until the source is ready or until this amount of time has passed.",
@@ -779,6 +780,12 @@
       "webRTCSource": "WebRTC Source",
       "moqSource": "MoQ Source",
       "moqSession": "MoQ Session"
+    },
+    "sourceMode": {
+      "url": "Url",
+      "publisher": "publisher",
+      "rpiCamera": "rpiCamera",
+      "redirect": "redirect"
     },
     "forwardDestType": {
       "rtmp": "RTMP",

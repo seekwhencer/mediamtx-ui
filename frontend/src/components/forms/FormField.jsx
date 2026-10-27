@@ -12,7 +12,7 @@ import { radiusForFactor } from '../../utils/radius';
 
 const FULL_WIDTH_TYPES = new Set(['list', 'multi-select']);
 // These types render their own error message (via the error prop).
-const SELF_ERROR_TYPES = new Set(['text', 'password', 'number', 'duration', 'size', 'command', 'path', 'select']);
+const SELF_ERROR_TYPES = new Set(['text', 'password', 'number', 'duration', 'size', 'command', 'path', 'select', 'source']);
 
 export default function FormField({ field, value, onChange, error, idPrefix = 'fb' }) {
   const { t } = useTranslation();
@@ -90,6 +90,59 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             error={error}
           />
         );
+      case 'source': {
+        // source = freier String (URL) ODER einer der festen Werte.
+        // Select-Wert wird aus dem source-Wert abgeleitet:
+        //   fester Wert → dieser Wert, sonst → 'url' (Inputfeld sichtbar).
+        const SPECIAL_SOURCE_VALUES = ['publisher', 'rpiCamera', 'redirect'];
+        const isSpecial = SPECIAL_SOURCE_VALUES.includes(value);
+        const selectValue = isSpecial ? value : 'url';
+        const inputValue = isSpecial ? '' : (value ?? '');
+
+        const handleSelectChange = (e) => {
+          const v = e.target.value;
+          if (v === 'url') {
+            // Zu "Url" wechseln: fester Wert → leeren, sonst aktuellen String behalten.
+            onChange(SPECIAL_SOURCE_VALUES.includes(value) ? '' : (value ?? ''));
+          } else {
+            onChange(v);
+          }
+        };
+
+        const sourceOptions = [
+          { value: 'url', label: t('enums.sourceMode.url', { defaultValue: 'Url' }) },
+          { value: 'publisher', label: t('enums.sourceMode.publisher', { defaultValue: 'publisher' }) },
+          { value: 'rpiCamera', label: t('enums.sourceMode.rpiCamera', { defaultValue: 'rpiCamera' }) },
+          { value: 'redirect', label: t('enums.sourceMode.redirect', { defaultValue: 'redirect' }) },
+        ];
+
+        return (
+          <>
+            <Select
+              id={id}
+              name={field.name}
+              label={label}
+              labelExtra={labelExtra}
+              value={selectValue}
+              options={sourceOptions}
+              onChange={handleSelectChange}
+              error={error}
+            />
+            {selectValue === 'url' && (
+              <Input
+                id={`${id}-url`}
+                name={`${field.name}-url`}
+                label={t('fields.sourceUrl', { defaultValue: 'URL' })}
+                type="text"
+                mono
+                value={inputValue}
+                placeholder={placeholder}
+                onChange={(e) => onChange(e.target.value)}
+              />
+            )}
+          </>
+        );
+      }
       case 'multi-select':
         return (
           <MultiSelect

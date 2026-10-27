@@ -543,6 +543,7 @@
     "runOnConnectRestart": "Riavvia il comando se termina.",
     "runOnDisconnect": "Comando da eseguire quando un client si disconnette dal server.",
     "source": "Origine del flusso. Può essere publisher (flusso fornito da un client RTSP/RTMP/WebRTC/SRT) o un URL di pull: rtsp://, rtsps://, rtsp+http://, rtsps+http://, rtsp+ws://, rtsps+ws://, rtmp://…#streamKey, rtmps://…#streamKey, http(s)://…/stream.m3u8, udp+mpegts://ip:port, unix+mpegts://socketPath, udp+rtp://ip:port, srt://host:port?streamid=…, moqt://…, whep(s)://host:port/path, redirect o rpiCamera. Variabili: $MTX_QUERY (parametri di query, passati dal primo lettore), $G1, $G2, … (gruppi regex se il nome del percorso è una regex).",
+    "sourceUrl": "URL di origine",
     "sourceFingerprint": "Se l'origine è un URL e il certificato TLS dell'origine è autofirmato o non valido, puoi fornire l'impronta del certificato per validarne comunque la validità.",
     "sourceOnDemand": "Se l'origine è un URL, verrà recuperata solo quando almeno un lettore è connesso, risparmiando banda.",
     "sourceOnDemandStartTimeout": "Se sourceOnDemand è yes, i lettori verranno messi in attesa finché l'origine non è pronta o finché non è trascorso questo intervallo di tempo.",
@@ -779,6 +780,12 @@
       "webRTCSource": "Origine WebRTC",
       "moqSource": "Origine MoQ",
       "moqSession": "Sessione MoQ"
+    },
+    "sourceMode": {
+      "url": "URL",
+      "publisher": "Publisher",
+      "rpiCamera": "Raspberry Pi Camera",
+      "redirect": "Redirect"
     },
     "forwardDestType": {
       "rtmp": "RTMP",

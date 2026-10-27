@@ -36,7 +36,7 @@ export default function Settings() {
       const body = { ...values };
       delete body.runtimeKeys;
       delete body.restartKeys;
-      // Token rule: empty = delete (FormBuilder normalizes '' → null).
+      // Token rule: empty = delete (FormBuilder normalizes '' → '').
       if (body.mediamtxAuthToken == null) body.mediamtxAuthToken = '';
       return localApi.patch('/api/settings', body);
     },

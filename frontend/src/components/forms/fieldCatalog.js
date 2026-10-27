@@ -218,7 +218,9 @@ export const GLOBAL_CONF_CATALOG = [
 
 export const PATH_CONF_CATALOG = [
   // General / Source
-  { name: 'source', label: 'Source', type: 'text', group: 'General', descriptionKey: 'fields.source' },
+  // type 'source': Select (Url | publisher | rpiCamera | redirect) + optionales URL-Inputfeld.
+  // "Url" → freier String (Inputfeld), sonst → exakter Select-Wert als source.
+  { name: 'source', label: 'Source', type: 'source', group: 'General', descriptionKey: 'fields.source' },
   { name: 'sourceFingerprint', label: 'Source Fingerprint', type: 'text', group: 'General', descriptionKey: 'fields.sourceFingerprint' },
   { name: 'sourceOnDemand', label: 'Source On Demand', type: 'toggle', group: 'General', descriptionKey: 'fields.sourceOnDemand' },
   { name: 'sourceOnDemandStartTimeout', label: 'Source On Demand Start Timeout', type: 'duration', group: 'General', placeholder: '5s', descriptionKey: 'fields.sourceOnDemandStartTimeout' },
@@ -496,9 +498,12 @@ function normalizeField(field, value) {
     case 'size':
     case 'command':
     case 'path':
+    case 'source':
+      // MediaMTX (Go) treats `null` as "no change" during JSON unmarshal, so an
+      // empty field must be sent as `""` to actually clear the value upstream.
+      // A `null`/`undefined` value (field never set) stays `null` → no-op.
       if (value == null) return null;
-      const s = String(value).trim();
-      return s === '' ? null : s;
+      return String(value).trim();
     case 'number':
     case 'slider': {
       if (value === '' || value == null) return null;
