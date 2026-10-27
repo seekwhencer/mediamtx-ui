@@ -12,8 +12,10 @@ dark_paths.png
 dark_recordings.png
 dark_rtmp.png
 dark_rtsp.png
+dark_runtime-path-detail.png
 dark_runtime-paths.png
 dark_settings.png
+dark_settings_subnav.png
 dark_srt.png
 dark_theatre.png
 dark_webrtc.png
@@ -31,8 +33,10 @@ light_paths.png
 light_recordings.png
 light_rtmp.png
 light_rtsp.png
+light_runtime-path-detail.png
 light_runtime-paths.png
 light_settings.png
+light_settings_subnav.png
 light_srt.png
 light_theatre.png
 light_webrtc.png

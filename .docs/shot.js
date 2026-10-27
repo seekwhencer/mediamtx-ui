@@ -28,10 +28,14 @@ const NAV = [
   { path: '/settings', slug: 'settings' },
 ];
 
+// Runtime paths list: click the "one" row to open the path detail view.
+const PATH_DETAIL = { listPath: '/paths', name: 'one', slug: 'runtime-path-detail' };
+
 // Pages that get the extra "click all subnav buttons" screenshot.
 const SUBNAV_PAGES = [
   { path: '/config/global', slug: 'global' },
   { path: '/config/path-defaults', slug: 'path-defaults' },
+  { path: '/settings', slug: 'settings' },
 ];
 
 const log = (...a) => console.log('[shot]', ...a);
@@ -61,13 +65,42 @@ async function setTheme(page, theme) {
   if (applied !== theme) throw new Error(`Theme not applied: wanted ${theme}, got ${applied}`);
 }
 
+async function scrollToTop(page) {
+  await page.evaluate(() => {
+    // Override global "scroll-behavior: smooth" so the jump is instant.
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    document.documentElement.scrollTop = 0;
+    document.body.scrollTop = 0;
+  });
+  await page.waitForTimeout(150);
+}
+
 async function shootPage(page, theme, item) {
   await goto(page, BASE + item.path);
   await page.waitForSelector('.layout__sidebar, .page__title, main, body', { timeout: 15000 });
   await page.waitForTimeout(900);
+  await scrollToTop(page);
   const file = path.join(OUT, `${theme}_${item.slug}.png`);
-  await page.screenshot({ path: file });
+  await page.screenshot({ path: file, fullPage: true });
   log('page', file);
+}
+
+async function shootPathDetail(page, theme, item) {
+  await goto(page, BASE + item.listPath);
+  await page.waitForSelector('tr.is-clickable', { state: 'attached', timeout: 20000 });
+  const row = page
+    .locator('tr.is-clickable')
+    .filter({ has: page.locator('td', { hasText: new RegExp(`^${item.name}$`) }) })
+    .first();
+  await row.click();
+  await page.waitForURL(new RegExp(`/paths/${item.name}$`), { timeout: 15000 });
+  await page.waitForSelector('.detail', { state: 'visible', timeout: 15000 });
+  await page.waitForTimeout(900);
+  await scrollToTop(page);
+  const file = path.join(OUT, `${theme}_${item.slug}.png`);
+  await page.screenshot({ path: file, fullPage: true });
+  log('path-detail', file);
 }
 
 async function shootSubnav(page, theme, item) {
@@ -81,8 +114,9 @@ async function shootSubnav(page, theme, item) {
     await page.waitForTimeout(220);
   }
   await page.waitForTimeout(500);
+  await scrollToTop(page);
   const file = path.join(OUT, `${theme}_${item.slug}_subnav.png`);
-  await page.screenshot({ path: file });
+  await page.screenshot({ path: file, fullPage: true });
   log('subnav', file);
 }
 
@@ -111,12 +145,14 @@ async function shootSubnav(page, theme, item) {
   log('=== PASS 1 (light) ===');
   await setTheme(page, 'light');
   for (const item of NAV) await shootPage(page, 'light', item);
+  await shootPathDetail(page, 'light', PATH_DETAIL);
   for (const item of SUBNAV_PAGES) await shootSubnav(page, 'light', item);
 
   // ---- Pass 2: dark theme ----
   log('=== PASS 2 (dark) ===');
   await setTheme(page, 'dark');
   for (const item of NAV) await shootPage(page, 'dark', item);
+  await shootPathDetail(page, 'dark', PATH_DETAIL);
   for (const item of SUBNAV_PAGES) await shootSubnav(page, 'dark', item);
 
   await browser.close();

@@ -189,6 +189,7 @@ cd frontend && npm run build       # Build check
 | Path defaults | ![Path defaults (light)](.docs/screenshots/light_path-defaults.png) | ![Path defaults (dark)](.docs/screenshots/dark_path-defaults.png) |
 | Path defaults (all groups) | ![Path defaults groups (light)](.docs/screenshots/light_path-defaults_subnav.png) | ![Path defaults groups (dark)](.docs/screenshots/dark_path-defaults_subnav.png) |
 | Paths (runtime) | ![Paths runtime (light)](.docs/screenshots/light_runtime-paths.png) | ![Paths runtime (dark)](.docs/screenshots/dark_runtime-paths.png) |
+| Path detail (runtime) | ![Path detail (light)](.docs/screenshots/light_runtime-path-detail.png) | ![Path detail (dark)](.docs/screenshots/dark_runtime-path-detail.png) |
 | Metrics | ![Metrics (light)](.docs/screenshots/light_metrics.png) | ![Metrics (dark)](.docs/screenshots/dark_metrics.png) |
 | Logs | ![Logs (light)](.docs/screenshots/light_logs.png) | ![Logs (dark)](.docs/screenshots/dark_logs.png) |
 | HLS | ![HLS (light)](.docs/screenshots/light_hls.png) | ![HLS (dark)](.docs/screenshots/dark_hls.png) |
@@ -199,4 +200,5 @@ cd frontend && npm run build       # Build check
 | MoQ | ![MoQ (light)](.docs/screenshots/light_moq.png) | ![MoQ (dark)](.docs/screenshots/dark_moq.png) |
 | Recordings | ![Recordings (light)](.docs/screenshots/light_recordings.png) | ![Recordings (dark)](.docs/screenshots/dark_recordings.png) |
 | Settings | ![Settings (light)](.docs/screenshots/light_settings.png) | ![Settings (dark)](.docs/screenshots/dark_settings.png) |
+| Settings (all groups) | ![Settings groups (light)](.docs/screenshots/light_settings_subnav.png) | ![Settings groups (dark)](.docs/screenshots/dark_settings_subnav.png) |
 
