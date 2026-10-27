@@ -1,9 +1,9 @@
 # syntax=docker/dockerfile:1
 #
-# Compiles MediaMTX from the main branch (or any ref) into a minimal image.
+# Compiles MediaMTX from the main branch (or any ref) into an image with FFmpeg and NVIDIA CUDA support.
 # Mirrors the official build (docker/standard.Dockerfile + scripts/binaries.mk):
-#   - base:   golang:1.27-alpine3.24
-#   - output: CGO_ENABLED=0 static binary for the host architecture
+#   - base:   golang:1.27-alpine3.24 (builder)
+#   - runtime: nvidia/cuda:12.5.1-runtime-ubuntu22.04 (with FFmpeg & CUDA support)
 #
 # Build args:
 #   MEDIAMTX_REF   branch / tag / full commit SHA (default: main)
@@ -36,12 +36,18 @@ RUN go mod download \
  && go generate ./... \
  && CGO_ENABLED=0 GOOS=linux GOARCH=${TARGETARCH:-amd64} go build -ldflags="-s -w" -o /out/mediamtx .
 
-# ===== 2. Runtime: minimal image with just the binary =====
-# Matches the official docker/standard.Dockerfile: `scratch` base, binary at /mediamtx.
-# Note: `scratch` has no shell / CA bundle. If you need HTTPS to external services
-# (JWT JWKS, external auth) or a debug shell, switch this to `alpine:3.24` and add
-# `RUN apk add --no-cache ca-certificates tzdata`.
-FROM scratch
+# ===== 2. Runtime: NVIDIA CUDA base image with FFmpeg =====
+# Uses an official NVIDIA CUDA runtime image (Ubuntu 22.04 based) 
+# to enable GPU hardware acceleration (NVENC/NVDEC) for FFmpeg.
+FROM nvidia/cuda:13.4.3-runtime-ubuntu22.04
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    ffmpeg \
+    ca-certificates \
+    tzdata \
+ && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /out/mediamtx /mediamtx
 
