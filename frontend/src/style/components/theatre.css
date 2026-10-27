@@ -220,6 +220,13 @@
   padding: var(--space-2);
   scrollbar-width: thin;
   scrollbar-color: var(--color-border-strong) transparent;
+  transition: opacity var(--transition);
+}
+
+/* 6.4 — Auto-Hide: ausgeblendet = unsichtbar UND klick-durchlässig (blockiert nie) */
+.theatre-strip.is-hidden {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .theatre-strip::-webkit-scrollbar {
@@ -352,9 +359,8 @@
   min-height: 0;
   overflow: hidden;
   background: #000;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
   cursor: default;
+  width: 100%;
 }
 
 .theatre-player__video {
@@ -409,10 +415,7 @@
 }
 
 /* State: focused — hervorgehobener Rand (PiP großer Stream). */
-.theatre-player.is-focused {
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 2px var(--color-primary-subtle), var(--shadow-lg);
-}
+.theatre-player.is-focused {}
 
 /* State: offline — abgedunkelt. */
 .theatre-player.is-offline {
@@ -439,8 +442,6 @@
   inset: 0;
   z-index: 5;
   display: grid;
-  gap: var(--space-2);
-  padding: var(--space-3);
   box-sizing: border-box;
 }
 
@@ -452,22 +453,29 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-2);
-  padding: var(--space-3);
   box-sizing: border-box;
 }
 
 .theatre-pip__main {
   flex: 1;
   min-height: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
 }
 
 .theatre-pip__thumbs {
+  position: absolute;
+  bottom: 0;
   display: flex;
+  align-items: center;
+  justify-content: center;
   gap: var(--space-2);
   height: 120px;
   overflow-x: auto;
   scrollbar-width: thin;
   scrollbar-color: var(--color-border-strong) transparent;
+  width: 100%;
 }
 
 .theatre-pip__thumbs::-webkit-scrollbar {

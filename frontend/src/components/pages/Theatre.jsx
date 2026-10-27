@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useListQuery } from '../../hooks/useApi';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
+import { useAutoHide } from '../../hooks/useAutoHide';
 import { useHlsPlayer } from '../../hooks/useHlsPlayer';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
@@ -41,6 +42,9 @@ export default function Theatre() {
 
   // 4.4 — HLS base URL configured? (buildHlsUrl returns '' without a base)
   const hlsConfigured = buildHlsUrl('probe') !== '';
+
+  // 6.4 — Tile-Strip auto-hide (same behavior as the top bar).
+  const { visible: stripVisible, show: showStrip, scheduleHide: scheduleStripHide } = useAutoHide();
 
   // 4.3 — useHlsPlayer wiring: activePath → URL, otherwise null (stop).
   // Only active in single view; grid/pip use their own StreamPlayer instances.
@@ -192,7 +196,13 @@ export default function Theatre() {
         )}
 
         {/* 9.3 — Tile strip as a named group for screen readers. */}
-        <div className="theatre-strip" ref={stripRef} aria-label={t('pages.theatre.stripAria')}>
+        <div
+          className={`theatre-strip${stripVisible ? '' : ' is-hidden'}`}
+          ref={stripRef}
+          aria-label={t('pages.theatre.stripAria')}
+          onMouseEnter={showStrip}
+          onMouseLeave={scheduleStripHide}
+        >
           {items.map((item) => (
             <PathTile
               key={item.name}

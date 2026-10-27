@@ -1,9 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowLeft, Volume2, VolumeX, Maximize, Minimize } from 'lucide-react';
-
-// 6.4 — Auto-hide: 3 s without mouse movement → bar hidden.
-const HIDE_DELAY_MS = 3000;
+import { useAutoHide } from '../../hooks/useAutoHide';
 
 const VIEW_MODES = ['single', 'grid', 'pip'];
 
@@ -19,9 +17,6 @@ const VIEW_MODES = ['single', 'grid', 'pip'];
 export default function TheatreTopBar({ viewMode, onViewModeChange, muted, onMuteToggle, activePath, onExit }) {
   const { t } = useTranslation();
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [visible, setVisible] = useState(true);
-  const visibleRef = useRef(true);
-  const hideTimerRef = useRef(null);
 
   // 6.3 — Fullscreen state via the fullscreenchange event.
   useEffect(() => {
@@ -30,41 +25,8 @@ export default function TheatreTopBar({ viewMode, onViewModeChange, muted, onMut
     return () => document.removeEventListener('fullscreenchange', onChange);
   }, []);
 
-  // 6.4 — Auto-hide logic (timer + visibility, ref to avoid unnecessary renders).
-  const show = useCallback(() => {
-    if (hideTimerRef.current) {
-      clearTimeout(hideTimerRef.current);
-      hideTimerRef.current = null;
-    }
-    if (!visibleRef.current) {
-      visibleRef.current = true;
-      setVisible(true);
-    }
-  }, []);
-
-  const scheduleHide = useCallback(() => {
-    if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    hideTimerRef.current = setTimeout(() => {
-      visibleRef.current = false;
-      setVisible(false);
-    }, HIDE_DELAY_MS);
-  }, []);
-
-  useEffect(() => {
-    const onActivity = () => {
-      show();
-      scheduleHide();
-    };
-    window.addEventListener('mousemove', onActivity);
-    window.addEventListener('touchstart', onActivity);
-    window.addEventListener('keydown', onActivity);
-    return () => {
-      window.removeEventListener('mousemove', onActivity);
-      window.removeEventListener('touchstart', onActivity);
-      window.removeEventListener('keydown', onActivity);
-      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-    };
-  }, [show, scheduleHide]);
+  // 6.4 — Auto-hide logic (shared hook: timer + visibility).
+  const { visible, show, scheduleHide } = useAutoHide();
 
   // 6.3 — Fullscreen on document.documentElement (icon via fullscreenchange).
   const handleFullscreenToggle = () => {
