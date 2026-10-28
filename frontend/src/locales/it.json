@@ -433,6 +433,7 @@
   },
   "form": {
     "loadingConfig": "Caricamento configurazione…",
+    "settings": "Impostazioni",
     "groupsNav": "Gruppi di configurazione",
     "mediamtxRestarting": "mediamtx si sta riavviando.",
     "saved": "Salvato",

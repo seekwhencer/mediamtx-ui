@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Save, CircleCheckBig } from 'lucide-react';
+import { Save, CircleCheckBig, Settings } from 'lucide-react';
 import FormField from './FormField';
 import Button from '../ui/Button';
 import ErrorAlert from '../ui/ErrorAlert';
@@ -16,11 +16,21 @@ export default function FormBuilder({
   loadError = null,
   disabled = false,
   loadingLabel,
+  collapsible = false,
+  initialOpen = true,
 }) {
   const { t } = useTranslation();
   if (submitLabel == null) submitLabel = t('common.save');
   if (loadingLabel == null) loadingLabel = t('form.loadingConfig');
   const groups = useMemo(() => getGroups(catalog), [catalog]);
+  const [collapsibleOpen, setCollapsibleOpen] = useState(initialOpen);
+  const userInteractedRef = useRef(false);
+
+  // Sync the collapsible state with the initialOpen prop until the user
+  // interacts (e.g. the enabled state resolves asynchronously after mount).
+  useEffect(() => {
+    if (!userInteractedRef.current) setCollapsibleOpen(initialOpen);
+  }, [initialOpen]);
 
   // Initialize synchronously (lazy) when initialValues are present at mount
   // (modal flows + SSR). Async data (query) arrives via the effect below.
@@ -140,7 +150,33 @@ export default function FormBuilder({
   // Single group (e.g. internal user): no subnav, no summary,
   // always expanded — just the fields in one card.
   if (groups.length === 1) {
-    const [, fields] = groups[0];
+    const [group, fields] = groups[0];
+
+    if (collapsible) {
+      return (
+        <form className="formbuilder" onSubmit={handleSubmit} noValidate>
+          <Button
+            variant="secondary"
+            icon={Settings}
+            className={`formbuilder__settings-toggle${collapsibleOpen ? ' is-open' : ''}`}
+            onClick={() => {
+              userInteractedRef.current = true;
+              setCollapsibleOpen((o) => !o);
+            }}
+          >
+            {t('form.settings')}
+          </Button>
+          {collapsibleOpen && (
+            <>
+              <div className="formbuilder__group">{renderFields(fields)}</div>
+              {actions}
+            </>
+          )}
+          {submitError && <ErrorAlert error={submitError} title={t('form.saveFailed')} />}
+        </form>
+      );
+    }
+
     return (
       <form className="formbuilder" onSubmit={handleSubmit} noValidate>
         <div className="formbuilder__group">{renderFields(fields)}</div>

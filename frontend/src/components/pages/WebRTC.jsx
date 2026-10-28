@@ -13,6 +13,7 @@ import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
 import KickButton from '../ui/KickButton';
 import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
+import ProtocolConfigForm from '../forms/ProtocolConfigForm';
 
 export default function WebRTC() {
   const { t } = useTranslation();
@@ -59,6 +60,8 @@ export default function WebRTC() {
           <p className="page__subtitle">{t('pages.webrtc.subtitle')}</p>
         </div>
       </header>
+
+      <ProtocolConfigForm protocol="webrtc" />
 
       {enabled ? (
         <DataTable

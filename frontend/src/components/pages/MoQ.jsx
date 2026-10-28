@@ -13,6 +13,7 @@ import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
 import KickButton from '../ui/KickButton';
 import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
+import ProtocolConfigForm from '../forms/ProtocolConfigForm';
 
 export default function MoQ() {
   const { t } = useTranslation();
@@ -59,6 +60,8 @@ export default function MoQ() {
           <p className="page__subtitle">{t('pages.moq.subtitle')}</p>
         </div>
       </header>
+
+      <ProtocolConfigForm protocol="moq" />
 
       {enabled ? (
         <DataTable

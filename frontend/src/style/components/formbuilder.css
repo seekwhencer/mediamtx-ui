@@ -114,6 +114,20 @@
   font-size: var(--fs-xs);
 }
 
+.formbuilder__settings-toggle {
+  position: absolute;
+  right: var(--space-6);
+  top: var(--space-6);
+}
+
+.formbuilder__settings-toggle .ui-btn__icon {
+  transition: transform var(--transition);
+}
+
+.formbuilder__settings-toggle.is-open .ui-btn__icon {
+  transform: rotate(90deg);
+}
+
 .formbuilder__actions {
   display: flex;
   align-items: center;

@@ -14,6 +14,7 @@ import Badge from '../ui/Badge';
 import Tabs from '../ui/Tabs';
 import KickButton from '../ui/KickButton';
 import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
+import ProtocolConfigForm from '../forms/ProtocolConfigForm';
 
 function RTSPSection({ base }) {
   const { t } = useTranslation();
@@ -79,41 +80,47 @@ function RTSPSection({ base }) {
     },
   ];
 
-  return enabled ? (
-    <Tabs
-      items={[
-        {
-          id: 'conns',
-          label: t('pages.rtsp.connections'),
-          content: (
-            <DataTable
-              columns={connColumns}
-              data={conns.data?.items}
-              loading={conns.isPending}
-              error={conns.error}
-              pagination={pagination}
-              emptyMessage={t('pages.rtsp.noConnections', { proto: base.toUpperCase() })}
-            />
-          ),
-        },
-        {
-          id: 'sessions',
-          label: t('pages.rtsp.sessions'),
-          content: (
-            <DataTable
-              columns={sessionColumns}
-              data={sessions.data?.items}
-              loading={sessions.isPending}
-              error={sessions.error}
-              pagination={pagination}
-              emptyMessage={t('pages.rtsp.noSessions', { proto: base.toUpperCase() })}
-            />
-          ),
-        },
-      ]}
-    />
-  ) : (
-    <ProtocolDisabledNotice protocol={base.toUpperCase()} />
+  return (
+    <>
+      <ProtocolConfigForm protocol={base} />
+
+      {enabled ? (
+        <Tabs
+          items={[
+            {
+              id: 'conns',
+              label: t('pages.rtsp.connections'),
+              content: (
+                <DataTable
+                  columns={connColumns}
+                  data={conns.data?.items}
+                  loading={conns.isPending}
+                  error={conns.error}
+                  pagination={pagination}
+                  emptyMessage={t('pages.rtsp.noConnections', { proto: base.toUpperCase() })}
+                />
+              ),
+            },
+            {
+              id: 'sessions',
+              label: t('pages.rtsp.sessions'),
+              content: (
+                <DataTable
+                  columns={sessionColumns}
+                  data={sessions.data?.items}
+                  loading={sessions.isPending}
+                  error={sessions.error}
+                  pagination={pagination}
+                  emptyMessage={t('pages.rtsp.noSessions', { proto: base.toUpperCase() })}
+                />
+              ),
+            },
+          ]}
+        />
+      ) : (
+        <ProtocolDisabledNotice protocol={base.toUpperCase()} />
+      )}
+    </>
   );
 }
 

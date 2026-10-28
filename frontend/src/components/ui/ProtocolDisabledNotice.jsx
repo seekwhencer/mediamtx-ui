@@ -10,9 +10,6 @@ export default function ProtocolDisabledNotice({ protocol }) {
       <div className="protocol-disabled-notice__body">
         <strong>{t('pages.protocolDisabled.title', { protocol })}</strong>
         <p>{t('pages.protocolDisabled.hint')}</p>
-        <Link className="ui-link" to="/config/global">
-          {t('pages.protocolDisabled.enableLink')}
-        </Link>
       </div>
     </div>
   );

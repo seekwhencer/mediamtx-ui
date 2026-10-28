@@ -13,6 +13,7 @@ import Badge from '../ui/Badge';
 import Tabs from '../ui/Tabs';
 import KickButton from '../ui/KickButton';
 import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
+import ProtocolConfigForm from '../forms/ProtocolConfigForm';
 
 export default function HLS() {
   const { t } = useTranslation();
@@ -87,6 +88,8 @@ export default function HLS() {
           <p className="page__subtitle">{t('pages.hls.subtitle')}</p>
         </div>
       </header>
+
+      <ProtocolConfigForm protocol="hls" />
 
       {enabled ? (
         <Tabs

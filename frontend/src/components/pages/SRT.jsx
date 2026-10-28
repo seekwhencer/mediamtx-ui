@@ -17,6 +17,7 @@ import Modal from '../ui/Modal';
 import JsonBlock from '../ui/JsonBlock';
 import KickButton from '../ui/KickButton';
 import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
+import ProtocolConfigForm from '../forms/ProtocolConfigForm';
 
 export default function SRT() {
   const { t } = useTranslation();
@@ -65,6 +66,8 @@ export default function SRT() {
           <p className="page__subtitle">{t('pages.srt.subtitle')}</p>
         </div>
       </header>
+
+      <ProtocolConfigForm protocol="srt" />
 
       {enabled ? (
         <DataTable

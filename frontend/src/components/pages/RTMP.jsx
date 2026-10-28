@@ -13,6 +13,7 @@ import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
 import KickButton from '../ui/KickButton';
 import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
+import ProtocolConfigForm from '../forms/ProtocolConfigForm';
 
 function RTMPSection({ base }) {
   const { t } = useTranslation();
@@ -49,27 +50,33 @@ function RTMPSection({ base }) {
     },
   ];
 
-  return enabled ? (
-    <DataTable
-      columns={columns}
-      data={conns.data?.items}
-      loading={conns.isPending}
-      error={conns.error}
-      pagination={{
-        page,
-        pageCount: conns.data?.pageCount ?? 1,
-        itemsPerPage,
-        itemCount: conns.data?.itemCount,
-        onPageChange: setPage,
-        onItemsPerPageChange: (n) => {
-          setItemsPerPage(n);
-          setPage(0);
-        },
-      }}
-      emptyMessage={t('pages.rtmp.noConnections', { proto: base.toUpperCase() })}
-    />
-  ) : (
-    <ProtocolDisabledNotice protocol={base.toUpperCase()} />
+  return (
+    <>
+      <ProtocolConfigForm protocol={base} />
+
+      {enabled ? (
+        <DataTable
+          columns={columns}
+          data={conns.data?.items}
+          loading={conns.isPending}
+          error={conns.error}
+          pagination={{
+            page,
+            pageCount: conns.data?.pageCount ?? 1,
+            itemsPerPage,
+            itemCount: conns.data?.itemCount,
+            onPageChange: setPage,
+            onItemsPerPageChange: (n) => {
+              setItemsPerPage(n);
+              setPage(0);
+            },
+          }}
+          emptyMessage={t('pages.rtmp.noConnections', { proto: base.toUpperCase() })}
+        />
+      ) : (
+        <ProtocolDisabledNotice protocol={base.toUpperCase()} />
+      )}
+    </>
   );
 }
 
