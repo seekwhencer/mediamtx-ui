@@ -8,6 +8,12 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow-sm);
   padding: var(--space-5);
+  transition: opacity 0.2s ease-in-out; 
+}
+
+.ui-card:hover {
+  opacity: 1;
+  transition: opacity 0.2s ease-in-out;
 }
 
 .ui-card__header {
@@ -34,4 +40,8 @@
   font-weight: 700;
   font-family: var(--font-mono);
   color: var(--color-text);
+}
+
+.ui-card--disabled {
+  opacity: 0.4;
 }

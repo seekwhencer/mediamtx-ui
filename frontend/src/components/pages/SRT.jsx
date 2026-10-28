@@ -4,6 +4,7 @@ import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 import { useKick } from '../../hooks/useKick';
+import { useProtocolEnabled } from '../../hooks/useProtocolEnabled';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { formatBytes } from '../../utils/formatBytes';
@@ -15,17 +16,20 @@ import Button from '../ui/Button';
 import Modal from '../ui/Modal';
 import JsonBlock from '../ui/JsonBlock';
 import KickButton from '../ui/KickButton';
+import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
 
 export default function SRT() {
   const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
   const [statsRow, setStatsRow] = useState(null);
+  const enabled = useProtocolEnabled('srt');
 
   const conns = useListQuery(QUERY_KEYS.srtConns, (p) => api.get('/srt/conns/list', p), {
     page,
     itemsPerPage,
     refetchInterval,
+    enabled,
   });
   const kick = useKick('/srt/conns/kick', [QUERY_KEYS.srtConns]);
 
@@ -62,24 +66,28 @@ export default function SRT() {
         </div>
       </header>
 
-      <DataTable
-        columns={columns}
-        data={conns.data?.items}
-        loading={conns.isPending}
-        error={conns.error}
-        pagination={{
-          page,
-          pageCount: conns.data?.pageCount ?? 1,
-          itemsPerPage,
-          itemCount: conns.data?.itemCount,
-          onPageChange: setPage,
-          onItemsPerPageChange: (n) => {
-            setItemsPerPage(n);
-            setPage(0);
-          },
-        }}
-        emptyMessage={t('pages.srt.noConnections')}
-      />
+      {enabled ? (
+        <DataTable
+          columns={columns}
+          data={conns.data?.items}
+          loading={conns.isPending}
+          error={conns.error}
+          pagination={{
+            page,
+            pageCount: conns.data?.pageCount ?? 1,
+            itemsPerPage,
+            itemCount: conns.data?.itemCount,
+            onPageChange: setPage,
+            onItemsPerPageChange: (n) => {
+              setItemsPerPage(n);
+              setPage(0);
+            },
+          }}
+          emptyMessage={t('pages.srt.noConnections')}
+        />
+      ) : (
+        <ProtocolDisabledNotice protocol="SRT" />
+      )}
 
       <Modal
         title={t('pages.srt.srtStats', { id: statsRow ? String(statsRow.id).slice(0, 8) : '' })}

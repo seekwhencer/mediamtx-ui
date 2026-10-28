@@ -1,18 +1,19 @@
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, PowerOff } from 'lucide-react';
 import Card from '../ui/Card';
 import Spinner from '../ui/Spinner';
 import ErrorAlert from '../ui/ErrorAlert';
 
-export default function ProtocolCard({ title, to, metrics, error, icon: Icon }) {
+export default function ProtocolCard({ title, to, metrics, error, icon: Icon, disabled }) {
   const { t } = useTranslation();
-  const loading = metrics.some((m) => m.loading);
+  const loading = !disabled && metrics.some((m) => m.loading);
 
   return (
     <Card
       title={title}
       icon={Icon}
+      className={disabled ? 'ui-card--disabled' : ''}
       actions={to && (
         <Link className="ui-link ui-link--icon" to={to}>
           {t('common.detailsArrow')}
@@ -20,7 +21,12 @@ export default function ProtocolCard({ title, to, metrics, error, icon: Icon }) 
         </Link>
       )}
     >
-      {error ? (
+      {disabled ? (
+        <div className="protocol-card__disabled">
+          <PowerOff size={16} className="protocol-card__disabled-icon" />
+          <span>{t('dashboard.disabled')}</span>
+        </div>
+      ) : error ? (
         <ErrorAlert error={error} title={t('dashboard.notReachable', { title })} />
       ) : loading ? (
         <Spinner size="sm" label={t('dashboard.loading', { title })} />

@@ -3,6 +3,7 @@ import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 import { useKick } from '../../hooks/useKick';
+import { useProtocolEnabled } from '../../hooks/useProtocolEnabled';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { formatBytes } from '../../utils/formatBytes';
@@ -11,16 +12,19 @@ import { enumLabel } from '../../utils/constants';
 import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
 import KickButton from '../ui/KickButton';
+import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
 
 export default function MoQ() {
   const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
+  const enabled = useProtocolEnabled('moq');
 
   const sessions = useListQuery(QUERY_KEYS.moqSessions, (p) => api.get('/moq/sessions/list', p), {
     page,
     itemsPerPage,
     refetchInterval,
+    enabled,
   });
   const kick = useKick('/moq/sessions/kick', [QUERY_KEYS.moqSessions]);
 
@@ -56,24 +60,28 @@ export default function MoQ() {
         </div>
       </header>
 
-      <DataTable
-        columns={columns}
-        data={sessions.data?.items}
-        loading={sessions.isPending}
-        error={sessions.error}
-        pagination={{
-          page,
-          pageCount: sessions.data?.pageCount ?? 1,
-          itemsPerPage,
-          itemCount: sessions.data?.itemCount,
-          onPageChange: setPage,
-          onItemsPerPageChange: (n) => {
-            setItemsPerPage(n);
-            setPage(0);
-          },
-        }}
-        emptyMessage={t('pages.moq.noSessions')}
-      />
+      {enabled ? (
+        <DataTable
+          columns={columns}
+          data={sessions.data?.items}
+          loading={sessions.isPending}
+          error={sessions.error}
+          pagination={{
+            page,
+            pageCount: sessions.data?.pageCount ?? 1,
+            itemsPerPage,
+            itemCount: sessions.data?.itemCount,
+            onPageChange: setPage,
+            onItemsPerPageChange: (n) => {
+              setItemsPerPage(n);
+              setPage(0);
+            },
+          }}
+          emptyMessage={t('pages.moq.noSessions')}
+        />
+      ) : (
+        <ProtocolDisabledNotice protocol="MoQ" />
+      )}
     </div>
   );
 }

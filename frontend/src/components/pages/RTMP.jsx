@@ -3,6 +3,7 @@ import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 import { useKick } from '../../hooks/useKick';
+import { useProtocolEnabled } from '../../hooks/useProtocolEnabled';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { formatBytes } from '../../utils/formatBytes';
@@ -11,16 +12,19 @@ import { enumLabel } from '../../utils/constants';
 import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
 import KickButton from '../ui/KickButton';
+import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
 
 function RTMPSection({ base }) {
   const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
+  const enabled = useProtocolEnabled(base);
 
   const conns = useListQuery(QUERY_KEYS[`${base}Conns`], (p) => api.get(`/${base}/conns/list`, p), {
     page,
     itemsPerPage,
     refetchInterval,
+    enabled,
   });
   const kick = useKick(`/${base}/conns/kick`, [QUERY_KEYS[`${base}Conns`]]);
 
@@ -45,7 +49,7 @@ function RTMPSection({ base }) {
     },
   ];
 
-  return (
+  return enabled ? (
     <DataTable
       columns={columns}
       data={conns.data?.items}
@@ -64,6 +68,8 @@ function RTMPSection({ base }) {
       }}
       emptyMessage={t('pages.rtmp.noConnections', { proto: base.toUpperCase() })}
     />
+  ) : (
+    <ProtocolDisabledNotice protocol={base.toUpperCase()} />
   );
 }
 

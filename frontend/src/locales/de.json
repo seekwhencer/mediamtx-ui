@@ -59,7 +59,8 @@
     "logs": "Logs",
     "recordings": "Recordings",
     "settings": "Einstellungen",
-    "ui": "Server // UI"
+    "ui": "Server // UI",
+    "protocols": "Protokolle"
   },
   "topbar": {
     "online": "online",
@@ -100,9 +101,15 @@
     "sessions": "Sessions",
     "conns": "Conns",
     "notReachable": "{{title}} nicht erreichbar",
-    "loading": "{{title}} lädt…"
+    "loading": "{{title}} lädt…",
+    "disabled": "deaktiviert"
   },
   "pages": {
+    "protocolDisabled": {
+      "title": "{{protocol}} ist deaktiviert",
+      "hint": "Aktiviere das Protokoll in der globalen Konfiguration, um Verbindungen und Sessions zu sehen.",
+      "enableLink": "Zur globalen Konfiguration"
+    },
     "configGlobal": {
       "title": "Globale Konfiguration",
       "subtitle": "GlobalConf — alle globalen MediaMTX-Einstellungen."

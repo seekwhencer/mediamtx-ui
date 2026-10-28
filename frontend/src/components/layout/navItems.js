@@ -25,21 +25,22 @@ export const NAV_SECTIONS = [
     ],
   },
   {
-    labelKey: 'nav.runtime',
+    labelKey: 'nav.protocols',
     items: [
       { to: '/hls', labelKey: 'nav.hls', icon: Radio },
       { to: '/rtsp', labelKey: 'nav.rtsp', icon: Video },
       { to: '/rtmp', labelKey: 'nav.rtmp', icon: MonitorPlay },
       { to: '/srt', labelKey: 'nav.srt', icon: SatelliteDish },
       { to: '/webrtc', labelKey: 'nav.webrtc', icon: Wifi },
-      { to: '/moq', labelKey: 'nav.moq', icon: Boxes },
-      { to: '/metrics', labelKey: 'nav.metrics', icon: Gauge },
-      { to: '/logs', labelKey: 'nav.logs', icon: ScrollText },
-    ],
+      { to: '/moq', labelKey: 'nav.moq', icon: Boxes }
+    ]
   },
   {
     labelKey: 'nav.ui',
-    items: [{ to: '/settings', labelKey: 'nav.settings', icon: Settings }],
+    items: [
+      { to: '/settings', labelKey: 'nav.settings', icon: Settings },
+      { to: '/metrics', labelKey: 'nav.metrics', icon: Gauge },
+      { to: '/logs', labelKey: 'nav.logs', icon: ScrollText }]
   },
 ];
 

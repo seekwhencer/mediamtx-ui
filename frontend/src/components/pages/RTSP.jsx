@@ -3,6 +3,7 @@ import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 import { useKick } from '../../hooks/useKick';
+import { useProtocolEnabled } from '../../hooks/useProtocolEnabled';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { formatBytes } from '../../utils/formatBytes';
@@ -12,21 +13,25 @@ import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
 import Tabs from '../ui/Tabs';
 import KickButton from '../ui/KickButton';
+import ProtocolDisabledNotice from '../ui/ProtocolDisabledNotice';
 
 function RTSPSection({ base }) {
   const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
+  const enabled = useProtocolEnabled(base);
 
   const conns = useListQuery(QUERY_KEYS[`${base}Conns`], (p) => api.get(`/${base}/conns/list`, p), {
     page,
     itemsPerPage,
     refetchInterval,
+    enabled,
   });
   const sessions = useListQuery(QUERY_KEYS[`${base}Sessions`], (p) => api.get(`/${base}/sessions/list`, p), {
     page,
     itemsPerPage,
     refetchInterval,
+    enabled,
   });
   const kick = useKick(`/${base}/sessions/kick`, [QUERY_KEYS[`${base}Sessions`]]);
 
@@ -74,7 +79,7 @@ function RTSPSection({ base }) {
     },
   ];
 
-  return (
+  return enabled ? (
     <Tabs
       items={[
         {
@@ -107,6 +112,8 @@ function RTSPSection({ base }) {
         },
       ]}
     />
+  ) : (
+    <ProtocolDisabledNotice protocol={base.toUpperCase()} />
   );
 }
 
