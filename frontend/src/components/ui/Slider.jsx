@@ -5,6 +5,9 @@ export default function Slider({ value, onChange, min = 0, max = 100, step = 1, 
 
   const span = max - min || 1;
   const pct = ((clamped - min) / span) * 100;
+  const zeroPct = min < 0 ? ((0 - min) / span) * 100 : 0;
+  const startPct = Math.min(zeroPct, pct);
+  const endPct = Math.max(zeroPct, pct);
 
   return (
     <div className="ui-slider">
@@ -19,7 +22,7 @@ export default function Slider({ value, onChange, min = 0, max = 100, step = 1, 
           <div className="ui-slider__track" aria-hidden="true" />
           <div
             className="ui-slider__range"
-            style={{ left: 0, right: `${100 - pct}%` }}
+            style={{ left: `${startPct}%`, right: `${100 - endPct}%` }}
             aria-hidden="true"
           />
           <input
