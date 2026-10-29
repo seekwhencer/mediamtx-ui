@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Activity, ArrowRight } from 'lucide-react';
@@ -6,17 +7,32 @@ import Spinner from '../ui/Spinner';
 import ErrorAlert from '../ui/ErrorAlert';
 import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
-import RecordingBadge from '../ui/RecordingBadge';
+import RecordButton from '../ui/RecordButton';
 import { useRecordingMap } from '../../hooks/useRecordingMap';
+import { useToggleRecord } from '../../hooks/useToggleRecord';
 import { enumLabel } from '../../utils/constants';
 
 export default function PathsCard({ data, loading, error }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isRecording } = useRecordingMap();
+  const toggleRecord = useToggleRecord();
+  const [toggling, setToggling] = useState(null);
   const items = data?.items ?? [];
   const online = items.filter((p) => p.online).length;
   const available = items.filter((p) => p.available).length;
+
+  const handleToggle = (row) => {
+    const newRecord = !isRecording(row.confName);
+    setToggling(row.confName);
+    toggleRecord.mutate(
+      { confName: row.confName, record: newRecord },
+      {
+        onSettled: () => setToggling(null),
+        onError: (err) => console.error('Failed to toggle record:', err),
+      }
+    );
+  };
 
   const columns = [
     { key: 'name', label: t('pages.runtimePaths.name') },
@@ -35,7 +51,15 @@ export default function PathsCard({ data, loading, error }) {
     {
       key: 'record',
       label: t('pages.runtimePaths.record'),
-      render: (row) => <RecordingBadge record={isRecording(row.confName)} online={row.online} />,
+      render: (row) => (
+        <div onClick={(e) => e.stopPropagation()}>
+          <RecordButton
+            record={isRecording(row.confName)}
+            onToggle={() => handleToggle(row)}
+            loading={toggling === row.confName}
+          />
+        </div>
+      ),
     },
     { key: 'source.type', label: t('pages.runtimePaths.sourceType'), render: (row) => (row.source ? enumLabel('pathSourceType', row.source.type, t) : '–') },
     { key: 'readers', label: t('pages.runtimePaths.readers'), render: (row) => (Array.isArray(row.readers) ? row.readers.length : 0) },

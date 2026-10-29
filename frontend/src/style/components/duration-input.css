@@ -1,0 +1,143 @@
+/* ===== Duration input (Dropdown) ===== */
+.duration-input {
+  position: relative;
+}
+
+.duration-input__trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  color: var(--color-text);
+  background: var(--color-surface-hi);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-3);
+  cursor: pointer;
+  text-align: left;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.duration-input__trigger:hover {
+  border-color: var(--color-primary);
+}
+
+.duration-input__trigger.is-open {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-subtle);
+}
+
+.duration-input__value {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.duration-input__value.is-empty {
+  color: var(--color-muted);
+}
+
+.duration-input__arrow {
+  flex: none;
+  color: var(--color-muted);
+  font-size: var(--fs-xs);
+}
+
+.duration-input__panel {
+  position: absolute;
+  top: calc(100% + var(--space-1));
+  left: 0;
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  width: 100%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-md);
+  padding: var(--space-3);
+}
+
+.duration-input__rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.duration-input__row {
+  display: grid;
+  grid-template-columns: minmax(2ch, auto) minmax(3rem, 1fr) repeat(4, 2.5rem);
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.duration-input__label {
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-muted);
+  text-align: right;
+}
+
+.duration-input__field {
+  width: 100%;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: var(--fs-sm);
+  color: var(--color-text);
+  background: var(--color-surface-hi);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-2) var(--space-2);
+  text-align: center;
+  transition: border-color var(--transition), box-shadow var(--transition);
+  -moz-appearance: textfield;
+
+}
+
+.duration-input__field:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-subtle);
+}
+
+.duration-input__field::placeholder {
+  color: var(--color-muted);
+  opacity: 1;
+}
+
+.duration-input__btn {
+  width: 100%;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  color: var(--color-text);
+  background: var(--color-surface-alt);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  padding: var(--space-1);
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: none;
+  transition: background-color var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.duration-input__btn:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-surface);
+}
+
+.duration-input__btn:active {
+  background: var(--color-primary-active);
+}
+
+.duration-input__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-2);
+}

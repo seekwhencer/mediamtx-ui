@@ -47,10 +47,37 @@
   z-index: 2;
 }
 
+/* ===== RecordButton (Toggle in Runtime-Path-Liste) ===== */
+.rec-btn {
+  cursor: pointer;
+  border: none;
+  transition: filter 0.15s ease;
+  font-family: var(--font-mono);
+}
+
+.rec-btn:hover:not(:disabled) {
+  filter: brightness(0.9);
+}
+
+.rec-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.rec-btn--loading {
+  animation: rec-btn-pulse 1s ease-in-out infinite;
+}
+
+@keyframes rec-btn-pulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.4; }
+}
+
 /* Reduced Motion: Puls aus (Barrierefreiheit) */
 @media (prefers-reduced-motion: reduce) {
   .rec-badge__dot,
-  .rec-dot--pulse {
+  .rec-dot--pulse,
+  .rec-btn--loading {
     animation: none;
   }
 }

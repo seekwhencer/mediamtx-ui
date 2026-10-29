@@ -73,6 +73,8 @@
     "rec": "REC",
     "armed": "REC",
     "off": "off",
+    "start": "Start recording",
+    "stop": "Stop recording",
     "ariaActive": "Recording",
     "ariaArmed": "Recording configured (offline)",
     "ariaOff": "Not recording",
@@ -444,6 +446,22 @@
     "noEntries": "No entries.",
     "removeRow": "Remove row {{n}}"
   },
+  "durationInput": {
+    "title": "Duration",
+    "number": "Number",
+    "unit": "Unit",
+    "ok": "OK",
+    "units": {
+      "ms": "ms",
+      "s": "s",
+      "m": "m",
+      "h": "h",
+      "d": "d",
+      "w": "w",
+      "mo": "mo",
+      "y": "y"
+    }
+  },
   "fields": {
     "api": "Enable the control API server, which allows to control the server.",
     "apiAddress": "Address of the TCP/HTTP listener.",
@@ -730,6 +748,9 @@
     "mustBeOneOf": "{{label}} must be one of the allowed options",
     "unknownOptions": "{{label}}: unknown option(s) {{options}}",
     "mustContainNumbers": "{{label}} must contain numbers only",
+    "mustBeRange": "{{label}} must be a range of two numbers",
+    "mustBePair": "{{label}} must be two numbers",
+    "rangeOutOfBounds": "{{label}} must be between {{min}} and {{max}}",
     "mustBeList": "{{label}} must be a list",
     "invalidItem": "invalid item"
   },
@@ -877,6 +898,10 @@
     "webrtcSessionState": {
       "read": "Read",
       "publish": "Publish"
+    },
+    "dualSlider": {
+      "red": "Red",
+      "blue": "Blue"
     }
   }
 }

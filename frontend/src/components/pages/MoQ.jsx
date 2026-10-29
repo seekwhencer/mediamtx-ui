@@ -3,7 +3,8 @@ import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 import { useKick } from '../../hooks/useKick';
-import { useProtocolEnabled } from '../../hooks/useProtocolEnabled';
+import { useProtocolState } from '../../hooks/useProtocolEnabled';
+import Spinner from '../ui/Spinner';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { formatBytes } from '../../utils/formatBytes';
@@ -19,7 +20,7 @@ export default function MoQ() {
   const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
-  const enabled = useProtocolEnabled('moq');
+  const { enabled, loading } = useProtocolState('moq');
 
   const sessions = useListQuery(QUERY_KEYS.moqSessions, (p) => api.get('/moq/sessions/list', p), {
     page,
@@ -63,7 +64,9 @@ export default function MoQ() {
 
       <ProtocolConfigForm protocol="moq" />
 
-      {enabled ? (
+      {loading ? (
+        <Spinner size="md" label={t('common.loading')} />
+      ) : enabled ? (
         <DataTable
           columns={columns}
           data={sessions.data?.items}

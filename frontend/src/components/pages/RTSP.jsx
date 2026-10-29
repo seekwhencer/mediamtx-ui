@@ -3,7 +3,8 @@ import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 import { useKick } from '../../hooks/useKick';
-import { useProtocolEnabled } from '../../hooks/useProtocolEnabled';
+import { useProtocolState } from '../../hooks/useProtocolEnabled';
+import Spinner from '../ui/Spinner';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { formatBytes } from '../../utils/formatBytes';
@@ -20,7 +21,7 @@ function RTSPSection({ base }) {
   const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
-  const enabled = useProtocolEnabled(base);
+  const { enabled, loading } = useProtocolState(base);
 
   const conns = useListQuery(QUERY_KEYS[`${base}Conns`], (p) => api.get(`/${base}/conns/list`, p), {
     page,
@@ -84,7 +85,9 @@ function RTSPSection({ base }) {
     <>
       <ProtocolConfigForm protocol={base} />
 
-      {enabled ? (
+      {loading ? (
+        <Spinner size="md" label={t('common.loading')} />
+      ) : enabled ? (
         <Tabs
           items={[
             {

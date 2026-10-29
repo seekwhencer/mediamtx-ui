@@ -73,6 +73,8 @@
     "rec": "REC",
     "armed": "REC",
     "off": "aus",
+    "start": "Aufnahme starten",
+    "stop": "Aufnahme stoppen",
     "ariaActive": "Aufnimmt",
     "ariaArmed": "Aufnahme aktiviert (offline)",
     "ariaOff": "Keine Aufnahme",
@@ -444,6 +446,22 @@
     "noEntries": "Keine Einträge.",
     "removeRow": "Zeile {{n}} entfernen"
   },
+  "durationInput": {
+    "title": "Dauer",
+    "number": "Zahl",
+    "unit": "Einheit",
+    "ok": "OK",
+    "units": {
+      "ms": "ms",
+      "s": "s",
+      "m": "m",
+      "h": "h",
+      "d": "d",
+      "w": "w",
+      "mo": "mo",
+      "y": "y"
+    }
+  },
   "fields": {
     "api": "Aktiviert den Control-API-Server, mit dem der Server gesteuert werden kann.",
     "apiAddress": "Adresse des TCP/HTTP-Listeners.",
@@ -730,6 +748,9 @@
     "mustBeOneOf": "{{label}} muss eine der erlaubten Optionen sein",
     "unknownOptions": "{{label}}: unbekannte Option(en) {{options}}",
     "mustContainNumbers": "{{label}} darf nur Zahlen enthalten",
+    "mustBeRange": "{{label}} muss ein Bereich aus zwei Zahlen sein",
+    "mustBePair": "{{label}} muss zwei Zahlen sein",
+    "rangeOutOfBounds": "{{label}} muss zwischen {{min}} und {{max}} liegen",
     "mustBeList": "{{label}} muss eine Liste sein",
     "invalidItem": "ungültiger Eintrag"
   },
@@ -877,6 +898,10 @@
     "webrtcSessionState": {
       "read": "Lesen",
       "publish": "Publishen"
+    },
+    "dualSlider": {
+      "red": "Rot",
+      "blue": "Blau"
     }
   }
 }

@@ -73,6 +73,8 @@
     "rec": "REC",
     "armed": "REC",
     "off": "disattivo",
+    "start": "Avvia registrazione",
+    "stop": "Ferma registrazione",
     "ariaActive": "Registrazione in corso",
     "ariaArmed": "Registrazione attiva (offline)",
     "ariaOff": "Nessuna registrazione",
@@ -444,6 +446,22 @@
     "noEntries": "Nessun elemento.",
     "removeRow": "Elimina riga {{n}}"
   },
+  "durationInput": {
+    "title": "Durata",
+    "number": "Numero",
+    "unit": "Unità",
+    "ok": "OK",
+    "units": {
+      "ms": "ms",
+      "s": "s",
+      "m": "m",
+      "h": "h",
+      "d": "d",
+      "w": "w",
+      "mo": "mo",
+      "y": "y"
+    }
+  },
   "fields": {
     "api": "Abilita il server di controllo API, che consente di controllare il server.",
     "apiAddress": "Indirizzo del listener TCP/HTTP.",
@@ -730,6 +748,9 @@
     "mustBeOneOf": "{{label}} deve essere una delle opzioni consentite",
     "unknownOptions": "{{label}}: opzione/i sconosciuta/e {{options}}",
     "mustContainNumbers": "{{label}} deve contenere solo numeri",
+    "mustBeRange": "{{label}} deve essere un intervallo di due numeri",
+    "mustBePair": "{{label}} deve essere due numeri",
+    "rangeOutOfBounds": "{{label}} deve essere compreso tra {{min}} e {{max}}",
     "mustBeList": "{{label}} deve essere un elenco",
     "invalidItem": "elemento non valido"
   },
@@ -877,6 +898,10 @@
     "webrtcSessionState": {
       "read": "Letto",
       "publish": "Pubblicato"
+    },
+    "dualSlider": {
+      "red": "Rosso",
+      "blue": "Blu"
     }
   }
 }

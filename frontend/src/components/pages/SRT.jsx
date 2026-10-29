@@ -4,7 +4,8 @@ import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 import { useKick } from '../../hooks/useKick';
-import { useProtocolEnabled } from '../../hooks/useProtocolEnabled';
+import { useProtocolState } from '../../hooks/useProtocolEnabled';
+import Spinner from '../ui/Spinner';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { formatBytes } from '../../utils/formatBytes';
@@ -24,7 +25,7 @@ export default function SRT() {
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
   const [statsRow, setStatsRow] = useState(null);
-  const enabled = useProtocolEnabled('srt');
+  const { enabled, loading } = useProtocolState('srt');
 
   const conns = useListQuery(QUERY_KEYS.srtConns, (p) => api.get('/srt/conns/list', p), {
     page,
@@ -69,7 +70,9 @@ export default function SRT() {
 
       <ProtocolConfigForm protocol="srt" />
 
-      {enabled ? (
+      {loading ? (
+        <Spinner size="md" label={t('common.loading')} />
+      ) : enabled ? (
         <DataTable
           columns={columns}
           data={conns.data?.items}

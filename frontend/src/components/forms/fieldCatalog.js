@@ -259,7 +259,7 @@ export const PATH_CONF_CATALOG = [
   },
   { name: 'rtspRangeStart', label: 'RTSP Range Start', type: 'text', group: 'RTSP source', descriptionKey: 'fields.rtspRangeStart' },
   { name: 'rtspScale', label: 'RTSP Scale', type: 'text', group: 'RTSP source', descriptionKey: 'fields.rtspScale' },
-  { name: 'rtspUDPSourcePortRange', label: 'RTSP UDP Source Port Range', type: 'tags-number', group: 'RTSP source', descriptionKey: 'fields.rtspUDPSourcePortRange' },
+  { name: 'rtspUDPSourcePortRange', label: 'RTSP UDP Source Port Range', type: 'range', group: 'RTSP source', min: 32768, max: 60999, step: 1, descriptionKey: 'fields.rtspUDPSourcePortRange' },
   // RTP source
   { name: 'rtpSDP', label: 'RTP SDP', type: 'text', group: 'RTP source', multiline: true, descriptionKey: 'fields.rtpSDP' },
   // MoQ source
@@ -282,7 +282,7 @@ export const PATH_CONF_CATALOG = [
   { name: 'rpiCameraSharpness', label: 'Sharpness', type: 'slider', group: 'Raspberry Pi Camera', min: 0, max: 100, descriptionKey: 'fields.rpiCameraSharpness' },
   { name: 'rpiCameraExposure', label: 'Exposure', type: 'select', group: 'Raspberry Pi Camera', options: ['normal', 'short', 'long', 'custom'], descriptionKey: 'fields.rpiCameraExposure' },
   { name: 'rpiCameraAWB', label: 'AWB', type: 'select', group: 'Raspberry Pi Camera', options: ['auto', 'incandescent', 'tungsten', 'fluorescent', 'indoor', 'daylight', 'cloudy', 'custom'], descriptionKey: 'fields.rpiCameraAWB' },
-  { name: 'rpiCameraAWBGains', label: 'AWB Gains', type: 'tags-number', group: 'Raspberry Pi Camera', descriptionKey: 'fields.rpiCameraAWBGains' },
+  { name: 'rpiCameraAWBGains', label: 'AWB Gains', type: 'dual-slider', group: 'Raspberry Pi Camera', min: 0, max: 255, step: 1, labels: ['red', 'blue'], descriptionKey: 'fields.rpiCameraAWBGains' },
   { name: 'rpiCameraDenoise', label: 'Denoise', type: 'select', group: 'Raspberry Pi Camera', options: ['off', 'cdn_off', 'cdn_fast', 'cdn_hq'], descriptionKey: 'fields.rpiCameraDenoise' },
   { name: 'rpiCameraShutter', label: 'Shutter', type: 'number', group: 'Raspberry Pi Camera', descriptionKey: 'fields.rpiCameraShutter' },
   { name: 'rpiCameraMetering', label: 'Metering', type: 'select', group: 'Raspberry Pi Camera', options: ['centre', 'spot', 'matrix', 'custom'], descriptionKey: 'fields.rpiCameraMetering' },
@@ -392,7 +392,7 @@ export const APP_SETTINGS_CATALOG = [
 
 // ===== Helpers (reine Funktionen) =====
 
-const DURATION_RE = /^(\d+(ms|s|m|h|d|w|y))(\d+(ms|s|m|h|d|w|y))*$/;
+const DURATION_RE = /^(\d+(?:\.\d+)?(ms|s|m|h|d|w|y))(\d+(?:\.\d+)?(ms|s|m|h|d|w|y))*$/;
 const SIZE_RE = /^\d+(\.\d+)?(KiB|MiB|GiB|TiB|KB|MB|GB|TB|K|M|G|T|B)?$/i;
 
 function isEmpty(v) {
@@ -460,6 +460,38 @@ function validateField(field, value, errors, path, t) {
         errors[key] = t('validation.mustContainNumbers', { label });
       }
       break;
+    case 'range': {
+      if (!Array.isArray(value) || value.length !== 2) {
+        errors[key] = t('validation.mustBeRange', { label });
+        break;
+      }
+      const a = Number(value[0]);
+      const b = Number(value[1]);
+      if (!Number.isFinite(a) || !Number.isFinite(b)) {
+        errors[key] = t('validation.mustBeRange', { label });
+        break;
+      }
+      if ((field.min != null && (a < field.min || b < field.min)) || (field.max != null && (a > field.max || b > field.max))) {
+        errors[key] = t('validation.rangeOutOfBounds', { label, min: field.min, max: field.max });
+      }
+      break;
+    }
+    case 'dual-slider': {
+      if (!Array.isArray(value) || value.length !== 2) {
+        errors[key] = t('validation.mustBePair', { label });
+        break;
+      }
+      const a = Number(value[0]);
+      const b = Number(value[1]);
+      if (!Number.isFinite(a) || !Number.isFinite(b)) {
+        errors[key] = t('validation.mustBePair', { label });
+        break;
+      }
+      if ((field.min != null && (a < field.min || b < field.min)) || (field.max != null && (a > field.max || b > field.max))) {
+        errors[key] = t('validation.rangeOutOfBounds', { label, min: field.min, max: field.max });
+      }
+      break;
+    }
     case 'list': {
       if (!Array.isArray(value)) {
         errors[key] = t('validation.mustBeList', { label });
@@ -510,6 +542,18 @@ function normalizeField(field, value) {
       if (value === '' || value == null) return null;
       const n = Number(value);
       return Number.isFinite(n) ? n : null;
+    }
+    case 'range': {
+      if (!Array.isArray(value) || value.length !== 2) return null;
+      const a = Number(value[0]);
+      const b = Number(value[1]);
+      return Number.isFinite(a) && Number.isFinite(b) ? [a, b] : null;
+    }
+    case 'dual-slider': {
+      if (!Array.isArray(value) || value.length !== 2) return null;
+      const a = Number(value[0]);
+      const b = Number(value[1]);
+      return Number.isFinite(a) && Number.isFinite(b) ? [a, b] : null;
     }
     case 'tags':
     case 'tags-number':

@@ -5,7 +5,7 @@ import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { useListQuery } from '../../hooks/useApi';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
-import { useProtocolEnabled } from '../../hooks/useProtocolEnabled';
+import { useProtocolState } from '../../hooks/useProtocolEnabled';
 import InfoCard from '../dashboard/InfoCard';
 import ProtocolCard from '../dashboard/ProtocolCard';
 import PathsCard from '../dashboard/PathsCard';
@@ -32,24 +32,23 @@ export default function Dashboard() {
   });
 
   // Protocol enablement flags from the global config. While the config is
-  // still loading (or failed) the flags are unknown, so protocols are treated
-  // as enabled to keep the previous polling behaviour instead of flashing
-  // "disabled".
-  const hlsEnabled = useProtocolEnabled('hls');
-  const rtspEnabled = useProtocolEnabled('rtsp');
-  const rtmpEnabled = useProtocolEnabled('rtmp');
-  const srtEnabled = useProtocolEnabled('srt');
-  const webrtcEnabled = useProtocolEnabled('webrtc');
-  const moqEnabled = useProtocolEnabled('moq');
+  // still loading the state is unknown, so `enabled` stays false and no
+  // request is sent for that protocol (a disabled protocol would 404).
+  const hls = useProtocolState('hls');
+  const rtsp = useProtocolState('rtsp');
+  const rtmp = useProtocolState('rtmp');
+  const srt = useProtocolState('srt');
+  const webrtc = useProtocolState('webrtc');
+  const moq = useProtocolState('moq');
 
-  const hlsMuxers = useListQuery(QUERY_KEYS.hlsMuxers, (p) => api.get('/hls/muxers/list', p), { refetchInterval, enabled: hlsEnabled });
-  const hlsSessions = useListQuery(QUERY_KEYS.hlsSessions, (p) => api.get('/hls/sessions/list', p), { refetchInterval, enabled: hlsEnabled });
-  const rtspConns = useListQuery(QUERY_KEYS.rtspConns, (p) => api.get('/rtsp/conns/list', p), { refetchInterval, enabled: rtspEnabled });
-  const rtspSessions = useListQuery(QUERY_KEYS.rtspSessions, (p) => api.get('/rtsp/sessions/list', p), { refetchInterval, enabled: rtspEnabled });
-  const rtmpConns = useListQuery(QUERY_KEYS.rtmpConns, (p) => api.get('/rtmp/conns/list', p), { refetchInterval, enabled: rtmpEnabled });
-  const srtConns = useListQuery(QUERY_KEYS.srtConns, (p) => api.get('/srt/conns/list', p), { refetchInterval, enabled: srtEnabled });
-  const webrtcSessions = useListQuery(QUERY_KEYS.webrtcSessions, (p) => api.get('/webrtc/sessions/list', p), { refetchInterval, enabled: webrtcEnabled });
-  const moqSessions = useListQuery(QUERY_KEYS.moqSessions, (p) => api.get('/moq/sessions/list', p), { refetchInterval, enabled: moqEnabled });
+  const hlsMuxers = useListQuery(QUERY_KEYS.hlsMuxers, (p) => api.get('/hls/muxers/list', p), { refetchInterval, enabled: hls.enabled });
+  const hlsSessions = useListQuery(QUERY_KEYS.hlsSessions, (p) => api.get('/hls/sessions/list', p), { refetchInterval, enabled: hls.enabled });
+  const rtspConns = useListQuery(QUERY_KEYS.rtspConns, (p) => api.get('/rtsp/conns/list', p), { refetchInterval, enabled: rtsp.enabled });
+  const rtspSessions = useListQuery(QUERY_KEYS.rtspSessions, (p) => api.get('/rtsp/sessions/list', p), { refetchInterval, enabled: rtsp.enabled });
+  const rtmpConns = useListQuery(QUERY_KEYS.rtmpConns, (p) => api.get('/rtmp/conns/list', p), { refetchInterval, enabled: rtmp.enabled });
+  const srtConns = useListQuery(QUERY_KEYS.srtConns, (p) => api.get('/srt/conns/list', p), { refetchInterval, enabled: srt.enabled });
+  const webrtcSessions = useListQuery(QUERY_KEYS.webrtcSessions, (p) => api.get('/webrtc/sessions/list', p), { refetchInterval, enabled: webrtc.enabled });
+  const moqSessions = useListQuery(QUERY_KEYS.moqSessions, (p) => api.get('/moq/sessions/list', p), { refetchInterval, enabled: moq.enabled });
   const paths = useListQuery(QUERY_KEYS.runtimePaths, (p) => api.get('/paths/list', p), { refetchInterval });
 
   return (
@@ -70,7 +69,8 @@ export default function Dashboard() {
             title="HLS"
             icon={PROTOCOL_ICONS.HLS}
             to="/hls"
-            disabled={!hlsEnabled}
+            disabled={!hls.enabled}
+            pending={hls.loading}
             error={hlsMuxers.error || hlsSessions.error}
             metrics={[
               { label: t('dashboard.muxer'), value: hlsMuxers.data?.itemCount, loading: hlsMuxers.isPending },
@@ -81,7 +81,8 @@ export default function Dashboard() {
             title="RTSP"
             icon={PROTOCOL_ICONS.RTSP}
             to="/rtsp"
-            disabled={!rtspEnabled}
+            disabled={!rtsp.enabled}
+            pending={rtsp.loading}
             error={rtspConns.error || rtspSessions.error}
             metrics={[
               { label: t('dashboard.conns'), value: rtspConns.data?.itemCount, loading: rtspConns.isPending },
@@ -92,7 +93,8 @@ export default function Dashboard() {
             title="RTMP"
             icon={PROTOCOL_ICONS.RTMP}
             to="/rtmp"
-            disabled={!rtmpEnabled}
+            disabled={!rtmp.enabled}
+            pending={rtmp.loading}
             error={rtmpConns.error}
             metrics={[{ label: t('dashboard.conns'), value: rtmpConns.data?.itemCount, loading: rtmpConns.isPending }]}
           />
@@ -100,7 +102,8 @@ export default function Dashboard() {
             title="SRT"
             icon={PROTOCOL_ICONS.SRT}
             to="/srt"
-            disabled={!srtEnabled}
+            disabled={!srt.enabled}
+            pending={srt.loading}
             error={srtConns.error}
             metrics={[{ label: t('dashboard.conns'), value: srtConns.data?.itemCount, loading: srtConns.isPending }]}
           />
@@ -108,7 +111,8 @@ export default function Dashboard() {
             title="WebRTC"
             icon={PROTOCOL_ICONS.WebRTC}
             to="/webrtc"
-            disabled={!webrtcEnabled}
+            disabled={!webrtc.enabled}
+            pending={webrtc.loading}
             error={webrtcSessions.error}
             metrics={[{ label: t('dashboard.sessions'), value: webrtcSessions.data?.itemCount, loading: webrtcSessions.isPending }]}
           />
@@ -116,7 +120,8 @@ export default function Dashboard() {
             title="MoQ"
             icon={PROTOCOL_ICONS.MoQ}
             to="/moq"
-            disabled={!moqEnabled}
+            disabled={!moq.enabled}
+            pending={moq.loading}
             error={moqSessions.error}
             metrics={[{ label: t('dashboard.sessions'), value: moqSessions.data?.itemCount, loading: moqSessions.isPending }]}
           />

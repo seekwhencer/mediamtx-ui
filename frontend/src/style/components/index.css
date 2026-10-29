@@ -1,8 +1,11 @@
 @import './buttons.css';
 @import './form-fields.css';
+@import './duration-input.css';
 @import './tooltip.css';
 @import './toggle.css';
 @import './slider.css';
+@import './range-slider.css';
+@import './dual-slider.css';
 @import './taginput.css';
 @import './multiselect.css';
 @import './badge.css';

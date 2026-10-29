@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useListQuery } from '../../hooks/useApi';
@@ -8,8 +9,9 @@ import { QUERY_KEYS } from '../../services/queryKeys';
 import { enumLabel } from '../../utils/constants';
 import DataTable from '../tables/DataTable';
 import Badge from '../ui/Badge';
-import RecordingBadge from '../ui/RecordingBadge';
+import RecordButton from '../ui/RecordButton';
 import { useRecordingMap } from '../../hooks/useRecordingMap';
+import { useToggleRecord } from '../../hooks/useToggleRecord';
 
 export default function RuntimePaths() {
   const { t } = useTranslation();
@@ -17,12 +19,26 @@ export default function RuntimePaths() {
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
   const { isRecording } = useRecordingMap();
+  const toggleRecord = useToggleRecord();
+  const [toggling, setToggling] = useState(null);
 
   const list = useListQuery(QUERY_KEYS.runtimePaths, (p) => api.get('/paths/list', p), {
     page,
     itemsPerPage,
     refetchInterval,
   });
+
+  const handleToggle = (row) => {
+    const newRecord = !isRecording(row.confName);
+    setToggling(row.confName);
+    toggleRecord.mutate(
+      { confName: row.confName, record: newRecord },
+      {
+        onSettled: () => setToggling(null),
+        onError: (err) => console.error('Failed to toggle record:', err),
+      }
+    );
+  };
 
   const columns = [
     { key: 'name', label: t('pages.runtimePaths.name') },
@@ -41,7 +57,15 @@ export default function RuntimePaths() {
     {
       key: 'record',
       label: t('pages.runtimePaths.record'),
-      render: (row) => <RecordingBadge record={isRecording(row.confName)} online={row.online} />,
+      render: (row) => (
+        <div onClick={(e) => e.stopPropagation()}>
+          <RecordButton
+            record={isRecording(row.confName)}
+            onToggle={() => handleToggle(row)}
+            loading={toggling === row.confName}
+          />
+        </div>
+      ),
     },
     { key: 'source.type', label: t('pages.runtimePaths.sourceType'), render: (row) => (row.source ? enumLabel('pathSourceType', row.source.type, t) : '–') },
     { key: 'readers', label: t('pages.runtimePaths.readers'), render: (row) => (Array.isArray(row.readers) ? row.readers.length : 0) },

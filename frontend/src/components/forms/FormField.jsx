@@ -3,8 +3,11 @@ import Input from '../ui/Input';
 import Select from '../ui/Select';
 import Toggle from '../ui/Toggle';
 import Slider from '../ui/Slider';
+import RangeSlider from '../ui/RangeSlider';
+import DualSlider from '../ui/DualSlider';
 import TagInput from '../ui/TagInput';
 import MultiSelect from '../ui/MultiSelect';
+import DurationInput from '../ui/DurationInput';
 import ListEditor from './ListEditor';
 import Tooltip from '../ui/Tooltip';
 import { primaryColorForHue } from '../../utils/primaryColor';
@@ -73,6 +76,37 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             id={id}
             name={field.name}
             previewStyle={previewStyle}
+          />
+        );
+      }
+      case 'range':
+        return (
+          <RangeSlider
+            value={Array.isArray(value) ? value : []}
+            onChange={onChange}
+            min={field.min ?? 0}
+            max={field.max ?? 100}
+            step={field.step ?? 1}
+            label={label}
+            labelExtra={labelExtra}
+            id={id}
+            name={field.name}
+          />
+        );
+      case 'dual-slider': {
+        const subLabels = (field.labels || []).map((l) => t(`enums.dualSlider.${l}`, { defaultValue: l }));
+        return (
+          <DualSlider
+            value={Array.isArray(value) ? value : []}
+            onChange={onChange}
+            min={field.min ?? 0}
+            max={field.max ?? 100}
+            step={field.step ?? 1}
+            label={label}
+            labelExtra={labelExtra}
+            labels={subLabels}
+            id={id}
+            name={field.name}
           />
         );
       }
@@ -194,12 +228,24 @@ export default function FormField({ field, value, onChange, error, idPrefix = 'f
             error={error}
           />
         );
-      case 'text':
       case 'duration':
+        return (
+          <DurationInput
+            id={id}
+            name={field.name}
+            label={label}
+            labelExtra={labelExtra}
+            placeholder={placeholder}
+            value={value ?? ''}
+            onChange={onChange}
+            error={error}
+          />
+        );
+      case 'text':
       case 'size':
       case 'command':
       case 'path': {
-        const mono = ['command', 'path', 'duration', 'size'].includes(field.type);
+        const mono = ['command', 'path', 'size'].includes(field.type);
         if (field.multiline) {
           return (
             <div className={`ui-field ${error ? 'has-error' : ''}`.trim()}>

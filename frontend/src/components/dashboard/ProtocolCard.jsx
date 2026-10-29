@@ -5,7 +5,7 @@ import Card from '../ui/Card';
 import Spinner from '../ui/Spinner';
 import ErrorAlert from '../ui/ErrorAlert';
 
-export default function ProtocolCard({ title, to, metrics, error, icon: Icon, disabled }) {
+export default function ProtocolCard({ title, to, metrics, error, icon: Icon, disabled, pending }) {
   const { t } = useTranslation();
   const loading = !disabled && metrics.some((m) => m.loading);
 
@@ -13,7 +13,7 @@ export default function ProtocolCard({ title, to, metrics, error, icon: Icon, di
     <Card
       title={title}
       icon={Icon}
-      className={disabled ? 'ui-card--disabled' : ''}
+      className={disabled && !pending ? 'ui-card--disabled' : ''}
       actions={to && (
         <Link className="ui-link ui-link--icon" to={to}>
           {t('common.detailsArrow')}
@@ -21,7 +21,9 @@ export default function ProtocolCard({ title, to, metrics, error, icon: Icon, di
         </Link>
       )}
     >
-      {disabled ? (
+      {pending ? (
+        <Spinner size="sm" label={t('dashboard.loading', { title })} />
+      ) : disabled ? (
         <div className="protocol-card__disabled">
           <PowerOff size={16} className="protocol-card__disabled-icon" />
           <span>{t('dashboard.disabled')}</span>

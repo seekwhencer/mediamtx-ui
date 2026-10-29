@@ -3,7 +3,8 @@ import { useListQuery } from '../../hooks/useApi';
 import { usePagination } from '../../hooks/usePagination';
 import { useAutoRefresh } from '../../hooks/useAutoRefresh';
 import { useKick } from '../../hooks/useKick';
-import { useProtocolEnabled } from '../../hooks/useProtocolEnabled';
+import { useProtocolState } from '../../hooks/useProtocolEnabled';
+import Spinner from '../ui/Spinner';
 import { api } from '../../api/client';
 import { QUERY_KEYS } from '../../services/queryKeys';
 import { formatBytes } from '../../utils/formatBytes';
@@ -19,7 +20,7 @@ export default function HLS() {
   const { t } = useTranslation();
   const { page, setPage, itemsPerPage, setItemsPerPage } = usePagination();
   const refetchInterval = useAutoRefresh();
-  const enabled = useProtocolEnabled('hls');
+  const { enabled, loading } = useProtocolState('hls');
 
   const muxers = useListQuery(QUERY_KEYS.hlsMuxers, (p) => api.get('/hls/muxers/list', p), {
     page,
@@ -91,7 +92,9 @@ export default function HLS() {
 
       <ProtocolConfigForm protocol="hls" />
 
-      {enabled ? (
+      {loading ? (
+        <Spinner size="md" label={t('common.loading')} />
+      ) : enabled ? (
         <Tabs
           items={[
             {
