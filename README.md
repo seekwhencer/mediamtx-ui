@@ -3,8 +3,6 @@
   <p align='center'>Web-based admin interface</p>
 </p>
 
-[![Dashboard (dark)](.docs/screenshots/dark_dashboard.png)](https://www.youtube.com/watch?v=xky_vmMjL38) 
-
 <p align="center">
   <img src=".docs/badges/bugs.png" alt="bugs | 0 (probably)" height="20">
   <img src=".docs/badges/cloud.png" alt="cloud | nein danke" height="20">
@@ -13,6 +11,10 @@
   <img src=".docs/badges/data.png" alt="data | 100% local" height="20">
   <img src=".docs/badges/internet.png" alt="internet | auch nein" height="20">
 </p>
+
+[![Dashboard (dark)](.docs/screenshots/dark_dashboard.png)](https://www.youtube.com/watch?v=xky_vmMjL38) 
+
+
 
 ## Features
 
