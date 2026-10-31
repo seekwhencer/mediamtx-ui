@@ -92,7 +92,7 @@
   background: var(--color-surface-hi);
   border: 1px solid var(--color-border-strong);
   border-radius: var(--radius-sm);
-  padding: var(--space-2) var(--space-2);
+  padding: var(--space-1) var(--space-2);
   text-align: center;
   transition: border-color var(--transition), box-shadow var(--transition);
   -moz-appearance: textfield;
