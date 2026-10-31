@@ -1,0 +1,271 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>mediamtx-ui · badges</title>
+<style>
+  /* fonts aus ../frontend/src/style/fonts */
+  @font-face {
+    font-family: 'Sofia Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../frontend/src/style/fonts/sofia-sans-v20-latin_latin-ext-regular.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Sofia Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('../frontend/src/style/fonts/sofia-sans-v20-latin_latin-ext-600.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Sofia Sans';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../frontend/src/style/fonts/sofia-sans-v20-latin_latin-ext-700.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../frontend/src/style/fonts/jetbrains-mono-v24-latin-regular.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('../frontend/src/style/fonts/jetbrains-mono-v24-latin-500.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'JetBrains Mono';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('../frontend/src/style/fonts/jetbrains-mono-v24-latin-600.woff2') format('woff2');
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #0d1117;
+    color: #e6edf3;
+    font-family: 'Sofia Sans', system-ui, sans-serif;
+    padding: 48px 24px 64px;
+  }
+
+  .page { max-width: 760px; margin: 0 auto; }
+
+  .page__header { margin-bottom: 40px; }
+  .page__title {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+  }
+  .page__subtitle {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #8b949e;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .section { margin-bottom: 40px; }
+  .section__title {
+    font-size: 12px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #8b949e;
+    margin-bottom: 14px;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  /*
+   * badge = ein selbstständiges div (label | value).
+   * Für den Playwright-Screenshot (2. Arbeitsgang):
+   *   - Selektor: .badge (oder #badge-<name> / [data-name="<name>"])
+   *   - await document.fonts.ready, dann element.screenshot()
+   *   - feste Höhe, fester Hintergrund, keine Animation, kein box-shadow
+   */
+  .badge {
+    display: inline-flex;
+    align-items: stretch;
+    height: 23px;
+    border-radius: 6px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 11px;
+    line-height: 1;
+  }
+
+  .badge__label {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    background: #3d444d;
+    color: #ffffff;
+    font-family: 'Sofia Sans', system-ui, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+  }
+
+  .badge__value {
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+    color: #ffffff;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+  }
+
+  .badge__value--green  { background: #39a73f; }
+  .badge__value--blue   { background: #007ec6; }
+  .badge__value--cyan   { background: #1f9eef; }
+  .badge__value--orange { background: #fe7d00; color: #1a1a1a; }
+  .badge__value--yellow { background: #dfb317; color: #1a1a1a; }
+  .badge__value--purple { background: #8256d0; }
+  .badge__value--red    { background: #e05d44; color: #1a1a1a; }
+  .badge__value--gray   { background: #6e7681; }
+
+  /* spass-badges: gleicher aufbau, leicht wärmere label */
+  .badge--spass .badge__label { background: #4d4438; }
+</style>
+</head>
+<body>
+<main class="page">
+  <header class="page__header">
+    <h1 class="page__title">mediamtx-ui</h1>
+    <p class="page__subtitle">badges · label | value</p>
+  </header>
+
+  <section class="section">
+    <h2 class="section__title">badges</h2>
+    <div class="badge-row">
+      <div class="badge" id="badge-stack" data-name="stack">
+        <span class="badge__label">stack</span>
+        <span class="badge__value badge__value--blue">node.js + react 19</span>
+      </div>
+      <div class="badge" id="badge-protocols" data-name="protocols">
+        <span class="badge__label">protocols</span>
+        <span class="badge__value badge__value--green">hls · rtsp · rtmp · srt · webrtc · moq</span>
+      </div>
+      <div class="badge" id="badge-ui" data-name="ui">
+        <span class="badge__label">ui</span>
+        <span class="badge__value badge__value--orange">vite + react 19</span>
+      </div>
+      <div class="badge" id="badge-server" data-name="server">
+        <span class="badge__label">server</span>
+        <span class="badge__value badge__value--cyan">express 5 + ws</span>
+      </div>
+      <div class="badge" id="badge-metrics" data-name="metrics">
+        <span class="badge__label">metrics</span>
+        <span class="badge__value badge__value--purple">prometheus :9998</span>
+      </div>
+      <div class="badge" id="badge-logs" data-name="logs">
+        <span class="badge__label">logs</span>
+        <span class="badge__value badge__value--blue">websocket /logs</span>
+      </div>
+      <div class="badge" id="badge-recordings" data-name="recordings">
+        <span class="badge__label">recordings</span>
+        <span class="badge__value badge__value--cyan">playback :9996</span>
+      </div>
+      <div class="badge" id="badge-config" data-name="config">
+        <span class="badge__label">config</span>
+        <span class="badge__value badge__value--green">mediamtx.yml auto-save</span>
+      </div>
+      <div class="badge" id="badge-i18n" data-name="i18n">
+        <span class="badge__label">i18n</span>
+        <span class="badge__value badge__value--yellow">en · de · it</span>
+      </div>
+      <div class="badge" id="badge-deploy" data-name="deploy">
+        <span class="badge__label">deploy</span>
+        <span class="badge__value badge__value--purple">docker compose</span>
+      </div>
+      <div class="badge" id="badge-mediamtx" data-name="mediamtx">
+        <span class="badge__label">mediamtx</span>
+        <span class="badge__value badge__value--gray">main branch</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2 class="section__title">spass-badges</h2>
+    <div class="badge-row">
+      <div class="badge badge--spass" id="badge-bugs" data-name="bugs">
+        <span class="badge__label">bugs</span>
+        <span class="badge__value badge__value--green">0 (probably)</span>
+      </div>
+      <div class="badge badge--spass" id="badge-tests" data-name="tests">
+        <span class="badge__label">tests</span>
+        <span class="badge__value badge__value--orange">vibes</span>
+      </div>
+      <div class="badge badge--spass" id="badge-cloud" data-name="cloud">
+        <span class="badge__label">cloud</span>
+        <span class="badge__value badge__value--red">nein danke</span>
+      </div>
+      <div class="badge badge--spass" id="badge-internet" data-name="internet">
+        <span class="badge__label">internet</span>
+        <span class="badge__value badge__value--red">auch nein</span>
+      </div>
+      <div class="badge badge--spass" id="badge-uptime" data-name="uptime">
+        <span class="badge__label">uptime</span>
+        <span class="badge__value badge__value--yellow">since last restart</span>
+      </div>
+      <div class="badge badge--spass" id="badge-coffee" data-name="coffee">
+        <span class="badge__label">coffee</span>
+        <span class="badge__value badge__value--gray">unendlich</span>
+      </div>
+      <div class="badge badge--spass" id="badge-docs" data-name="docs">
+        <span class="badge__label">docs</span>
+        <span class="badge__value badge__value--blue">this README</span>
+      </div>
+      <div class="badge badge--spass" id="badge-typescript" data-name="typescript">
+        <span class="badge__label">typescript</span>
+        <span class="badge__value badge__value--red">nein danke</span>
+      </div>
+      <div class="badge badge--spass" id="badge-works" data-name="works">
+        <span class="badge__label">works on my machine</span>
+        <span class="badge__value badge__value--green">yes</span>
+      </div>
+      <div class="badge badge--spass" id="badge-kick" data-name="kick">
+        <span class="badge__label">kick</span>
+        <span class="badge__value badge__value--purple">one click, no mercy</span>
+      </div>
+      <div class="badge badge--spass" id="badge-hevc" data-name="hevc">
+        <span class="badge__label">hevc</span>
+        <span class="badge__value badge__value--red">your browser says no</span>
+      </div>
+      <div class="badge badge--spass" id="badge-moq" data-name="moq">
+        <span class="badge__label">moq</span>
+        <span class="badge__value badge__value--cyan">who?</span>
+      </div>
+      <div class="badge badge--spass" id="badge-data" data-name="data">
+        <span class="badge__label">data</span>
+        <span class="badge__value badge__value--green">100% local</span>
+      </div>
+      <div class="badge badge--spass" id="badge-api-keys" data-name="api-keys">
+        <span class="badge__label">api keys</span>
+        <span class="badge__value badge__value--green">0</span>
+      </div>
+      <div class="badge badge--spass" id="badge-playwright" data-name="playwright">
+        <span class="badge__label">playwright</span>
+        <span class="badge__value badge__value--cyan">screenshots</span>
+      </div>
+      <div class="badge badge--spass" id="badge-status" data-name="status">
+        <span class="badge__label">status</span>
+        <span class="badge__value badge__value--green">it works™</span>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>
